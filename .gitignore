@@ -1,3 +1,67 @@
+# Temporary Python files
+*.pyc
+*.egg-info
+__pycache__
+.ipynb_checkpoints
+Pipfile.lock
+
+# Temporary OS files
+Icon*
+
+# Temporary virtual environment files
+/.cache/
+/.pytest_cache/
+/.venv/
+
+# Temporary server files
+.env
+*.pid
+
+# Generated documentation
+/docs/gen/
+/docs/build/
+/docs/apidocs/
+/site/
+/*.html
+/*.rst
+/docs/*.png
+
+# Google Drive
+*.gdoc
+*.gsheet
+*.gslides
+*.gdraw
+
+# Testing and coverage results
+/.pytest/
+/.coverage
+/.coverage.*
+/htmlcov/
+/xmlreport/
+/pyunit.xml
+/tmp/
+*.tmp
+
+# Build and release directories
+/build/
+/dist/
+*.spec
+
+# Sublime Text
+*.sublime-workspace
+
+# Eclipse
+.settings
+
+# VSCODE
+.vscode/
+
+# JETBRAINS
+.idea/
+
+# Project related
+/examples/export
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

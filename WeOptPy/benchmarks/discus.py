@@ -1,0 +1,96 @@
+# encoding=utf8
+
+"""Implementations of Discus functions."""
+
+from NiaPy.benchmarks.benchmark import Benchmark
+
+__all__ = ['Discus']
+
+class Discus(Benchmark):
+    r"""Implementations of Discus functions.
+
+    Date:
+        2018
+
+    Author:
+        Klemen Berkovič
+
+    License:
+        MIT
+
+    Function:
+        **Discus Function**
+
+        :math:`f(\textbf{x}) = x_1^2 10^6 + \sum_{i=2}^D x_i^2`
+
+        **Input domain:**
+        The function can be defined on any input domain but it is usually
+        evaluated on the hypercube :math:`x_i ∈ [-100, 100]`, for all :math:`i = 1, 2,..., D`.
+
+        **Global minimum:**
+        :math:`f(x^*) = 0`, at :math:`x^* = (420.968746,...,420.968746)`
+
+    LaTeX formats:
+        Inline:
+            $f(\textbf{x}) = x_1^2 10^6 + \sum_{i=2}^D x_i^2$
+
+        Equation:
+            \begin{equation} f(\textbf{x}) = x_1^2 10^6 + \sum_{i=2}^D x_i^2 \end{equation}
+
+        Domain:
+            $-100 \leq x_i \leq 100$
+
+    Attributes:
+        Name (List[str]): Names of the benchmark.
+
+    See Also:
+        * :class:`NiaPy.benchmarks.Benchmark`
+
+    Reference:
+        http://www5.zzu.edu.cn/__local/A/69/BC/D3B5DFE94CD2574B38AD7CD1D12_C802DAFE_BC0C0.pdf
+    """
+    Name = ['Discus', 'discus']
+
+    def __init__(self, Lower=-100.0, Upper=100.0, **kwargs):
+        r"""Initialize of Discus benchmark.
+
+        Args:
+            Lower (Optional[float]): Lower bound of problem.
+            Upper (Optional[float]): Upper bound of problem.
+            kwargs (Dict[str, Any]): Additional arguments.
+
+        See Also:
+            :func:`NiaPy.benchmarks.Benchmark.__init__`
+        """
+        Benchmark.__init__(self, Lower, Upper)
+
+    @staticmethod
+    def latex_code():
+        r"""Return the latex code of the problem.
+
+        Returns:
+            str: Latex code
+        """
+        return r'''$f(\textbf{x}) = x_1^2 10^6 + \sum_{i=2}^D x_i^2$'''
+
+    def function(self):
+        r"""Return benchmark evaluation function.
+
+        Returns:
+            Callable[[int, Union[int, float, list, numpy.ndarray], Dict[str, Any]], float]: Fitness function
+        """
+        def f(D, sol, **kwargs):
+            r"""Fitness function.
+
+            Args:
+                D (int): Dimensionality of the problem
+                sol (Union[int, float, list, numpy.ndarray]): Solution to check.
+                kwargs (Dict[str, Any]): Additional arguments.
+
+            Returns:
+                float: Fitness value for the solution.
+            """
+            val = 0.0
+            for i in range(1, D): val += sol[i] ** 2
+            return sol[0] * 10 ** 6 + val
+        return f
