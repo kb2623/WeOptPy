@@ -1,130 +1,79 @@
 # encoding=utf8
 
-"""Implementation of Ackley benchmark."""
+"""The module implementing Ackley benchmark."""
 
-import numpy as np
+from WeOptPy.benchmarks.interfaces import Benchmark
+from .functions import ackley_function
 
-from NiaPy.benchmarks.benchmark import Benchmark
+__all__ = ["Ackley"]
 
-__all__ = ['Ackley']
 
 class Ackley(Benchmark):
-    r"""Implementation of Ackley function.
+	r"""Implementation of Ackley function.
 
-    Date: 2018
+	Date:
+		2018
 
-    Author: Lucija Brezočnik and Klemen Berkovič
+	Author:
+		Klemen Berkovič
 
-    License: MIT
+	License:
+		MIT
 
-    Function: **Ackley function**
+	Function:
+		Ackley function
 
-        :math:`f(\mathbf{x}) = -a\;\exp\left(-b \sqrt{\frac{1}{D}\sum_{i=1}^D x_i^2}\right)
-        - \exp\left(\frac{1}{D}\sum_{i=1}^D \cos(c\;x_i)\right) + a + \exp(1)`
+		:math:`f(\mathbf{x}) = -a\;\exp\left(-b \sqrt{\frac{1}{D}\sum_{i=1}^D x_i^2}\right) - \exp\left(\frac{1}{D}\sum_{i=1}^D \cos(c\;x_i)\right) + a + \exp(1)`
 
-        **Input domain:**
-        The function can be defined on any input domain but it is usually
-        evaluated on the hypercube :math:`x_i ∈ [-32.768, 32.768]`, for all :math:`i = 1, 2,..., D`.
+		Input domain:
+			The function can be defined on any input domain but it is usually evaluated on the hypercube :math:`x_i ∈ [-32.768, 32.768]`, for all :math:`i = 1, 2,..., D`.
 
-        **Global minimum:** :math:`f(\textbf{x}^*) = 0`, at  :math:`x^* = (0,...,0)`
+		Global minimum:
+			:math:`f(\textbf{x}^*) = 0`, at  :math:`x^* = (0,...,0)`
 
-    LaTeX formats:
-        Inline:
-                $f(\mathbf{x}) = -a\;\exp\left(-b \sqrt{\frac{1}{D}
-                \sum_{i=1}^D x_i^2}\right) - \exp\left(\frac{1}{D}
-                \sum_{i=1}^D cos(c\;x_i)\right) + a + \exp(1)$
+	LaTeX formats:
+		Inline:
+			$f(\mathbf{x}) = -a\;\exp\left(-b \sqrt{\frac{1}{D} \sum_{i=1}^D x_i^2}\right) - \exp\left(\frac{1}{D} \sum_{i=1}^D cos(c\;x_i)\right) + a + \exp(1)$
 
-        Equation:
-                \begin{equation}f(\mathbf{x}) =
-                -a\;\exp\left(-b \sqrt{\frac{1}{D} \sum_{i=1}^D x_i^2}\right) -
-                \exp\left(\frac{1}{D} \sum_{i=1}^D \cos(c\;x_i)\right) +
-                a + \exp(1) \end{equation}
+		Equation:
+			\begin{equation}f(\mathbf{x}) = -a\;\exp\left(-b \sqrt{\frac{1}{D} \sum_{i=1}^D x_i^2}\right) - \exp\left(\frac{1}{D} \sum_{i=1}^D \cos(c\;x_i)\right) + a + \exp(1) \end{equation}
 
-        Domain:
-                $-32.768 \leq x_i \leq 32.768$
+		Domain:
+			$-32.768 \leq x_i \leq 32.768$
 
-    Reference:
-        https://www.sfu.ca/~ssurjano/ackley.html
+	Reference:
+		https://www.sfu.ca/~ssurjano/ackley.html
+	"""
+	Name: List[str] = ["Ackley"]
 
-    Attributes:
-        Name (List[str]): Names of the benchmark.
-        a (float): Objective function argument.
-        b (float): Objective function argument.
-        c (float): Objective function argument.
+	def __init__(self, Lower=-32.768, Upper=32.768, **kwargs):
+		"""Initialize Ackley benchmark.
 
-    See Also:
-        * :class:`NiaPy.benchmarks.Benchmark`
-    """
-    Name = ['Ackley', 'ackley']
-    a = 20         # Recommended variable value
-    b = 0.2        # Recommended variable value
-    c = 2 * np.pi  # Recommended variable value
+		Args:
+			Lower (Union[int, float, np.ndarray]): Lower bound of problem.
+			Upper (Union[int, float, np.ndarray]): Upper bound of problem.
+			kwargs (Dict[str, Any]): Additional arguments for the benchmark.
 
-    def __init__(self, Lower=-32.768, Upper=32.768, a=20, b=0.2, c=2 * np.pi, **kwargs):
-        r"""Initialize of Ackley benchmark.
+		See Also:
+			* :func:`NiaPy.benchmarks.Benchmark.__init__`
+		"""
+		Benchmark.__init__(self, Lower, Upper, **kwargs)
 
-        Args:
-            Lower (Optional[float]): Lower bound of problem.
-            Upper (Optional[float]): Upper bound of problem.
-            a (Optional[float]): Objective function argument.
-            b (Optional[float]): Objective function argument.
-            c (Optional[float]): Objective function argument.
-            kwargs (Dict[str, Any]): Additional arguments.
+	@staticmethod
+	def latex_code():
+		"""Return the latex code of the problem.
 
-        See Also:
-            :func:`NiaPy.benchmarks.Benchmark.__init__`
-        """
-        Benchmark.__init__(self, Lower, Upper)
+		Returns:
+			str: latex code.
+		"""
+		return r"""$f(\mathbf{x}) = -a\;\exp\left(-b \sqrt{\frac{1}{D} \sum_{i=1}^D x_i^2}\right) - \exp\left(\frac{1}{D} \sum_{i=1}^D cos(c\;x_i)\right) + a + \exp(1)$"""
 
-    @staticmethod
-    def latex_code():
-        r"""Return the latex code of the problem.
+	def function(self):
+		"""Return benchmark evaluation function.
 
-        Returns:
-            str: Latex code
-        """
-        return r'''$f(\mathbf{x}) = -a\;\exp\left(-b \sqrt{\frac{1}{D}
-                \sum_{i=1}^D x_i^2}\right) - \exp\left(\frac{1}{D}
-                \sum_{i=1}^D cos(c\;x_i)\right) + a + \exp(1)$'''
+		Returns:
+			Callable[[np.ndarray, dict], float]: Evaluation function.
+		"""
+		return lambda x, **a: ackley_function(x)
 
-    def function(self):
-        r"""Return benchmark evaluation function.
-
-        Returns:
-            Callable[[int, Union[int, float, list, numpy.ndarray], Optional[float], Optional[float], Optional[float], Dict[str, Any]], float]: Fitness function
-        """
-        self_a, self_b, self_c = self.a, self.b, self.c
-        def evaluate(D, sol, a=None, b=None, c=None, **kwargs):
-            r"""Fitness function.
-
-            Args:
-                D (int): Dimensionality of the problem
-                sol (Union[int, float, list, numpy.ndarray]): Solution to check.
-                a (Optional[float]): Function argument.
-                b (Optional[float]): Function argument.
-                c (Optional[float]): Function argument.
-                kwargs (Dict[str, Any]): Additional arguments.
-
-            Returns:
-                float: Fitness value for the solution.
-            """
-            a = a if a is not None else self_a
-            b = b if b is not None else self_b
-            c = c if c is not None else self_c
-
-            val = 0.0
-            val1 = 0.0
-            val2 = 0.0
-
-            for i in range(D):
-                val1 += sol[i] ** 2
-                val2 += np.cos(c * sol[i])
-
-            temp1 = -b * np.sqrt(val1 / D)
-            temp2 = val2 / D
-
-            val = -a * np.exp(temp1) - np.exp(temp2) + a + np.exp(1)
-
-            return val
-
-        return evaluate
+# vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

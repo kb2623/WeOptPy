@@ -51,13 +51,12 @@ class Benchmark:
 		r"""Get the optimization function.
 
 		Returns:
-			Callable[[int, Union[list, numpy.ndarray]], float]: Fitness function.
+			Callable[[Union[list, numpy.ndarray], Dict[str, Any]], float]: Fitness function.
 		"""
-		def fun(D, X, **kwargs):
+		def fun(X, **kwargs):
 			r"""Initialize benchmark.
 
 			Args:
-				D (int): Dimensionality of the problem.
 				X (Union[int, float, list, numpy.ndarray]): Solution to the problem.
 				kwargs (Dict[str, Any]): Additional arguments for the objective/utility/fitness function.
 
@@ -71,7 +70,7 @@ class Benchmark:
 		r"""Get the optimization function.
 
 		Returns:
-			Callable[[int, Union[list, numpy.ndarray]], float]: Fitness funciton.
+			Callable[[Union[list, numpy.ndarray], Dict[str, Any]], float]: Fitness funciton.
 		"""
 		return self.function()
 
@@ -85,12 +84,12 @@ class Benchmark:
 		Args:
 			x (float): First coordinate.
 			y (float): Second coordinate.
-			f (Callable[[int, Union[int, float, list, numpy.ndarray]], float]): Evaluation function.
+			f (Callable[[Union[int, float, list, numpy.ndarray], Dict[str, Any]], float]): Evaluation function.
 
 		Returns:
 			float: Calculate functional value for given input
 		"""
-		return f(2, [x, y])
+		return f([x, y])
 
 	def plot3d(self, scale=0.32):
 		r"""Plot 3d scatter plot of benchmark function.

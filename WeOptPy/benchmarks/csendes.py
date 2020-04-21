@@ -1,103 +1,82 @@
 # encoding=utf8
 
-"""Implementation of Csendes funciton."""
+"""Implementation of Csendes benchmark."""
 
-import numpy as np
+from WeOptPy.benchmarks.interfaces import Benchmark
+from .functions import csendes_function
 
-from NiaPy.benchmarks.benchmark import Benchmark
-
-__all__ = ['Csendes']
+__all__ = ["Csendes"]
 
 
 class Csendes(Benchmark):
-    r"""Implementation of Csendes function.
+	r"""Implementation of Csendes function.
 
-    Date: 2018
+	Date:
+		2018
 
-    Author: Lucija Brezočnik
+	Author:
+		Klemen Brekovič
 
-    License: MIT
+	License:
+		MIT
 
-    Function: **Csendes function**
+	Function:
+		Csendes function
 
-        :math:`f(\mathbf{x}) = \sum_{i=1}^D x_i^6\left( 2 + \sin \frac{1}{x_i}\right)`
+		:math:`f(\mathbf{x}) = \sum_{i=1}^D x_i^6\left( 2 + \sin \frac{1}{x_i}\right)`
 
-        **Input domain:**
-        The function can be defined on any input domain but it is usually
-        evaluated on the hypercube :math:`x_i ∈ [-1, 1]`, for all :math:`i = 1, 2,..., D`.
+		Input domain:
+			The function can be defined on any input domain but it is usually evaluated on the hypercube :math:`x_i ∈ [-1, 1]`, for all :math:`i = 1, 2,..., D`.
 
-        **Global minimum:** :math:`f(x^*) = 0`, at :math:`x^* = (0,...,0)`
+		Global minimum:
+			:math:`f(x^*) = 0`, at :math:`x^* = (0,...,0)`
 
-    LaTeX formats:
-        Inline:
-                $f(\mathbf{x}) = \sum_{i=1}^D x_i^6\left( 2 + \sin \frac{1}{x_i}\right)$
+	LaTeX formats:
+		Inline:
+			$f(\mathbf{x}) = \sum_{i=1}^D x_i^6\left( 2 + \sin \frac{1}{x_i}\right)$
 
-        Equation:
-                \begin{equation} f(\mathbf{x}) =
-                \sum_{i=1}^D x_i^6\left( 2 + \sin \frac{1}{x_i}\right) \end{equation}
+		Equation:
+			\begin{equation} f(\mathbf{x}) = \sum_{i=1}^D x_i^6\left( 2 + \sin \frac{1}{x_i}\right) \end{equation}
 
-        Domain:
-                $-1 \leq x_i \leq 1$
+		Domain:
+			:math:`-1 \leq x_i \leq 1`
 
-    Attributes:
-        Name (List[str]): Names of the benchmark.
+	Reference paper:
+		Jamil, M., and Yang, X. S. (2013). A literature survey of benchmark functions for global optimisation problems. International Journal of Mathematical Modelling and Numerical Optimisation, 4(2), 150-194.
 
-    See Also:
-        * :class:`NiaPy.benchmarks.Benchmark`
+	Attributes:
+		Name (List[str]): Names for the benchmark.
+	"""
+	Name = ["Csendes"]
 
-    Reference paper:
-        Jamil, M., and Yang, X. S. (2013).
-        A literature survey of benchmark functions for global optimisation problems.
-        International Journal of Mathematical Modelling and Numerical Optimisation,
-        4(2), 150-194.
-    """
-    Name = ['Csendes', 'csendes']
+	def __init__(self, Lower=-1.0, Upper=1.0, **kwargs):
+		r"""Initialize Csendes benchmark.
 
-    def __init__(self, Lower=-1.0, Upper=1.0, **kwargs):
-        r"""Initialize of Csendes benchmark.
+		Args:
+			Lower (Union[int, float, np.ndarray]): Lower bound of problem.
+			Upper (Union[int, float, np.ndarray]): Upper bound of problem.
+			kwargs (Dict[str, Any]): Additional arguments for the benchmark.
 
-        Args:
-            Lower (Optional[float]): Lower bound of problem.
-            Upper (Optional[float]): Upper bound of problem.
-            kwargs (Dict[str, Any]): Additional arguments.
+		See Also:
+			:func:`NiaPy.benchmarks.Benchmark.__init__`
+		"""
+		Benchmark.__init__(self, Lower, Upper, **kwargs)
 
-        See Also:
-            :func:`NiaPy.benchmarks.Benchmark.__init__`
-        """
-        Benchmark.__init__(self, Lower, Upper)
+	@staticmethod
+	def latex_code():
+		"""Return the latex code of the problem.
 
-    @staticmethod
-    def latex_code():
-        r"""Return the latex code of the problem.
+		Returns:
+			str: Latex code.
+		"""
+		return r"""$f(\mathbf{x}) = \sum_{i=1}^D x_i^6\left( 2 + \sin \frac{1}{x_i}\right)$"""
 
-        Returns:
-            str: Latex code
-        """
-        return r'''$f(\mathbf{x}) = \sum_{i=1}^D x_i^6\left( 2 + \sin \frac{1}{x_i}\right)$'''
+	def function(self):
+		"""Return benchmark evaluation function.
 
-    def function(self):
-        r"""Return benchmark evaluation function.
+		Returns:
+			Callable[[np.ndarray, Dict[str, Any]], float]: Evaluation function.
+		"""
+		return lambda x, **a: csendes_function(x)
 
-        Returns:
-            Callable[[int, Union[int, float, List[int, float], numpy.ndarray]], float]: Fitness function
-        """
-        def evaluate(D, sol, **kwargs):
-            r"""Fitness function.
-
-            Args:
-                D (int): Dimensionality of the problem
-                sol (Union[int, float, List[int, float], numpy.ndarray]): Solution to check.
-                kwargs (Dict[str, Any]): Additional arguments.
-
-            Returns:
-                float: Fitness value for the solution.
-            """
-            val = 0.0
-
-            for i in range(D):
-                if sol[i] != 0:
-                    val += np.pow(sol[i], 6) * (2.0 + np.sin(1.0 / sol[i]))
-
-            return val
-
-        return evaluate
+# vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

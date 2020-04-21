@@ -1,95 +1,78 @@
 # encoding=utf8
 
-"""Implementations of Dixon Price function."""
+"""Implementation of Dixon Price benchmark."""
 
-from NiaPy.benchmarks.benchmark import Benchmark
+from WeOptPy.benchmarks.interfaces import Benchmark
+from .functions import dixon_price_function
 
-__all__ = ['DixonPrice']
+__all__ = ["DixonPrice"]
+
 
 class DixonPrice(Benchmark):
-    r"""Implementations of Dixon Price function.
+	r"""Implementations of Dixon Price function.
 
-    Date:
-        2018
+	Date:
+		2018
 
-    Author:
-        Klemen Berkovič
+	Author:
+		Klemen Berkovič
 
-    License:
-        MIT
+	License:
+		MIT
 
-    Function:
-        **Levy Function**
+	Function:
+		Levy Function
 
-        :math:`f(\textbf{x}) = (x_1 - 1)^2 + \sum_{i = 2}^D i (2x_i^2 - x_{i - 1})^2`
+		:math:`f(\textbf{x}) = (x_1 - 1)^2 + \sum_{i = 2}^D i (2x_i^2 - x_{i - 1})^2`
 
-        **Input domain:**
-        The function can be defined on any input domain but it is usually
-        evaluated on the hypercube :math:`x_i ∈ [-10, 10]`, for all :math:`i = 1, 2,..., D`.
+		Input domain:
+			The function can be defined on any input domain but it is usually evaluated on the hypercube :math:`x_i ∈ [-10, 10]`, for all :math:`i = 1, 2,..., D`.
 
-        **Global minimum:**
-        :math:`f(\textbf{x}^*) = 0` at :math:`\textbf{x}^* = (2^{-\frac{2^1 - 2}{2^1}}, \cdots , 2^{-\frac{2^i - 2}{2^i}} , \cdots , 2^{-\frac{2^D - 2}{2^D}})`
+		Global minimum:
+			:math:`f(\textbf{x}^*) = 0` at :math:`\textbf{x}^* = (2^{-\frac{2^1 - 2}{2^1}}, \cdots , 2^{-\frac{2^i - 2}{2^i}} , \cdots , 2^{-\frac{2^D - 2}{2^D}})`
 
-    LaTeX formats:
-        Inline:
-                $f(\textbf{x}) = (x_1 - 1)^2 + \sum_{i = 2}^D i (2x_i^2 - x_{i - 1})^2$
+	LaTeX formats:
+		Inline:
+			$f(\textbf{x}) = (x_1 - 1)^2 + \sum_{i = 2}^D i (2x_i^2 - x_{i - 1})^2$
 
-        Equation:
-                \begin{equation} f(\textbf{x}) = (x_1 - 1)^2 + \sum_{i = 2}^D i (2x_i^2 - x_{i - 1})^2 \end{equation}
+		Equation:
+			\begin{equation} f(\textbf{x}) = (x_1 - 1)^2 + \sum_{i = 2}^D i (2x_i^2 - x_{i - 1})^2 \end{equation}
 
-        Domain:
-                $-10 \leq x_i \leq 10$
+		Domain:
+			:math:`-10 \leq x_i \leq 10`
 
-    Attributes:
-        Name (List[str]): Names of the benchmark.
+	Reference:
+		https://www.sfu.ca/~ssurjano/dixonpr.html
+	"""
+	Name: List[str] = ["DixonPrice"]
 
-    See Also:
-        * :class:`NiaPy.benchmarks.Benchmark`
+	def __init__(self, Lower: Union[int, float, np.ndarray] = -10.0, Upper: Union[int, float, np.ndarray] = 10) -> None:
+		r"""Initialize of Dixon Price benchmark.
 
-    Reference:
-        https://www.sfu.ca/~ssurjano/dixonpr.html
-    """
-    Name = ['DixonPrice', 'dixonprice']
+		Args:
+			Lower: Lower bound of problem.
+			Upper: Upper bound of problem.
 
-    def __init__(self, Lower=-10.0, Upper=10):
-        r"""Initialize of Dixon Price benchmark.
+		See Also:
+			* :func:`NiaPy.benchmarks.Benchmark.__init__`
+		"""
+		Benchmark.__init__(self, Lower, Upper)
 
-        Args:
-            Lower (Optional[float]): Lower bound of problem.
-            Upper (Optional[float]): Upper bound of problem.
+	@staticmethod
+	def latex_code():
+		"""Return the latex code of the problem.
 
-        See Also:
-            :func:`NiaPy.benchmarks.Benchmark.__init__`
-        """
-        Benchmark.__init__(self, Lower, Upper)
+		Returns:
+			str: Latex code.
+		"""
+		return r"""$f(\textbf{x}) = (x_1 - 1)^2 + \sum_{i = 2}^D i (2x_i^2 - x_{i - 1})^2$"""
 
-    @staticmethod
-    def latex_code():
-        r"""Return the latex code of the problem.
+	def function(self) -> Callable[[np.ndarray, dict], float]:
+		"""Return benchmark evaluation function.
 
-        Returns:
-            str: Latex code
-        """
-        return r'''$f(\textbf{x}) = (x_1 - 1)^2 + \sum_{i = 2}^D i (2x_i^2 - x_{i - 1})^2$'''
+		Returns:
+			Callable[[numpy.ndarray], float] Evaluation function.
+		"""
+		return lambda sol, **a: dixon_price_function(sol)
 
-    def function(self):
-        r"""Return benchmark evaluation function.
-
-        Returns:
-            Callable[[int, Union[int, float, list, numpy.ndarray], Dict[str, Any]], float]: Fitness function
-        """
-        def f(D, X, **kwargs):
-            r"""Fitness function.
-
-            Args:
-                D (int): Dimensionality of the problem
-                X (Union[int, float, list, numpy.ndarray]): Solution to check.
-                kwargs (Dict[str, Any]): Additional arguments.
-
-            Returns:
-                float: Fitness value for the solution.
-            """
-            v = 0.0
-            for i in range(2, D): v += i * (2 * X[i] ** 2 - X[i - 1]) ** 2
-            return (X[0] - 1) ** 2 + v
-        return f
+# vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

@@ -1,99 +1,78 @@
 # encoding=utf8
 
-"""Implementaion of Rastrigin function."""
+"""Implemenatation of Rastrigin benchmark."""
 
-import math
-from NiaPy.benchmarks.benchmark import Benchmark
+from WeOptPy.benchmarks.interfaces import Benchmark
+from .functions import rastrigin_function
 
-__all__ = ['Rastrigin']
+__all__ = ["Rastrigin"]
 
 
 class Rastrigin(Benchmark):
-    r"""Implementation of Rastrigin benchmark function.
+	r"""Implementation of Rastrigin benchmark function.
 
-    Date: 2018
+	Date:
+		2018
 
-    Authors: Lucija Brezočnik and Iztok Fister Jr.
+	Authors:
+		Klemen Brekovič
 
-    License: MIT
+	License:
+		MIT
 
-    Function: **Rastrigin function**
+	Function:
+		Rastrigin function
 
-        :math:`f(\mathbf{x}) = 10D + \sum_{i=1}^D \left(x_i^2 -10\cos(2\pi x_i)\right)`
+		:math:`f(\mathbf{x}) = 10D + \sum_{i=1}^D \left(x_i^2 -10\cos(2\pi x_i)\right)`
 
-        **Input domain:**
-        The function can be defined on any input domain but it is usually
-        evaluated on the hypercube :math:`x_i ∈ [-5.12, 5.12]`, for all :math:`i = 1, 2,..., D`.
+		Input domain:
+			The function can be defined on any input domain but it is usually evaluated on the hypercube :math:`x_i ∈ [-5.12, 5.12]`, for all :math:`i = 1, 2,..., D`.
 
-        **Global minimum:** :math:`f(x^*) = 0`, at :math:`x^* = (0,...,0)`
+		Global minimum:
+			:math:`f(x^*) = 0`, at :math:`x^* = (0,...,0)`
 
-    LaTeX formats:
-        Inline:
-                $f(\mathbf{x}) = 10D + \sum_{i=1}^D \left(x_i^2 -10\cos(2\pi x_i)\right)$
+	LaTeX formats:
+		Inline:
+			$f(\mathbf{x}) = 10D + \sum_{i=1}^D \left(x_i^2 -10\cos(2\pi x_i)\right)$
 
-        Equation:
-                \begin{equation} f(\mathbf{x}) =
-                10D + \sum_{i=1}^D \left(x_i^2 -10\cos(2\pi x_i)\right)
-                \end{equation}
+		Equation:
+			\begin{equation} f(\mathbf{x}) = 10D + \sum_{i=1}^D \left(x_i^2 -10\cos(2\pi x_i)\right) \end{equation}
 
-        Domain:
-                $-5.12 \leq x_i \leq 5.12$
+		Domain:
+			$-5.12 \leq x_i \leq 5.12$
 
-    Reference:
-        https://www.sfu.ca/~ssurjano/rastr.html
+	Reference:
+		https://www.sfu.ca/~ssurjano/rastr.html
+	"""
+	Name: List[str] = ['Rastrigin']
 
-    Attributes:
-        Name (List[str]): Names of the benchmark.
+	def __init__(self, Lower: Union[int, float, np.ndarray] = -5.12, Upper: Union[int, float, np.ndarray] = 5.12) -> None:
+		"""Initialize Rastrigin benchmark.
 
-    See Also:
-        * :class:`NiaPy.benchmarks.Benchmark`
-    """
-    Name = ['Rastrigin', 'rastrigin']
+		Args:
+			Lower: Lower bound of problem.
+			Upper: Upper bound of problem.
 
-    def __init__(self, Lower=-5.12, Upper=5.12, **kwargs):
-        r"""Initialize of Rastrigni benchmark.
+		See Also:
+			* :func:`NiaPy.benchmarks.Benchmark.__init__`
+		"""
+		Benchmark.__init__(self, Lower, Upper)
 
-        Args:
-            Lower (Optional[float]): Lower bound of problem.
-            Upper (Optional[float]): Upper bound of problem.
-            kwargs (Dict[str, Any]): Additional arguments.
+	@staticmethod
+	def latex_code():
+		"""Return the latex code of the problem.
 
-        See Also:
-            :func:`NiaPy.benchmarks.Benchmark.__init__`
-        """
-        Benchmark.__init__(self, Lower, Upper)
+		Returns:
+			str: Latex code.
+		"""
+		return r'''$f(\mathbf{x}) = 10D + \sum_{i=1}^D \left(x_i^2 -10\cos(2\pi x_i)\right)$'''
 
-    @staticmethod
-    def latex_code():
-        r"""Return the latex code of the problem.
+	def function(self) -> Callable[[np.ndarray, dict], float]:
+		"""Return benchmark evaluation function.
 
-        Returns:
-            str: Latex code
-        """
-        return r'''$f(\mathbf{x}) = 10D + \sum_{i=1}^D \left(x_i^2 -10\cos(2\pi x_i)\right)$'''
+		Returns:
+			Evaluation function.
+		"""
+		return lambda sol, **a: rastrigin_function(sol)
 
-    def function(self):
-        r"""Return benchmark evaluation function.
-
-        Returns:
-            Callable[[int, Union[int, float, list, numpy.ndarray], Dict[str, Any]], float]: Fitness function
-        """
-        def evaluate(D, sol, **kwargs):
-            r"""Fitness function.
-
-            Args:
-                D (int): Dimensionality of the problem
-                sol (Union[int, float, list, numpy.ndarray]): Solution to check.
-                kwargs (Dict[str, Any]): Additional arguments.
-
-            Returns:
-                float: Fitness value for the solution.
-            """
-            val = 0.0
-
-            for i in range(D):
-                val += math.pow(sol[i], 2) - (10.0 * math.cos(2 * math.pi * sol[i]))
-
-            return 10 * D + val
-
-        return evaluate
+# vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

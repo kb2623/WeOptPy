@@ -1,99 +1,77 @@
 # encoding=utf8
 
-"""Step int benchmark."""
+"""Implementation of Stepint benchmark."""
 
-import math
-from NiaPy.benchmarks.benchmark import Benchmark
+from WeOptPy.benchmarks.interfaces import Benchmark
+from .functions import stepint_function
 
-__all__ = ['Stepint']
+__all__ = ["Stepint"]
+
 
 class Stepint(Benchmark):
-    r"""Implementation of Stepint functions.
+	r"""Implementation of Stepint functions.
 
-    Date: 2018
+	Date:
+		2018
 
-    Author: Lucija Brezočnik
+	Author:
+		Klemen Berkovič
 
-    License: MIT
+	License:
+		MIT
 
-    Function: **Stepint function**
+	Function:
+		Stepint function
 
-        :math:`f(\mathbf{x}) = \sum_{i=1}^D x_i^2`
+		:math:`f(\mathbf{x}) = \sum_{i=1}^D x_i^2`
 
-        **Input domain:**
-        The function can be defined on any input domain but it is usually
-        evaluated on the hypercube :math:`x_i ∈ [-5.12, 5.12]`, for all :math:`i = 1, 2,..., D`.
+		Input domain:
+			The function can be defined on any input domain but it is usually evaluated on the hypercube :math:`x_i ∈ [-5.12, 5.12]`, for all :math:`i = 1, 2,..., D`.
 
-        **Global minimum:** :math:`f(x^*) = 0`, at :math:`x^* = (-5.12,...,-5.12)`
+		Global minimum:
+			:math:`f(x^*) = 0`, at :math:`x^* = (-5.12,...,-5.12)`
 
-    LaTeX formats:
-        Inline:
-                $f(\mathbf{x}) = \sum_{i=1}^D x_i^2$
+	LaTeX formats:
+		Inline:
+			$f(\mathbf{x}) = \sum_{i=1}^D x_i^2$
 
-        Equation:
-                \begin{equation}f(\mathbf{x}) = \sum_{i=1}^D x_i^2 \end{equation}
+		Equation:
+			\begin{equation}f(\mathbf{x}) = \sum_{i=1}^D x_i^2 \end{equation}
 
-        Domain:
-                $0 \leq x_i \leq 10$
+		Domain:
+			$0 \leq x_i \leq 10$
 
-    Reference paper:
-        Jamil, M., and Yang, X. S. (2013).
-        A literature survey of benchmark functions for global optimisation problems.
-        International Journal of Mathematical Modelling and Numerical Optimisation,
-        4(2), 150-194.
+	Reference paper: Jamil, M., and Yang, X. S. (2013). A literature survey of benchmark functions for global optimisation problems. International Journal of Mathematical Modelling and Numerical Optimisation, 4(2), 150-194.
+	"""
+	Name: List[str] = ["Stepint"]
 
-    Attributes:
-        Name (List[str]): Names of the benchmark.
+	def __init__(self, Lower: Union[int, float, np.ndarray] = -5.12, Upper: Union[int, float, np.ndarray] = 5.12) -> None:
+		"""Initialize Stepint benchmark.
 
-    See Also:
-        * :class:`NiaPy.benchmarks.Benchmark`
-    """
-    Name = ['Stepint', 'stepInt', 'stepint']
+		Args:
+			Lower: Lower bound of problem.
+			Upper: Upper bound of problem.
 
-    def __init__(self, Lower=-5.12, Upper=5.12, **kwargs):
-        r"""Initialize of Stepint benchmark.
+		See Also:
+			* :func:`NiaPy.benchmarks.Benchmark.__init__`
+		"""
+		Benchmark.__init__(self, Lower, Upper)
 
-        Args:
-            Lower (Optional[float]): Lower bound of problem.
-            Upper (Optional[float]): Upper bound of problem.
-            kwargs (dict): Additional arguments.
+	@staticmethod
+	def latex_code():
+		"""Return the latex code of the problem.
 
-        See Also:
-            :func:`NiaPy.benchmarks.Benchmark.__init__`
-        """
-        Benchmark.__init__(self, Lower, Upper)
+		Returns:
+			str: Latex code.
+		"""
+		return r'''$f(\mathbf{x}) = \sum_{i=1}^D x_i^2$'''
 
-    @staticmethod
-    def latex_code():
-        r"""Return the latex code of the problem.
+	def function(self) -> Callable[[np.ndarray, dict], float]:
+		"""Return benchmark evaluation function.
 
-        Returns:
-            str: Latex code
-        """
-        return r'''$f(\mathbf{x}) = \sum_{i=1}^D x_i^2$'''
+		Returns:
+			Evaluation function.
+		"""
+		return lambda x, **a: stepint_function(x)
 
-    def function(self):
-        r"""Return benchmark evaluation function.
-
-        Returns:
-            Callable[[int, Union[int, float, list, numpy.ndarray], dict], float]: Fitness function
-        """
-        def evaluate(D, sol, **kwargs):
-            r"""Fitness function.
-
-            Args:
-                D (int): Dimensionality of the problem
-                sol (Union[int, float, list, numpy.ndarray]): Solution to check.
-                kwargs (dict): Additional arguments.
-
-            Returns:
-                float: Fitness value for the solution.
-            """
-            val = 0.0
-
-            for i in range(D):
-                val += math.floor(sol[i])
-
-            return 25.0 + val
-
-        return evaluate
+# vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

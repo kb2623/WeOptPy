@@ -1,289 +1,222 @@
 # encoding=utf8
 
-"""Implementations of Step functions."""
+"""Implementations of Step benchmarks."""
 
-import math
-from NiaPy.benchmarks.benchmark import Benchmark
+from WeOptPy.benchmarks.interfaces import Benchmark
+from .functions import (
+	step_function,
+	step2_function,
+	step3_function
+)
 
-__all__ = ['Step', 'Step2', 'Step3']
+__all__ = [
+	"Step",
+	"Step2",
+	"Step3"
+]
+
 
 class Step(Benchmark):
-    r"""Implementation of Step function.
+	r"""Implementation of Step function.
 
-    Date: 2018
+	Date:
+		2018
 
-    Author: Lucija Brezočnik
+	Author:
+		Klemen Berkovič
 
-    License: MIT
+	License:
+		MIT
 
-    Function: **Step function**
+	Function:
+		Step function
 
-        :math:`f(\mathbf{x}) = \sum_{i=1}^D \left( \lfloor \left |
-        x_i \right | \rfloor \right)`
+		:math:`f(\mathbf{x}) = \sum_{i=1}^D \left( \lfloor \left | x_i \right | \rfloor \right)`
 
-        **Input domain:**
-        The function can be defined on any input domain but it is usually
-        evaluated on the hypercube :math:`x_i ∈ [-100, 100]`, for all :math:`i = 1, 2,..., D`.
+		Input domain:
+			The function can be defined on any input domain but it is usually evaluated on the hypercube :math:`x_i ∈ [-100, 100]`, for all :math:`i = 1, 2,..., D`.
 
-        **Global minimum:** :math:`f(x^*) = 0`, at :math:`x^* = (0,...,0)`
+		Global minimum:
+			:math:`f(x^*) = 0`, at :math:`x^* = (0,...,0)`
 
-    LaTeX formats:
-        Inline:
-                $f(\mathbf{x}) = \sum_{i=1}^D \left( \lfloor \left |
-                x_i \right | \rfloor \right)$
+	LaTeX formats:
+		Inline:
+			$f(\mathbf{x}) = \sum_{i=1}^D \left( \lfloor \left | x_i \right | \rfloor \right)$
 
-        Equation:
-                \begin{equation} f(\mathbf{x}) = \sum_{i=1}^D \left(
-                \lfloor \left | x_i \right | \rfloor \right) \end{equation}
+		Equation:
+			\begin{equation} f(\mathbf{x}) = \sum_{i=1}^D \left( \lfloor \left | x_i \right | \rfloor \right) \end{equation}
 
-        Domain:
-                $-100 \leq x_i \leq 100$
+		Domain:
+			$-100 \leq x_i \leq 100$
 
-    Reference paper:
-        Jamil, M., and Yang, X. S. (2013).
-        A literature survey of benchmark functions for global optimisation problems.
-        International Journal of Mathematical Modelling and Numerical Optimisation,
-        4(2), 150-194.
+	Reference paper:
+		Jamil, M., and Yang, X. S. (2013). A literature survey of benchmark functions for global optimisation problems. International Journal of Mathematical Modelling and Numerical Optimisation, 4(2), 150-194.
+	"""
+	Name: List[str] = ["Step"]
 
-    Attributes:
-        Name (List[str]): Names of the benchmark.
+	def __init__(self, Lower: Union[int, float, np.ndarray] = -100.0, Upper: Union[int, float, np.ndarray] = 100.0) -> None:
+		r"""Initialize Step benchmark.
 
-    See Also:
-        * :class:`NiaPy.benchmarks.Benchmark`
-    """
-    Name = ['Step', 'step']
+		Args:
+			Lower: Lower bound of problem.
+			Upper: Upper bound of problem.
 
-    def __init__(self, Lower=-100.0, Upper=100.0, **kwargs):
-        r"""Initialize of Step benchmark.
+		See Also:
+			* :func:`NiaPy.benchmarks.Benchmark.__init__`
+		"""
+		Benchmark.__init__(self, Lower, Upper)
 
-        Args:
-            Lower (Optional[float]): Lower bound of problem.
-            Upper (Optional[float]): Upper bound of problem.
-            kwargs (dict): Additional arguments.
+	@staticmethod
+	def latex_code():
+		"""Return the latex code of the problem.
 
-        See Also:
-            :func:`NiaPy.benchmarks.Benchmark.__init__`
-        """
-        Benchmark.__init__(self, Lower, Upper)
+		Returns:
+			str: Latex code.
+		"""
+		return r"""$f(\mathbf{x}) = \sum_{i=1}^D \left( \lfloor \left | x_i \right | \rfloor \right)$"""
 
-    @staticmethod
-    def latex_code():
-        r"""Return the latex code of the problem.
+	def function(self) -> Callable[[np.ndarray, dict], float]:
+		"""Return benchmark evaluation function.
 
-        Returns:
-            str: Latex code
-        """
-        return r'''$f(\mathbf{x}) = \sum_{i=1}^D \left( \lfloor \left |
-                x_i \right | \rfloor \right)$'''
-
-    def function(self):
-        r"""Return benchmark evaluation function.
-
-        Returns:
-            Callable[[int, Union[int, float, list, numpy.ndarray], dict], float]: Fitness function
-        """
-        def evaluate(D, sol, **kwargs):
-            r"""Fitness function.
-
-            Args:
-                D (int): Dimensionality of the problem
-                sol (Union[int, float, list, numpy.ndarray]): Solution to check.
-                kwargs (dict): Additional arguments.
-
-            Returns:
-                float: Fitness value for the solution.
-            """
-            val = 0.0
-
-            for i in range(D):
-                val += math.floor(abs(sol[i]))
-
-            return val
-
-        return evaluate
+		Returns:
+			Evaluation function.
+		"""
+		return lambda x, **a: step_function(x)
 
 
 class Step2(Benchmark):
-    r"""Step2 function implementation.
+	r"""Step2 function implementation.
 
-    Date: 2018
+	Date:
+		2018
 
-    Author: Lucija Brezočnik
+	Author:
+		Klemen Berkovič
 
-    Licence: MIT
+	Licence:
+		MIT
 
-    Function: **Step2 function**
+	Function:
+		Step2 function
 
-        :math:`f(\mathbf{x}) = \sum_{i=1}^D \left( \lfloor x_i + 0.5 \rfloor \right)^2`
+		:math:`f(\mathbf{x}) = \sum_{i=1}^D \left( \lfloor x_i + 0.5 \rfloor \right)^2`
 
-        **Input domain:**
-        The function can be defined on any input domain but it is usually
-        evaluated on the hypercube :math:`x_i ∈ [-100, 100]`, for all :math:`i = 1, 2,..., D`.
+		Input domain:
+			The function can be defined on any input domain but it is usually evaluated on the hypercube :math:`x_i ∈ [-100, 100]`, for all :math:`i = 1, 2,..., D`.
 
-        **lobal minimum:** :math:`f(x^*) = 0`, at :math:`x^* = (-0.5,...,-0.5)`
+		Global minimum:
+			:math:`f(x^*) = 0`, at :math:`x^* = (-0.5,...,-0.5)`
 
-    LaTeX formats:
-        Inline:
-                $f(\mathbf{x}) = \sum_{i=1}^D \left( \lfloor x_i + 0.5 \rfloor \right)^2$
+	LaTeX formats:
+		Inline:
+			$f(\mathbf{x}) = \sum_{i=1}^D \left( \lfloor x_i + 0.5 \rfloor \right)^2$
 
-        Equation:
-                \begin{equation}f(\mathbf{x}) = \sum_{i=1}^D \left(
-                \lfloor x_i + 0.5 \rfloor \right)^2 \end{equation}
+		Equation:
+			\begin{equation}f(\mathbf{x}) = \sum_{i=1}^D \left( \lfloor x_i + 0.5 \rfloor \right)^2 \end{equation}
 
-        Domain:
-                $-100 \leq x_i \leq 100$
+		Domain:
+			$-100 \leq x_i \leq 100$
 
-    Reference paper:
-        Jamil, M., and Yang, X. S. (2013).
-        A literature survey of benchmark functions for global optimisation problems.
-        International Journal of Mathematical Modelling and Numerical Optimisation,
-        4(2), 150-194.
+	Reference paper:
+		Jamil, M., and Yang, X. S. (2013). A literature survey of benchmark functions for global optimisation problems. International Journal of Mathematical Modelling and Numerical Optimisation, 4(2), 150-194.
+	"""
+	Name: List[str] = ["Step2"]
 
-    Attributes:
-        Name (List[str]): Names of the benchmark.
+	def __init__(self, Lower: Union[int, float, np.ndarray] = -100.0, Upper: Union[int, float, np.ndarray] = 100.0) -> None:
+		r"""Initialize Step2 benchmark.
 
-    See Also:
-        * :class:`NiaPy.benchmarks.Benchmark`
-    """
-    Name = ['Step2', 'step2']
+		Args:
+			Lower: Lower bound of problem.
+			Upper: Upper bound of problem.
 
-    def __init__(self, Lower=-100.0, Upper=100.0, **kwargs):
-        r"""Initialize of Step2 benchmark.
+		See Also:
+			* :func:`NiaPy.benchmarks.Benchmark.__init__`
+		"""
+		Benchmark.__init__(self, Lower, Upper)
 
-        Args:
-            Lower (Optional[float]): Lower bound of problem.
-            Upper (Optional[float]): Upper bound of problem.
-            kwargs (dict): Additional arguments.
+	@staticmethod
+	def latex_code():
+		"""Return the latex code of the problem.
 
-        See Also:
-            :func:`NiaPy.benchmarks.Benchmark.__init__`
-        """
-        Benchmark.__init__(self, Lower, Upper)
+		Returns:
+			str: Latex code.
+		"""
+		return r"""$f(\mathbf{x}) = \sum_{i=1}^D \left( \lfloor x_i + 0.5 \rfloor \right)^2$"""
 
-    @staticmethod
-    def latex_code():
-        r"""Return the latex code of the problem.
+	def function(self) -> Callable[[np.ndarray, dict], float]:
+		"""Return benchmark evaluation function.
 
-        Returns:
-            str: Latex code
-        """
-        return r'''$f(\mathbf{x}) = \sum_{i=1}^D \left( \lfloor x_i + 0.5 \rfloor \right)^2$'''
-
-    def function(self):
-        r"""Return benchmark evaluation function.
-
-        Returns:
-            Callable[[int, Union[int, float, list, numpy.ndarray], dict], float]: Fitness function
-        """
-        def evaluate(D, sol, **kwargs):
-            r"""Fitness function.
-
-            Args:
-                D (int): Dimensionality of the problem
-                sol (Union[int, float, list, numpy.ndarray]): Solution to check.
-                kwargs (dict): Additional arguments.
-
-            Returns:
-                float: Fitness value for the solution.
-            """
-            val = 0.0
-
-            for i in range(D):
-                val += math.pow(math.floor(sol[i] + 0.5), 2)
-
-            return val
-
-        return evaluate
+		Returns:
+			Evaluation function.
+		"""
+		return lambda x, **a: step2_function(x)
 
 
 class Step3(Benchmark):
-    r"""Step3 function implementation.
+	r"""Step3 function implementation.
 
-    Date: 2018
+	Date:
+		2018
 
-    Author: Lucija Brezočnik
+	Author:
+		Lucija Brezočnik and Klemen Berkovic
 
-    Licence: MIT
+	Licence:
+		MIT
 
-    Function: **Step3 function**
+	Function:
+		Step3 function
 
-        :math:`f(\mathbf{x}) = \sum_{i=1}^D \left( \lfloor x_i^2 \rfloor \right)`
+		:math:`f(\mathbf{x}) = \sum_{i=1}^D \left( \lfloor x_i^2 \rfloor \right)`
 
-        **Input domain:**
-        The function can be defined on any input domain but it is usually
-        evaluated on the hypercube :math:`x_i ∈ [-100, 100]`, for all :math:`i = 1, 2,..., D`.
+		Input domain:
+			The function can be defined on any input domain but it is usually evaluated on the hypercube :math:`x_i ∈ [-100, 100]`, for all :math:`i = 1, 2,..., D`.
 
-        **Global minimum:** :math:`f(x^*) = 0`, at :math:`x^* = (0,...,0)`
+		Global minimum:
+			math:`f(x^*) = 0`, at :math:`x^* = (0,...,0)`
 
-    LaTeX formats:
-        Inline:
-                $f(\mathbf{x}) = \sum_{i=1}^D \left( \lfloor x_i^2 \rfloor \right)$
+	LaTeX formats:
+		Inline:
+			$f(\mathbf{x}) = \sum_{i=1}^D \left( \lfloor x_i^2 \rfloor \right)$
 
-        Equation:
-                \begin{equation}f(\mathbf{x}) = \sum_{i=1}^D \left(
-                \lfloor x_i^2 \rfloor \right)\end{equation}
+		Equation:
+			\begin{equation}f(\mathbf{x}) = \sum_{i=1}^D \left( \lfloor x_i^2 \rfloor \right)\end{equation}
 
-        Domain:
-                $-100 \leq x_i \leq 100$
+	Domain:
+		:math:`-100 \leq x_i \leq 100`
 
-    Reference paper:
-        Jamil, M., and Yang, X. S. (2013).
-        A literature survey of benchmark functions for global optimisation problems.
-        International Journal of Mathematical Modelling and Numerical Optimisation,
-        4(2), 150-194.
+	Reference paper:
+		Jamil, M., and Yang, X. S. (2013). A literature survey of benchmark functions for global optimisation problems. International Journal of Mathematical Modelling and Numerical Optimisation, 4(2), 150-194.
+	"""
+	Name: List[str] = ["Step3"]
 
-    Attributes:
-        Name (List[str]): Names of the benchmark.
+	def __init__(self, Lower: Union[int, float, np.ndarray] = -100.0, Upper: Union[int, float, np.ndarray] = 100.0) -> None:
+		r"""Initialize Step3 benchmark.
 
-    See Also:
-        * :class:`NiaPy.benchmarks.Benchmark`
-    """
-    Name = ['Step3', 'step3']
+		Args:
+			Lower (Optional[float]): Lower bound of problem.
+			Upper (Optional[float]): Upper bound of problem.
 
-    def __init__(self, Lower=-100.0, Upper=100.0, **kwargs):
-        r"""Initialize of Step3 benchmark.
+		See Also:
+			:func:`NiaPy.benchmarks.Benchmark.__init__`
+		"""
+		Benchmark.__init__(self, Lower, Upper)
 
-        Args:
-            Lower (Optional[float]): Lower bound of problem.
-            Upper (Optional[float]): Upper bound of problem.
-            kwargs (dict): Additional arguments.
+	@staticmethod
+	def latex_code():
+		"""Return the latex code of the problem.
 
-        See Also:
-            :func:`NiaPy.benchmarks.Benchmark.__init__`
-        """
-        Benchmark.__init__(self, Lower, Upper)
+		Returns:
+			str: Latex code.
+		"""
+		return r"""$f(\mathbf{x}) = \sum_{i=1}^D \left( \lfloor x_i^2 \rfloor \right)$"""
 
-    @staticmethod
-    def latex_code():
-        r"""Return the latex code of the problem.
+	def function(self) -> Callable[[np.ndarray, dict], float]:
+		"""Return benchmark evaluation function.
 
-        Returns:
-            str: Latex code
-        """
-        return r'''$f(\mathbf{x}) = \sum_{i=1}^D \left( \lfloor x_i^2 \rfloor \right)$'''
+		Returns:
+			Evaluation function.
+		"""
+		return lambda x, **a: step3_function(x)
 
-    def function(self):
-        r"""Return benchmark evaluation function.
-
-        Returns:
-            Callable[[int, Union[int, float, list, numpy.ndarray], dict], float]: Fitness function
-        """
-        def evaluate(D, sol, **kwargs):
-            r"""Fitness function.
-
-            Args:
-                D (int): Dimensionality of the problem
-                sol (Union[int, float, list, numpy.ndarray]): Solution to check.
-                kwargs (dict): Additional arguments.
-
-            Returns:
-                float: Fitness value for the solution.
-            """
-            val = 0.0
-
-            for i in range(D):
-                val += math.floor(math.pow(sol[i], 2))
-
-            return val
-
-        return evaluate
+# vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

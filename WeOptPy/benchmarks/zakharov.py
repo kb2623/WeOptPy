@@ -1,93 +1,78 @@
 # encoding=utf8
+
 """Implementations of Zakharov function."""
 
-from NiaPy.benchmarks.benchmark import Benchmark
+from WeOptPy.benchmarks.interfaces import Benchmark
+from .functions import zakharov_function
 
-__all__ = ['Zakharov']
+__all__ = ["Zakharov"]
+
 
 class Zakharov(Benchmark):
-    r"""Implementations of Zakharov functions.
+	r"""Implementations of Zakharov functions.
 
-    Date:
-        2018
+	Date:
+		2018
 
-    Author:
-        Klemen Berkovič
+	Author:
+		Klemen Berkovič
 
-    License:
-        MIT
+	License:
+		MIT
 
-    Function:
-        **Levy Function**
-        :math:`f(\textbf{x}) = \sum_{i = 1}^D x_i^2 + \left( \sum_{i = 1}^D 0.5 i x_i \right)^2 + \left( \sum_{i = 1}^D 0.5 i x_i \right)^4`
+	Function:
+		Levy Function
 
-        **Input domain:**
-        The function can be defined on any input domain but it is usually evaluated on the hypercube :math:`x_i ∈ [-5, 10]`, for all :math:`i = 1, 2,..., D`.
+		:math:`f(\textbf{x}) = \sum_{i = 1}^D x_i^2 + \left( \sum_{i = 1}^D 0.5 i x_i \right)^2 + \left( \sum_{i = 1}^D 0.5 i x_i \right)^4`
 
-        **Global minimum:**
-        :math:`f(\textbf{x}^*) = 0` at :math:`\textbf{x}^* = (0, \cdots, 0)`
+		Input domain:
+			The function can be defined on any input domain but it is usually evaluated on the hypercube :math:`x_i ∈ [-5, 10]`, for all :math:`i = 1, 2,..., D`.
 
-    LaTeX formats:
-        Inline:
-            $f(\textbf{x}) = \sum_{i = 1}^D x_i^2 + \left( \sum_{i = 1}^D 0.5 i x_i \right)^2 + \left( \sum_{i = 1}^D 0.5 i x_i \right)^4$
+		Global minimum:
+			:math:`f(\textbf{x}^*) = 0` at :math:`\textbf{x}^* = (0, \cdots, 0)`
 
-        Equation:
-            \begin{equation} f(\textbf{x}) = \sum_{i = 1}^D x_i^2 + \left( \sum_{i = 1}^D 0.5 i x_i \right)^2 + \left( \sum_{i = 1}^D 0.5 i x_i \right)^4 \end{equation}
+	LaTeX formats:
+		Inline:
+			$f(\textbf{x}) = \sum_{i = 1}^D x_i^2 + \left( \sum_{i = 1}^D 0.5 i x_i \right)^2 + \left( \sum_{i = 1}^D 0.5 i x_i \right)^4$
 
-        Domain:
-            $-5 \leq x_i \leq 10$
+		Equation:
+			\begin{equation} f(\textbf{x}) = \sum_{i = 1}^D x_i^2 + \left( \sum_{i = 1}^D 0.5 i x_i \right)^2 + \left( \sum_{i = 1}^D 0.5 i x_i \right)^4 \end{equation}
 
-    Reference:
-        https://www.sfu.ca/~ssurjano/levy.html
+	Domain:
+		:math:`-5 \leq x_i \leq 10`
 
-    Attributes:
-        Name (List[str]): Names of the benchmark.
+	Reference:
+		 https://www.sfu.ca/~ssurjano/levy.html
+	"""
+	Name: List[str] = ["Zakharov"]
 
-    See Also:
-        * :class:`NiaPy.benchmarks.Benchmark`
-    """
-    Name = ['Zakharov', 'zakharov']
+	def __init__(self, Lower: Union[int, float, np.ndarray] = -5.0, Upper: Union[int, float, np.ndarray] = 10.0) -> None:
+		r"""Initialize Zakharov benchmark.
 
-    def __init__(self, Lower=-5.0, Upper=10.0, **kwargs):
-        r"""Initialize of Zakharov benchmark.
+		Args:
+			Lower: Lower bound of problem.
+			Upper: Upper bound of problem.
 
-        Args:
-            Lower (Optional[float]): Lower bound of problem.
-            Upper (Optional[float]): Upper bound of problem.
-            kwargs (dict): Additional arguments.
+		See Also:
+			* :func:`NiaPy.benchmarks.Benchmark.__init__`
+		"""
+		Benchmark.__init__(self, Lower, Upper)
 
-        See Also:
-            :func:`NiaPy.benchmarks.Benchmark.__init__`
-        """
-        Benchmark.__init__(self, Lower, Upper)
+	@staticmethod
+	def latex_code():
+		"""Return the latex code of the problem.
 
-    @staticmethod
-    def latex_code():
-        r"""Return the latex code of the problem.
+		Returns:
+			str: Latex code.
+		"""
+		return r"""$f(\textbf{x}) = \sum_{i = 1}^D x_i^2 + \left( \sum_{i = 1}^D 0.5 i x_i \right)^2 + \left( \sum_{i = 1}^D 0.5 i x_i \right)^4$"""
 
-        Returns:
-            str: Latex code
-        """
-        return r'''$f(\textbf{x}) = \sum_{i = 1}^D x_i^2 + \left( \sum_{i = 1}^D 0.5 i x_i \right)^2 + \left( \sum_{i = 1}^D 0.5 i x_i \right)^4$'''
+	def function(self) -> Callable[[np.ndarray, dict], float]:
+		"""Return benchmark evaluation function.
 
-    def function(self):
-        r"""Return benchmark evaluation function.
+		Returns:
+			Evaluation function.
+		"""
+		return lambda sol, **a: zakharov_function(sol)
 
-        Returns:
-            Callable[[int, Union[int, float, list, numpy.ndarray], dict], float]: Fitness function
-        """
-        def f(D, X, **kwargs):
-            r"""Fitness function.
-
-            Args:
-                D (int): Dimensionality of the problem
-                X (Union[int, float, list, numpy.ndarray]): Solution to check.
-                kwargs (dict): Additional arguments.
-
-            Returns:
-                float: Fitness value for the solution.
-            """
-            v1, v2 = 0.0, 0.0
-            for i in range(D): v1, v2 = v1 + X[i] ** 2, v2 + 0.5 * (i + 1) * X[i]
-            return v1 + v2 ** 2 + v2 ** 4
-        return f
+# vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

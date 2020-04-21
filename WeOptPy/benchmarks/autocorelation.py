@@ -4,180 +4,186 @@
 
 import numpy as np
 
-from NiaPy.benchmarks.benchmark import Benchmark
+from WeOptPy.benchmarks.interfaces import Benchmark
 
 __all__ = [
-    'AutoCorrelation',
-    'AutoCorrelationEnergy'
+	'AutoCorrelation',
+	'AutoCorrelationEnergy'
 ]
 
+
 class AutoCorrelation(Benchmark):
-    r"""Implementations of AutoCorrelation functions.
+	r"""Implementations of AutoCorrelation functions.
 
-    Date:
-        2020
+	Date:
+		2020
 
-    Author:
-        Klemen Berkovič
+	Author:
+		Klemen Berkovič
 
-    License:
-        MIT
+	License:
+		MIT
 
-    Function:
-        **AutoCorelation Function**
-        :math:`f(\textbf{x}) = \sum_{i = 1}^{D - k} x_i * x_{i + k}`
+	Function:
+		AutoCorelation Function
 
-        **Input domain:**
-        The function can be defined on any input domain but it is usually evaluated on the hypercube :math:`x_i ∈ [-\inf, \inf]`, for all :math:`i = 1, 2,..., D`.
+		:math:`f(\textbf{x}) = \sum_{i = 1}^{D - k} x_i * x_{i + k}`
 
-        **Global minimum:**
-        :math:`f(\textbf{x}^*) = 0` at :math:`\textbf{x}^* = (1, \cdots, 1)`
+		Input domain:
+			The function can be defined on any input domain but it is usually evaluated on the hypercube :math:`x_i ∈ [-\inf, \inf]`, for all :math:`i = 1, 2,..., D`.
 
-    LaTeX formats:
-        Inline:
-            $f(\textbf{x}) = \sum_{i = 1}^{D - k} x_i * x_{i + k}$
+		Global minimum:
+			:math:`f(\textbf{x}^*) = 0` at :math:`\textbf{x}^* = (1, \cdots, 1)`
 
-        Equation:
-            \begin{equation} f(\textbf{x}) = \sum_{i = 1}^{D - k} x_i * x_{i + k} \end{equation}
+	LaTeX formats:
+		Inline:
+			$f(\textbf{x}) = \sum_{i = 1}^{D - k} x_i * x_{i + k}$
 
-        Domain:
-            $-\inf \leq x_i \leq \inf$
+		Equation:
+			\begin{equation} f(\textbf{x}) = \sum_{i = 1}^{D - k} x_i * x_{i + k} \end{equation}
 
-    Reference:
-        TODO
+		Domain:
+			$-\inf \leq x_i \leq \inf$
 
-    Attributes:
-        Name (List[str]): Names of benchmark.
+	Reference:
+		TODO
 
-    See Also:
-        * :class:`NiaPy.benchmarks.Benchmark`
-    """
-    Name = ['AutoCorrelation', 'autocorrelation']
+	Attributes:
+		Name (List[str]): Names of benchmark.
 
-    def __init__(self, Lower=-np.inf, Upper=np.inf):
-        r"""Initialize of Levy benchmark.
+	See Also:
+		* :class:`NiaPy.benchmarks.Benchmark`
+	"""
+	Name = ['AutoCorrelation', 'autocorrelation']
 
-        Args:
-            Lower (Optional[float]): Lower bound of problem.
-            Upper (Optional[float]): Upper bound of problem.
+	def __init__(self, Lower=-np.inf, Upper=np.inf, **kwargs):
+		r"""Initialize of Levy benchmark.
 
-        See Also:
-            :func:`NiaPy.benchmarks.Benchmark.__init__`
-        """
-        Benchmark.__init__(self, Lower, Upper)
+		Args:
+			Lower (Optional[float]): Lower bound of problem.
+			Upper (Optional[float]): Upper bound of problem.
+			kwargs (Dict[str, Any]): Additional arguments for the benchmark.
 
-    @staticmethod
-    def latex_code():
-        r"""Return the latex code of the problem.
+		See Also:
+			* :func:`NiaPy.benchmarks.Benchmark.__init__`
+		"""
+		Benchmark.__init__(self, Lower, Upper, **kwargs)
 
-        Returns:
-            str: Latex code
-        """
-        return r'''$f(\textbf{x}) = \sum_{i = 1}^{D - k} x_i * x_{i + k}$'''
+	@staticmethod
+	def latex_code():
+		r"""Return the latex code of the problem.
 
-    def function(self):
-        r"""Return benchmark evaluation function.
+		Returns:
+			str: Latex code
+		"""
+		return r'''$f(\textbf{x}) = \sum_{i = 1}^{D - k} x_i * x_{i + k}$'''
 
-        Returns:
-            Callable[[int, Union[int, float, list, numpy.ndarray], dict], float]: Fitness function
-        """
-        def f(d, x, k=None, **kwargs):
-            r"""Fitness function.
+	def function(self):
+		r"""Return benchmark evaluation function.
 
-            Args:
-                d (int): Dimensionality of the problem
-                x (Union[int, float, list, numpy.ndarray]): Solution to check.
-                k (int): Shift
-                kwargs (dict): Additional arguments.
+		Returns:
+			Callable[[Union[int, float, list, numpy.ndarray], dict], float]: Fitness function
+		"""
+		def f(x, k=None, **kwargs):
+			r"""Fitness function.
 
-            Returns:
-                float: Fitness value for the solution.
-            """
-            k = k if k is not None else len(x)
-            return np.sum(x[:d - k] * x[k:d])
-        return f
+			Args:
+				x (Union[int, float, list, numpy.ndarray]): Solution to check.
+				k (int): Shift
+				kwargs (dict): Additional arguments.
+
+			Returns:
+				float: Fitness value for the solution.
+			"""
+			k = k if k is not None else len(x)
+			return np.sum(x[:d - k] * x[k:d])
+		return f
+
 
 class AutoCorrelationEnergy(AutoCorrelation):
-    r"""Implementations of AutoCorrelation Energy functions.
+	r"""Implementations of AutoCorrelation Energy functions.
 
-    Date:
-        2020
+	Date:
+		2020
 
-    Author:
-        Klemen Berkovič
+	Author:
+		Klemen Berkovič
 
-    License:
-        MIT
+	License:
+		MIT
 
-    Function:
-        **AutoCorelation Energy Function**
-        :math:`f(\textbf{x}) = \sum_{i = 1}^{D - k} x_i * x_{i + k}`
+	Function:
+		AutoCorrelation Energy Function
 
-        **Input domain:**
-        The function can be defined on any input domain but it is usually evaluated on the hypercube :math:`x_i ∈ [-\inf, \inf]`, for all :math:`i = 1, 2,..., D`.
+		:math:`f(\textbf{x}) = \sum_{i = 1}^{D - k} x_i * x_{i + k}`
 
-        **Global minimum:**
-        :math:`f(\textbf{x}^*) = 0` at :math:`\textbf{x}^* = (1, \cdots, 1)`
+		Input domain:
+			The function can be defined on any input domain but it is usually evaluated on the hypercube :math:`x_i ∈ [-\inf, \inf]`, for all :math:`i = 1, 2,..., D`.
 
-    LaTeX formats:
-        Inline:
-            $f(\textbf{x}) = \sum_{i = 1}^{D - k} x_i * x_{i + k}$
+		Global minimum:
+			:math:`f(\textbf{x}^*) = 0` at :math:`\textbf{x}^* = (1, \cdots, 1)`
 
-        Equation:
-            \begin{equation} f(\textbf{x}) = \sum_{i = 1}^{D - k} x_i * x_{i + k} \end{equation}
+	LaTeX formats:
+		Inline:
+			$f(\textbf{x}) = \sum_{i = 1}^{D - k} x_i * x_{i + k}$
 
-        Domain:
-            $-\inf \leq x_i \leq \inf$
+		Equation:
+			\begin{equation} f(\textbf{x}) = \sum_{i = 1}^{D - k} x_i * x_{i + k} \end{equation}
 
-    Reference:
-        TODO
+		Domain:
+			$-\inf \leq x_i \leq \inf$
 
-    Attributes:
-        Name (List[str]): Names of benchmark.
+	Reference:
+		TODO
 
-    See Also:
-        * :class:`NiaPy.benchmarks.AutoCorrelation`
-    """
-    Name = ['AutoCorelationEnergey', 'autocorrelationenergy']
+	Attributes:
+		Name (List[str]): Names of benchmark.
 
-    def __init__(self, Lower=-np.inf, Upper=np.inf):
-        r"""Initialize of Levy benchmark.
+	See Also:
+		* :class:`NiaPy.benchmarks.AutoCorrelation`
+	"""
+	Name = ['AutoCorelationEnergey', 'autocorrelationenergy']
 
-        Args:
-            Lower (Optional[float]): Lower bound of problem.
-            Upper (Optional[float]): Upper bound of problem.
+	def __init__(self, Lower=-np.inf, Upper=np.inf, **kwargs):
+		r"""Initialize of Levy benchmark.
 
-        See Also:
-            :func:`NiaPy.benchmarks.Benchmark.__init__`
-        """
-        Benchmark.__init__(self, Lower, Upper)
+		Args:
+			Lower (Optional[float]): Lower bound of problem.
+			Upper (Optional[float]): Upper bound of problem.
+			kwargs (Dict[str, Any]): Additional arguments for the benchmark.
 
-    @staticmethod
-    def latex_code():
-        r"""Return the latex code of the problem.
+		See Also:
+			* :func:`NiaPy.benchmarks.Benchmark.__init__`
+		"""
+		AutoCorrelation.__init__(self, Lower, Upper, **kwargs)
 
-        Returns:
-            str: Latex code
-        """
-        return r'''$f(\textbf{x}) = \sum_{i = 1}^{D - k} x_i * x_{i + k}$'''
+	@staticmethod
+	def latex_code():
+		r"""Return the latex code of the problem.
 
-    def function(self):
-        r"""Return benchmark evaluation function.
+		Returns:
+			str: Latex code
+		"""
+		return r'''$f(\textbf{x}) = \sum_{i = 1}^{D - k} x_i * x_{i + k}$'''
 
-        Returns:
-            Callable[[int, Union[int, float, list, numpy.ndarray], dict], float]: Fitness function
-        """
-        c = AutoCorrelation.function(self)
-        def f(d, x, **kwargs):
-            r"""Fitness function.
+	def function(self):
+		r"""Return benchmark evaluation function.
 
-            Args:
-                d (int): Dimensionality of the problem
-                x (Union[int, float, list[int, float], numpy.ndarray]): Solution to check.
-                kwargs (dict): Additional arguments.
+		Returns:
+			Callable[[Union[int, float, list, numpy.ndarray], Dict[str, Any]], float]: Fitness function
+		"""
+		c = AutoCorrelation.function(self)
+		def f(x, **kwargs):
+			r"""Fitness function.
 
-            Returns:
-                float: Fitness value for the solution.
-            """
-            return np.sum([c(d, x, k) ** 2 for k in range(1, d + 1)])
-        return f
+			Args:
+				x (Union[int, float, List[Union[int, float]], numpy.ndarray]): Solution to check.
+				kwargs (Dict[str, Any]): Additional arguments.
+
+			Returns:
+				float: Fitness value for the solution.
+			"""
+			return np.sum([c(d, x, k) ** 2 for k in range(1, d + 1)])
+		return f
+
+# vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

@@ -1,372 +1,293 @@
 # encoding=utf8
 
-"""Implementations of Schwefels functions."""
+"""Implementations of Schwefels benchmarks."""
 
-import numpy as np
-
-from NiaPy.benchmarks.benchmark import Benchmark
+from WeOptPy.benchmarks.interfaces import Benchmark
+from .functions import (
+	modified_schwefel_function,
+	schwefel_function,
+	schwefel1222_function,
+	schwefel1221_function
+)
 
 __all__ = [
-    'Schwefel',
-    'Schwefel221',
-    'Schwefel222',
-    'ModifiedSchwefel'
+	"Schwefel",
+	"Schwefel221",
+	"Schwefel222",
+	"ModifiedSchwefel"
 ]
 
 
 class Schwefel(Benchmark):
-    r"""Implementation of Schewel function.
+	r"""Implementation of Schewel function.
 
-    Date: 2018
+	Date:
+		2018
 
-    Author: Lucija Brezočnik
+	Author:
+		Klemen Berkovič
 
-    License: MIT
+	License:
+		MIT
 
-    Function: **Schwefel function**
+	Function:
+		Schwefel function
 
-        :math:`f(\textbf{x}) = 418.9829d - \sum_{i=1}^{D} x_i \sin(\sqrt{\lvert x_i \rvert})`
+		:math:`f(\textbf{x}) = 418.9829d - \sum_{i=1}^{D} x_i \sin(\sqrt{|x_i|})`
 
-        **Input domain:**
-        The function can be defined on any input domain but it is usually
-        evaluated on the hypercube :math:`x_i ∈ [-500, 500]`, for all :math:`i = 1, 2,..., D`.
+		Input domain:
+			The function can be defined on any input domain but it is usually evaluated on the hypercube :math:`x_i ∈ [-500, 500]`, for all :math:`i = 1, 2,..., D`.
 
-        **Global minimum:** :math:`f(x^*) = 0`, at :math:`x^* = (420.968746,...,420.968746)`
+		Global minimum:
+			:math:`f(x^*) = 0`, at :math:`x^* = (420.968746,...,420.968746)`
 
-    LaTeX formats:
-        Inline:
-                $f(\textbf{x}) = 418.9829d - \sum_{i=1}^{D} x_i \sin(\sqrt{\lvert x_i \rvert})$
+		LaTeX formats:
+			Inline:
+				$f(\textbf{x}) = 418.9829d - \sum_{i=1}^{D} x_i \sin(\sqrt{|x_i|})$
 
-        Equation:
-                \begin{equation} f(\textbf{x}) = 418.9829d - \sum_{i=1}^{D} x_i
-                \sin(\sqrt{\lvert x_i \rvert}) \end{equation}
+			Equation:
+				\begin{equation} f(\textbf{x}) = 418.9829d - \sum_{i=1}^{D} x_i \sin(\sqrt{|x_i|}) \end{equation}
 
-        Domain:
-                $-500 \leq x_i \leq 500$
+		Domain:
+			$-500 \leq x_i \leq 500$
 
-    Reference:
-        https://www.sfu.ca/~ssurjano/schwef.html
+	Reference:
+		https://www.sfu.ca/~ssurjano/schwef.html
+	"""
+	Name: List[str] = ["Schwefel"]
 
-    Attributes:
-        Name (List[str]): Names of the benchmark.
+	def __init__(self, Lower: Union[int, float, np.ndarray] = -500.0, Upper: Union[int, float, np.ndarray] = 500.0) -> None:
+		"""Initialize Schewefel benchmark.
 
-    See Also:
-        * :class:`NiaPy.benchmarks.Benchmark`
-    """
-    Name = ['Schwefel', 'schwefel']
+		Args:
+			Lower: Lower bound of problem.
+			Upper: Upper bound of problem.
 
-    def __init__(self, Lower=-500.0, Upper=500.0, **kwargs):
-        r"""Initialize of Schwefel benchmark.
+		See Also:
+			* :func:`NiaPy.benchmarks.Benchmark.__init__`
+		"""
+		Benchmark.__init__(self, Lower, Upper)
 
-        Args:
-            Lower (Optional[float]): Lower bound of problem.
-            Upper (Optional[float]): Upper bound of problem.
-            kwargs (dict): Additional arguments.
+	@staticmethod
+	def latex_code():
+		"""Return the latex code of the problem.
 
-        See Also:
-            :func:`NiaPy.benchmarks.Benchmark.__init__`
-        """
-        Benchmark.__init__(self, Lower, Upper)
+		Returns:
+			str: Latex code.
+		"""
+		return r"""$f(\textbf{x}) = 418.9829d - \sum_{i=1}^{D} x_i \sin(\sqrt{|x_i|})$"""
 
-    @staticmethod
-    def latex_code():
-        r"""Return the latex code of the problem.
+	def function(self) -> Callable[[np.ndarray, dict], float]:
+		"""Return benchmark evaluation function.
 
-        Returns:
-            str: Latex code
-        """
-        return r'''$f(\textbf{x}) = 418.9829d - \sum_{i=1}^{D} x_i \sin(\sqrt{\lvert x_i \rvert})$'''
+		Returns:
+			Evaluation function.
+		"""
+		return lambda x, **a: schwefel_function(x)
 
-    def function(self):
-        r"""Return benchmark evaluation function.
-
-        Returns:
-            Callable[[int, numpy.ndarray, dict], float]: Fitness function
-        """
-        def evaluate(D, sol, **dict):
-            r"""Fitness function.
-
-            Args:
-                D (int): Dimensionality of the problem
-                sol (numpy.ndarray): Solution to check.
-                dict (dict): Additional arguments.
-
-            Returns:
-                float: Fitness value for the solution.
-            """
-            val = 0.0
-            for i in range(D):
-                val += (sol[i] * np.sin(np.sqrt(np.abs(sol[i]))))
-            return 418.9829 * D - val
-        return evaluate
 
 class Schwefel221(Benchmark):
-    r"""Schwefel 2.21 function implementation.
+	r"""Schwefel 2.21 function implementation.
 
-    Date: 2018
+	Date:
+		2018
 
-    Author: Grega Vrbančič
+	Author:
+		Klemen Berkovič
 
-    Licence: MIT
+	Licence:
+		MIT
 
-    Function: **Schwefel 2.21 function**
+	Function:
+		Schwefel 2.21 function
 
-        :math:`f(\mathbf{x})=\max_{i=1,...,D}|x_i|`
+		:math:`f(\mathbf{x})=\max_{i=1,...,D}|x_i|`
 
-        **Input domain:**
-        The function can be defined on any input domain but it is usually
-        evaluated on the hypercube :math:`x_i ∈ [-100, 100]`, for all :math:`i = 1, 2,..., D`.
+		Input domain:
+			The function can be defined on any input domain but it is usually evaluated on the hypercube :math:`x_i ∈ [-100, 100]`, for all :math:`i = 1, 2,..., D`.
 
-        **Global minimum:** :math:`f(x^*) = 0`, at :math:`x^* = (0,...,0)`
+		Global minimum:
+			:math:`f(x^*) = 0`, at :math:`x^* = (0,...,0)`
 
-    LaTeX formats:
-        Inline:
-                $f(\mathbf{x})=\max_{i=1,...,D} \lvert x_i \rvert$
+		LaTeX formats:
+			Inline:
+				$f(\mathbf{x})=\max_{i=1,...,D}|x_i|$
 
-        Equation:
-                \begin{equation}f(\mathbf{x}) = \max_{i=1,...,D} \lvert x_i \rvert \end{equation}
+			Equation:
+				\begin{equation}f(\mathbf{x}) = \max_{i=1,...,D}|x_i| \end{equation}
 
-        Domain:
-                $-100 \leq x_i \leq 100$
+		Domain:
+			:math:`-100 \leq x_i \leq 100`
 
-    Reference paper:
-        Jamil, M., and Yang, X. S. (2013).
-        A literature survey of benchmark functions for global optimisation problems.
-        International Journal of Mathematical Modelling and Numerical Optimisation,
-        4(2), 150-194.
+	Reference paper:
+		Jamil, M., and Yang, X. S. (2013). A literature survey of benchmark functions for global optimisation problems. International Journal of Mathematical Modelling and Numerical Optimisation, 4(2), 150-194.
+	"""
+	Name: List[str] = ["Schwefel221"]
 
-    Attributes:
-        Name (List[str]): Names of the benchmark.
+	def __init__(self, Lower: Union[int, float, np.ndarray] = -100.0, Upper: Union[int, float, np.ndarray] = 100.0) -> None:
+		"""Initialize Schwefel221 benchmark.
 
-    See Also:
-        * :class:`NiaPy.benchmarks.Benchmark`
-    """
-    Name = ['Schwefel221', 'schwefel221']
+		Args:
+			Lower: Lower bound of problem.
+			Upper: Upper bound of problem.
 
-    def __init__(self, Lower=-100.0, Upper=100.0, **kwargs):
-        r"""Initialize of Schwefel221 benchmark.
+		See Also:
+			* :func:`NiaPy.benchmarks.Benchmark.__init__`
+		"""
+		Benchmark.__init__(self, Lower, Upper)
 
-        Args:
-            Lower (Optional[float]): Lower bound of problem.
-            Upper (Optional[float]): Upper bound of problem.
-            kwargs (dict): Additional arguments.
+	@staticmethod
+	def latex_code():
+		"""Return the latex code of the problem.
 
-        See Also:
-            :func:`NiaPy.benchmarks.Benchmark.__init__`
-        """
-        Benchmark.__init__(self, Lower, Upper)
+		Returns:
+			str: Latex code.
+		"""
+		return r'''$f(\mathbf{x})=\max_{i=1,...,D}|x_i|$'''
 
-    @staticmethod
-    def latex_code():
-        r"""Return the latex code of the problem.
+	def function(self) -> Callable[[np.ndarray, dict], float]:
+		"""Return benchmark evaluation function.
 
-        Returns:
-            str: Latex code
-        """
-        return r'''$f(\mathbf{x})=\max_{i=1,...,D} \lvert x_i \rvert$'''
+		Returns:
+			Evaluation function.
+		"""
+		return lambda x: schwefel1221_function(x)
 
-    def function(self):
-        r"""Return benchmark evaluation function.
-
-        Returns:
-            Callable[[int, numpy.ndarray, dict], float]: Fitness function
-        """
-        def evaluate(D, sol, **dict):
-            r"""Fitness function.
-
-            Args:
-                D (int): Dimensionality of the problem
-                sol (Union[int, float, List[int, float], numpy.ndarray]): Solution to check.
-                dict (dict): Additional arguments.
-
-            Returns:
-                float: Fitness value for the solution.
-            """
-            maximum = 0.0
-            for i in range(D):
-                if abs(sol[i]) > maximum:
-                    maximum = abs(sol[i])
-            return maximum
-        return evaluate
 
 class Schwefel222(Benchmark):
-    r"""Schwefel 2.22 function implementation.
+	r"""Schwefel 2.22 function implementation.
 
-    Date: 2018
+	Date:
+		2018
 
-    Author: Grega Vrbančič
+	Author:
+		Klemen Berkovič
 
-    Licence: MIT
+	Licence:
+		MIT
 
-    Function: **Schwefel 2.22 function**
+	Function:
+		Schwefel 2.22 function
 
-        :math:`f(\mathbf{x})=\sum_{i=1}^{D} \lvert x_i \rvert +\prod_{i=1}^{D} \lvert x_i \rvert`
+		:math:`f(\mathbf{x})=\sum_{i=1}^{D}|x_i|+\prod_{i=1}^{D}|x_i|`
 
-        **Input domain:**
-        The function can be defined on any input domain but it is usually
-        evaluated on the hypercube :math:`x_i ∈ [-100, 100]`, for all :math:`i = 1, 2,..., D`.
+		Input domain:
+			The function can be defined on any input domain but it is usually evaluated on the hypercube :math:`x_i ∈ [-100, 100]`, for all :math:`i = 1, 2,..., D`.
 
-        **Global minimum:** :math:`f(x^*) = 0`, at :math:`x^* = (0,...,0)`
+		Global minimum:
+			:math:`f(x^*) = 0`, at :math:`x^* = (0,...,0)`
 
-    LaTeX formats:
-        Inline:
-                $f(\mathbf{x})=\sum_{i=1}^{D} \lvert x_i \rvert +\prod_{i=1}^{D} \lvert x_i \rvert$
+	LaTeX formats:
+		Inline:
+			$f(\mathbf{x})=\sum_{i=1}^{D}|x_i|+\prod_{i=1}^{D}|x_i|$
 
-        Equation:
-                \begin{equation}f(\mathbf{x}) = \sum_{i=1}^{D} \lvert x_i \rvert + \prod_{i=1}^{D} \lvert x_i \rvert \end{equation}
+		Equation:
+			\begin{equation}f(\mathbf{x}) = \sum_{i=1}^{D}|x_i| + \prod_{i=1}^{D}|x_i| \end{equation}
 
-        Domain:
-                $-100 \leq x_i \leq 100$
+		Domain:
+			:math:`-100 \leq x_i \leq 100`
 
-    Reference paper:
-        Jamil, M., and Yang, X. S. (2013).
-        A literature survey of benchmark functions for global optimisation problems.
-        International Journal of Mathematical Modelling and Numerical Optimisation,
-        4(2), 150-194.
+	Reference paper:
+		Jamil, M., and Yang, X. S. (2013). A literature survey of benchmark functions for global optimisation problems. International Journal of Mathematical Modelling and Numerical Optimisation, 4(2), 150-194.
+	"""
+	Name: List[str] = ["Schwefel222"]
 
-    Attributes:
-        Name (List[str]): Names of the benchmark.
+	def __init__(self, Lower: Union[int, float, np.ndarray] = -100.0, Upper: Union[int, float, np.ndarray] = 100.0) -> None:
+		"""Initialize Schwefel222 benchmark.
 
-    See Also:
-        * :class:`NiaPy.benchmarks.Benchmark`
-    """
-    Name = ['Schwefel222', 'schwefel222']
+		Args:
+			Lower: Lower bound of problem.
+			Upper: Upper bound of problem.
 
-    def __init__(self, Lower=-100.0, Upper=100.0, **kwargs):
-        r"""Initialize of Schwefel222 benchmark.
+		See Also:
+			* :func:`NiaPy.benchmarks.Benchmark.__init__`
+		"""
+		Benchmark.__init__(self, Lower, Upper)
 
-        Args:
-            Lower (Optional[float]): Lower bound of problem.
-            Upper (Optional[float]): Upper bound of problem.
-            kwargs (Dict[str, Any]): Additional arguments.
+	@staticmethod
+	def latex_code():
+		"""Return the latex code of the problem.
 
-        See Also:
-            :func:`NiaPy.benchmarks.Benchmark.__init__`
-        """
-        Benchmark.__init__(self, Lower, Upper)
+		Returns:
+			str: Latex code.
+		"""
+		return r"""$f(\mathbf{x})=\sum_{i=1}^{D}|x_i|+\prod_{i=1}^{D}|x_i|$"""
 
-    @staticmethod
-    def latex_code():
-        r"""Return the latex code of the problem.
+	def function(self) -> Callable[[np.ndarray, dict], float]:
+		"""Return benchmark evaluation function.
 
-        Returns:
-            str: Latex code
-        """
-        return r'''$f(\mathbf{x})=\sum_{i=1}^{D} \lvert x_i \rvert +\prod_{i=1}^{D} \lvert x_i \rvert$'''
+		Returns:
+			Evaluation function.
+		"""
+		return lambda x, **a: schwefel1222_function(x)
 
-    def function(self):
-        r"""Return benchmark evaluation function.
-
-        Returns:
-            Callable[[int, numpy.ndarray, Dict[str, Any]], float]: Fitness function
-        """
-        def evaluate(D, sol, **dict):
-            r"""Fitness function.
-
-            Args:
-                D (int): Dimensionality of the problem
-                sol (numpy.ndarray): Solution to check.
-                dict (Dict[str, Any]): Additional arguments.
-
-            Returns:
-                float: Fitness value for the solution.
-            """
-            part1 = 0.0
-            part2 = 1.0
-            for i in range(D):
-                part1 += np.abs(sol[i])
-                part2 *= np.abs(sol[i])
-            return part1 + part2
-        return evaluate
 
 class ModifiedSchwefel(Benchmark):
-    r"""Implementations of Modified Schwefel functions.
+	r"""Implementations of Modified Schwefel functions.
 
-    Date:
-        2018
+	Date:
+		2018
 
-    Author:
-        Klemen Berkovič
+	Author:
+		Klemen Berkovič
 
-    License:
-        MIT
+	License:
+		MIT
 
-    Function:
-        **Modified Schwefel Function**
-        :math:`f(\textbf{x}) = 418.9829 \cdot D - \sum_{i=1}^D h(x_i) \\ h(x) = g(x + 420.9687462275036)  \\ g(z) = \begin{cases} z \sin \left( \lvert z \rvert^{\frac{1}{2}} \right) &\quad \lvert z \rvert \leq 500 \\ \left( 500 - \mod (z, 500) \right) \sin \left( \sqrt{\lvert 500 - \mod (z, 500) \rvert} \right) - \frac{ \left( z - 500 \right)^2 }{ 10000 D }  &\quad z > 500 \\ \left( \mod (\lvert z \rvert, 500) - 500 \right) \sin \left( \sqrt{\lvert \mod (\lvert z \rvert, 500) - 500 \rvert} \right) + \frac{ \left( z - 500 \right)^2 }{ 10000 D } &\quad z < -500\end{cases}`
+	Function:
+		Modified Schwefel Function
 
-        **Input domain:**
-        The function can be defined on any input domain but it is usually evaluated on the hypercube :math:`x_i ∈ [-100, 100]`, for all :math:`i = 1, 2,..., D`.
+		:math:`f(\textbf{x}) = 418.9829 \cdot D - \sum_{i=1}^D h(x_i) \\ h(x) = g(x + 420.9687462275036)  \\ g(z) = \begin{cases} z \sin \left( | z |^{\frac{1}{2}} \right) &\quad | z | \leq 500 \\ \left( 500 - \mod (z, 500) \right) \sin \left( \sqrt{| 500 - \mod (z, 500) |} \right) - \frac{ \left( z - 500 \right)^2 }{ 10000 D }  &\quad z > 500 \\ \left( \mod (| z |, 500) - 500 \right) \sin \left( \sqrt{| \mod (|z|, 500) - 500 |} \right) + \frac{ \left( z - 500 \right)^2 }{ 10000 D } &\quad z < -500\end{cases}`
 
-        **Global minimum:**
-        :math:`f(x^*) = 0`, at :math:`x^* = (420.968746,...,420.968746)`
+		Input domain:
+			The function can be defined on any input domain but it is usually evaluated on the hypercube :math:`x_i ∈ [-100, 100]`, for all :math:`i = 1, 2,..., D`.
 
-    LaTeX formats:
-        Inline:
-            $f(\textbf{x}) = 418.9829 \cdot D - \sum_{i=1}^D h(x_i) \\ h(x) = g(x + 420.9687462275036)  \\ g(z) = \begin{cases} z \sin \left( \lvert z \rvert^{\frac{1}{2}} \right) &\quad \lvert z \rvert \leq 500 \\ \left( 500 - \mod (z, 500) \right) \sin \left( \sqrt{\lvert 500 - \mod (z, 500) \rvert} \right) - \frac{ \left( z - 500 \right)^2 }{ 10000 D }  &\quad z > 500 \\ \left( \mod (\lvert z \rvert, 500) - 500 \right) \sin \left( \sqrt{\lvert \mod (\lvert z \rvert, 500) - 500 \rvert} \right) + \frac{ \left( z - 500 \right)^2 }{ 10000 D } &\quad z < -500\end{cases}$
+		Global minimum:
+			:math:`f(x^*) = 0`, at :math:`x^* = (420.968746,...,420.968746)`
 
-        Equation:
-            \begin{equation} f(\textbf{x}) = 418.9829 \cdot D - \sum_{i=1}^D h(x_i) \\ h(x) = g(x + 420.9687462275036)  \\ g(z) = \begin{cases} z \sin \left( \lvert z \rvert^{\frac{1}{2}} \right) &\quad \lvert z \rvert \leq 500 \\ \left( 500 - \mod (z, 500) \right) \sin \left( \sqrt{\lvert 500 - \mod (z, 500) \rvert} \right) - \frac{ \left( z - 500 \right)^2 }{ 10000 D }  &\quad z > 500 \\ \left( \mod (\lvert z \rvert, 500) - 500 \right) \sin \left( \sqrt{\lvert \mod (\lvert z \rvert, 500) - 500 \rvert} \right) + \frac{ \left( z - 500 \right)^2 }{ 10000 D } &\quad z < -500\end{cases} \end{equation}
+	LaTeX formats:
+		Inline:
+			$f(\textbf{x}) = 418.9829 \cdot D - \sum_{i=1}^D h(x_i) \\ h(x) = g(x + 420.9687462275036)  \\ g(z) = \begin{cases} z \sin \left( | z |^{\frac{1}{2}} \right) &\quad | z | \leq 500 \\ \left( 500 - \mod (z, 500) \right) \sin \left( \sqrt{| 500 - \mod (z, 500) |} \right) - \frac{ \left( z - 500 \right)^2 }{ 10000 D }  &\quad z > 500 \\ \left( \mod (| z |, 500) - 500 \right) \sin \left( \sqrt{| \mod (|z|, 500) - 500 |} \right) + \frac{ \left( z - 500 \right)^2 }{ 10000 D } &\quad z < -500\end{cases}$
 
-        Domain:
-            $-100 \leq x_i \leq 100$
+		Equation:
+			\begin{equation} f(\textbf{x}) = 418.9829 \cdot D - \sum_{i=1}^D h(x_i) \\ h(x) = g(x + 420.9687462275036)  \\ g(z) = \begin{cases} z \sin \left( | z |^{\frac{1}{2}} \right) &\quad | z | \leq 500 \\ \left( 500 - \mod (z, 500) \right) \sin \left( \sqrt{| 500 - \mod (z, 500) |} \right) - \frac{ \left( z - 500 \right)^2 }{ 10000 D }  &\quad z > 500 \\ \left( \mod (| z |, 500) - 500 \right) \sin \left( \sqrt{| \mod (|z|, 500) - 500 |} \right) + \frac{ \left( z - 500 \right)^2 }{ 10000 D } &\quad z < -500\end{cases} \end{equation}
 
-    Reference:
-        http://www5.zzu.edu.cn/__local/A/69/BC/D3B5DFE94CD2574B38AD7CD1D12_C802DAFE_BC0C0.pdf
 
-    Attributes:
-        Name (List[str]): Names of the benchmark.
+		Domain:
+			$-100 \leq x_i \leq 100$
 
-    See Also:
-        * :class:`NiaPy.benchmarks.Benchmark`
-    """
-    Name = ['ModifiedSchwefel', 'modifiedschwefel']
+	Reference:
+		http://www5.zzu.edu.cn/__local/A/69/BC/D3B5DFE94CD2574B38AD7CD1D12_C802DAFE_BC0C0.pdf
+	"""
+	Name: List[str] = ["ModifiedSchwefel"]
 
-    def __init__(self, Lower=-100.0, Upper=100.0, **kwargs):
-        r"""Initialize of Modified Schwefel benchmark.
+	def __init__(self, Lower: Union[int, float, np.ndarray] = -100.0, Upper: Union[int, float, np.ndarray] = 100.0) -> None:
+		"""Initialize Modified Schwefel benchmark.
 
-        Args:
-            Lower (Optional[float]): Lower bound of problem.
-            Upper (Optional[float]): Upper bound of problem.
-            kwargs (dict): Additional arguments.
+		Args:
+			Lower: Lower bound of problem.
+			Upper: Upper bound of problem.
 
-        See Also:
-            :func:`NiaPy.benchmarks.Benchmark.__init__`
-        """
-        Benchmark.__init__(self, Lower, Upper)
+		See Also:
+			* :func:`NiaPy.benchmarks.Benchmark.__init__`
+		"""
+		Benchmark.__init__(self, Lower, Upper)
 
-    @staticmethod
-    def latex_code():
-        r"""Return the latex code of the problem.
+	@staticmethod
+	def latex_code():
+		"""Return the latex code of the problem.
 
-        Returns:
-            str: Latex code
-        """
-        return r'''$f(\textbf{x}) = 418.9829 \cdot D - \sum_{i=1}^D h(x_i) \\ h(x) = g(x + 420.9687462275036)  \\ g(z) = \begin{cases} z \sin \left( \lvert z \rvert^{\frac{1}{2}} \right) &\quad \lvert z \rvert \leq 500 \\ \left( 500 - \mod (z, 500) \right) \sin \left( \sqrt{\lvert 500 - \mod (z, 500) \rvert} \right) - \frac{ \left( z - 500 \right)^2 }{ 10000 D }  &\quad z > 500 \\ \left( \mod (\lvert z \rvert, 500) - 500 \right) \sin \left( \sqrt{\lvert \mod (\lvert z \rvert, 500) - 500 \rvert} \right) + \frac{ \left( z - 500 \right)^2 }{ 10000 D } &\quad z < -500\end{cases}$'''
+		Returns:
+			str: Latex code.
+		"""
+		return r"""$f(\textbf{x}) = 418.9829 \cdot D - \sum_{i=1}^D h(x_i) \\ h(x) = g(x + 420.9687462275036)  \\ g(z) = \begin{cases} z \sin \left( | z |^{\frac{1}{2}} \right) &\quad | z | \leq 500 \\ \left( 500 - \mod (z, 500) \right) \sin \left( \sqrt{| 500 - \mod (z, 500) |} \right) - \frac{ \left( z - 500 \right)^2 }{ 10000 D }  &\quad z > 500 \\ \left( \mod (| z |, 500) - 500 \right) \sin \left( \sqrt{| \mod (|z|, 500) - 500 |} \right) + \frac{ \left( z - 500 \right)^2 }{ 10000 D } &\quad z < -500\end{cases}$"""
 
-    def function(self):
-        r"""Return benchmark evaluation function.
+	def function(self) -> Callable[[np.ndarray, dict], float]:
+		"""Return benchmark evaluation function.
 
-        Returns:
-            Callable[[int, Union[int, float, List[int, float], numpy.ndarray]], float]: Fitness function
-        """
-        def g(z, D):
-            if z > 500: return (500 - np.fmod(z, 500)) * np.sin(np.sqrt(np.fabs(500 - np.fmod(z, 500)))) - (z - 500) ** 2 / (10000 * D)
-            elif z < -500: return (np.fmod(z, 500) - 500) * np.sin(np.sqrt(np.fabs(np.fmod(z, 500) - 500))) + (z - 500) ** 2 / (10000 * D)
-            return z * np.sin(np.fabs(z) ** (1 / 2))
-        def h(x, D): return g(x + 420.9687462275036, D)
-        def f(D, sol, **kwargs):
-            r"""Fitness function.
+		Returns:
+			Evaluation function.
+		"""
+		return lambda x: modified_schwefel_function(x)
 
-            Args:
-                D (int): Dimensionality of the problem
-                sol (Union[int, float, List[int, float], numpy.ndarray]): Solution to check.
-                kwargs (Dict[str, Any]): Additional arguments.
-
-            Returns:
-                float: Fitness value for the solution.
-            """
-            val = 0.0
-            for i in range(D): val += h(sol[i], D)
-            return 418.9829 * D - val
-        return f
+# vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

@@ -1,105 +1,78 @@
 # encoding=utf8
 
-"""Implementaiton of Quintic funcion."""
+"""Implementation of Quintic benchmark."""
 
-import math
-from NiaPy.benchmarks.benchmark import Benchmark
+from WeOptPy.benchmarks.interfaces import Benchmark
+from .functions import quintic_function
 
-__all__ = ['Quintic']
+__all__ = ["Quintic"]
 
 
 class Quintic(Benchmark):
-    r"""Implementation of Quintic function.
+	r"""Implementation of Quintic function.
 
-    Date: 2018
+	Date:
+		2018
 
-    Author: Lucija Brezočnik
+	Author:
+		Lucija Brezočnik
 
-    License: MIT
+	License:
+		MIT
 
-    Function: **Quintic function**
+	Function:
+		Quintic function
 
-        :math:`f(\mathbf{x}) = \sum_{i=1}^D \left| x_i^5 - 3x_i^4 +
-        4x_i^3 + 2x_i^2 - 10x_i - 4\right|`
+		:math:`f(\mathbf{x}) = \sum_{i=1}^D \left| x_i^5 - 3x_i^4 + 4x_i^3 + 2x_i^2 - 10x_i - 4\right|`
 
-        **Input domain:**
-        The function can be defined on any input domain but it is usually
-        evaluated on the hypercube :math:`x_i ∈ [-10, 10]`, for all :math:`i = 1, 2,..., D`.
+		Input domain:
+			The function can be defined on any input domain but it is usually evaluated on the hypercube :math:`x_i ∈ [-10, 10]`, for all :math:`i = 1, 2,..., D`.
 
-        **Global minimum:** :math:`f(x^*) = 0`, at :math:`x^* = f(-1\; \text{or}\; 2)`
+		Global minimum:
+			:math:`f(x^*) = 0`, at :math:`x^* = f(-1\; \text{or}\; 2)`
 
-    LaTeX formats:
-        Inline:
-                $f(\mathbf{x}) = \sum_{i=1}^D \left| x_i^5 - 3x_i^4 +
-                4x_i^3 + 2x_i^2 - 10x_i - 4\right|$
+	LaTeX formats:
+		Inline:
+			$f(\mathbf{x}) = \sum_{i=1}^D \left| x_i^5 - 3x_i^4 + 4x_i^3 + 2x_i^2 - 10x_i - 4\right|$
 
-        Equation:
-                \begin{equation} f(\mathbf{x}) =
-                \sum_{i=1}^D \left| x_i^5 - 3x_i^4 + 4x_i^3 + 2x_i^2 -
-                10x_i - 4\right| \end{equation}
+		Equation:
+			\begin{equation} f(\mathbf{x}) = \sum_{i=1}^D \left| x_i^5 - 3x_i^4 + 4x_i^3 + 2x_i^2 - 10x_i - 4\right| \end{equation}
 
-        Domain:
-                $-10 \leq x_i \leq 10$
+		Domain:
+			$-10 \leq x_i \leq 10$
 
-    Reference paper:
-        Jamil, M., and Yang, X. S. (2013).
-        A literature survey of benchmark functions for global optimisation problems.
-        International Journal of Mathematical Modelling and Numerical Optimisation,
-        4(2), 150-194.
+	Reference paper:
+		Jamil, M., and Yang, X. S. (2013). A literature survey of benchmark functions for global optimisation problems. International Journal of Mathematical Modelling and Numerical Optimisation, 4(2), 150-194.
+	"""
+	Name: List[str] = ["Quintic"]
 
-    Attributes:
-        Name (List[str]): Names of the benchmark.
+	def __init__(self, Lower: Union[int, float, np.ndarray] = -10.0, Upper: Union[int, float, np.ndarray] = 10.0) -> None:
+		"""Initialize Quintic benchmark.
 
-    See Also:
-        * :class:`NiaPy.benchmarks.Benchmark`
-    """
-    Name = ['Quintic', 'quintic']
+		Args:
+			Lower: Lower bound of problem.
+			Upper: Upper bound of problem.
 
-    def __init__(self, Lower=-10.0, Upper=10.0, **kwargs):
-        r"""Initialize of Quintic benchmark.
+		See Also:
+			* :func:`NiaPy.benchmarks.Benchmark.__init__`
+		"""
+		Benchmark.__init__(self, Lower, Upper)
 
-        Args:
-            Lower (Optional[float]): Lower bound of problem.
-            Upper (Optional[float]): Upper bound of problem.
-            kwargs (Dict[str, Any]): Additional arguments.
+	@staticmethod
+	def latex_code():
+		"""Return the latex code of the problem.
 
-        See Also:
-            :func:`NiaPy.benchmarks.Benchmark.__init__`
-        """
-        Benchmark.__init__(self, Lower, Upper)
+		Returns:
+			str: Latex code.
+		"""
+		return r'''$f(\mathbf{x}) = \sum_{i=1}^D \left| x_i^5 - 3x_i^4 + 4x_i^3 + 2x_i^2 - 10x_i - 4\right|$'''
 
-    @staticmethod
-    def latex_code():
-        r"""Return the latex code of the problem.
+	def function(self) -> Callable[[np.ndarray, dict], float]:
+		"""Return benchmark evaluation function.
 
-        Returns:
-            str: Latex code
-        """
-        return r'''$f(\mathbf{x}) = \sum_{i=1}^D \left| x_i^5 - 3x_i^4 +
-                4x_i^3 + 2x_i^2 - 10x_i - 4\right|$'''
+		Returns:
+			Evaluation function.
+		"""
+		return lambda x, **a: quintic_function(x)
 
-    def function(self):
-        r"""Return benchmark evaluation function.
-
-        Returns:
-            Callable[[int, Union[int, float, list, numpy.ndarray], Dict[str, Any]], float]: Fitness function
-        """
-        def evaluate(D, sol, **kwargs):
-            r"""Fitness function.
-
-            Args:
-                D (int): Dimensionality of the problem
-                sol (Union[int, float, List[int, float], numpy.ndarray]): Solution to check.
-                kwargs (Dict[str, Any]): Additional arguments.
-
-            Returns:
-                float: Fitness value for the solution.
-            """
-            val = 0.0
-
-            for i in range(D):
-                val += abs(math.pow(sol[i], 5) - 3.0 * math.pow(sol[i], 4) + 4.0 * math.pow(sol[i], 3) + 2.0 * math.pow(sol[i], 2) - 10.0 * sol[i] - 4)
-
-            return val
-
-        return evaluate
+# vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3
