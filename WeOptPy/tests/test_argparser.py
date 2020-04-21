@@ -1,6 +1,7 @@
 # encoding=utf8
 from unittest import TestCase
-from NiaPy.util.argparser import (
+
+from WeOptPy.util.argparser import (
     MakeArgParser,
     getArgs,
     getDictArgs

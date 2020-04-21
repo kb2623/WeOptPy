@@ -5,7 +5,7 @@ from unittest import TestCase
 
 import numpy as np
 
-from NiaPy import Factory
+from WeOptPy import Factory
 
 
 class TestBenchmarkFunctions(TestCase):
