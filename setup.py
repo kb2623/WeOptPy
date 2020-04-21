@@ -16,34 +16,26 @@ import os
 import sys
 import logging
 
-from distutils.core import (
-	setup,
-	Extension
-)
-from distutils.util import convert_path
+import setuptools
 
 
-def find_packages(base_path):
-	base_path = convert_path(base_path)
-	found = []
-	for root, dirs, files in os.walk(base_path, followlinks=True):
-		dirs[:] = [d for d in dirs if d[0] != '.' and d not in ('ez_setup', '__pycache__')]
-		relpath = os.path.relpath(root, base_path)
-		parent = relpath.replace(os.sep, '.').lstrip('.')
-		if relpath != '.' and parent not in found:
-			# foo.bar package but no foo package, skip
-			continue
-		for dir in dirs:
-			if os.path.isfile(os.path.join(root, dir, '__init__.py')):
-				package = '.'.join((parent, dir)) if parent else dir
-				found.append(package)
-	return found
+def build_extensions():
+	e = list()
+	e.append(setuptools.Extension(
+		name='WeOptPy.benchmarks.functions',
+		sources=['functions/bfuncs.c'],
+		include_dirs=['functions'],
+		language='c',
+		extra_compile_args=['-std=c11', '-O3'],
+		extra_link_args=['-O3', '-lm']
+	))
+	return e
 
 
-def check_python_version(MINIMUM_PYTHON_VERSION):
-	r"""Exit when the Python version is too low."""
-	if sys.version < MINIMUM_PYTHON_VERSION:
-		sys.exit("Python {0}+ is required.".format(MINIMUM_PYTHON_VERSION))
+def check_python_version(min_python_verions):
+	"""Exit when the Python version is too low."""
+	if sys.version < min_python_verions:
+		sys.exit("Python {0}+ is required.".format(min_python_verions))
 
 
 def read_package_variable(key, filename='__init__.py'):
@@ -69,18 +61,6 @@ def build_description():
 		return readme  # return readme + '\n' + changelog
 
 
-def build_extension():
-	e = Extension(
-		name='WeOptPy.benchmarks.functions',
-		sources=['functions/bfuncs.c'],
-		include_dirs=['functions'],
-		language='c',
-		extra_compile_args=['-std=c11', '-O3'],
-		extra_link_args=['-O3', '-lm']
-	)
-	return [e]
-
-
 PACKAGE_NAME = 'WeOptPy'
 MINIMUM_PYTHON_VERSION = '2.7'
 PACKAGE_VERSION = read_package_variable('__version__')
@@ -92,17 +72,17 @@ LICENSE = 'MIT'
 
 check_python_version(MINIMUM_PYTHON_VERSION)
 
-setup(
+setuptools.setup(
 	name=PACKAGE_NAME,
 	version=PACKAGE_VERSION,
 	description=DESCRIPTION,
 	url=URL,
 	author=AUTHOR,
 	author_email=AUTHOR_EMAIL,
-	# packages=find_packages(PACKAGE_NAME),
+	packages=setuptools.find_packages(),
 	long_description=build_description(),
 	license=LICENSE,
-	ext_modules=build_extension(),
+	ext_modules=build_extensions(),
 	classifiers=[
 		'Development Status :: 5 - Production/Stable',
 		'Intended Audience :: Developers',
@@ -117,6 +97,18 @@ setup(
 		'Programming Language :: Python :: 3.7',
 		'Topic :: Scientific/Engineering',
 		'Topic :: Software Development'
+	],
+	tests_requires=[
+		'flake8 ~= 3.7.7',
+		'astroid >= 2.0.4',
+		'pytest ~= 3.7.1',
+		'coverage ~= 4.4.2',
+		'coverage-space ~= 1.0.2'
+	],
+	install_requires=[
+		'numpy >= 1.16.2',
+		'scipy >= 1.1.0',
+		'enum34 >= 1.1.6',
 	]
 )
 

@@ -50,19 +50,15 @@ DEPENDENCIES := $(ENV)/.pipenv-$(shell checksum Pipfile*)
 METADATA := *.egg-info
 
 .PHONY: install
-install: $(DEPENDENCIES) build $(METADATA)
+install: $(DEPENDENCIES) $(METADATA) build-funcs
 
-$(DEPENDENCIES): build-funcs
+$(DEPENDENCIES):
 	@ if [ $(TPV) = T ]; then pipenv --python $(shell $(PYTHON) -c "import sys; print('%d.%d.%d' % (sys.version_info.major, sys.version_info.minor, sys.version_info.micro))"); fi
 	pipenv install --skip-lock --dev
 	@ touch $@
 
-.PHONY: build
-build: setup.py
-	pipenv run $(PYTHON) setup.py build
-
 $(METADATA): setup.py
-	pipenv run $(PYTHON) setup.py install
+	pipenv run $(PYTHON) setup.py develop
 	@ touch $@
 
 .PHONY: build-funcs
@@ -166,6 +162,9 @@ PYINSTALLER_MAKESPEC := pipenv run pyi-makespec
 DIST_FILES := dist/*.tar.gz dist/*.whl
 EXE_FILES := dist/$(PROJECT).*
 
+.PHONY: build
+build: dist
+
 .PHONY: dist
 dist: install $(DIST_FILES)
 $(DIST_FILES): $(MODULES) README.rst
@@ -196,7 +195,7 @@ upload: dist ## Upload the current version to PyPI
 # CLEANUP #####################################################################
 
 .PHONY: clean
-clean: .clean-build .clean-docs .clean-test .clean-install clean-funcs ## Delete all generated and temporary files
+clean: .clean-build .clean-docs .clean-test .clean-install .clean-funcs ## Delete all generated and temporary files
 
 .PHONY: clean-all
 clean-all: clean
@@ -220,8 +219,8 @@ clean-all: clean
 .clean-build:
 	rm -rf *.spec dist build
 
-.PHONY: clean-funcs
-clean-funcs:
+.PHONY: .clean-funcs
+.clean-funcs:
 	rm -f $(PROJECT)/benchmarks/*.so
 	rm -f $(PROJECT)/benchmarks/*.pyd
 

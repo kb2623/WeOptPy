@@ -22,9 +22,9 @@ __all__ = [
 	"Runner",
 	"Factory"
 ]
-__project__ = "WeOptPy"
-__version__ = "0.0.0"
+__project__ = 'WeOptPy'
+__version__ = '1.0.0'
 
-VERSION = "{0} v{1}".format(__project__, __version__)
+VERSION = '%s v%s' % (__project__, __version__)
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3
