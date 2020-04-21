@@ -55,6 +55,10 @@ def build_description():
 	return readme  # return readme + '\n' + changelog
 
 
+def make_python_requires(min_version):
+	return '>=%s' % min_version
+
+
 AUTHOR = 'kb2623'
 AUTHOR_EMAIL = 'roxor1992@gmail.com'
 MINIMUM_PYTHON_VERSION = '2.7'
@@ -72,6 +76,7 @@ setuptools.setup(
 	packages=setuptools.find_packages(),
 	long_description=build_description(),
 	ext_modules=build_extensions(),
+	python_requires=make_python_requires(MINIMUM_PYTHON_VERSION),
 	classifiers=[
 		'Development Status :: 5 - Production/Stable',
 		'Intended Audience :: Developers',
@@ -98,7 +103,7 @@ setuptools.setup(
 		'numpy >= 1.16.2',
 		'scipy >= 1.1.0',
 		'enum34 >= 1.1.6',
-	]
+	],
 )
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3
