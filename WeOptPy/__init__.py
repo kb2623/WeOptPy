@@ -15,15 +15,18 @@ from WeOptPy.runner import Runner
 from WeOptPy.factory import Factory
 
 __all__ = [
-	"algorithms",
-	"benchmarks",
-	"util",
-	"task",
-	"Runner",
-	"Factory"
+	'algorithms',
+	'benchmarks',
+	'util',
+	'task',
+	'Runner',
+	'Factory'
 ]
 __project__ = 'WeOptPy'
 __version__ = '1.0.0'
+__license__ = 'MIT'
+__description__ = 'Python micro framework for building nature-inspired algorithms.'
+__url__ = 'https://github.com/kb2623/WeOptPy'
 
 VERSION = '%s v%s' % (__project__, __version__)
 
