@@ -26,8 +26,8 @@ def build_extensions():
 		sources=['functions/bfuncs.c'],
 		include_dirs=['functions'],
 		language='c',
-		extra_compile_args=['-std=c11', '-O3', '-shared'],
-		extra_link_args=['-lm', '-O3', '-shared']
+		extra_compile_args=['-std=c11', '-O3', '-shared', '-fPIE'],
+		extra_link_args=['-lm', '-O3', '-shared', '-fPIE']
 	))
 	return e
 

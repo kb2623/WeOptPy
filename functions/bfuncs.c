@@ -71,7 +71,7 @@ double bent_cigar_func (double* x, int nx) {
  * @return Fitness/function value of input array. 
  */
 double dixon_price_func (double* x, int nx) {
-	int i, j;
+	int i;
 	double term1 = pow((x[0] - 1), 2), sum = 0;
 	for (i = 1; i < nx; i++) {
 		double xi = x[i], xold = x[i-1];
@@ -168,10 +168,8 @@ double katsuura_func (double* x, int nx) {
  */
 double levy_func (double* x, int nx) {
 	int i;
-	double f = 0.0;
 	double *w;
 	w=(double *)malloc(sizeof(double)  *  nx);
-	double sum1= 0.0;
 	for (i = 0; i < nx; i++) w[i] = 1.0 + (x[i] - 1.0) / 4.0;
 	double term1 = pow((sin(PI * w[0])), 2);
 	double term3 = pow((w[nx - 1] - 1), 2) * (1 + pow((sin(2 * PI * w[nx - 1])), 2));
@@ -225,12 +223,9 @@ double rosenbrock_func (double* x, int nx) {
  * @return Fitness/function value of input array. 
  */
 double weierstrass_func (double* x, int nx) {
-	int i,j,k_max;
-	double sum,sum2, a, b;
-	a = 0.5;
-	b = 3.0;
-	k_max = 20;
-	double f = 0.0;
+	int i, j, k_max;
+	double sum, sum2, a, b, f;
+	a = 0.5, b = 3.0, k_max = 20, f = 0, sum2 = 0;
 	for (i = 0; i < nx; i++) {
 		sum = 0.0, sum2 = 0.0;
 		for (j = 0; j <= k_max; j++) {
@@ -260,7 +255,6 @@ double weierstrass_func (double* x, int nx) {
  * @return Fitness/function value of input array. 
  */
 double Lennard_Jones(double* x, int nx) {
-	static double minima[] = { -1.,-3.,-6.,-9.103852,-12.712062,-16.505384,-19.821489,-24.113360, -28.422532,-32.765970,-37.967600,-44.326801,-47.845157,-52.322627,-56.815742,-61.317995, -66.530949,-72.659782,-77.1777043,-81.684571,-86.809782,-02.844472,-97.348815,-102.372663 };
 	int i, j, k, a, b;
 	long double xd, yd, zd, ed, ud, sum = 0;
 	k = nx / 3;
@@ -630,14 +624,14 @@ double salomon_func (double* x, int nx) {
 }
 
 double sphere2_func (double* x, int nx) {
-	int i, j;
+	int i;
 	double f = 0.0;
 	for (i = 0; i < nx; i++) f += pow(x[i], i + 1);
 	return f;
 }
 
 double sphere3_func (double* x, int nx) {
-	int i, j;
+	int i;
 	double f = 0.0;
 	for (i = 0; i < nx; i++) f += x[i] * x[i];
 	return nx * f;
