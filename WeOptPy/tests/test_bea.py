@@ -1,7 +1,7 @@
 # encoding=utf8
 
-from NiaPy.algorithms.basic import BeesAlgorithm
-from NiaPy.tests.test_algorithm import (
+from WeOptPy.algorithms import BeesAlgorithm
+from WeOptPy.tests.test_algorithm import (
     AlgorithmTestCase,
     MyBenchmark
 )

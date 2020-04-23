@@ -1,7 +1,7 @@
 # encoding=utf8
 
-from NiaPy.algorithms.basic.ga import (
-    GeneticAlgorithm,
+from WeOptPy.algorithms import GeneticAlgorithm
+from WeOptPy.algorithms.ga import (
     TwoPointCrossover,
     MultiPointCrossover,
     CreepMutation,
@@ -9,7 +9,7 @@ from NiaPy.algorithms.basic.ga import (
     CrossoverUros,
     MutationUros
 )
-from NiaPy.tests.test_algorithm import (
+from WeOptPy.tests.test_algorithm import (
     AlgorithmTestCase,
     MyBenchmark
 )

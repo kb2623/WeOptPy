@@ -1,13 +1,13 @@
 # encoding=utf8
 
-from NiaPy.algorithms.basic import (
+from WeOptPy.algorithms import (
     FireworksAlgorithm,
     DynamicFireworksAlgorithm,
     EnhancedFireworksAlgorithm,
     BareBonesFireworksAlgorithm,
     DynamicFireworksAlgorithmGauss
 )
-from NiaPy.tests.test_algorithm import (
+from WeOptPy.tests.test_algorithm import (
     AlgorithmTestCase,
     MyBenchmark
 )

@@ -1,7 +1,7 @@
 # encoding=utf8
 
-from NiaPy.algorithms.basic import GravitationalSearchAlgorithm
-from NiaPy.tests.test_algorithm import (
+from WeOptPy.algorithms import GravitationalSearchAlgorithm
+from WeOptPy.tests.test_algorithm import (
     AlgorithmTestCase,
     MyBenchmark
 )

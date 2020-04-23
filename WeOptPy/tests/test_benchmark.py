@@ -1,15 +1,10 @@
 # encoding=utf8
 
-import logging
 from unittest import TestCase
 
 import numpy as np
 
-from NiaPy.benchmarks import Benchmark
-
-logging.basicConfig()
-logger = logging.getLogger('NiaPy.test')
-logger.setLevel('INFO')
+from WeOptPy.benchmarks.interfaces import Benchmark
 
 
 class BenchmarkTestCase(TestCase):

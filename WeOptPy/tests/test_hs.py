@@ -1,10 +1,10 @@
 # encoding=utf8
 
-from NiaPy.algorithms.basic import (
+from WeOptPy.algorithms import (
     HarmonySearch,
     HarmonySearchV1
 )
-from NiaPy.tests.test_algorithm import (
+from WeOptPy.tests.test_algorithm import (
     AlgorithmTestCase,
     MyBenchmark
 )

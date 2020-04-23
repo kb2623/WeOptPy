@@ -1,6 +1,6 @@
 # encoding=utf8
 
-from NiaPy.algorithms.basic import (
+from WeOptPy.algorithms import (
     DifferentialEvolution,
     DynNpDifferentialEvolution,
     AgingNpDifferentialEvolution,
@@ -8,7 +8,7 @@ from NiaPy.algorithms.basic import (
     DynNpMultiStrategyDifferentialEvolution,
     AgingNpMultiMutationDifferentialEvolution
 )
-from NiaPy.algorithms.basic.de import (
+from WeOptPy.algorithms.de import (
     CrossRand1,
     CrossRand2,
     CrossBest1,
@@ -16,7 +16,7 @@ from NiaPy.algorithms.basic.de import (
     CrossCurr2Rand1,
     CrossCurr2Best1
 )
-from NiaPy.tests.test_algorithm import (
+from WeOptPy.tests.test_algorithm import (
     AlgorithmTestCase,
     MyBenchmark
 )

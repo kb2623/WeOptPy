@@ -1,6 +1,6 @@
 # encoding=utf8
 
-from NiaPy.algorithms.modified import (
+from WeOptPy.algorithms import (
     DifferentialEvolutionMTS,
     DifferentialEvolutionMTSv1,
     DynNpDifferentialEvolutionMTS,
@@ -10,7 +10,7 @@ from NiaPy.algorithms.modified import (
     DynNpMultiStrategyDifferentialEvolutionMTS,
     DynNpMultiStrategyDifferentialEvolutionMTSv1
 )
-from NiaPy.tests.test_algorithm import (
+from WeOptPy.tests.test_algorithm import (
     AlgorithmTestCase,
     MyBenchmark
 )

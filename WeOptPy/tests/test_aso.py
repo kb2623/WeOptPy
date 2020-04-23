@@ -7,7 +7,7 @@ from WeOptPy.algorithms.aso import (
 	Crossover
 )
 
-from NiaPy.tests.test_algorithm import (
+from WeOptPy.tests.test_algorithm import (
 	AlgorithmTestCase,
 	MyBenchmark
 )

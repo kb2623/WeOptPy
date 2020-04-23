@@ -2,15 +2,15 @@
 
 from unittest import TestCase
 
-from NiaPy.algorithms.basic.es import (
+from WeOptPy.algorithms.es import IndividualES
+from WeOptPy.algorithms import (
     EvolutionStrategy1p1,
     EvolutionStrategyMp1,
     EvolutionStrategyMpL,
     EvolutionStrategyML,
     CovarianceMatrixAdaptionEvolutionStrategy,
-    IndividualES
 )
-from NiaPy.tests.test_algorithm import (
+from WeOptPy.tests.test_algorithm import (
     AlgorithmTestCase,
     MyBenchmark
 )

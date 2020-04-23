@@ -1,7 +1,7 @@
 # encoding=utf8
 
-from NiaPy.algorithms.basic import CoralReefsOptimization
-from NiaPy.tests.test_algorithm import (
+from WeOptPy.algorithms import CoralReefsOptimization
+from WeOptPy.tests.test_algorithm import (
     AlgorithmTestCase,
     MyBenchmark
 )

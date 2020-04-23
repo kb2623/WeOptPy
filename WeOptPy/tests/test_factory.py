@@ -4,8 +4,8 @@ from unittest import TestCase
 
 import numpy as np
 
-from NiaPy import Factory
-from NiaPy.benchmarks.benchmark import Benchmark
+from WeOptPy import Factory
+from WeOptPy.benchmarks.interfaces import Benchmark
 
 class NoLimits:
     @classmethod

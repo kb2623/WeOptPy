@@ -1,7 +1,7 @@
 # encoding=utf8
 
-from NiaPy.algorithms.other import HillClimbAlgorithm
-from NiaPy.tests.test_algorithm import (
+from WeOptPy.algorithms import HillClimbAlgorithm
+from WeOptPy.tests.test_algorithm import (
     AlgorithmTestCase,
     MyBenchmark
 )

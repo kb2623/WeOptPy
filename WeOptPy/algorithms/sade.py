@@ -1,9 +1,6 @@
 # encoding=utf8
 
-# from numpy import random as rand, argmin, argmax, mean, asarray, cos
-
-# from NiaPy.algorithms.individual import Individual
-from NiaPy.algorithms.basic.de import (
+from WeOptPy.algorithms.de import (
     # CrossBest1,
     # CrossRand1,
     # CrossCurr2Best1,
@@ -17,6 +14,7 @@ __all__ = [
     'StrategyAdaptationDifferentialEvolution',
     'StrategyAdaptationDifferentialEvolutionV1'
 ]
+
 
 class StrategyAdaptationDifferentialEvolution(DifferentialEvolution):
     r"""Implementation of Differential Evolution Algorithm With Strategy Adaptation algorihtm.
@@ -71,6 +69,7 @@ class StrategyAdaptationDifferentialEvolution(DifferentialEvolution):
     def runIteration(self, task, pop, fpop, xb, fxb, **dparams):
         # TODO implemnt algorithm
         return pop, fpop, xb, fxb, dparams
+
 
 class StrategyAdaptationDifferentialEvolutionV1(DifferentialEvolution):
     r"""Implementation of Differential Evolution Algorithm With Strategy Adaptation algorihtm.

@@ -1,6 +1,6 @@
 # encoding=utf8
 
-from WeOptPy.algorithms.basic import ArtificialBeeColonyAlgorithm
+from WeOptPy.algorithms import ArtificialBeeColonyAlgorithm
 from WeOptPy.tests.test_algorithm import (
 	AlgorithmTestCase,
 	MyBenchmark

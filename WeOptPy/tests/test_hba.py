@@ -1,7 +1,7 @@
 # encoding=utf8
 
-from NiaPy.algorithms.modified import HybridBatAlgorithm
-from NiaPy.tests.test_algorithm import (
+from WeOptPy.algorithms import HybridBatAlgorithm
+from WeOptPy.tests.test_algorithm import (
     AlgorithmTestCase,
     MyBenchmark
 )

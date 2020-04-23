@@ -1,12 +1,12 @@
 # encoding=utf8
 
-from NiaPy.algorithms.basic.gso import (
+from WeOptPy.algorithms import (
     GlowwormSwarmOptimization,
     GlowwormSwarmOptimizationV1,
     GlowwormSwarmOptimizationV2,
     GlowwormSwarmOptimizationV3
 )
-from NiaPy.tests.test_algorithm import (
+from WeOptPy.tests.test_algorithm import (
     AlgorithmTestCase,
     MyBenchmark
 )
