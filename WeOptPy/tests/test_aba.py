@@ -11,13 +11,13 @@ class ABATestCase(AlgorithmTestCase):
 	r"""Test case for AdaptiveBatAlgorithm algorithm.
 
 	Date:
-		 April 2019
+		April 2019
 
 	Author:
-		 Klemen Berkovic
+		Klemen Berkovic
 
 	See Also:
-		 * :class:`NiaPy.algorithms.modified.AdaptiveBatAlgorithm`
+		* :class:`NiaPy.algorithms.modified.AdaptiveBatAlgorithm`
 	"""
 	def test_algorithm_info(self):
 		"""Test algorithm info method of class AdaptiveBatAlgorithm."""

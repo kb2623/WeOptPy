@@ -7,6 +7,7 @@ from .functions import levy_function
 
 __all__ = ["Levy"]
 
+
 class Levy(Benchmark):
 	r"""Implementations of Levy functions.
 
@@ -42,15 +43,18 @@ class Levy(Benchmark):
 
 	Reference:
 		https://www.sfu.ca/~ssurjano/levy.html
-	"""
-	Name: List[str] = ["Levy"]
 
-	def __init__(self, Lower: Union[int, float, np.ndarray] = 0.0, Upper: Union[int, float, np.ndarray] = np.pi, **kwargs):
+	Attributes:
+		Name (List[str]): Names for the benchmark.
+	"""
+	Name = ["Levy"]
+
+	def __init__(self, Lower=0.0, Upper=np.pi, **kwargs):
 		r"""Initialize Levy benchmark.
 
 		Args:
-			Lower: Lower bound of problem.
-			Upper: Upper bound of problem.
+			Lower (Union[int, float, numpy.ndarray]): Lower bound of problem.
+			Upper (Union[int, float, numpy.ndarray]): Upper bound of problem.
 			kwargs (Dict[str, Any]): Additional arguments for the benchmark.
 
 		See Also:
@@ -67,11 +71,11 @@ class Levy(Benchmark):
 		"""
 		return r"""$f(\textbf{x}) = \sin^2 (\pi w_1) + \sum_{i = 1}^{D - 1} (w_i - 1)^2 \left( 1 + 10 \sin^2 (\pi w_i + 1) \right) + (w_d - 1)^2 (1 + \sin^2 (2 \pi w_d)) \\ w_i = 1 + \frac{x_i - 1}{4}$"""
 
-	def function(self) -> Callable[[np.ndarray, dict], float]:
+	def function(self):
 		"""Return benchmark evaluation function.
 
 		Returns:
-			Evaluation function.
+			Callable[[numpy.ndarray, Dict[str, Any]], float]: Evaluation function.
 		"""
 		return lambda sol, **a: levy_function(sol)
 

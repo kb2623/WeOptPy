@@ -172,4 +172,50 @@ def explore_package_for_classes(module, stype=object, subdir=False):
 			tmp[key] = data
 	return tmp
 
+
+def groupdatabylabel(data, labels, lt):
+	r"""Get gruped data based on labels.
+
+	Args:
+		data (numpy.ndarray): Dataset of individuals.
+		labels (numpy.ndarray): Labels of individuals.
+		lt (LabelEncoder): Label transformer.
+
+	Returns:
+		numpy.ndarray: Grouped data based on labels.
+	"""
+	G = [[] for _ in range(len(np.unique(labels)))]
+	for i, e in enumerate(data): G[lt.transform([labels[i]])[0]].append(e)
+	return np.asarray(G)
+
+
+def clusters2labels(G_c, G_l):
+	r"""Get mapping from clusters to classes/labels.
+
+	Args:
+		G_c (numpy.ndarray): Clusters centers.
+		G_l (numpy.ndarray): Centers of labeld data.
+
+	Returns:
+		numpy.ndarray: Labels maped to clusters.
+	"""
+	a, G_ll, inds = np.full(len(G_c), -1), [gl for gl in G_l], [i for i in range(len(G_l))]
+	for i, gc in enumerate(G_c):
+		e = np.argmin([np.sqrt(np.sum((gc - np.mean(gl, axis=0)) ** 2)) for gl in G_ll])
+		a[i] = inds[e]
+		del G_ll[e]
+		del inds[e]
+	return a
+
+
+def classifie(o, C):
+	r"""Classfie individua based on centers.
+	Args:
+		o (numpy.ndarray): Individual to classifie.
+		C (numpy.ndarray): Center of clusters.
+	Returns:
+		int: Index of class.
+	"""
+	return np.argmin([np.sqrt(np.sum((o - c) ** 2)) for c in C])
+
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

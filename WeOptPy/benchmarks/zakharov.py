@@ -42,21 +42,24 @@ class Zakharov(Benchmark):
 		:math:`-5 \leq x_i \leq 10`
 
 	Reference:
-		 https://www.sfu.ca/~ssurjano/levy.html
-	"""
-	Name: List[str] = ["Zakharov"]
+		https://www.sfu.ca/~ssurjano/levy.html
 
-	def __init__(self, Lower: Union[int, float, np.ndarray] = -5.0, Upper: Union[int, float, np.ndarray] = 10.0) -> None:
+	Attributes:
+		Name (List[str]): Names for the benchmark.
+	"""
+	Name = ["Zakharov"]
+
+	def __init__(self, Lower=-5.0, Upper=10.0, **kwargs):
 		r"""Initialize Zakharov benchmark.
 
 		Args:
-			Lower: Lower bound of problem.
-			Upper: Upper bound of problem.
+			Lower (Union[int, float, numpy.ndarray]): Lower bound of problem.
+			Upper (Union[int, float, numpy.ndarray]): Upper bound of problem.
 
 		See Also:
 			* :func:`NiaPy.benchmarks.Benchmark.__init__`
 		"""
-		Benchmark.__init__(self, Lower, Upper)
+		Benchmark.__init__(self, Lower, Upper, **kwargs)
 
 	@staticmethod
 	def latex_code():
@@ -71,7 +74,7 @@ class Zakharov(Benchmark):
 		"""Return benchmark evaluation function.
 
 		Returns:
-			Evaluation function.
+			Callable[[numpy.ndarray, Dict[str, Any]], float]: Evaluation function.
 		"""
 		return lambda sol, **a: zakharov_function(sol)
 

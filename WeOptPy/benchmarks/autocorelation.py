@@ -82,7 +82,7 @@ class AutoCorrelation(Benchmark):
 		r"""Return benchmark evaluation function.
 
 		Returns:
-			Callable[[Union[int, float, list, numpy.ndarray], dict], float]: Fitness function
+			Callable[[Union[int, float, list, numpy.ndarray], Dict[str, Any]], float]: Fitness function
 		"""
 		def f(x, k=None, **kwargs):
 			r"""Fitness function.

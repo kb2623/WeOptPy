@@ -45,17 +45,18 @@ class Stepint(Benchmark):
 	"""
 	Name: List[str] = ["Stepint"]
 
-	def __init__(self, Lower: Union[int, float, np.ndarray] = -5.12, Upper: Union[int, float, np.ndarray] = 5.12) -> None:
+	def __init__(self, Lower=-5.12, Upper=5.12, **kwargs):
 		"""Initialize Stepint benchmark.
 
 		Args:
-			Lower: Lower bound of problem.
-			Upper: Upper bound of problem.
+			Lower (Union[int, float, numpy.ndarray]): Lower bound of problem.
+			Upper (Union[int, float, numpy.ndarray]): Upper bound of problem.
+			kwargs (Dict[str, Any]): Additional arguments for the benchmark.
 
 		See Also:
 			* :func:`NiaPy.benchmarks.Benchmark.__init__`
 		"""
-		Benchmark.__init__(self, Lower, Upper)
+		Benchmark.__init__(self, Lower, Upper, **kwargs)
 
 	@staticmethod
 	def latex_code():
@@ -66,11 +67,11 @@ class Stepint(Benchmark):
 		"""
 		return r'''$f(\mathbf{x}) = \sum_{i=1}^D x_i^2$'''
 
-	def function(self) -> Callable[[np.ndarray, dict], float]:
+	def function(self):
 		"""Return benchmark evaluation function.
 
 		Returns:
-			Evaluation function.
+			Callable[[numpy.ndarray, Dict[str, Any]], float]: Evaluation function.
 		"""
 		return lambda x, **a: stepint_function(x)
 

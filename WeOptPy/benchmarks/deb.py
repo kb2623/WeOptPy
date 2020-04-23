@@ -49,15 +49,18 @@ class Deb01(Benchmark):
 
 	Reference:
 		http://infinity77.net/global_optimization/test_functions_nd_D.html#go_benchmark.Deb01
-	"""
-	Name: List[str] = ["Deb01"]
 
-	def __init__(self, Lower: Union[int, float, np.ndarray] = -1.0, Upper: Union[int, float, np.ndarray] = 1.0) -> None:
+	Attributes:
+		Name (List[str]): Names for the benchmark.
+	"""
+	Name = ["Deb01"]
+
+	def __init__(self, Lower=-1.0, Upper=1.0):
 		r"""Initialize Deb01 benchmark.
 
 		Args:
-			Lower: Lower bound of problem.
-			Upper: Upper bound of problem.
+			Lower (Union[int, float, numpy.ndarray]): Lower bound of problem.
+			Upper (Union[int, float, numpy.ndarray]): Upper bound of problem.
 
 		See Also:
 			* :func:`NiaPy.benchmarks.Benchmark.__init__`
@@ -73,11 +76,11 @@ class Deb01(Benchmark):
 		"""
 		return r"""f(\mathbf{x}) = -\frac{1}{N} \sum_{i=1}^N \sin(5 \pi x_i)^6"""
 
-	def function(self) -> Callable[[np.ndarray, dict], float]:
+	def function(self):
 		"""Return benchmark evaluation function.
 
 		Returns:
-			Evaluation function.
+			Callable[[numpy.ndarray, Dict[str, Any]], float]: Evaluation function.
 		"""
 		return lambda x, **a: deb01_function(x)
 
@@ -117,15 +120,18 @@ class Deb02(Benchmark):
 
 	Reference:
 		http://infinity77.net/global_optimization/test_functions_nd_D.html#go_benchmark.Deb02
-	"""
-	Name: List[str] = ["Deb02"]
 
-	def __init__(self, Lower: Union[int, float, np.ndarray] = 0.0, Upper: Union[int, float, np.ndarray] = 1.0, **kwargs):
+	Attributes:
+		Name (List[str]): Names for the benchmark.
+	"""
+	Name = ["Deb02"]
+
+	def __init__(self, Lower=0.0, Upper=1.0, **kwargs):
 		r"""Initialize Deb02 benchmark.
 
 		Args:
-			Lower: Lower bound of problem.
-			Upper: Upper bound of problem.
+			Lower (Optional[Union[int, float, numpy.ndarray]]): Lower bound of problem.
+			Upper (Optional[Union[int, float, numpy.ndarray]]): Upper bound of problem.
 			kwargs (Dict[str, Any]): Additional arguments for the benchmark.
 
 		See Also:
@@ -142,11 +148,11 @@ class Deb02(Benchmark):
 		"""
 		return r"""f(\mathbf{x}) = -\frac{1}{N} \sum_{i=1}^N \sin(5 \pi (x_i^{3/4} - 0.05))^6"""
 
-	def function(self) -> Callable[[np.ndarray, dict], float]:
+	def function(self):
 		"""Return benchmark evaluation function.
 
 		Returns:
-			Evaluation function.
+			Callable[[numpy.ndarray, Dict[str, Any]], float]: Evaluation function.
 		"""
 		return lambda x, **a: deb02_function(x)
 

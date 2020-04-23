@@ -1,6 +1,7 @@
 # encoding=utf8
 """The module implementing Ackley benchmark."""
 
+import numpy as np
 from sklearn.preprocessing import LabelEncoder
 
 from WeOptPy.benchmarks.interfaces import Benchmark
@@ -47,11 +48,11 @@ class Clustering(Benchmark):
 	"""
 	Name = ["Clustering"]
 
-	def __init__(self, dataset: np.ndarray, **kwargs):
+	def __init__(self, dataset, **kwargs):
 		"""Initialize Clustering benchmark.
 
 		Args:
-			dataset: Dataset.
+			dataset (numpy.ndarray): Dataset.
 
 		See Also:
 			* :func:`NiaPy.benchmarks.Benchmark.__init__`
@@ -280,9 +281,9 @@ class ClusteringClassification(ClusteringMinPenalty):
 		lt (LabelEncoder): Label transform
 
 	See Also:
-		:class:`NiaPy.benchmark.ClusteringMinPenalty`
+		* :class:`NiaPy.benchmark.ClusteringMinPenalty`
 	"""
-	Name: List[str] = ["ClusteringClassification"]
+	Name = ["ClusteringClassification"]
 
 	def __init__(self, dataset, labels, **kwargs):
 		"""Initialize Clustering min benchmark.

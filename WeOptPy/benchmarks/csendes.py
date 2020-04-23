@@ -53,8 +53,8 @@ class Csendes(Benchmark):
 		r"""Initialize Csendes benchmark.
 
 		Args:
-			Lower (Union[int, float, np.ndarray]): Lower bound of problem.
-			Upper (Union[int, float, np.ndarray]): Upper bound of problem.
+			Lower (Optional[Union[int, float, numpy.ndarray]]): Lower bound of problem.
+			Upper (Optional[Union[int, float, numpy.ndarray]]): Upper bound of problem.
 			kwargs (Dict[str, Any]): Additional arguments for the benchmark.
 
 		See Also:
@@ -75,7 +75,7 @@ class Csendes(Benchmark):
 		"""Return benchmark evaluation function.
 
 		Returns:
-			Callable[[np.ndarray, Dict[str, Any]], float]: Evaluation function.
+			Callable[[numpy.ndarray, Dict[str, Any]], float]: Evaluation function.
 		"""
 		return lambda x, **a: csendes_function(x)
 

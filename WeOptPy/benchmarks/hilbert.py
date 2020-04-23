@@ -50,19 +50,20 @@ class Hilbert(Benchmark):
 	See Also:
 		* :class:`NiaPy.benchmarks.Benchmark`
 	"""
-	Name: List[str] = ["Hilbert"]
+	Name = ["Hilbert"]
 
-	def __init__(self, Lower: Union[int, float, np.ndarray] = -np.inf, Upper: Union[int, float, np.ndarray] = np.inf) -> None:
+	def __init__(self, Lower=-np.inf, Upper=np.inf, **kwargs):
 		r"""Create Hilbert benchmark.
 
 		Args:
-			Lower: Lower bound limits.
-			Upper: Upper bound limits.
+			Lower (Union[int, float, numpy.ndarray]): Lower bound limits.
+			Upper (Union[int, float, numpy.ndarray]): Upper bound limits.
+			kwargs (Dict[str, Any]): Additional arguments for the benchmark.
 
 		See Also:
 			* :func:`NiaPy.benchmarks.Benchmark.__init__`
 		"""
-		Benchmark.__init__(self, Lower, Upper)
+		Benchmark.__init__(self, Lower, Upper, **kwargs)
 
 	@staticmethod
 	def latex_code():
@@ -73,11 +74,11 @@ class Hilbert(Benchmark):
 		"""
 		return r"""TODO"""
 
-	def function(self) -> Callable[[np.ndarray, dict], float]:
+	def function(self):
 		r"""Return benchmark evaluation function.
 
 		Returns:
-			Evaluation function.
+			Callable[[numpy.ndarray, Dict[str, Any]], float]: Evaluation function.
 		"""
 		return lambda sol, **a: Hilbert_function(sol)
 

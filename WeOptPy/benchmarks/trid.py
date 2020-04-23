@@ -42,19 +42,23 @@ class Trid(Benchmark):
 
 	Reference:
 		https://www.sfu.ca/~ssurjano/trid.html
-	"""
-	Name: List[str] = ["Trid"]
 
-	def __init__(self, D: int =2) -> None:
+	Attributes:
+		Name (List[str]): Names for the benchmark.
+	"""
+	Name = ["Trid"]
+
+	def __init__(self, D=2, **kwargs):
 		r"""Initialize Trid benchmark.
 
 		Args:
-			 D: Dimension of problem.
+			D (Optional[int]): Dimension of problem.
+			kwargs (Dict[str, Any]): Additional arguments for the benchmark.
 
 		See Also:
 			* :func:`NiaPy.benchmarks.Benchmark.__init__`
 		"""
-		Benchmark.__init__(self, -(D ** 2), D ** 2)
+		Benchmark.__init__(self, -(D ** 2), D ** 2, **kwargs)
 
 	@staticmethod
 	def latex_code():
@@ -65,11 +69,11 @@ class Trid(Benchmark):
 		"""
 		return r"""$f(\textbf{x}) = \sum_{i = 1}^D \left( x_i - 1 \right)^2 - \sum_{i = 2}^D x_i x_{i - 1}$"""
 
-	def function(self) -> Callable[[np.ndarray, dict], float]:
+	def function(self):
 		"""Return benchmark evaluation function.
 
 		Returns:
-			Evaluation function.
+			Callable[[numpy.ndarray, Dict[str, Any]], float]: Evaluation function.
 		"""
 		return lambda x, **a: trid_function(x)
 

@@ -43,20 +43,24 @@ class Exponential(Benchmark):
 
 	Reference:
 		http://infinity77.net/global_optimization/test_functions_nd_E.html#go_benchmark.Easom
-	"""
-	Name: List[str] = ["Exponential"]
 
-	def __init__(self, Lower: Union[int, float, np.ndarray] = -1.0, Upper: Union[int, float, np.ndarray] = 1.0) -> None:
-		r"""Initialize HGBat benchmark.
+	Attributes:
+		Name (List[str]): Names for the benchmark.
+	"""
+	Name = ["Exponential"]
+
+	def __init__(self, Lower=-1.0, Upper=1.0, **kwargs):
+		r"""Initialize Exponential benchmark.
 
 		Args:
-			Lower: Lower bound of problem.
-			Upper: Upper bound of problem.
+			Lower (Union[int, float, numpy.ndarray]): Lower bound of problem.
+			Upper (Union[int, float, numpy.ndarray]): Upper bound of problem.
+			kwargs (Dict[str, Any]): Additional arguments for the benchmark.dsa
 
 		See Also:
 			* :func:`NiaPy.benchmarks.Benchmark.__init__`
 		"""
-		Benchmark.__init__(self, Lower, Upper)
+		Benchmark.__init__(self, Lower, Upper, **kwargs)
 
 	@staticmethod
 	def latex_code():
@@ -67,11 +71,11 @@ class Exponential(Benchmark):
 		"""
 		return r"""$f(\mathbf{x}) = -e^{-0.5 \sum_{i=1}^N x_i^2}$"""
 
-	def function(self) -> Callable[[np.ndarray, dict], float]:
+	def function(self):
 		"""Return benchmark evaluation function.
 
 		Returns:
-			Evaluation function.
+			Callable[[numpy.ndarray, Dict[str, Any]], float]: Evaluation function.
 		"""
 		return lambda x, **a: exponential_function(x)
 

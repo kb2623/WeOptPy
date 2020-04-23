@@ -48,22 +48,23 @@ class NeedleEye(Benchmark):
 		Name (List[str]): Names for the benchmark.
 		eye (float): Function argument.
 	"""
-	Name: List[str] = ['NeedleEye']
-	eye: float = 1
+	Name = ['NeedleEye']
+	eye = 1
 
-	def __init__(self, Lower: Union[int, float, np.ndarray] = -100.0, Upper: Union[int, float, np.ndarray] = 100.0, eye: float = 1) -> None:
-		r"""Initialize HGBat benchmark.
+	def __init__(self, Lower=-100.0, Upper=100.0, eye=1.0, **kwargs):
+		r"""Initialize NeedleEye benchmark.
 
 		Args:
-			Lower: Lower bound of problem.
-			Upper: Upper bound of problem.
-			eye: Parameter of function.
+			Lower (Union[int, float, numpy.ndarray]): Lower bound of problem.
+			Upper (Union[int, float, numpy.ndarray]): Upper bound of problem.
+			eye (float): Parameter of function.
+			kwargs (Dict[str, Any]): Additional arguments for the benchmark.
 
 		See Also:
 			* :func:`NiaPy.benchmarks.Benchmark.__init__`
 		"""
+		Benchmark.__init__(self, Lower, Upper, **kwargs)
 		self.eye = eye
-		Benchmark.__init__(self, Lower, Upper)
 
 	@staticmethod
 	def latex_code():
@@ -74,11 +75,11 @@ class NeedleEye(Benchmark):
 		"""
 		return r"""$f(\mathbf{x}) = \begin{cases} 1 & \mathrm{if} \quad |x_i| < eye \\ \sum_{i=1}^N 100 + |x_i| & \mathrm{if} \quad |x_i| > eye \\ 1 & \mathrm{otherwise} \end{cases}$"""
 
-	def function(self) -> Callable[[np.ndarray, dict], float]:
+	def function(self):
 		"""Return benchmark evaluation function.
 
 		Returns:
-			Evaluation function.
+			Callable[[numpy.ndarray, Dict[str, Any]], float]: Evaluation function.
 		"""
 		return lambda x, **a: needle_eye_function(x, self.eye)
 

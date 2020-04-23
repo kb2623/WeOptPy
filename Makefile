@@ -221,6 +221,7 @@ clean-all: clean
 
 .PHONY: .clean-funcs
 .clean-funcs:
+	rm -f functions/benchmark_functions.c
 	rm -f $(PROJECT)/benchmarks/*.so
 	rm -f $(PROJECT)/benchmarks/*.pyd
 

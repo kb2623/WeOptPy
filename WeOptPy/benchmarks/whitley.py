@@ -44,19 +44,20 @@ class Whitley(Benchmark):
 	Reference paper:
 		Jamil, M., and Yang, X. S. (2013). A literature survey of benchmark functions for global optimisation problems. International Journal of Mathematical Modelling and Numerical Optimisation, 4(2), 150-194.
 	"""
-	Name: List[str] = ["Whitley"]
+	Name = ["Whitley"]
 
-	def __init__(self, Lower: Union[int, float, np.ndarray] = -10.24, Upper: Union[int, float, np.ndarray] = 10.24) -> None:
+	def __init__(self, Lower=-10.24, Upper=10.24, **kwargs):
 		"""Initialize Whitley benchmark.
 
 		Args:
-			Lower: Lower bound of problem.
-			Upper: Upper bound of problem.
+			Lower (Union[int, float, numpy.ndarray]): Lower bound of problem.
+			Upper (Union[int, float, numpy.ndarray]): Upper bound of problem.
+			kwargs (Dict[str, Any]): Additional arguments for the benchmark.
 
 		See Also:
 			* :func:`NiaPy.benchmarks.Benchmark.__init__`
 		"""
-		Benchmark.__init__(self, Lower, Upper)
+		Benchmark.__init__(self, Lower, Upper, **kwargs)
 
 	@staticmethod
 	def latex_code():
@@ -71,7 +72,7 @@ class Whitley(Benchmark):
 		"""Return benchmark evaluation function.
 
 		Returns:
-			Evaluation function.
+			Callable[[numpy.ndarray, Dict[str, Any]], float]: Evaluation function.
 		"""
 		return lambda x, **a: whitley_function(x)
 

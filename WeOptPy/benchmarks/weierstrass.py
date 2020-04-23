@@ -42,20 +42,26 @@ class Weierstrass(Benchmark):
 			$-100 \leq x_i \leq 100$
 
 	Reference:
-		 http://www5.zzu.edu.cn/__local/A/69/BC/D3B5DFE94CD2574B38AD7CD1D12_C802DAFE_BC0C0.pdf
-	"""
+		http://www5.zzu.edu.cn/__local/A/69/BC/D3B5DFE94CD2574B38AD7CD1D12_C802DAFE_BC0C0.pdf
 
+	Attributes:
+		Name (List[str]): Names for the benchmark.
+		a (float): Function parameter.
+		b (int): Function parameter.
+		k_max (int): Function parameter.
+	"""
 	Name: List[str] = ["Weierstrass"]
 
-	def __init__(self, Lower: Union[int, float, np.ndarray] = -100.0, Upper: Union[int, float, np.ndarray] = 100.0, a: float = 0.5, b: int = 3, k_max: int = 20) -> None:
+	def __init__(self, Lower=-100.0, Upper=100.0, a=0.5, b=3, k_max=20):
 		"""Initialize Weierstrass benchmark.
 
 		Args:
-			Lower: Lower bound of problem.
-			Upper: Upper bound of problem.
-			a: A value.
-			b: B value
-			k_max: Value.
+			Lower (Union[int, float, numpy.ndarray]): Lower bound of problem.
+			Upper (Union[int, float, numpy.ndarray]): Upper bound of problem.
+			a (Optional[float]): A value.
+			b (Optional[int]): B value
+			k_max (Optional[int]): Value.
+			kwargs (Dict[str, Any]): Additional arguments for the benchmark.
 		"""
 		self.a, self.b, self.k_max = a, b, k_max
 		Benchmark.__init__(self, Lower, Upper)
@@ -69,11 +75,11 @@ class Weierstrass(Benchmark):
 		"""
 		return r"""$$f(\textbf{x}) = \sum_{i=1}^D \left( \sum_{k=0}^{k_{max}} a^k \cos\left( 2 \pi b^k ( x_i + 0.5) \right) \right) - D \sum_{k=0}^{k_{max}} a^k \cos \left( 2 \pi b^k \cdot 0.5 \right)"""
 
-	def function(self) -> Callable[[np.ndarray, dict], float]:
+	def function(self):
 		"""Return benchmark evaluation function.
 
 		Returns:
-			Evaluation function.
+			Callable[[numpy.ndarray, Dict[str, Any]], float]: Evaluation function.
 		"""
 		return lambda sol, **a: weierstrass_function(sol)
 

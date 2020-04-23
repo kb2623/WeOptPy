@@ -49,15 +49,18 @@ class Tchebychev(Benchmark):
 
 	See Also:
 		* :class:`NiaPy.benchmarks.Benchmark`
-	"""
-	Name: List[str] = ["Tchebychev"]
 
-	def __init__(self, Lower: Union[int, float, np.ndarray] = -np.inf, Upper: Union[int, float, np.ndarray] = np.inf, **kwargs):
+	Attributes:
+		Name (List[str]): Names for the benchmark.
+	"""
+	Name = ["Tchebychev"]
+
+	def __init__(self, Lower=-np.inf, Upper=np.inf, **kwargs):
 		r"""Create Tchebychev benchmark.
 
 		Args:
-			Lower: Lower bound limits.
-			Upper: Upper bound limits.
+			Lower (Union[int, float, numpy.ndarray]): Lower bound limits.
+			Upper (Union[int, float, numpy.ndarray]): Upper bound limits.
 			kwargs (Dict[str, Any]): Additional arguments for the benchmark.
 
 		See Also:
@@ -74,11 +77,11 @@ class Tchebychev(Benchmark):
 		"""
 		return r"""TODO"""
 
-	def function(self) -> Callable[[np.ndarray, dict], float]:
+	def function(self):
 		r"""Return benchmark evaluation function.
 
 		Returns:
-			Evaluation function.
+			Callable[[numpy.ndarray, Dict[str, Any]], float]: Evaluation function.
 		"""
 		return lambda sol: Tchebyshev_function(sol)
 

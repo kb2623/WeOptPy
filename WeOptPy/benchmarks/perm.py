@@ -46,21 +46,26 @@ class Perm(Benchmark):
 
 	Reference:
 		https://www.sfu.ca/~ssurjano/perm0db.html
-	"""
-	Name: List[str] = ["Perm"]
 
-	def __init__(self, D: float = 10.0, beta: float = 0.5):
+	Attributes:
+		Name (List[str]): Names for the benchmark.
+		beta (float): Function parameter.
+	"""
+	Name = ["Perm"]
+
+	def __init__(self, D=10, beta=0.5, **kwargs):
 		"""Initialize Perm benchmark.
 
 		Args:
-			D: Dimension on problem. (default: {10.0})
-			beta: Beta parameter. (default: {0.5})
+			D (Optional[int]): Dimension on problem.
+			beta (Optional[float]): Beta parameter.
+			kwargs (Dict[str, Any]): Additional arguments for the benchmark.
 
 		See Also:
 			* :func:`NiaPy.benchmarks.Benchmark.__init__`
 		"""
+		Benchmark.__init__(self, -D, D, **kwargs)
 		self.beta = beta
-		Benchmark.__init__(self, -D, D)
 
 	@staticmethod
 	def latex_code():
@@ -71,11 +76,11 @@ class Perm(Benchmark):
 		"""
 		return r"""$f(\textbf{x}) = \sum_{i = 1}^D \left( \sum_{j = 1}^D (j - \beta) \left( x_j^i - \frac{1}{j^i} \right) \right)^2$"""
 
-	def function(self) -> Callable[[np.ndarray, dict], float]:
+	def function(self):
 		"""Return benchmark evaluation function.
 
 		Returns:
-			Evaluation function.
+			Callable[[numpy.ndarray, Dict[str, Any]], float]: Evaluation function.
 		"""
 		return lambda x, **a: perm_function(x, self.beta)
 

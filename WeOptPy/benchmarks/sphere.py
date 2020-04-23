@@ -51,21 +51,25 @@ class Sphere(Benchmark):
 
 	Reference paper:
 		Jamil, M., and Yang, X. S. (2013). A literature survey of benchmark functions for global optimisation problems. International Journal of Mathematical Modelling and Numerical Optimisation, 4(2), 150-194.
-	"""
-	Name: List[str] = ["Sphere"]
 
-	def __init__(self, Lower: Union[int, float, np.ndarray] = -5.12, Upper: Union[int, float, np.ndarray] = 5.12) -> None:
+	Attributes:
+		Name (List[str]): Names for the benchmark.
+	"""
+	Name = ["Sphere"]
+
+	def __init__(self, Lower=-5.12, Upper=5.12, **kwargs):
 		r"""Initialize Sphere benchmark.
 
 		Args:
-			Lower: Lower bound of problem.
-			Upper: Upper bound of problem.
+			Lower (Union[int, float, numpy.ndarray]): Lower bound of problem.
+			Upper (Union[int, float, numpy.ndarray]): Upper bound of problem.
+			kwargs (Dict[str, Any]): Additional arguments for the benchmark.
 
 		See Also:
 			* :func:`NiaPy.benchmarks.Benchmark.__init__`
 
 		"""
-		Benchmark.__init__(self, Lower, Upper)
+		Benchmark.__init__(self, Lower, Upper, **kwargs)
 
 	@staticmethod
 	def latex_code():
@@ -76,11 +80,11 @@ class Sphere(Benchmark):
 		"""
 		return r"""$f(\mathbf{x}) = \sum_{i=1}^D x_i^2$"""
 
-	def function(self) -> Callable[[np.ndarray, dict], float]:
+	def function(self):
 		"""Return benchmark evaluation function.
 
 		Returns:
-			Evaluation function.
+			Callable[[numpy.ndarray, Dict[str, Any]], float]: Evaluation function.
 		"""
 		return lambda x, **a: sphere_function(x)
 
@@ -120,20 +124,24 @@ class Sphere2(Benchmark):
 
 	Reference URL:
 		https://www.sfu.ca/~ssurjano/sumpow.html
-	"""
-	Name: List[str] = ["Sphere2"]
 
-	def __init__(self, Lower: Union[int, float, np.ndarray] = -1.0, Upper: Union[int, float, np.ndarray] = 1.0) -> None:
+	Attributes:
+		Name (List[str]): Names for the benchmark.
+	"""
+	Name = ["Sphere2"]
+
+	def __init__(self, Lower=-1.0, Upper=1.0, **kwargs):
 		r"""Initialize Sphere benchmark.
 
 		Args:
-			Lower: Lower bound of problem.
-			Upper: Upper bound of problem.
+			Lower (Union[int, float, numpy.ndarray]): Lower bound of problem.
+			Upper (Union[int, float, numpy.ndarray]): Upper bound of problem.
+			kwargs (Dict[str, Any]): Additional arguments for the benchmark.
 
 		See Also:
 			* :func:`NiaPy.benchmarks.Benchmark.__init__`
 		"""
-		Benchmark.__init__(self, Lower, Upper)
+		Benchmark.__init__(self, Lower, Upper, **kwargs)
 
 	@staticmethod
 	def latex_code():
@@ -144,11 +152,11 @@ class Sphere2(Benchmark):
 		"""
 		return r"""$f(\textbf{x}) = \sum_{i = 1}^D | x_i |^{i + 1}$"""
 
-	def function(self) -> Callable[[np.ndarray, dict], float]:
+	def function(self):
 		"""Return benchmark evaluation function.
 
 		Returns:
-			Evaluation function.
+			Callable[[numpy.ndarray, Dict[str, Any]], float]: Evaluation function.
 		"""
 		return lambda x, **a: sphere2_function(x)
 
@@ -185,20 +193,24 @@ class Sphere3(Benchmark):
 
 	Reference URL:
 		https://www.sfu.ca/~ssurjano/rothyp.html
-	"""
-	Name: List[str] = ["Sphere3"]
 
-	def __init__(self, Lower: Union[int, float, np.ndarray] = -65.536, Upper: Union[int, float, np.ndarray] = 65.536) -> None:
+	Attributes:
+		Name (List[str]): Names for the benchmark.
+	"""
+	Name = ["Sphere3"]
+
+	def __init__(self, Lower=-65.536, Upper=65.536, **kwargs):
 		r"""Initialize Sphere3 benchmark.
 
 		Args:
-			Lower: Lower bound of problem.
-			Upper: Upper bound of problem.
+			Lower (Union[int, float, numpy.ndarray]): Lower bound of problem.
+			Upper (Union[int, float, numpy.ndarray]): Upper bound of problem.
+			kwargs (Dict[str, Any]): Additional arguments for the benchmark.
 
 		See Also:
 			:func:`NiaPy.benchmarks.Benchmark.__init__`
 		"""
-		Benchmark.__init__(self, Lower, Upper)
+		Benchmark.__init__(self, Lower, Upper, **kwargs)
 
 	@staticmethod
 	def latex_code():
@@ -209,11 +221,11 @@ class Sphere3(Benchmark):
 		"""
 		return r"""$f(\textbf{x}) = \sum_{i = 1}^D \sum_{j = 1}^i x_j^2$"""
 
-	def function(self) -> Callable[[np.ndarray, dict], float]:
+	def function(self):
 		"""Return benchmark evaluation function.
 
 		Returns:
-			Evaluation function.
+			Callable[[numpy.ndarray, Dict[str, Any]], float]: Evaluation function.
 		"""
 		return lambda x, **a: sphere3_function(x)
 

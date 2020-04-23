@@ -45,24 +45,31 @@ class Easom(Benchmark):
 
 	Reference:
 		http://infinity77.net/global_optimization/test_functions_nd_E.html#go_benchmark.Easom
-	"""
-	Name: List[str] = ["Easom"]
 
-	def __init__(self, Lower: Union[int, float, np.ndarray] = -100.0, Upper: Union[int, float, np.ndarray] = 100.0, a: float = 20, b: float = 0.2, c: float = 2 * pi) -> None:
+	Attributes:
+		Name (List[str]): Names for the benchmark.
+		a (float): Function argument.
+		b (float): Function argument.
+		c (float): Function argument.
+	"""
+	Name = ["Easom"]
+
+	def __init__(self, Lower=-100.0, Upper=100.0, a=20, b=0.2, c=2 * pi, **kwargs):
 		r"""Initialize Easom benchmark.
 
 		Args:
-			Lower: Lower bound of problem.
-			Upper: Upper bound of problem.
-			a: Parameter of function.
-			b: Parameter of function.
-			c: Parameter of function.
+			Lower (Union[int, float, numpy.ndarray]): Lower bound of problem.
+			Upper (Union[int, float, numpy.ndarray]): Upper bound of problem.
+			a (float): Parameter of function.
+			b (float): Parameter of function.
+			c (float): Parameter of function.
+			kwargs (Dict[str, Any]): Additional arguments for benchmark.
 
 		See Also:
 			* :func:`NiaPy.benchmarks.Benchmark.__init__`
 		"""
 		self.a, self.b, self.c = a, b, c
-		Benchmark.__init__(self, Lower, Upper)
+		Benchmark.__init__(self, Lower, Upper, **kwargs)
 
 	@staticmethod
 	def latex_code():
@@ -73,11 +80,11 @@ class Easom(Benchmark):
 		"""
 		return r"""$f(\mathbf{x}) = a - \frac{a}{e^{b \sqrt{\frac{1}{N} \sum_{i=1}^N x_i^2}}} + e - e^{\frac{1}{N} \sum_{i=1}^N \cos(c x_i)}$"""
 
-	def function(self) -> Callable[[np.ndarray, dict], float]:
+	def function(self):
 		"""Return benchmark evaluation function.
 
 		Returns:
-			Evaluation function.
+			Callable[[numpy.ndarray, dict], float]: Evaluation function.
 		"""
 		return lambda x: easom_function(x, self.a, self.b, self.c)
 

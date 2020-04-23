@@ -1,6 +1,6 @@
 # encoding=utf8
 
-"""Implemenatation of Rastrigin benchmark."""
+"""Implementation of Rastrigin benchmark."""
 
 from WeOptPy.benchmarks.interfaces import Benchmark
 from .functions import rastrigin_function
@@ -43,20 +43,24 @@ class Rastrigin(Benchmark):
 
 	Reference:
 		https://www.sfu.ca/~ssurjano/rastr.html
-	"""
-	Name: List[str] = ['Rastrigin']
 
-	def __init__(self, Lower: Union[int, float, np.ndarray] = -5.12, Upper: Union[int, float, np.ndarray] = 5.12) -> None:
+	Attributes:
+		Name (List[str]): Names for the benchmark.
+	"""
+	Name = ['Rastrigin']
+
+	def __init__(self, Lower=-5.12, Upper=5.12, **kwargs):
 		"""Initialize Rastrigin benchmark.
 
 		Args:
-			Lower: Lower bound of problem.
-			Upper: Upper bound of problem.
+			Lower (Union[int, float, numpy.ndarray]): Lower bound of problem.
+			Upper (Union[int, float, numpy.ndarray]): Upper bound of problem.
+			kwargs (Dict[str, Any]): Additional arguments for the benchmark.
 
 		See Also:
 			* :func:`NiaPy.benchmarks.Benchmark.__init__`
 		"""
-		Benchmark.__init__(self, Lower, Upper)
+		Benchmark.__init__(self, Lower, Upper, **kwargs)
 
 	@staticmethod
 	def latex_code():
@@ -67,11 +71,11 @@ class Rastrigin(Benchmark):
 		"""
 		return r'''$f(\mathbf{x}) = 10D + \sum_{i=1}^D \left(x_i^2 -10\cos(2\pi x_i)\right)$'''
 
-	def function(self) -> Callable[[np.ndarray, dict], float]:
+	def function(self):
 		"""Return benchmark evaluation function.
 
 		Returns:
-			Evaluation function.
+			Callable[[numpy.ndarray, Dict[str, Any]], float]: Evaluation function.
 		"""
 		return lambda sol, **a: rastrigin_function(sol)
 

@@ -8,7 +8,10 @@ from WeOptPy.util.utility import (
 	wangRepair,
 	randRepair,
 	reflectRepair,
-	explore_package_for_classes
+	explore_package_for_classes,
+	groupdatabylabel,
+	clusters2labels,
+	classifie
 )
 from WeOptPy.util.argparser import (
 	MakeArgParser,
@@ -37,7 +40,10 @@ __all__ = [
 	'GenException',
 	'TimeException',
 	'RefException',
-	'explore_package_for_classes'
+	'explore_package_for_classes',
+	'groupdatabylabel',
+	'clusters2labels',
+	'classifie'
 ]
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

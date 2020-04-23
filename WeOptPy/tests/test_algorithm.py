@@ -15,10 +15,8 @@ from WeOptPy.algorithms.interfaces import (
 	Algorithm,
 	Individual
 )
-from NiaPy.benchmarks import (
-	Benchmark,
-	Sphere
-)
+from WeOptPy.benchmarks.interfaces import Benchmark
+from WeOptPy.benchmarks import Sphere
 
 logging.basicConfig()
 logger = logging.getLogger('NiaPy.test')

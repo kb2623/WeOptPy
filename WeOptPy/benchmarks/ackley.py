@@ -43,15 +43,18 @@ class Ackley(Benchmark):
 
 	Reference:
 		https://www.sfu.ca/~ssurjano/ackley.html
+
+	Attributes:
+		Name (List[str]): Names for the benchmark.
 	"""
-	Name: List[str] = ["Ackley"]
+	Name = ["Ackley"]
 
 	def __init__(self, Lower=-32.768, Upper=32.768, **kwargs):
 		"""Initialize Ackley benchmark.
 
 		Args:
-			Lower (Union[int, float, np.ndarray]): Lower bound of problem.
-			Upper (Union[int, float, np.ndarray]): Upper bound of problem.
+			Lower (Optional[Union[int, float, np.ndarray]]): Lower bound of problem.
+			Upper (Optional[Union[int, float, np.ndarray]]): Upper bound of problem.
 			kwargs (Dict[str, Any]): Additional arguments for the benchmark.
 
 		See Also:
@@ -72,7 +75,7 @@ class Ackley(Benchmark):
 		"""Return benchmark evaluation function.
 
 		Returns:
-			Callable[[np.ndarray, dict], float]: Evaluation function.
+			Callable[[np.ndarray, Dict[str, Any]], float]: Evaluation function.
 		"""
 		return lambda x, **a: ackley_function(x)
 

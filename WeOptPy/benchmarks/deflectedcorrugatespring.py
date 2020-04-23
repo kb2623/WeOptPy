@@ -55,16 +55,16 @@ class DeflectedCorrugatedSpring(Benchmark):
 		r"""Initialize HGBat benchmark.
 
 		Args:
-			Lower (Optional[Union[int, float, np.ndarray]]): Lower bound of problem.
-			alpha (Optional[Union[int, float, np.ndarray]]): Parameter for function and upper limit.
+			Lower (Optional[Union[int, float, numpy.ndarray]]): Lower bound of problem.
+			alpha (Optional[Union[int, float, numpy.ndarray]]): Parameter for function and upper limit.
 			K (Optional[float]): Parameter of function.
 			kwargs (Dict[str, Any]): Additional arguments for the benchmark.
 
 		See Also:
 			* :func:`NiaPy.benchmarks.Benchmark.__init__`
 		"""
-		self.alpha, self.K = alpha, K
 		Benchmark.__init__(self, Lower, 2 * alpha, **kwargs)
+		self.alpha, self.K = alpha, K
 
 	@staticmethod
 	def latex_code():

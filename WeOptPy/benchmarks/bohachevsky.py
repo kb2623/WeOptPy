@@ -53,8 +53,8 @@ class Bohachevsky(Benchmark):
 		r"""Initialize Bohachevsky benchmark.
 
 		Args:
-			Lower (Union[int, float, np.ndarray]): Lower bound of problem.
-			Upper (Union[int, float, np.ndarray]): Upper bound of problem.
+			Lower (Optional[Union[int, float, numpy.ndarray]]): Lower bound of problem.
+			Upper (Optional[Union[int, float, numpy.ndarray]]): Upper bound of problem.
 			kwargs (Dict[str, Any]): Additional arguments for the benchmark.
 
 		See Also:
@@ -71,11 +71,11 @@ class Bohachevsky(Benchmark):
 		"""
 		return r"""f(\mathbf{x}) = \sum_{i=1}^{N-1} x_i^2 + 2 x_{i+1}^2 - 0.3 \cos(3 \pi x_i) - 0.4 \cos(4 \pi x_{i+1}) + 0.7"""
 
-	def function(self) -> :
+	def function(self):
 		"""Return benchmark evaluation function.
 
 		Returns:
-			Callable[[np.ndarray, Dict[str, Any]], float]: Evaluation function.
+			Callable[[numpy.ndarray, Dict[str, Any]], float]: Evaluation function.
 		"""
 		return lambda x, **a: bohachevsky_function(x)
 

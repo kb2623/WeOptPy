@@ -45,22 +45,28 @@ class Michalewichz(Benchmark):
 
 	Reference URL:
 		https://www.sfu.ca/~ssurjano/michal.html
-	"""
-	Name: List[str] = ["Michalewichz"]
 
-	def __init__(self, Lower: Union[int, float, np.ndarray] = 0.0, Upper: Union[int, float, np.ndarray] = np.pi, m: float = 10) -> None:
+	Attributes:
+		Name (List[str]): Names for the benchmark.
+		m (float): Function parameter.
+	"""
+	Name = ["Michalewichz"]
+	m = 10.0
+
+	def __init__(self, Lower=0.0, Upper=np.pi, m=10.0, **kwargs):
 		r"""Initialize Michalewichz benchmark.
 
 		Args:
-			Lower: Lower bound of problem.
-			Upper: Upper bound of problem.
-			m: m attribute.
+			Lower (Union[int, float, numpy.ndarray]): Lower bound of problem.
+			Upper (Union[int, float, numpy.ndarray]): Upper bound of problem.
+			m (float): m attribute.
+			kwargs (Dict[str, Any]): Additional arguments for the benchmark.
 
 		See Also:
 			:func:`NiaPy.benchmarks.Benchmark.__init__`
 		"""
+		Benchmark.__init__(self, Lower, Upper, **kwargs)
 		self.m = m
-		Benchmark.__init__(self, Lower, Upper)
 
 	@staticmethod
 	def latex_code():
@@ -71,11 +77,11 @@ class Michalewichz(Benchmark):
 		"""
 		return r"""$f(\textbf{x}) = - \sum_{i = 1}^{D} \sin(x_i) \sin\left( \frac{ix_i^2}{\pi} \right)^{2m}$"""
 
-	def function(self) -> Callable[[np.ndarray, dict], str]:
+	def function(self):
 		"""Return benchmark evaluation function.
 
 		Returns:
-			Evaluation function.
+			Callable[[numpy.ndarray, Dict[str, Any]], float]: Evaluation function.
 		"""
 		return lambda x, **a: michalewichz_function(x, self.m)
 

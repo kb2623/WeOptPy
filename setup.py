@@ -17,24 +17,26 @@ import sys
 import logging
 
 import setuptools
+from Cython.Build import cythonize
+import numpy
 
 
 def build_extensions():
 	e = list()
 	e.append(setuptools.Extension(
 		name='WeOptPy.benchmarks.functions',
-		sources=['functions/bfuncs.c'],
-		include_dirs=['functions'],
+		sources=['functions/benchmark_functions.pyx', 'functions/bfuncs.c'],
+		include_dirs=[numpy.get_include(), 'functions'],
 		language='c',
-		extra_compile_args=['-std=c11', '-O3', '-shared', '-fPIE'],
-		extra_link_args=['-lm', '-O3', '-shared', '-fPIE']
+		extra_compile_args=['-std=c11', '-O3', '-shared'],
+		extra_link_args=['-lm', '-O3', '-shared']
 	))
-	return e
+	return cythonize(e)
 
 
-def check_python_version(min_python_verions):
+def check_python_version(min_python_version):
 	"""Exit when the Python version is too low."""
-	if sys.version < min_python_verions: sys.exit("Python {0}+ is required.".format(min_python_verions))
+	if sys.version < min_python_version: sys.exit("Python {0}+ is required." % min_python_version)
 
 
 def read_package_variable(key, package_name='WeOptPy', filename='__init__.py'):

@@ -43,21 +43,24 @@ class Infinity(Benchmark):
 
 	Reference:
 		http://infinity77.net/global_optimization/test_functions_nd_I.html#go_benchmark.Infinity
-	"""
-	Name: List[str] = ["Infinity"]
 
-	def __init__(self, Lower: Union[int, float, np.ndarray] = -1.0, Upper: Union[int, float, np.ndarray] = 1.0, **kwargs):
+	Attributes:
+		Name (List[str]): Names for the benchmark.
+	"""
+	Name = ["Infinity"]
+
+	def __init__(self, Lower=-1.0, Upper=1.0, **kwargs):
 		r"""Initialize Infinity benchmark.
 
 		Args:
-			Lower: Lower bound of problem.
-			Upper: Upper bound of problem.
+			Lower (Union[int, float, numpy.ndarray]): Lower bound of problem.
+			Upper (Union[int, float, numpy.ndarray]): Upper bound of problem.
 			kwargs (Dict[str, Any]): Additional arguments for the benchmark.
 
 		See Also:
 			:func:`NiaPy.benchmarks.Benchmark.__init__`
 		"""
-		Benchmark.__init__(self, Lower, Upper)
+		Benchmark.__init__(self, Lower, Upper, **kwargs)
 
 	@staticmethod
 	def latex_code():
@@ -68,11 +71,11 @@ class Infinity(Benchmark):
 		"""
 		return r"""$f(\textbf{x}) = \sum_{i = 1}^D x_i^6 \left( \sin \left( \frac{1}{x_i} \right) + 2 \right)$"""
 
-	def function(self) -> Callable[[np.ndarray, dict], float]:
+	def function(self):
 		"""Return benchmark evaluation function.
 
 		Returns:
-			Evaluation function.
+			Callable[[numpy.ndarray, Dict[str, Any]], float]: Evaluation function.
 		"""
 		return lambda x: infinity_function(x)
 

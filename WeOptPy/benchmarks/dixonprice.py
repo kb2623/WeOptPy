@@ -46,17 +46,18 @@ class DixonPrice(Benchmark):
 	"""
 	Name: List[str] = ["DixonPrice"]
 
-	def __init__(self, Lower: Union[int, float, np.ndarray] = -10.0, Upper: Union[int, float, np.ndarray] = 10) -> None:
+	def __init__(self, Lower=-10.0, Upper=10, **kwargs):
 		r"""Initialize of Dixon Price benchmark.
 
 		Args:
-			Lower: Lower bound of problem.
-			Upper: Upper bound of problem.
+			Lower (Union[int, float, numpy.ndarray]): Lower bound of problem.
+			Upper (Union[int, float, numpy.ndarray]): Upper bound of problem.
+			kwargs (Dict[str, Any]): Additional arguments for the benchmark.
 
 		See Also:
 			* :func:`NiaPy.benchmarks.Benchmark.__init__`
 		"""
-		Benchmark.__init__(self, Lower, Upper)
+		Benchmark.__init__(self, Lower, Upper, **kwargs)
 
 	@staticmethod
 	def latex_code():
@@ -67,11 +68,11 @@ class DixonPrice(Benchmark):
 		"""
 		return r"""$f(\textbf{x}) = (x_1 - 1)^2 + \sum_{i = 2}^D i (2x_i^2 - x_{i - 1})^2$"""
 
-	def function(self) -> Callable[[np.ndarray, dict], float]:
+	def function(self):
 		"""Return benchmark evaluation function.
 
 		Returns:
-			Callable[[numpy.ndarray], float] Evaluation function.
+			Callable[[numpy.ndarray, Dict[str, Any]], float] Evaluation function.
 		"""
 		return lambda sol, **a: dixon_price_function(sol)
 

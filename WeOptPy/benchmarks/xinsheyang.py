@@ -2,6 +2,8 @@
 
 """Implementation of Xin She Yang benchmark."""
 
+import numpy as np
+
 from WeOptPy.benchmarks.interfaces import Benchmark
 from .functions import (
 	xin_she_yang_01_function,
@@ -64,20 +66,20 @@ class XinSheYang01(Benchmark):
 	Name = ["XinSheYang01"]
 	epsilon = None
 
-	def __init__(self, Lower: Union[int, float, np.ndarray] = -5, Upper: Union[int, float, np.ndarray] = 5, epsilon=None, **kwargs):
+	def __init__(self, Lower=-5, Upper=5, epsilon=None, **kwargs):
 		r"""Initialize XinSheYang02 benchmark.
 
 		Args:
-			Lower: Lower bound of problem.
-			Upper: Upper bound of problem.
+			Lower (Union[int, float, numpy.ndarray]): Lower bound of problem.
+			Upper (Union[int, float, numpy.ndarray]): Upper bound of problem.
 			epsilon (Optional[float]): Some value.
 			kwargs (Dict[str, Any]): Additional arguments for the benchmark.
 
 		See Also:
 			* :func:`NiaPy.benchmarks.Benchmark.__init__`
 		"""
-		self.epsilon = epsilon
 		Benchmark.__init__(self, Lower, Upper, **kwargs)
+		self.epsilon = epsilon
 
 	@staticmethod
 	def latex_code():
@@ -92,7 +94,7 @@ class XinSheYang01(Benchmark):
 		"""Return benchmark evaluation function.
 
 		Returns:
-			Evaluation function.
+			Callable[[numpy.ndarray, Dict[str, Any]], float]: Evaluation function.
 		"""
 		return lambda x, **a: xin_she_yang_01_function(x, self.epsilon)
 
@@ -138,12 +140,12 @@ class XinSheYang02(Benchmark):
 	"""
 	Name = ["XinSheYang02"]
 
-	def __init__(self, Lower: Union[float, np.ndarray] = -2 * np.pi, Upper: Union[float, np.ndarray] = 2 * np.pi, **kwargs):
+	def __init__(self, Lower=-2 * np.pi, Upper=2 * np.pi, **kwargs):
 		r"""Initialize XinSheYang02 benchmark.
 
 		Args:
-			Lower: Lower bound of problem.
-			Upper: Upper bound of problem.
+			Lower (Union[int, float, numpy.ndarray]): Lower bound of problem.
+			Upper (Union[int, float, numpy.ndarray]): Upper bound of problem.
 			kwargs (Dict[str, Any]): Additional arguments for the benchmark.
 
 		See Also:
@@ -164,7 +166,7 @@ class XinSheYang02(Benchmark):
 		"""Return benchmark evaluation function.
 
 		Returns:
-			Evaluation function.
+			Callable[[numpy.ndarray, Dict[str, Any]], float]: Evaluation function.
 		"""
 		return lambda x, **a: xin_she_yang_02_function(x)
 
@@ -214,12 +216,12 @@ class XinSheYang03(Benchmark):
 	beta = 15
 	m = 3
 
-	def __init__(self, Lower: Union[int, float, np.ndarray] = -20.0, Upper: Union[int, float, np.ndarray] = 20.0, beta=15, m=3.0, **kwargs):
+	def __init__(self, Lower=-20.0, Upper=20.0, beta=15, m=3.0, **kwargs):
 		r"""Initialize XinSheYang03 benchmark.
 
 		Args:
-			Lower: Lower bound of problem.
-			Upper: Upper bound of problem.
+			Lower (Union[int, float, numpy.ndarray]): Lower bound of problem.
+			Upper (Union[int, float, numpy.ndarray]): Upper bound of problem.
 			beta (Optional[float]): Parameter of function.
 			m (Optional[float]): Parameter of function.
 			kwargs (Dict[str, Any]): Additional arguments for the benchmark.
@@ -227,8 +229,8 @@ class XinSheYang03(Benchmark):
 		See Also:
 			* :func:`NiaPy.benchmarks.Benchmark.__init__`
 		"""
-		XinSheYang03.beta, XinSheYang03.m = beta, m
 		Benchmark.__init__(self, Lower, Upper, **kwargs)
+		self.beta, self.m = beta, m
 
 	@staticmethod
 	def latex_code():
@@ -243,7 +245,7 @@ class XinSheYang03(Benchmark):
 		"""Return benchmark evaluation function.
 
 		Returns:
-			Evaluation function.
+			Callable[[numpy.ndarray, Dict[str, Any]], float]: Evaluation function.
 		"""
 		return lambda x, **a: xin_she_yang_03_function(x, self.beta, self.m)
 
@@ -287,14 +289,14 @@ class XinSheYang04(Benchmark):
 	Attributes:
 		Name (List[str]): Names for the benchmark.
 	"""
-	Name: List[str] = ["XinSheYang04"]
+	Name = ["XinSheYang04"]
 
 	def __init__(self, Lower=-10.0, Upper=10.0, **kwargs):
 		r"""Initialize XinSheYang04 benchmark.
 
 		Args:
-			Lower (Union[int, float, np.ndarray]): Lower bound of problem.
-			Upper (Union[int, float, np.ndarray]): Upper bound of problem.
+			Lower (Union[int, float, numpy.ndarray]): Lower bound of problem.
+			Upper (Union[int, float, numpy.ndarray]): Upper bound of problem.
 			kwargs (Dict[str, Any]): Additional arguments for the benchmark.
 
 		See Also:
@@ -315,7 +317,7 @@ class XinSheYang04(Benchmark):
 		"""Return benchmark evaluation function.
 
 		Returns:
-			Callable[[np.ndarray, Dict[str, Any]], float]: Evaluation function.
+			Callable[[numpy.ndarray, Dict[str, Any]], float]: Evaluation function.
 		"""
 		return lambda x, **a: xin_she_yang_04_function(x)
 

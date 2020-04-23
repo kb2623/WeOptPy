@@ -59,8 +59,8 @@ class Alpine1(Benchmark):
 		r"""Initialize of Alpine1 benchmark.
 
 		Args:
-			Lower (Union[int, float, np.ndarray]): Lower bound of problem.
-			Upper (Union[int, float, np.ndarray]): Upper bound of problem.
+			Lower (Optional[Union[int, float, np.ndarray]]): Lower bound of problem.
+			Upper (Optional[Union[int, float, np.ndarray]]): Upper bound of problem.
 			kwargs (Dict[str, Any]): Additional arguments for the benchmark.
 
 		See Also:
@@ -81,7 +81,7 @@ class Alpine1(Benchmark):
 		"""Return benchmark evaluation function.
 
 		Returns:
-			Callable[[np.ndarray, dict], float]: Evaluation function.
+			Callable[[np.ndarray, Dict[str, Any]], float]: Evaluation function.
 		"""
 		return lambda x, **a: alpine1_function(x)
 
@@ -153,7 +153,7 @@ class Alpine2(Benchmark):
 		"""Return benchmark evaluation function.
 
 		Returns:
-			Callable[[np.ndarray, dict], float]: Evaluation function.
+			Callable[[np.ndarray, Dict[str, Any]], float]: Evaluation function.
 		"""
 		return lambda x, **a: alpine2_function(x)
 
