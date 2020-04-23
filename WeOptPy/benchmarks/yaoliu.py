@@ -44,7 +44,7 @@ class YaoLiu09(Benchmark):
 	Reference:
 		http://infinity77.net/global_optimization/test_functions_nd_Y.html#go_benchmark.YaoLiu09
 	"""
-	Name: List[str] = ["YaoLiu09"]
+	Name = ["YaoLiu09"]
 
 	def __init__(self, Lower=-5.12, Upper=5.12, **kwargs):
 		r"""Initialize YaoLiu09 benchmark.

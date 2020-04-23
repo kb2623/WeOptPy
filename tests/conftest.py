@@ -10,6 +10,5 @@ from __future__ import (
     generators
 )
 
-from NiaPy.tests.conftest import pytest_configure
-
+from WeOptPy.tests.conftest import pytest_configure
 __all__ = ["pytest_configure"]

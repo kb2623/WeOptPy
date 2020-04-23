@@ -2,6 +2,8 @@
 
 """Implementation of Hilbert benchmark."""
 
+import numpy as np
+
 from WeOptPy.benchmarks.interfaces import Benchmark
 from .functions import Hilbert_function
 

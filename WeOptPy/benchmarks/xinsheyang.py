@@ -90,7 +90,7 @@ class XinSheYang01(Benchmark):
 		"""
 		return r"""$f(\mathbf{x}) = \sum_{i=1}^N \epsilon_i | x_i |^i$"""
 
-	def function(self) -> Callable[[np.ndarray, dict], float]:
+	def function(self):
 		"""Return benchmark evaluation function.
 
 		Returns:
@@ -162,7 +162,7 @@ class XinSheYang02(Benchmark):
 		"""
 		return r"""$f(\mathbf{x}) = \frac{\sum_{i=1}^N | x_i |}{e^{\sum_{i=1}^N \sin(x_i^2)}}$"""
 
-	def function(self) -> Callable[[np.ndarray, dict], float]:
+	def function(self):
 		"""Return benchmark evaluation function.
 
 		Returns:
@@ -241,7 +241,7 @@ class XinSheYang03(Benchmark):
 		"""
 		return r"""$f(\mathbf{x}) = e^{\sum_{i=1}^N (x_i / \beta)^{2m}} - 2 e^{-\sum_{i=1}^N x_i^2} \prod_{i=1}^N \cos(x_i)^2$"""
 
-	def function(self) -> Callable[[np.ndarray, Dict[str, Any]], float]:
+	def function(self):
 		"""Return benchmark evaluation function.
 
 		Returns:

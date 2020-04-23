@@ -2,6 +2,8 @@
 
 """Implementation of Michalewichz"s benchmark."""
 
+import numpy as np
+
 from WeOptPy.benchmarks.interfaces import Benchmark
 from .functions import michalewichz_function
 

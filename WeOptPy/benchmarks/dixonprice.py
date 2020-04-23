@@ -44,7 +44,7 @@ class DixonPrice(Benchmark):
 	Reference:
 		https://www.sfu.ca/~ssurjano/dixonpr.html
 	"""
-	Name: List[str] = ["DixonPrice"]
+	Name = ["DixonPrice"]
 
 	def __init__(self, Lower=-10.0, Upper=10, **kwargs):
 		r"""Initialize of Dixon Price benchmark.

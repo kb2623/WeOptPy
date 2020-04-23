@@ -68,7 +68,7 @@ class Whitley(Benchmark):
 		"""
 		return r'''$f(\mathbf{x}) = \sum_{i=1}^D \sum_{j=1}^D \left(\frac{(100(x_i^2-x_j)^2 + (1-x_j)^2)^2}{4000} - \cos(100(x_i^2-x_j)^2 + (1-x_j)^2)+1\right)$'''
 
-	def function(self) -> Callable[[np.ndarray, dict], float]:
+	def function(self):
 		"""Return benchmark evaluation function.
 
 		Returns:

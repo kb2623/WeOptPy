@@ -2,6 +2,8 @@
 
 """Implementation of Tchebyshev benchmark."""
 
+import numpy as np
+
 from WeOptPy.benchmarks.interfaces import Benchmark
 from .functions import Tchebyshev_function
 

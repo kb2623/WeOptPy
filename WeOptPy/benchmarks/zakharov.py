@@ -70,7 +70,7 @@ class Zakharov(Benchmark):
 		"""
 		return r"""$f(\textbf{x}) = \sum_{i = 1}^D x_i^2 + \left( \sum_{i = 1}^D 0.5 i x_i \right)^2 + \left( \sum_{i = 1}^D 0.5 i x_i \right)^4$"""
 
-	def function(self) -> Callable[[np.ndarray, dict], float]:
+	def function(self):
 		"""Return benchmark evaluation function.
 
 		Returns:

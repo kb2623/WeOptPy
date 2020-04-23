@@ -1,11 +1,8 @@
 # encoding=utf8
 
 """Implementation of Schumer Steiglitz benchmark."""
-from typing import Union, Callable, List
 
-import numpy as np
-
-from NiaPy.benchmarks.benchmark import Benchmark
+from WeOptPy.benchmarks.interfaces import Benchmark
 from .functions import schumer_steiglitz_function
 
 __all__ = ["SchumerSteiglitz"]

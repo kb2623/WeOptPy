@@ -2,6 +2,8 @@
 
 """Implementation of Levy benchmark."""
 
+import numpy as np
+
 from WeOptPy.benchmarks.interfaces import Benchmark
 from .functions import levy_function
 

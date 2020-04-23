@@ -50,7 +50,7 @@ class Weierstrass(Benchmark):
 		b (int): Function parameter.
 		k_max (int): Function parameter.
 	"""
-	Name: List[str] = ["Weierstrass"]
+	Name = ["Weierstrass"]
 
 	def __init__(self, Lower=-100.0, Upper=100.0, a=0.5, b=3, k_max=20):
 		"""Initialize Weierstrass benchmark.

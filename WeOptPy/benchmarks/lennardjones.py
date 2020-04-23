@@ -2,6 +2,8 @@
 
 """Implementation of Lennard-Jones Minimum Energy Cluster benchmark."""
 
+import numpy as np
+
 from WeOptPy.benchmarks.interfaces import Benchmark
 from .functions import Lennard_Jones_function
 

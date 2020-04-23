@@ -53,7 +53,7 @@ class Griewank(Benchmark):
 	Attributes:
 		Name (List[str]): Names for the benchmark.
 	"""
-	Name: List[str] = ["Griewank"]
+	Name = ["Griewank"]
 
 	def __init__(self, Lower=-100.0, Upper=100.0, **kwargs):
 		"""Initialize Griewank benchmark.
