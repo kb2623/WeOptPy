@@ -28,7 +28,7 @@ class ThrowingTask(StoppingTask):
 		"""
 		StoppingTask.__init__(self, **kwargs)
 
-	def stopCondE(self):
+	def stop_cond_e(self):
 		r"""Throw exception for the given stopping condition.
 
 		Raises:
@@ -46,11 +46,11 @@ class ThrowingTask(StoppingTask):
 		if self.refValue >= self.x_f:
 			raise RefException()
 
-	def eval(self, A):
+	def eval(self, a):
 		r"""Evaluate solution.
 
 		Args:
-			A (numpy.ndarray): Solution to evaluate.
+			a (numpy.ndarray): Solution to evaluate.
 
 		Returns:
 			float: Function/fitness values of solution.
@@ -59,7 +59,7 @@ class ThrowingTask(StoppingTask):
 			* :func:`WeOptPy.util.ThrowingTask.stopCondE`
 			* :func:`WeOptPy.util.StoppingTask.eval`
 		"""
-		self.stopCondE()
-		return StoppingTask.eval(self, A)
+		self.stop_cond_e()
+		return StoppingTask.eval(self, a)
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

@@ -38,7 +38,7 @@ class NelderMeadMethod(Algorithm):
 	Name = ['NelderMeadMethod', 'NMM']
 
 	@staticmethod
-	def algorithmInfo():
+	def algorithm_info():
 		r"""Get basic information of algorithm.
 
 		Returns:
@@ -50,7 +50,7 @@ class NelderMeadMethod(Algorithm):
 		return r"""No info"""
 
 	@staticmethod
-	def typeParameters():
+	def type_parameters():
 		r"""Get dictionary with function for testing correctness of parameters.
 
 		Returns:
@@ -63,7 +63,7 @@ class NelderMeadMethod(Algorithm):
 		See Also
 			* :func:`NiaPy.algorithms.Algorithm.typeParameters`
 		"""
-		d = Algorithm.typeParameters()
+		d = Algorithm.type_parameters()
 		d.update({
 			'alpha': lambda x: isinstance(x, (int, float)) and x >= 0,
 			'gamma': lambda x: isinstance(x, (int, float)) and x >= 0,
@@ -72,11 +72,11 @@ class NelderMeadMethod(Algorithm):
 		})
 		return d
 
-	def setParameters(self, NP=None, alpha=0.1, gamma=0.3, rho=-0.2, sigma=-0.2, **ukwargs):
+	def set_parameters(self, n=None, alpha=0.1, gamma=0.3, rho=-0.2, sigma=-0.2, **ukwargs):
 		r"""Set the arguments of an algorithm.
 
 		Arguments:
-			NP (Optional[int]): Number of individuals.
+			n (Optional[int]): Number of individuals.
 			alpha (Optional[float]): Reflection coefficient parameter
 			gamma (Optional[float]): Expansion coefficient parameter
 			rho (Optional[float]): Contraction coefficient parameter
@@ -85,11 +85,11 @@ class NelderMeadMethod(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.setParameters`
 		"""
-		Algorithm.setParameters(self, NP=NP, InitPopFunc=ukwargs.pop('InitPopFunc', self.initPop), **ukwargs)
+		Algorithm.set_parameters(self, n=n, init_pop_func=ukwargs.pop('init_pop_func', self.initPop), **ukwargs)
 		self.alpha, self.gamma, self.rho, self.sigma = alpha, gamma, rho, sigma
 
-	def getParameters(self):
-		d = Algorithm.getParameters(self)
+	def get_parameters(self):
+		d = Algorithm.get_parameters(self)
 		d.update({
 			'alpha': self.alpha,
 			'gamma': self.gamma,
@@ -151,7 +151,7 @@ class NelderMeadMethod(Algorithm):
 		X[1:], X_f[1:] = Xn, Xn_f
 		return X, X_f
 
-	def runIteration(self, task, X, X_f, xb, fxb, **dparams):
+	def run_iteration(self, task, X, X_f, xb, fxb, **dparams):
 		r"""Core iteration function of NelderMeadMethod algorithm.
 
 		Args:
@@ -173,7 +173,7 @@ class NelderMeadMethod(Algorithm):
 		inds = np.argsort(X_f)
 		X, X_f = X[inds], X_f[inds]
 		X, X_f = self.method(X, X_f, task)
-		xb, fxb = self.getBest(X, X_f, xb, fxb)
+		xb, fxb = self.get_best(X, X_f, xb, fxb)
 		return X, X_f, xb, fxb, {}
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

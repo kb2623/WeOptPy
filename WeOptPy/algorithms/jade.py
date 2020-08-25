@@ -82,7 +82,7 @@ class AdaptiveArchiveDifferentialEvolution(DifferentialEvolution):
 	Name = ['AdaptiveArchiveDifferentialEvolution', 'JADE']
 
 	@staticmethod
-	def algorithmInfo():
+	def algorithm_info():
 		r"""Get algorithm information.
 
 		Returns:
@@ -93,16 +93,16 @@ class AdaptiveArchiveDifferentialEvolution(DifferentialEvolution):
 		"""
 		return r"""Zhang, Jingqiao, and Arthur C. Sanderson. "JADE: adaptive differential evolution with optional external archive." IEEE Transactions on evolutionary computation 13.5 (2009): 945-958."""
 
-	def setParameters(self, **kwargs):
-		DifferentialEvolution.setParameters(self, **kwargs)
+	def set_parameters(self, **kwargs):
+		DifferentialEvolution.set_parameters(self, **kwargs)
 	# TODO add parameters of the algorithm
 
-	def getParameters(self):
-		d = DifferentialEvolution.getParameters(self)
+	def get_parameters(self):
+		d = DifferentialEvolution.get_parameters(self)
 		# TODO add paramters values
 		return d
 
-	def runIteration(self, task, pop, fpop, xb, fxb, **dparams):
+	def run_iteration(self, task, pop, fpop, xb, fxb, **dparams):
 		# TODO Implement algorithm
 		return pop, fpop, xb, fxb, dparams
 

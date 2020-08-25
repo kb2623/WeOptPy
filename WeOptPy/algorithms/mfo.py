@@ -34,7 +34,7 @@ class MothFlameOptimizer(Algorithm):
 	Name = ['MothFlameOptimizer', 'MFO']
 
 	@staticmethod
-	def algorithmInfo():
+	def algorithm_info():
 		r"""Get basic information of algorithm.
 
 		Returns:
@@ -46,7 +46,7 @@ class MothFlameOptimizer(Algorithm):
 		return r"""Mirjalili, Seyedali. "Moth-flame optimization algorithm: A novel nature-inspired heuristic paradigm." Knowledge-Based Systems 89 (2015): 228-249."""
 
 	@staticmethod
-	def typeParameters():
+	def type_parameters():
 		r"""Get dictionary with functions for checking values of parameters.
 
 		Returns:
@@ -55,20 +55,20 @@ class MothFlameOptimizer(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.algorithm.Algorithm.typeParameters`
 		"""
-		return Algorithm.typeParameters()
+		return Algorithm.type_parameters()
 
-	def setParameters(self, NP=25, **ukwargs):
+	def set_parameters(self, n=25, **ukwargs):
 		r"""Set the algorithm parameters.
 
 		Arguments:
-			NP (int): Number of individuals in population
+			n (int): Number of individuals in population
 
 		See Also:
 			* :func:`NiaPy.algorithms.algorithm.Algorithm.setParameters`
 		"""
-		Algorithm.setParameters(self, NP=NP, **ukwargs)
+		Algorithm.set_parameters(self, n=n, **ukwargs)
 
-	def initPopulation(self, task):
+	def init_population(self, task):
 		r"""Initialize starting population.
 
 		Args:
@@ -87,7 +87,7 @@ class MothFlameOptimizer(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.algorithm.Algorithm.initPopulation`
 		"""
-		moth_pos, moth_fitness, d = Algorithm.initPopulation(self, task)
+		moth_pos, moth_fitness, d = Algorithm.init_population(self, task)
 		# Create best population
 		indexes = np.argsort(moth_fitness)
 		best_flames, best_flame_fitness = moth_pos[indexes], moth_fitness[indexes]
@@ -96,7 +96,7 @@ class MothFlameOptimizer(Algorithm):
 		d.update({'best_flames': best_flames, 'best_flame_fitness': best_flame_fitness, 'previous_population': previous_population, 'previous_fitness': previous_fitness})
 		return moth_pos, moth_fitness, d
 
-	def runIteration(self, task, moth_pos, moth_fitness, xb, fxb, best_flames, best_flame_fitness, previous_population, previous_fitness, **dparams):
+	def run_iteration(self, task, moth_pos, moth_fitness, xb, fxb, best_flames, best_flame_fitness, previous_population, previous_fitness, **dparams):
 		r"""Core function of MothFlameOptimizer algorithm.
 
 		Args:
@@ -137,7 +137,7 @@ class MothFlameOptimizer(Algorithm):
 				else: moth_pos[i, j] = distance_to_flame * np.exp(b * t) * np.cos(2 * np.pi * t) + sorted_population[flame_no, j]
 		moth_pos = np.apply_along_axis(task.repair, 1, moth_pos, self.Rand)
 		moth_fitness = np.apply_along_axis(task.eval, 1, moth_pos)
-		xb, fxb = self.getBest(moth_pos, moth_fitness, xb, fxb)
+		xb, fxb = self.get_best(moth_pos, moth_fitness, xb, fxb)
 		double_population, double_fitness = np.concatenate((previous_population, best_flames), axis=0), np.concatenate((previous_fitness, best_flame_fitness), axis=0)
 		indexes = np.argsort(double_fitness)
 		double_sorted_fitness, double_sorted_population = double_fitness[indexes], double_population[indexes]

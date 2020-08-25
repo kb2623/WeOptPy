@@ -15,7 +15,7 @@ from numpy.linalg import (
 from WeOptPy.algorithms.interfaces import (
 	Algorithm,
 	Individual,
-	defaultIndividualInit
+	default_individual_init
 )
 from WeOptPy.util.utility import objects2array
 
@@ -80,7 +80,7 @@ class EvolutionStrategy1p1(Algorithm):
 	Name = ['EvolutionStrategy1p1', 'EvolutionStrategy(1+1)', 'ES(1+1)']
 
 	@staticmethod
-	def typeParameters():
+	def type_parameters():
 		r"""Get dictionary with functions for checking values of parameters.
 
 		Returns:
@@ -99,7 +99,7 @@ class EvolutionStrategy1p1(Algorithm):
 			'epsilon': lambda x: isinstance(x, float) and 0 < x < 1
 		}
 
-	def setParameters(self, mu=1, k=10, c_a=1.1, c_r=0.5, epsilon=1e-20, **ukwargs):
+	def set_parameters(self, mu=1, k=10, c_a=1.1, c_r=0.5, epsilon=1e-20, **ukwargs):
 		r"""Set the arguments of an algorithm.
 
 		Args:
@@ -111,7 +111,7 @@ class EvolutionStrategy1p1(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.setParameters`
 		"""
-		Algorithm.setParameters(self, NP=mu, itype=ukwargs.pop('itype', IndividualES), **ukwargs)
+		Algorithm.set_parameters(self, n=mu, itype=ukwargs.pop('itype', IndividualES), **ukwargs)
 		self.mu, self.k, self.c_a, self.c_r, self.epsilon = mu, k, c_a, c_r, epsilon
 
 	def mutate(self, x, rho):
@@ -141,7 +141,7 @@ class EvolutionStrategy1p1(Algorithm):
 		elif phi > 0.2: return self.c_a * rho if rho > self.epsilon else 1
 		else: return rho
 
-	def initPopulation(self, task):
+	def init_population(self, task):
 		r"""Initialize starting individual.
 
 		Args:
@@ -157,7 +157,7 @@ class EvolutionStrategy1p1(Algorithm):
 		c, ki = IndividualES(task=task, rnd=self.Rand), 0
 		return c, c.f, {'ki': ki}
 
-	def runIteration(self, task, c, fpop, xb, fxb, ki, **dparams):
+	def run_iteration(self, task, c, fpop, xb, fxb, ki, **dparams):
 		r"""Core function of EvolutionStrategy(1+1) algorithm.
 
 		Args:
@@ -184,7 +184,7 @@ class EvolutionStrategy1p1(Algorithm):
 		ib = np.argmin(cn_f)
 		if cn_f[ib] < c.f:
 			c.x, c.f, ki = cn[ib], cn_f[ib], ki + 1
-			if cn_f[ib] < fxb: xb, fxb = self.getBest(cn[ib], cn_f[ib], xb, fxb)
+			if cn_f[ib] < fxb: xb, fxb = self.get_best(cn[ib], cn_f[ib], xb, fxb)
 		return c, c.f, xb, fxb, {'ki': ki}
 
 
@@ -215,7 +215,7 @@ class EvolutionStrategyMp1(EvolutionStrategy1p1):
 	"""
 	Name = ['EvolutionStrategyMp1', 'EvolutionStrategy(mu+1)', 'ES(m+1)']
 
-	def setParameters(self, **kwargs):
+	def set_parameters(self, **kwargs):
 		r"""Set core parameters of EvolutionStrategy(mu+1) algorithm.
 
 		Args:
@@ -225,7 +225,7 @@ class EvolutionStrategyMp1(EvolutionStrategy1p1):
 			* :func:`NiaPy.algorithms.basic.EvolutionStrategy1p1.setParameters`
 		"""
 		mu = kwargs.pop('mu', 40)
-		EvolutionStrategy1p1.setParameters(self, mu=mu, **kwargs)
+		EvolutionStrategy1p1.set_parameters(self, mu=mu, **kwargs)
 
 
 class EvolutionStrategyMpL(EvolutionStrategy1p1):
@@ -257,7 +257,7 @@ class EvolutionStrategyMpL(EvolutionStrategy1p1):
 	Name = ['EvolutionStrategyMpL', 'EvolutionStrategy(mu+lambda)', 'ES(m+l)']
 
 	@staticmethod
-	def typeParameters():
+	def type_parameters():
 		r"""TODO.
 
 		Returns:
@@ -267,11 +267,11 @@ class EvolutionStrategyMpL(EvolutionStrategy1p1):
 		See Also:
 			* :func:`NiaPy.algorithms.basic.EvolutionStrategy1p1`
 		"""
-		d = EvolutionStrategy1p1.typeParameters()
+		d = EvolutionStrategy1p1.type_parameters()
 		d['lam'] = lambda x: isinstance(x, int) and x > 0
 		return d
 
-	def setParameters(self, lam=45, **ukwargs):
+	def set_parameters(self, lam=45, **ukwargs):
 		r"""Set the arguments of an algorithm.
 
 		Arguments:
@@ -280,7 +280,7 @@ class EvolutionStrategyMpL(EvolutionStrategy1p1):
 		See Also:
 			* :func:`NiaPy.algorithms.basic.es.EvolutionStrategy1p1.setParameters`
 		"""
-		EvolutionStrategy1p1.setParameters(self, InitPopFunc=defaultIndividualInit, **ukwargs)
+		EvolutionStrategy1p1.set_parameters(self, InitPopFunc=default_individual_init, **ukwargs)
 		self.lam = lam
 
 	def updateRho(self, pop, k):
@@ -324,7 +324,7 @@ class EvolutionStrategyMpL(EvolutionStrategy1p1):
 		i = self.randint(self.mu)
 		return task.repair(self.mutate(pop[i].x, pop[i].rho), rnd=self.Rand)
 
-	def initPopulation(self, task):
+	def init_population(self, task):
 		r"""Initialize starting population.
 
 		Args:
@@ -340,11 +340,11 @@ class EvolutionStrategyMpL(EvolutionStrategy1p1):
 		See Also:
 			* :func:`NiaPy.algorithms.algorithm.Algorithm.initPopulation`
 		"""
-		c, fc, d = Algorithm.initPopulation(self, task)
+		c, fc, d = Algorithm.init_population(self, task)
 		d.update({'ki': 0})
 		return c, fc, d
 
-	def runIteration(self, task, c, fpop, xb, fxb, ki, **dparams):
+	def run_iteration(self, task, c, fpop, xb, fxb, ki, **dparams):
 		r"""Core function of EvolutionStrategyMpL algorithm.
 
 		Args:
@@ -371,7 +371,7 @@ class EvolutionStrategyMpL(EvolutionStrategy1p1):
 		cn = objects2array([cn[i] for i in np.argsort([i.f for i in cn])[:self.mu]])
 		ki += self.changeCount(c, cn)
 		fcn = np.asarray([x.f for x in cn])
-		xb, fxb = self.getBest(cn, fcn, xb, fxb)
+		xb, fxb = self.get_best(cn, fcn, xb, fxb)
 		return cn, fcn, xb, fxb, {'ki': ki}
 
 
@@ -417,7 +417,7 @@ class EvolutionStrategyML(EvolutionStrategyMpL):
 		for i in range(int(ceil(float(self.mu) / self.lam))): npop.extend(pop[:self.lam if (self.mu - i * self.lam) >= self.lam else self.mu - i * self.lam])
 		return objects2array(npop)
 
-	def initPopulation(self, task):
+	def init_population(self, task):
 		r"""Initialize starting population.
 
 		Args:
@@ -432,10 +432,10 @@ class EvolutionStrategyML(EvolutionStrategyMpL):
 		See Also:
 			* :func:`NiaPy.algorithm.basic.es.EvolutionStrategyMpL.initPopulation`
 		"""
-		c, fc, _ = EvolutionStrategyMpL.initPopulation(self, task)
+		c, fc, _ = EvolutionStrategyMpL.init_population(self, task)
 		return c, fc, {}
 
-	def runIteration(self, task, c, fpop, xb, fxb, **dparams):
+	def run_iteration(self, task, c, fpop, xb, fxb, **dparams):
 		r"""Core function of EvolutionStrategyML algorithm.
 
 		Args:
@@ -457,7 +457,7 @@ class EvolutionStrategyML(EvolutionStrategyMpL):
 		cn = objects2array([IndividualES(x=self.mutateRand(c, task), task=task, rand=self.Rand) for _ in range(self.lam)])
 		c = self.newPop(cn)
 		fc = np.asarray([x.f for x in c])
-		xb, fxb = self.getBest(c, fc, xb, fxb)
+		xb, fxb = self.get_best(c, fc, xb, fxb)
 		return c, fc, xb, fxb, {}
 
 
@@ -475,7 +475,7 @@ def CovarianceMaatrixAdaptionEvolutionStrategyF(task, epsilon=1e-20, rnd=rand):
 	ps, pc, C, sigma, M = np.full(task.D, 0.0), np.full(task.D, 0.0), np.eye(task.D), sigma0, np.full(task.D, 0.0)
 	x = rnd.uniform(task.bcLower(), task.bcUpper())
 	x_f = task.eval(x)
-	while not task.stopCondI():
+	while not task.stop_cond_i():
 		pop_step = np.asarray([rnd.multivariate_normal(np.full(task.D, 0.0), C) for _ in range(int(lam))])
 		pop = np.asarray([task.repair(x + sigma * ps, rnd) for ps in pop_step])
 		pop_f = np.apply_along_axis(task.eval, 1, pop)
@@ -529,21 +529,21 @@ class CovarianceMatrixAdaptionEvolutionStrategy(Algorithm):
 	epsilon = 1e-20
 
 	@staticmethod
-	def typeParameters(): return {
+	def type_parameters(): return {
 		'epsilon': lambda x: isinstance(x, (float, int)) and 0 < x < 1
 	}
 
-	def setParameters(self, epsilon=1e-20, **ukwargs):
+	def set_parameters(self, epsilon=1e-20, **ukwargs):
 		r"""Set core parameters of CovarianceMatrixAdaptionEvolutionStrategy algorithm.
 
 		Args:
 			epsilon (float): Small number.
 			ukwargs (Dict[str, Any]): Additional arguments.
 		"""
-		Algorithm.setParameters(self, **ukwargs)
+		Algorithm.set_parameters(self, **ukwargs)
 		self.epsilon = epsilon
 
-	def runTask(self, task):
+	def run_task(self, task):
 		r"""TODO.
 
 		Args:

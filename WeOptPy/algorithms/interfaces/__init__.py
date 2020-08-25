@@ -5,14 +5,14 @@
 from WeOptPy.algorithms.interfaces.algorithm import Algorithm
 from WeOptPy.algorithms.interfaces.individual import (
 	Individual,
-	defaultNumPyInit,
-	defaultIndividualInit
+	default_numpy_init,
+	default_individual_init
 )
 
 __all__ = [
 	'Individual',
-	'defaultNumPyInit',
-	'defaultIndividualInit',
+	'default_numpy_init',
+	'default_individual_init',
 	'Algorithm'
 ]
 

@@ -14,5 +14,6 @@ class OptimizationType(Enum):
 	"""
 	MINIMIZATION = 1.0
 	MAXIMIZATION = -1.0
-	
+
+
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

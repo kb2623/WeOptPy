@@ -44,7 +44,7 @@ class HarmonySearch(Algorithm):
     Name = ["HarmonySearch", "HS"]
 
     @staticmethod
-    def algorithmInfo():
+    def algorithm_info():
         r"""Get basic information about the algorithm.
 
         Returns:
@@ -53,7 +53,7 @@ class HarmonySearch(Algorithm):
         return r"""Yang, Xin-She. "Harmony search as a metaheuristic algorithm." Music-inspired harmony search algorithm. Springer, Berlin, Heidelberg, 2009. 1-14."""
 
     @staticmethod
-    def typeParameters():
+    def type_parameters():
         r"""Get dictionary with functions for checking values of parameters.
 
         Returns:
@@ -70,7 +70,7 @@ class HarmonySearch(Algorithm):
             "b_range": lambda x: isinstance(x, (int, float)) and x > 0
         }
 
-    def setParameters(self, HMS=30, r_accept=0.7, r_pa=0.35, b_range=1.42, **ukwargs):
+    def set_parameters(self, HMS=30, r_accept=0.7, r_pa=0.35, b_range=1.42, **ukwargs):
         r"""Set the arguments of the algorithm.
 
         Arguments:
@@ -82,13 +82,13 @@ class HarmonySearch(Algorithm):
         See Also:
                   * :func:`NiaPy.algorithms.algorithm.Algorithm.setParameters`
         """
-        ukwargs.pop('NP', None)
-        Algorithm.setParameters(self, NP=HMS, **ukwargs)
+        ukwargs.pop('n', None)
+        Algorithm.set_parameters(self, n=HMS, **ukwargs)
         self.r_accept, self.r_pa, self.b_range = r_accept, r_pa, b_range
 
-    def getParameters(self):
-        d = Algorithm.getParameters(self)
-        d.pop('NP', None)
+    def get_parameters(self):
+        d = Algorithm.get_parameters(self)
+        d.pop('n', None)
         d.update({
             'HMS': self.NP,
             'r_accept': self.r_accept,
@@ -136,7 +136,7 @@ class HarmonySearch(Algorithm):
             H[i] = HM[j, i] if r > self.r_accept else self.adjustment(HM[j, i], task) if r > self.r_pa else self.uniform(task.Lower[i], task.Upper[i])
         return H
 
-    def initPopulation(self, task):
+    def init_population(self, task):
         r"""Initialize first population.
 
         Args:
@@ -151,9 +151,9 @@ class HarmonySearch(Algorithm):
         See Also:
                   * :func:`NiaPy.algorithms.algorithm.Algorithm.initPopulation`
         """
-        return Algorithm.initPopulation(self, task)
+        return Algorithm.init_population(self, task)
 
-    def runIteration(self, task, HM, HM_f, xb, fxb, **dparams):
+    def run_iteration(self, task, HM, HM_f, xb, fxb, **dparams):
         r"""Core function of HarmonySearch algorithm.
 
         Args:
@@ -176,7 +176,7 @@ class HarmonySearch(Algorithm):
         H_f = task.eval(task.repair(H, self.Rand))
         iw = np.argmax(HM_f)
         if H_f <= HM_f[iw]: HM[iw], HM_f[iw] = H, H_f
-        xb, fxb = self.getBest(H, H_f, xb, fxb)
+        xb, fxb = self.get_best(H, H_f, xb, fxb)
         return HM, HM_f, xb, fxb, {}
 
 class HarmonySearchV1(HarmonySearch):
@@ -211,7 +211,7 @@ class HarmonySearchV1(HarmonySearch):
     Name = ["HarmonySearchV1", "HSv1"]
 
     @staticmethod
-    def algorithmInfo():
+    def algorithm_info():
         r"""Get basic information about algorihtm.
 
         Returns:
@@ -220,7 +220,7 @@ class HarmonySearchV1(HarmonySearch):
         return r"""Yang, Xin-She. "Harmony search as a metaheuristic algorithm." Music-inspired harmony search algorithm. Springer, Berlin, Heidelberg, 2009. 1-14."""
 
     @staticmethod
-    def typeParameters():
+    def type_parameters():
         r"""Get dictionary with functions for checking values of parameters.
 
         Returns:
@@ -229,7 +229,7 @@ class HarmonySearchV1(HarmonySearch):
         See Also:
                   * :func:`NiaPy.algorithms.basic.HarmonySearch.typeParameters`
         """
-        d = HarmonySearch.typeParameters()
+        d = HarmonySearch.type_parameters()
         del d["b_range"]
         d.update({
             "dw_min": lambda x: isinstance(x, (float, int)) and x >= 1,
@@ -237,7 +237,7 @@ class HarmonySearchV1(HarmonySearch):
         })
         return d
 
-    def setParameters(self, bw_min=1, bw_max=2, **kwargs):
+    def set_parameters(self, bw_min=1, bw_max=2, **kwargs):
         r"""Set the parameters of the algorithm.
 
         Arguments:
@@ -248,11 +248,11 @@ class HarmonySearchV1(HarmonySearch):
         See Also:
                   * :func:`NiaPy.algorithms.basic.hs.HarmonySearch.setParameters`
         """
-        HarmonySearch.setParameters(self, **kwargs)
+        HarmonySearch.set_parameters(self, **kwargs)
         self.bw_min, self.bw_max = bw_min, bw_max
 
-    def getParameters(self):
-        d = HarmonySearch.getParameters(self)
+    def get_parameters(self):
+        d = HarmonySearch.get_parameters(self)
         d.update({
             'bw_min': self.bw_min,
             'bw_max': self.bw_max

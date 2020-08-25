@@ -35,7 +35,7 @@ class HybridBatAlgorithm(BatAlgorithm):
 	Name = ['HybridBatAlgorithm', 'HBA']
 
 	@staticmethod
-	def algorithmInfo():
+	def algorithm_info():
 		r"""Get basic information about the algorithm.
 
 		Returns:
@@ -44,7 +44,7 @@ class HybridBatAlgorithm(BatAlgorithm):
 		return r"""Fister Jr., Iztok and Fister, Dusan and Yang, Xin-She. "A Hybrid Bat Algorithm". Elektrotehniski vestnik, 2013. 1-7."""
 
 	@staticmethod
-	def typeParameters():
+	def type_parameters():
 		r"""Get dictionary with functions for checking values of parameters.
 
 		Returns:
@@ -55,14 +55,14 @@ class HybridBatAlgorithm(BatAlgorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.basic.BatAlgorithm.typeParameters`
 		"""
-		d = BatAlgorithm.typeParameters()
+		d = BatAlgorithm.type_parameters()
 		d.update({
 			'F': lambda x: isinstance(x, (int, float)) and x > 0,
 			'CR': lambda x: isinstance(x, float) and 0 <= x <= 1
 		})
 		return d
 
-	def setParameters(self, F=0.50, CR=0.90, CrossMutt=CrossBest1, **ukwargs):
+	def set_parameters(self, F=0.50, CR=0.90, CrossMutt=CrossBest1, **ukwargs):
 		r"""Set core parameters of HybridBatAlgorithm algorithm.
 
 		Arguments:
@@ -72,7 +72,7 @@ class HybridBatAlgorithm(BatAlgorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.basic.BatAlgorithm.setParameters`
 		"""
-		BatAlgorithm.setParameters(self, **ukwargs)
+		BatAlgorithm.set_parameters(self, **ukwargs)
 		self.F, self.CR, self.CrossMutt = F, CR, CrossMutt
 
 	def localSearch(self, best, task, i, Sol, **kwargs):

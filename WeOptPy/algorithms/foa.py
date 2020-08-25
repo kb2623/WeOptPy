@@ -43,7 +43,7 @@ class ForestOptimizationAlgorithm(Algorithm):
 	Name = ['ForestOptimizationAlgorithm', 'FOA']
 
 	@staticmethod
-	def algorithmInfo():
+	def algorithm_info():
 		r"""Get algorithms information.
 
 		Returns:
@@ -57,7 +57,7 @@ class ForestOptimizationAlgorithm(Algorithm):
 		"""
 
 	@staticmethod
-	def typeParameters():
+	def type_parameters():
 		r"""Get dictionary with functions for checking values of parameters.
 
 		Returns:
@@ -71,7 +71,7 @@ class ForestOptimizationAlgorithm(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.algorithm.Algorithm.typeParameters`
 		"""
-		d = Algorithm.typeParameters()
+		d = Algorithm.type_parameters()
 		d.update({
 			'lt': lambda x: isinstance(x, int) and x > 0,
 			'al': lambda x: isinstance(x, int) and x > 0,
@@ -81,11 +81,11 @@ class ForestOptimizationAlgorithm(Algorithm):
 		})
 		return d
 
-	def setParameters(self, NP=10, lt=3, al=10, lsc=1, gsc=1, tr=0.3, **ukwargs):
+	def set_parameters(self, n=10, lt=3, al=10, lsc=1, gsc=1, tr=0.3, **ukwargs):
 		r"""Set the parameters of the algorithm.
 
 		Args:
-			NP (Optional[int]): Population size.
+			n (Optional[int]): Population size.
 			lt (Optional[int]): Life time parameter.
 			al (Optional[int]): Area limit parameter.
 			lsc (Optional[int]): Local seeding changes parameter.
@@ -96,16 +96,16 @@ class ForestOptimizationAlgorithm(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.setParameters`
 		"""
-		Algorithm.setParameters(self, NP=NP, **ukwargs)
+		Algorithm.set_parameters(self, n=n, **ukwargs)
 		self.lt, self.al, self.lsc, self.gsc, self.tr = lt, al, lsc, gsc, tr
 
-	def getParameters(self):
+	def get_parameters(self):
 		r"""Get parameters values of the algorithm.
 
 		Returns:
 			Dict[str, Any]: TODO.
 		"""
-		d = Algorithm.getParameters(self)
+		d = Algorithm.get_parameters(self)
 		d.update({
 			'lt': self.lt,
 			'al': self.al,
@@ -200,7 +200,7 @@ class ForestOptimizationAlgorithm(Algorithm):
 		evaluations = evaluations[ei[:self.al]]
 		return trees, candidates, evaluations, age
 
-	def initPopulation(self, task):
+	def init_population(self, task):
 		r"""Initialize the starting population.
 
 		Args:
@@ -216,12 +216,12 @@ class ForestOptimizationAlgorithm(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.initPopulation`
 		"""
-		Trees, Evaluations, _ = Algorithm.initPopulation(self, task)
+		Trees, Evaluations, _ = Algorithm.init_population(self, task)
 		age = np.zeros(self.NP, dtype=np.int32)
 		self.dx = np.absolute(task.benchmark.Upper) / 5
 		return Trees, Evaluations, {'age': age}
 
-	def runIteration(self, task, Trees, Evaluations, xb, fxb, age, **dparams):
+	def run_iteration(self, task, Trees, Evaluations, xb, fxb, age, **dparams):
 		r"""Core function of Forest Optimization Algorithm.
 
 		Args:

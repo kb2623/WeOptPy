@@ -36,7 +36,7 @@ class GravitationalSearchAlgorithm(Algorithm):
     Name = ['GravitationalSearchAlgorithm', 'GSA']
 
     @staticmethod
-    def algorithmInfo():
+    def algorithm_info():
         r"""Get algorithm information.
 
         Returns:
@@ -45,7 +45,7 @@ class GravitationalSearchAlgorithm(Algorithm):
         return r"""Esmat Rashedi, Hossein Nezamabadi-pour, Saeid Saryazdi, GSA: A Gravitational Search Algorithm, Information Sciences, Volume 179, Issue 13, 2009, Pages 2232-2248, ISSN 0020-0255"""
 
     @staticmethod
-    def typeParameters():
+    def type_parameters():
         r"""TODO.
 
         Returns:
@@ -56,14 +56,14 @@ class GravitationalSearchAlgorithm(Algorithm):
         See Also:
             * :func:`NiaPy.algorithms.algorithm.Algorithm.typeParameters`
         """
-        d = Algorithm.typeParameters()
+        d = Algorithm.type_parameters()
         d.update({
             'G_0': lambda x: isinstance(x, (int, float)) and x >= 0,
             'epsilon': lambda x: isinstance(x, float) and 0 < x < 1
         })
         return d
 
-    def setParameters(self, NP=40, G_0=2.467, epsilon=1e-17, **ukwargs):
+    def set_parameters(self, n=40, G_0=2.467, epsilon=1e-17, **ukwargs):
         r"""Set the algorithm parameters.
 
         Arguments:
@@ -73,10 +73,10 @@ class GravitationalSearchAlgorithm(Algorithm):
         See Also:
             * :func:`NiaPy.algorithms.algorithm.Algorithm.setParameters`
         """
-        Algorithm.setParameters(self, NP=NP, **ukwargs)
+        Algorithm.set_parameters(self, n=n, **ukwargs)
         self.G_0, self.epsilon = G_0, epsilon
 
-    def getParameters(self):
+    def get_parameters(self):
         r"""Get algorithm parameters values.
 
         Returns:
@@ -85,7 +85,7 @@ class GravitationalSearchAlgorithm(Algorithm):
         See Also:
             * :func:`NiaPy.algorithms.algorithm.Algorithm.getParameters`
         """
-        d = Algorithm.getParameters(self)
+        d = Algorithm.get_parameters(self)
         d.update({
             'G_0': self.G_0,
             'epsilon': self.epsilon
@@ -116,7 +116,7 @@ class GravitationalSearchAlgorithm(Algorithm):
         """
         return np.sum((x - y) ** ln) ** (1 / ln)
 
-    def initPopulation(self, task):
+    def init_population(self, task):
         r"""Initialize staring population.
 
         Args:
@@ -132,11 +132,11 @@ class GravitationalSearchAlgorithm(Algorithm):
         See Also:
             * :func:`NiaPy.algorithms.algorithm.Algorithm.initPopulation`
         """
-        X, X_f, _ = Algorithm.initPopulation(self, task)
+        X, X_f, _ = Algorithm.init_population(self, task)
         v = np.full([self.NP, task.D], 0.0)
         return X, X_f, {'v': v}
 
-    def runIteration(self, task, X, X_f, xb, fxb, v, **dparams):
+    def run_iteration(self, task, X, X_f, xb, fxb, v, **dparams):
         r"""Core function of GravitationalSearchAlgorithm algorithm.
 
         Args:
@@ -166,5 +166,5 @@ class GravitationalSearchAlgorithm(Algorithm):
         v = self.rand([self.NP, task.D]) * v + a.T
         X = np.apply_along_axis(task.repair, 1, X + v, self.Rand)
         X_f = np.apply_along_axis(task.eval, 1, X)
-        xb, fxb = self.getBest(X, X_f, xb, fxb)
+        xb, fxb = self.get_best(X, X_f, xb, fxb)
         return X, X_f, xb, fxb, {'v': v}

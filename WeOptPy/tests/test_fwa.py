@@ -1,93 +1,71 @@
 # encoding=utf8
 
 from WeOptPy.algorithms import (
-    FireworksAlgorithm,
-    DynamicFireworksAlgorithm,
-    EnhancedFireworksAlgorithm,
-    BareBonesFireworksAlgorithm,
-    DynamicFireworksAlgorithmGauss
+	FireworksAlgorithm,
+	DynamicFireworksAlgorithm,
+	EnhancedFireworksAlgorithm,
+	BareBonesFireworksAlgorithm,
+	DynamicFireworksAlgorithmGauss
 )
 from WeOptPy.tests.test_algorithm import (
-    AlgorithmTestCase,
-    MyBenchmark
+	AlgorithmTestCase,
+	MyBenchmark
 )
 
 
 class BBFWATestCase(AlgorithmTestCase):
-    def setUp(self):
-        AlgorithmTestCase.setUp(self)
-        self.algo = BareBonesFireworksAlgorithm
+	def setUp(self):
+		AlgorithmTestCase.setUp(self)
+		self.algo = BareBonesFireworksAlgorithm
 
-    def test_custom_works_fine(self):
-        bbfwa_custom = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
-        bbfwa_customc = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
-        AlgorithmTestCase.test_algorithm_run(self, bbfwa_custom, bbfwa_customc, MyBenchmark())
-
-    def test_griewank_works_fine(self):
-        bbfwa_griewank = self.algo(n=10, C_a=5, C_r=0.5, seed=self.seed)
-        bbfwa_griewankc = self.algo(n=10, C_a=5, C_r=0.5, seed=self.seed)
-        AlgorithmTestCase.test_algorithm_run(self, bbfwa_griewank, bbfwa_griewankc)
+	def test_custom_works_fine(self):
+		bbfwa_custom = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
+		bbfwa_customc = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
+		AlgorithmTestCase.test_algorithm_run(self, bbfwa_custom, bbfwa_customc, MyBenchmark())
 
 
 class FWATestCase(AlgorithmTestCase):
-    def setUp(self):
-        AlgorithmTestCase.setUp(self)
-        self.algo = FireworksAlgorithm
+	def setUp(self):
+		AlgorithmTestCase.setUp(self)
+		self.algo = FireworksAlgorithm
 
-    def test_custom_works_fine(self):
-        fwa_custom = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
-        fwa_customc = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
-        AlgorithmTestCase.test_algorithm_run(self, fwa_custom, fwa_customc, MyBenchmark())
-
-    def test_griewank_works_fine(self):
-        fwa_griewank = self.algo(n=10, C_a=5, C_r=0.5, seed=self.seed)
-        fwa_griewankc = self.algo(n=10, C_a=5, C_r=0.5, seed=self.seed)
-        AlgorithmTestCase.test_algorithm_run(self, fwa_griewank, fwa_griewankc)
+	def test_custom_works_fine(self):
+		fwa_custom = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
+		fwa_customc = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
+		AlgorithmTestCase.test_algorithm_run(self, fwa_custom, fwa_customc, MyBenchmark())
 
 
 class EFWATestCase(AlgorithmTestCase):
-    def setUp(self):
-        AlgorithmTestCase.setUp(self)
-        self.algo = EnhancedFireworksAlgorithm
+	def setUp(self):
+		AlgorithmTestCase.setUp(self)
+		self.algo = EnhancedFireworksAlgorithm
 
-    def test_custom_works_fine(self):
-        fwa_custom = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
-        fwa_customc = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
-        AlgorithmTestCase.test_algorithm_run(self, fwa_custom, fwa_customc, MyBenchmark())
-
-    def test_griewank_works_fine(self):
-        fwa_griewank = self.algo(n=10, C_a=5, C_r=0.5, seed=self.seed)
-        fwa_griewankc = self.algo(n=10, C_a=5, C_r=0.5, seed=self.seed)
-        AlgorithmTestCase.test_algorithm_run(self, fwa_griewank, fwa_griewankc)
+	def test_custom_works_fine(self):
+		fwa_custom = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
+		fwa_customc = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
+		AlgorithmTestCase.test_algorithm_run(self, fwa_custom, fwa_customc, MyBenchmark())
 
 
 class DFWATestCase(AlgorithmTestCase):
-    def setUp(self):
-        AlgorithmTestCase.setUp(self)
-        self.algo = DynamicFireworksAlgorithm
+	def setUp(self):
+		AlgorithmTestCase.setUp(self)
+		self.algo = DynamicFireworksAlgorithm
 
-    def test_custom_works_fine(self):
-        fwa_custom = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
-        fwa_customc = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
-        AlgorithmTestCase.test_algorithm_run(self, fwa_custom, fwa_customc, MyBenchmark())
-
-    def test_griewank_works_fine(self):
-        fwa_griewank = self.algo(n=10, C_a=5, C_r=0.5, seed=self.seed)
-        fwa_griewankc = self.algo(n=10, C_a=5, C_r=0.5, seed=self.seed)
-        AlgorithmTestCase.test_algorithm_run(self, fwa_griewank, fwa_griewankc)
+	def test_custom_works_fine(self):
+		fwa_custom = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
+		fwa_customc = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
+		AlgorithmTestCase.test_algorithm_run(self, fwa_custom, fwa_customc, MyBenchmark())
 
 
 class DFWAGTestCase(AlgorithmTestCase):
-    def setUp(self):
-        AlgorithmTestCase.setUp(self)
-        self.algo = DynamicFireworksAlgorithmGauss
+	def setUp(self):
+		AlgorithmTestCase.setUp(self)
+		self.algo = DynamicFireworksAlgorithmGauss
 
-    def test_custom_works_fine(self):
-        fwa_custom = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
-        fwa_customc = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
-        AlgorithmTestCase.test_algorithm_run(self, fwa_custom, fwa_customc, MyBenchmark())
+	def test_custom_works_fine(self):
+		fwa_custom = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
+		fwa_customc = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
+		AlgorithmTestCase.test_algorithm_run(self, fwa_custom, fwa_customc, MyBenchmark())
 
-    def test_griewank_works_fine(self):
-        fwa_griewank = self.algo(n=10, C_a=5, C_r=0.5, seed=self.seed)
-        fwa_griewankc = self.algo(n=10, C_a=5, C_r=0.5, seed=self.seed)
-        AlgorithmTestCase.test_algorithm_run(self, fwa_griewank, fwa_griewankc)
+
+# vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

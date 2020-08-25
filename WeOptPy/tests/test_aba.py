@@ -21,11 +21,11 @@ class ABATestCase(AlgorithmTestCase):
 	"""
 	def test_algorithm_info(self):
 		"""Test algorithm info method of class AdaptiveBatAlgorithm."""
-		self.assertIsNotNone(AdaptiveBatAlgorithm.algorithmInfo())
+		self.assertIsNotNone(AdaptiveBatAlgorithm.algorithm_info())
 
 	def test_type_parameters(self):
 		"""Test type parameters method of class AdaptiveBatAlgorithm."""
-		d = AdaptiveBatAlgorithm.typeParameters()
+		d = AdaptiveBatAlgorithm.type_parameters()
 		# Test epsilon parameter check
 		self.assertIsNotNone(d.get('epsilon', None))
 		self.assertFalse(d['epsilon'](-100))
@@ -59,9 +59,5 @@ class ABATestCase(AlgorithmTestCase):
 		aba_customc = AdaptiveBatAlgorithm(NP=40, A=.75, epsilon=2, alpha=0.65, r=0.7, Qmin=0.0, Qmax=2.0, seed=self.seed)
 		AlgorithmTestCase.test_algorithm_run(self, aba_custom, aba_customc, MyBenchmark())
 
-	def test_griewank_works_fine(self):
-		aba_griewank = AdaptiveBatAlgorithm(NP=40, A=0.5, r=0.5, F=0.5, CR=0.9, Qmin=0.0, Qmax=2.0, seed=self.seed)
-		aba_griewankc = AdaptiveBatAlgorithm(NP=40, A=0.5, r=0.5, F=0.5, CR=0.9, Qmin=0.0, Qmax=2.0, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, aba_griewank, aba_griewankc)
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

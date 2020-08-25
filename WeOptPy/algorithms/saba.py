@@ -39,7 +39,7 @@ class AdaptiveBatAlgorithm(Algorithm):
 	Name = ['AdaptiveBatAlgorithm', 'ABA']
 
 	@staticmethod
-	def typeParameters():
+	def type_parameters():
 		r"""Return dict with where key of dict represents parameter name and values represent checking functions for selected parameter.
 
 		Returns:
@@ -53,7 +53,7 @@ class AdaptiveBatAlgorithm(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.typeParameters`
 		"""
-		d = Algorithm.typeParameters()
+		d = Algorithm.type_parameters()
 		d.update({
 			'epsilon': lambda x: isinstance(x, (float, int)) and x > 0,
 			'alpha': lambda x: isinstance(x, (float, int)) and x > 0,
@@ -63,7 +63,7 @@ class AdaptiveBatAlgorithm(Algorithm):
 		})
 		return d
 
-	def setParameters(self, NP=100, A=0.5, epsilon=0.001, alpha=1.0, r=0.5, Qmin=0.0, Qmax=2.0, **ukwargs):
+	def set_parameters(self, n=100, A=0.5, epsilon=0.001, alpha=1.0, r=0.5, Qmin=0.0, Qmax=2.0, **ukwargs):
 		r"""Set the parameters of the algorithm.
 
 		Args:
@@ -77,10 +77,10 @@ class AdaptiveBatAlgorithm(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.setParameters`
 		"""
-		Algorithm.setParameters(self, NP=NP, **ukwargs)
+		Algorithm.set_parameters(self, n=n, **ukwargs)
 		self.A, self.epsilon, self.alpha, self.r, self.Qmin, self.Qmax = A, epsilon, alpha, r, Qmin, Qmax
 
-	def getParameters(self):
+	def get_parameters(self):
 		r"""Get algorithm parameters.
 
 		Returns:
@@ -89,7 +89,7 @@ class AdaptiveBatAlgorithm(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.algorithm.Algorithm.getParameters`
 		"""
-		d = Algorithm.getParameters(self)
+		d = Algorithm.get_parameters(self)
 		d.update({
 			'A': self.A,
 			'epsilon': self.epsilon,
@@ -100,7 +100,7 @@ class AdaptiveBatAlgorithm(Algorithm):
 		})
 		return d
 
-	def initPopulation(self, task):
+	def init_population(self, task):
 		r"""Initialize the starting population.
 
 		Parameters:
@@ -119,7 +119,7 @@ class AdaptiveBatAlgorithm(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.initPopulation`
 		"""
-		Sol, Fitness, d = Algorithm.initPopulation(self, task)
+		Sol, Fitness, d = Algorithm.init_population(self, task)
 		A, S, Q, v = np.full(self.NP, self.A), np.full([self.NP, task.D], 0.0), np.full(self.NP, 0.0), np.full([self.NP, task.D], 0.0)
 		d.update({'A': A, 'S': S, 'Q': Q, 'v': v})
 		return Sol, Fitness, d
@@ -150,7 +150,7 @@ class AdaptiveBatAlgorithm(Algorithm):
 		nA = A * self.alpha
 		return nA if nA > 1e-13 else self.A
 
-	def runIteration(self, task, Sol, Fitness, xb, fxb, A, S, Q, v, **dparams):
+	def run_iteration(self, task, Sol, Fitness, xb, fxb, A, S, Q, v, **dparams):
 		r"""Core function of Bat Algorithm.
 
 		Parameters:
@@ -205,10 +205,10 @@ class SelfAdaptiveBatAlgorithm(AdaptiveBatAlgorithm):
 
 	Attributes:
 		Name (List[str]): List of strings representing algorithm name.
-		A_l (Optional[float]): Lower limit of loudness.
-		A_u (Optional[float]): Upper limit of loudness.
-		r_l (Optional[float]): Lower limit of pulse rate.
-		r_u (Optional[float]): Upper limit of pulse rate.
+		A_l (Optional[float]): lower limit of loudness.
+		A_u (Optional[float]): upper limit of loudness.
+		r_l (Optional[float]): lower limit of pulse rate.
+		r_u (Optional[float]): upper limit of pulse rate.
 		tao_1 (Optional[float]): Learning rate for loudness.
 		tao_2 (Optional[float]): Learning rate for pulse rate.
 
@@ -218,7 +218,7 @@ class SelfAdaptiveBatAlgorithm(AdaptiveBatAlgorithm):
 	Name = ['SelfAdaptiveBatAlgorithm', 'SABA']
 
 	@staticmethod
-	def algorithmInfo():
+	def algorithm_info():
 		r"""Get basic information about the algorithm.
 
 		Returns:
@@ -227,7 +227,7 @@ class SelfAdaptiveBatAlgorithm(AdaptiveBatAlgorithm):
 		return r"""Fister Jr., Iztok and Fister, Dusan and Yang, Xin-She. "A Hybrid Bat Algorithm". Elektrotehniski vestnik, 2013. 1-7."""
 
 	@staticmethod
-	def typeParameters():
+	def type_parameters():
 		r"""Get dictionary with functions for checking values of parameters.
 
 		Returns:
@@ -236,7 +236,7 @@ class SelfAdaptiveBatAlgorithm(AdaptiveBatAlgorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.basic.BatAlgorithm.typeParameters`
 		"""
-		d = AdaptiveBatAlgorithm.typeParameters()
+		d = AdaptiveBatAlgorithm.type_parameters()
 		d.pop('A', None), d.pop('r', None)
 		d.update({
 			'A_l': lambda x: isinstance(x, (float, int)) and x >= 0,
@@ -248,24 +248,24 @@ class SelfAdaptiveBatAlgorithm(AdaptiveBatAlgorithm):
 		})
 		return d
 
-	def setParameters(self, A_l=0.9, A_u=1.0, r_l=0.001, r_u=0.1, tao_1=0.1, tao_2=0.1, **ukwargs):
+	def set_parameters(self, A_l=0.9, A_u=1.0, r_l=0.001, r_u=0.1, tao_1=0.1, tao_2=0.1, **ukwargs):
 		r"""Set core parameters of HybridBatAlgorithm algorithm.
 
 		Arguments:
-			A_l (Optional[float]): Lower limit of loudness.
-			A_u (Optional[float]): Upper limit of loudness.
-			r_l (Optional[float]): Lower limit of pulse rate.
-			r_u (Optional[float]): Upper limit of pulse rate.
+			A_l (Optional[float]): lower limit of loudness.
+			A_u (Optional[float]): upper limit of loudness.
+			r_l (Optional[float]): lower limit of pulse rate.
+			r_u (Optional[float]): upper limit of pulse rate.
 			tao_1 (Optional[float]): Learning rate for loudness.
 			tao_2 (Optional[float]): Learning rate for pulse rate.
 
 		See Also:
 			* :func:`NiaPy.algorithms.modified.AdaptiveBatAlgorithm.setParameters`
 		"""
-		AdaptiveBatAlgorithm.setParameters(self, **ukwargs)
+		AdaptiveBatAlgorithm.set_parameters(self, **ukwargs)
 		self.A_l, self.A_u, self.r_l, self.r_u, self.tao_1, self.tao_2 = A_l, A_u, r_l, r_u, tao_1, tao_2
 
-	def getParameters(self):
+	def get_parameters(self):
 		r"""Get parameters of the algorithm.
 
 		Returns:
@@ -274,7 +274,7 @@ class SelfAdaptiveBatAlgorithm(AdaptiveBatAlgorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.modified.AdaptiveBatAlgorithm.getParameters`
 		"""
-		d = AdaptiveBatAlgorithm.getParameters(self)
+		d = AdaptiveBatAlgorithm.get_parameters(self)
 		d.update({
 			'A_l': self.A_l,
 			'A_u': self.A_u,
@@ -285,8 +285,8 @@ class SelfAdaptiveBatAlgorithm(AdaptiveBatAlgorithm):
 		})
 		return d
 
-	def initPopulation(self, task):
-		Sol, Fitness, d = AdaptiveBatAlgorithm.initPopulation(self, task)
+	def init_population(self, task):
+		Sol, Fitness, d = AdaptiveBatAlgorithm.init_population(self, task)
 		A, r = np.full(self.NP, self.A), np.full(self.NP, self.r)
 		d.update({'A': A, 'r': r})
 		return Sol, Fitness, d
@@ -305,7 +305,7 @@ class SelfAdaptiveBatAlgorithm(AdaptiveBatAlgorithm):
 		"""
 		return self.A_l + self.rand() * (self.A_u - self.A_l) if self.rand() < self.tao_1 else A, self.r_l + self.rand() * (self.r_u - self.r_l) if self.rand() < self.tao_2 else r
 
-	def runIteration(self, task, Sol, Fitness, xb, fxb, A, r, S, Q, v, **dparams):
+	def run_iteration(self, task, Sol, Fitness, xb, fxb, A, r, S, Q, v, **dparams):
 		r"""Core function of Bat Algorithm.
 
 		Parameters:

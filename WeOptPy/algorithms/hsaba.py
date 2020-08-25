@@ -39,7 +39,7 @@ class HybridSelfAdaptiveBatAlgorithm(SelfAdaptiveBatAlgorithm):
 	Name = ['HybridSelfAdaptiveBatAlgorithm', 'HSABA']
 
 	@staticmethod
-	def algorithmInfo():
+	def algorithm_info():
 		r"""Get basic information about the algorithm.
 
 		Returns:
@@ -48,7 +48,7 @@ class HybridSelfAdaptiveBatAlgorithm(SelfAdaptiveBatAlgorithm):
 		return r"""Fister, Iztok, Simon Fong, and Janez Brest. "A novel hybrid self-adaptive bat algorithm." The Scientific World Journal 2014 (2014)."""
 
 	@staticmethod
-	def typeParameters():
+	def type_parameters():
 		r"""Get dictionary with functions for checking values of parameters.
 
 		Returns:
@@ -57,14 +57,14 @@ class HybridSelfAdaptiveBatAlgorithm(SelfAdaptiveBatAlgorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.basic.BatAlgorithm.typeParameters`
 		"""
-		d = SelfAdaptiveBatAlgorithm.typeParameters()
+		d = SelfAdaptiveBatAlgorithm.type_parameters()
 		d.update({
 			'F': lambda x: isinstance(x, (int, float)) and x > 0,
 			'CR': lambda x: isinstance(x, float) and 0 <= x <= 1
 		})
 		return d
 
-	def setParameters(self, F=0.9, CR=0.85, CrossMutt=CrossBest1, **ukwargs):
+	def set_parameters(self, F=0.9, CR=0.85, CrossMutt=CrossBest1, **ukwargs):
 		r"""Set core parameters of HybridBatAlgorithm algorithm.
 
 		Arguments:
@@ -76,10 +76,10 @@ class HybridSelfAdaptiveBatAlgorithm(SelfAdaptiveBatAlgorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.basic.BatAlgorithm.setParameters`
 		"""
-		SelfAdaptiveBatAlgorithm.setParameters(self, **ukwargs)
+		SelfAdaptiveBatAlgorithm.set_parameters(self, **ukwargs)
 		self.F, self.CR, self.CrossMutt = F, CR, CrossMutt
 
-	def getParameters(self):
+	def get_parameters(self):
 		r"""Get parameters of the algorithm.
 
 		Returns:
@@ -88,7 +88,7 @@ class HybridSelfAdaptiveBatAlgorithm(SelfAdaptiveBatAlgorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.modified.AdaptiveBatAlgorithm.getParameters`
 		"""
-		d = SelfAdaptiveBatAlgorithm.getParameters(self)
+		d = SelfAdaptiveBatAlgorithm.get_parameters(self)
 		d.update({
 			'F': self.F,
 			'CR': self.CR

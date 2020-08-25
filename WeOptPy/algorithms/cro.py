@@ -107,7 +107,7 @@ class CoralReefsOptimization(Algorithm):
 	Name = ['CoralReefsOptimization', 'CRO']
 
 	@staticmethod
-	def typeParameters():
+	def type_parameters():
 		r"""Get dictionary with functions for checking values of parameters.
 
 		Returns:
@@ -129,7 +129,7 @@ class CoralReefsOptimization(Algorithm):
 			'k': False
 		}
 
-	def setParameters(self, N=25, phi=0.4, Fa=0.5, Fb=0.5, Fd=0.3, k=25, P_Cr=0.5, P_F=0.36, SexualCrossover=SexualCrossoverSimple, Brooding=BroodingSimple, Distance=euclidean, **ukwargs):
+	def set_parameters(self, N=25, phi=0.4, Fa=0.5, Fb=0.5, Fd=0.3, k=25, P_Cr=0.5, P_F=0.36, SexualCrossover=SexualCrossoverSimple, Brooding=BroodingSimple, Distance=euclidean, **ukwargs):
 		r"""Set the parameters of the algorithm.
 
 		Arguments:
@@ -148,19 +148,19 @@ class CoralReefsOptimization(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.setParameters`
 		"""
-		ukwargs.pop('NP', None)
-		Algorithm.setParameters(self, NP=N, **ukwargs)
+		ukwargs.pop('n', None)
+		Algorithm.set_parameters(self, n=N, **ukwargs)
 		self.phi, self.k, self.P_Cr, self.P_F = phi, k, P_Cr, P_F
 		self.Fa, self.Fb, self.Fd = int(self.NP * Fa), int(self.NP * Fb), int(self.NP * Fd)
 		self.SexualCrossover, self.Brooding, self.Distance = SexualCrossover, Brooding, Distance
 
-	def getParameters(self):
+	def get_parameters(self):
 		r"""Get parameters values of the algorithm.
 
 		Returns:
 			Dict[str, Any]: TODO.
 		"""
-		d = Algorithm.getParameters(self)
+		d = Algorithm.get_parameters(self)
 		d.update({
 			'phi': self.phi,
 			'k': self.k,
@@ -191,7 +191,7 @@ class CoralReefsOptimization(Algorithm):
 		"""
 		I = np.argsort(Reef_f)[:self.Fa]
 		Reefn, Reefn_f = self.Brooding(Reef[I], self.P_F, task, rnd=self.Rand)
-		xb, fxb = self.getBest(Reefn, Reefn_f, xb, fxb)
+		xb, fxb = self.get_best(Reefn, Reefn_f, xb, fxb)
 		Reef, Reef_f, xb, fxb = self.setting(Reef, Reef_f, Reefn, Reefn_f, xb, fxb, task)
 		return Reef, Reef_f, xb, fxb
 
@@ -235,7 +235,7 @@ class CoralReefsOptimization(Algorithm):
 			I = np.unique(np.where(D < phi)[0])
 			if I.any():
 				Xn[I], Xn_f[I] = MoveCorals(Xn[I], self.P_F, self.P_F, task, rnd=self.Rand)
-				xb, fxb = self.getBest(Xn[I], Xn_f[I], xb, fxb)
+				xb, fxb = self.get_best(Xn[I], Xn_f[I], xb, fxb)
 			return xb, fxb
 		for i in range(self.k):
 			xb, fxb = update(X, self.phi, xb, fxb)
@@ -244,7 +244,7 @@ class CoralReefsOptimization(Algorithm):
 		I = np.unique(np.where(D >= self.phi)[0])
 		return np.append(X, Xn[I], 0), np.append(X_f, Xn_f[I], 0), xb, fxb
 
-	def runIteration(self, task, Reef, Reef_f, xb, fxb, **dparams):
+	def run_iteration(self, task, Reef, Reef_f, xb, fxb, **dparams):
 		r"""Core function of Coral Reefs Optimization algorithm.
 
 		Args:
@@ -269,9 +269,9 @@ class CoralReefsOptimization(Algorithm):
 		"""
 		I = self.Rand.choice(len(Reef), size=self.Fb, replace=False)
 		Reefn_s, Reefn_s_f = self.SexualCrossover(Reef[I], self.P_Cr, task, rnd=self.Rand)
-		xb, fxb = self.getBest(Reefn_s, Reefn_s_f, xb, fxb)
+		xb, fxb = self.get_best(Reefn_s, Reefn_s_f, xb, fxb)
 		Reefn_b, Reffn_b_f = self.Brooding(np.delete(Reef, I, 0), self.P_F, task, rnd=self.Rand)
-		xb, fxb = self.getBest(Reefn_s, Reefn_s_f, xb, fxb)
+		xb, fxb = self.get_best(Reefn_s, Reefn_s_f, xb, fxb)
 		Reefn, Reefn_f, xb, fxb = self.setting(Reef, Reef_f, np.append(Reefn_s, Reefn_b, 0), np.append(Reefn_s_f, Reffn_b_f, 0), xb, fxb, task)
 		Reef, Reef_f, xb, fxb = self.asexualReprodution(Reefn, Reefn_f, xb, fxb, task)
 		if task.Iters % self.k == 0: Reef, Reef_f = self.depredation(Reef, Reef_f)

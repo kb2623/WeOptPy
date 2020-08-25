@@ -37,7 +37,7 @@ class KrillHerd(Algorithm):
 
 	Attributes:
 		Name (List[str]): List of strings representing algorithm names..
-		NP (int): Number of krill herds in population.
+		n (int): Number of krill herds in population.
 		N_max (float): Maximum induced speed.
 		V_f (float): Foraging speed.
 		D_max (float): Maximum diffusion speed.
@@ -56,7 +56,7 @@ class KrillHerd(Algorithm):
 	Name = ['KrillHerd', 'KH']
 
 	@staticmethod
-	def typeParameters():
+	def type_parameters():
 		r"""Get dictionary with functions for checking values of parameters.
 
 		Returns:
@@ -76,7 +76,7 @@ class KrillHerd(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.algorithm.Algorithm`
 		"""
-		d = Algorithm.typeParameters()
+		d = Algorithm.type_parameters()
 		d.update({
 			'N_max': lambda x: isinstance(x, (int, float)) and x > 0,
 			'V_f': lambda x: isinstance(x, (int, float)) and x > 0,
@@ -92,11 +92,11 @@ class KrillHerd(Algorithm):
 		})
 		return d
 
-	def setParameters(self, NP=50, N_max=0.01, V_f=0.02, D_max=0.002, C_t=0.93, W_n=0.42, W_f=0.38, d_s=2.63, nn=5, Cr=0.2, Mu=0.05, epsilon=1e-31, **ukwargs):
+	def set_parameters(self, n=50, N_max=0.01, V_f=0.02, D_max=0.002, C_t=0.93, W_n=0.42, W_f=0.38, d_s=2.63, nn=5, Cr=0.2, Mu=0.05, epsilon=1e-31, **ukwargs):
 		r"""Set the arguments of an algorithm.
 
 		Arguments:
-			NP (Optional[int]): Number of krill herds in population.
+			n (Optional[int]): Number of krill herds in population.
 			N_max (Optional[float]): Maximum induced speed.
 			V_f (Optional[float]): Foraging speed.
 			D_max (Optional[float]): Maximum diffusion speed.
@@ -112,16 +112,16 @@ class KrillHerd(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.algorithm.Algorithm.setParameters`
 		"""
-		Algorithm.setParameters(self, NP=NP, **ukwargs)
+		Algorithm.set_parameters(self, n=n, **ukwargs)
 		self.N_max, self.V_f, self.D_max, self.C_t, self.W_n, self.W_f, self.d_s, self.nn, self._Cr, self._Mu, self.epsilon = N_max, V_f, D_max, C_t, W_n, W_f, d_s, nn, Cr, Mu, epsilon
 
-	def getParameters(self):
+	def get_parameters(self):
 		r"""Get parameter values for the algorithm.
 
 		Returns:
 			 Dict[str, Any]: TODO.
 		"""
-		d = Algorithm.getParameters(self)
+		d = Algorithm.get_parameters(self)
 		d.update({
 			'N_max': self.N_max,
 			'V_f': self.V_f,
@@ -342,7 +342,7 @@ class KrillHerd(Algorithm):
 		"""
 		return self._Cr * self.funK(xf, yf, xf_best, xf_worst)
 
-	def initPopulation(self, task):
+	def init_population(self, task):
 		r"""Initialize stating population.
 
 		Args:
@@ -361,13 +361,13 @@ class KrillHerd(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.algorithm.Algorithm.initPopulation`
 		"""
-		KH, KH_f, d = Algorithm.initPopulation(self, task)
+		KH, KH_f, d = Algorithm.init_population(self, task)
 		W_n, W_f = self.initWeights(task)
 		N, F = np.full(self.NP, .0), np.full(self.NP, .0)
 		d.update({'W_n': W_n, 'W_f': W_f, 'N': N, 'F': F})
 		return KH, KH_f, d
 
-	def runIteration(self, task, KH, KH_f, xb, fxb, W_n, W_f, N, F, **dparams):
+	def run_iteration(self, task, KH, KH_f, xb, fxb, W_n, W_f, N, F, **dparams):
 		r"""Core function of KrillHerd algorithm.
 
 		Args:
@@ -407,7 +407,7 @@ class KrillHerd(Algorithm):
 		KH_n = np.asarray([self.mutate(KH_n[i], KH[ikh_b], Mu[i]) for i in range(self.NP)])
 		KH = np.apply_along_axis(task.repair, 1, KH_n, rnd=self.Rand)
 		KH_f = np.apply_along_axis(task.eval, 1, KH)
-		xb, fxb = self.getBest(KH, KH_f, xb, fxb)
+		xb, fxb = self.get_best(KH, KH_f, xb, fxb)
 		return KH, KH_f, xb, fxb, {'W_n': W_n, 'W_f': W_f, 'N': N, 'F': F}
 
 
@@ -438,7 +438,7 @@ class KrillHerdV4(KrillHerd):
 	Name = ['KrillHerdV4', 'KHv4']
 
 	@staticmethod
-	def typeParameters():
+	def type_parameters():
 		r"""Get dictionary with functions for checking values of parameters.
 
 		Returns:
@@ -447,17 +447,17 @@ class KrillHerdV4(KrillHerd):
 		See Also:
 			* :func:NiaPy.algorithms.basic.kh.KrillHerd.typeParameters`
 		"""
-		d = KrillHerd.typeParameters()
+		d = KrillHerd.type_parameters()
 		d.pop('Cr', None)
 		d.pop('Mu', None)
 		d.pop('epsilon', None)
 		return d
 
-	def setParameters(self, NP=50, N_max=0.01, V_f=0.02, D_max=0.002, C_t=0.93, W_n=0.42, W_f=0.38, d_s=2.63, **ukwargs):
+	def set_parameters(self, n=50, N_max=0.01, V_f=0.02, D_max=0.002, C_t=0.93, W_n=0.42, W_f=0.38, d_s=2.63, **ukwargs):
 		r"""Set algorithm core parameters.
 
 		Args:
-			NP (int): Number of kills in herd.
+			n (int): Number of kills in herd.
 			N_max (Optional[float]): TODO
 			V_f (Optional[float]): TODO
 			D_max (Optional[float]): TODO
@@ -470,7 +470,7 @@ class KrillHerdV4(KrillHerd):
 		See Also:
 			* :func:NiaPy.algorithms.basic.kh.KrillHerd.KrillHerd.setParameters`
 		"""
-		KrillHerd.setParameters(self, NP=NP, N_max=N_max, V_f=V_f, D_max=D_max, C_t=C_t, W_n=W_n, W_f=W_f, d_s=d_s, nn=4, Cr=0.2, Mu=0.05, epsilon=1e-31, **ukwargs)
+		KrillHerd.set_parameters(self, n=n, N_max=N_max, V_f=V_f, D_max=D_max, C_t=C_t, W_n=W_n, W_f=W_f, d_s=d_s, nn=4, Cr=0.2, Mu=0.05, epsilon=1e-31, **ukwargs)
 
 
 class KrillHerdV1(KrillHerd):
@@ -503,7 +503,7 @@ class KrillHerdV1(KrillHerd):
 	Name = ['KrillHerdV1', 'KHv1']
 
 	@staticmethod
-	def typeParameters():
+	def type_parameters():
 		r"""Get dictionary with functions for checking values of parameters.
 
 		Returns:
@@ -512,7 +512,7 @@ class KrillHerdV1(KrillHerd):
 		See Also:
 			* :func:NiaPy.algorithms.basic.kh.KrillHerd.typeParameters`
 		"""
-		return KrillHerd.typeParameters()
+		return KrillHerd.type_parameters()
 
 	def crossover(self, x, xo, Cr):
 		r"""Preform a crossover operation on individual.
@@ -568,7 +568,7 @@ class KrillHerdV2(KrillHerd):
 	Name = ['KrillHerdV2', 'KHv2']
 
 	@staticmethod
-	def typeParameters():
+	def type_parameters():
 		r"""Get dictionary with functions for checking values of parameters.
 
 		Returns:
@@ -577,7 +577,7 @@ class KrillHerdV2(KrillHerd):
 		See Also:
 			* :func:NiaPy.algorithms.basic.kh.KrillHerd.typeParameters`
 		"""
-		d = KrillHerd.typeParameters()
+		d = KrillHerd.type_parameters()
 		d.pop('Mu', None)
 		return d
 
@@ -619,7 +619,7 @@ class KrillHerdV3(KrillHerd):
 	Name = ['KrillHerdV3', 'KHv3']
 
 	@staticmethod
-	def typeParameters():
+	def type_parameters():
 		r"""Get dictionary with functions for checking values of parameters.
 
 		Returns:
@@ -628,7 +628,7 @@ class KrillHerdV3(KrillHerd):
 		See Also:
 			* :func:NiaPy.algorithms.basic.kh.KrillHerd.typeParameters`
 		"""
-		d = KrillHerd.typeParameters()
+		d = KrillHerd.type_parameters()
 		d.pop('Cr', None)
 		return d
 
@@ -749,7 +749,7 @@ class KrillHerdV11(KrillHerd):
 		"""
 		return 0.8 + 0.2 * (KH_f - KHb_f) / (KHw_f - KHb_f)
 
-	def initPopulation(self, task):
+	def init_population(self, task):
 		r"""Initialize firt herd/population.
 
 		Args:
@@ -769,13 +769,13 @@ class KrillHerdV11(KrillHerd):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.initPopulation`
 		"""
-		KH, KH_f, d = Algorithm.initPopulation(self, task)
+		KH, KH_f, d = Algorithm.init_population(self, task)
 		KHo, KHo_f = np.full([self.NP, task.D], task.optType.value * np.inf), np.full(self.NP, task.optType.value * np.inf)
 		N, F, Dt = np.full(self.NP, .0), np.full(self.NP, .0), np.mean(task.bcRange()) / 2
 		d.update({'KHo': KHo, 'KHo_f': KHo_f, 'N': N, 'F': F, 'Dt': Dt})
 		return KH, KH_f, d
 
-	def runIteration(self, task, KH, KH_f, xb, fxb, KHo, KHo_f, N, F, Dt, **dparams):
+	def run_iteration(self, task, KH, KH_f, xb, fxb, KHo, KHo_f, N, F, Dt, **dparams):
 		r"""Core function of KrillHerdV11 algorithm.
 
 		Args:
@@ -800,7 +800,7 @@ class KrillHerdV11(KrillHerd):
 		w = np.full(task.D, 0.1 + 0.8 * (1 - task.Iters / task.nGEN))
 		ib, iw = np.argmin(KH_f), np.argmax(KH_f)
 		x_food, x_food_f = self.getFoodLocation(KH, KH_f, task)
-		xb, fxb = self.getBest(x_food, x_food_f, xb, fxb)
+		xb, fxb = self.get_best(x_food, x_food_f, xb, fxb)
 		N = np.asarray([self.Neighbors(i, KH, KH_f, iw, ib, N[i], w, task) for i in range(self.NP)])
 		F = np.asarray([self.Foraging(KH[i], KH_f[i], KHo[i], KHo_f[i], w, F[i], KH_f[iw], KH_f[ib], x_food, x_food_f, task) for i in range(self.NP)])
 		Cr = np.asarray([self.Cr(KH_f[i], KH_f[ib], KH_f[iw]) for i in range(self.NP)])
@@ -809,7 +809,7 @@ class KrillHerdV11(KrillHerd):
 		KH = np.apply_along_axis(task.repair, 1, KH_n, self.Rand)
 		KH_f = np.apply_along_axis(task.eval, 1, KH)
 		KHo, KHo_f = self.ElitistSelection(KH, KH_f, KHo, KHo_f)
-		xb, fxb = self.getBest(KH, KH_f, xb, fxb)
+		xb, fxb = self.get_best(KH, KH_f, xb, fxb)
 		return KH, KH_f, xb, fxb, {'KHo': KHo, 'KHo_f': KHo_f, 'N': N, 'F': F, 'Dt': Dt}
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

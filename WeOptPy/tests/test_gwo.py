@@ -17,7 +17,5 @@ class GWOTestCase(AlgorithmTestCase):
 		gwo_customc = self.algo(NP=20, seed=self.seed)
 		AlgorithmTestCase.test_algorithm_run(self, gwo_custom, gwo_customc, MyBenchmark())
 
-	def test_griewank_works_fine(self):
-		gwo_griewank = self.algo(NP=10, seed=self.seed)
-		gwo_griewankc = self.algo(NP=10, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, gwo_griewank, gwo_griewankc)
+
+# vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

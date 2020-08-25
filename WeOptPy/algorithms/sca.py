@@ -40,7 +40,7 @@ class SineCosineAlgorithm(Algorithm):
 	Name = ['SineCosineAlgorithm', 'SCA']
 
 	@staticmethod
-	def algorithmInfo():
+	def algorithm_info():
 		r"""Get basic information of algorithm.
 
 		Returns:
@@ -52,7 +52,7 @@ class SineCosineAlgorithm(Algorithm):
 		return r"""Seyedali Mirjalili, SCA: A Sine Cosine Algorithm for solving optimization problems, Knowledge-Based Systems, Volume 96, 2016, Pages 120-133, ISSN 0950-7051, https://doi.org/10.1016/j.knosys.2015.12.022."""
 
 	@staticmethod
-	def typeParameters():
+	def type_parameters():
 		r"""Get dictionary with functions for checking values of parameters.
 
 		Returns:
@@ -64,7 +64,7 @@ class SineCosineAlgorithm(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.typeParameters`
 		"""
-		d = Algorithm.typeParameters()
+		d = Algorithm.type_parameters()
 		d.update({
 			'a': lambda x: isinstance(x, (float, int)) and x > 0,
 			'Rmin': lambda x: isinstance(x, (float, int)),
@@ -72,11 +72,11 @@ class SineCosineAlgorithm(Algorithm):
 		})
 		return d
 
-	def setParameters(self, NP=25, a=3, Rmin=0, Rmax=2, **ukwargs):
+	def set_parameters(self, n=25, a=3, Rmin=0, Rmax=2, **ukwargs):
 		r"""Set the arguments of an algorithm.
 
 		Args:
-			NP (Optional[int]): Number of individual in population
+			n (Optional[int]): Number of individual in population
 			a (Optional[float]): Parameter for control in :math:`r_1` value
 			Rmin (Optional[float]): Minimu value for :math:`r_3` value
 			Rmax (Optional[float]): Maximum value for :math:`r_3` value
@@ -84,10 +84,10 @@ class SineCosineAlgorithm(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.algorithm.Algorithm.setParameters`
 		"""
-		Algorithm.setParameters(self, NP=NP, **ukwargs)
+		Algorithm.set_parameters(self, n=n, **ukwargs)
 		self.a, self.Rmin, self.Rmax = a, Rmin, Rmax
 
-	def getParameters(self):
+	def get_parameters(self):
 		r"""Get algorithm parameters values.
 
 		Returns:
@@ -96,7 +96,7 @@ class SineCosineAlgorithm(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.algorithm.Algorithm.getParameters`
 		"""
-		d = Algorithm.getParameters(self)
+		d = Algorithm.get_parameters(self)
 		d.update({
 			'a': self.a,
 			'Rmin': self.Rmin,
@@ -121,7 +121,7 @@ class SineCosineAlgorithm(Algorithm):
 		"""
 		return task.repair(x + r1 * (np.sin(r2) if r4 < 0.5 else np.cos(r2)) * np.fabs(r3 * x_b - x), self.Rand)
 
-	def initPopulation(self, task):
+	def init_population(self, task):
 		r"""Initialize the individuals.
 
 		Args:
@@ -133,9 +133,9 @@ class SineCosineAlgorithm(Algorithm):
 				2. Function/fitness values for individuals
 				3. Additional arguments
 		"""
-		return Algorithm.initPopulation(self, task)
+		return Algorithm.init_population(self, task)
 
-	def runIteration(self, task, P, P_f, xb, fxb, **dparams):
+	def run_iteration(self, task, P, P_f, xb, fxb, **dparams):
 		r"""Core function of Sine Cosine Algorithm.
 
 		Args:
@@ -157,7 +157,7 @@ class SineCosineAlgorithm(Algorithm):
 		r1, r2, r3, r4 = self.a - task.Iters * (self.a / task.Iters), self.uniform(0, 2 * np.pi), self.uniform(self.Rmin, self.Rmax), self.rand()
 		P = np.apply_along_axis(self.nextPos, 1, P, xb, r1, r2, r3, r4, task)
 		P_f = np.apply_along_axis(task.eval, 1, P)
-		xb, fxb = self.getBest(P, P_f, xb, fxb)
+		xb, fxb = self.get_best(P, P_f, xb, fxb)
 		return P, P_f, xb, fxb, {}
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

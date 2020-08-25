@@ -79,11 +79,11 @@ class HillClimbAlgorithm(Algorithm):
             * delta (Optional[float]): Change for searching in neighborhood.
             * Neighborhood (Optional[Callable[numpy.ndarray, float, Task], Tuple[numpy.ndarray, float]]]): Function for getting neighbours.
         """
-        Algorithm.setParameters(self, NP=1, **ukwargs)
+        Algorithm.set_parameters(self, n=1, **ukwargs)
         self.delta, self.Neighborhood = delta, Neighborhood
 
     def getParameters(self):
-        d = Algorithm.getParameters(self)
+        d = Algorithm.get_parameters(self)
         d.update({
             'delta': self.delta,
             'Neighborhood': self.Neighborhood
@@ -127,6 +127,6 @@ class HillClimbAlgorithm(Algorithm):
         while not lo:
             yn, yn_f = self.Neighborhood(x, self.delta, task, rnd=self.Rand)
             if yn_f < xn_f: xn, xn_f = yn, yn_f
-            else: lo = True or task.stopCond()
+            else: lo = True or task.stop_cond()
         xb, fxb = self.getBest(xn, xn_f, xb, fxb)
         return xn, xn_f, xb, fxb, {}

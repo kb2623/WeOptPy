@@ -311,7 +311,7 @@ class MultipleTrajectorySearch(Algorithm):
 	Name = ['MultipleTrajectorySearch', 'MTS']
 
 	@staticmethod
-	def algorithmInfo():
+	def algorithm_info():
 		r"""Get basic information of algorithm.
 
 		Returns:
@@ -323,7 +323,7 @@ class MultipleTrajectorySearch(Algorithm):
 		return r"""Lin-Yu Tseng and Chun Chen, "Multiple trajectory search for Large Scale Global Optimization," 2008 IEEE Congress on Evolutionary Computation (IEEE World Congress on Computational Intelligence), Hong Kong, 2008, pp. 3052-3059. doi: 10.1109/CEC.2008.4631210"""
 
 	@staticmethod
-	def typeParameters():
+	def type_parameters():
 		r"""Get dictionary with functions for checking values of parameters.
 
 		Returns:
@@ -346,7 +346,7 @@ class MultipleTrajectorySearch(Algorithm):
 			'BONUS2': lambda x: isinstance(x, (int, float)) and x > 0,
 		}
 
-	def setParameters(self, M=40, NoLsTests=5, NoLs=5, NoLsBest=5, NoEnabled=17, BONUS1=10, BONUS2=1, LSs=(MTS_LS1, MTS_LS2, MTS_LS3), **ukwargs):
+	def set_parameters(self, M=40, NoLsTests=5, NoLs=5, NoLsBest=5, NoEnabled=17, BONUS1=10, BONUS2=1, LSs=(MTS_LS1, MTS_LS2, MTS_LS3), **ukwargs):
 		r"""Set the arguments of the algorithm.
 
 		Arguments:
@@ -362,19 +362,19 @@ class MultipleTrajectorySearch(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.setParameters`
 		"""
-		Algorithm.setParameters(self, NP=ukwargs.pop('NP', M), **ukwargs)
+		Algorithm.set_parameters(self, n=ukwargs.pop('n', M), **ukwargs)
 		self.NoLsTests, self.NoLs, self.NoLsBest, self.NoEnabled, self.BONUS1, self.BONUS2 = NoLsTests, NoLs, NoLsBest, NoEnabled, BONUS1, BONUS2
 		self.LSs = LSs
 
-	def getParameters(self):
+	def get_parameters(self):
 		r"""Get parameters values for the algorithm.
 
 		Returns:
 			Dict[str, Any]:
 		"""
-		d = Algorithm.getParameters(self)
+		d = Algorithm.get_parameters(self)
 		d.update({
-			'M': d.pop('NP', self.NP),
+			'M': d.pop('n', self.NP),
 			'NoLsTests': self.NoLsTests,
 			'NoLs': self.NoLs,
 			'NoLsBest': self.NoLsBest,
@@ -440,7 +440,7 @@ class MultipleTrajectorySearch(Algorithm):
 			g += grade
 		return x, x_f, xb, fxb, improve, SR, g
 
-	def initPopulation(self, task):
+	def init_population(self, task):
 		r"""Initialize starting population.
 
 		Args:
@@ -456,7 +456,7 @@ class MultipleTrajectorySearch(Algorithm):
 					* SR (numpy.ndarray): Search range.
 					* grades (numpy.ndarray): Grade of solution/individual.
 		"""
-		X, X_f, d = Algorithm.initPopulation(self, task)
+		X, X_f, d = Algorithm.init_population(self, task)
 		enable, improve, SR, grades = np.full(self.NP, True), np.full(self.NP, True), np.full([self.NP, task.D], task.bRange / 2), np.full(self.NP, 0.0)
 		d.update({
 			'enable': enable,
@@ -466,7 +466,7 @@ class MultipleTrajectorySearch(Algorithm):
 		})
 		return X, X_f, d
 
-	def runIteration(self, task, X, X_f, xb, xb_f, enable, improve, SR, grades, **dparams):
+	def run_iteration(self, task, X, X_f, xb, xb_f, enable, improve, SR, grades, **dparams):
 		r"""Core function of MultipleTrajectorySearch algorithm.
 
 		Args:
@@ -533,7 +533,7 @@ class MultipleTrajectorySearchV1(MultipleTrajectorySearch):
 	Name = ['MultipleTrajectorySearchV1', 'MTSv1']
 
 	@staticmethod
-	def algorithmInfo():
+	def algorithm_info():
 		r"""Get basic information of algorithm.
 
 		Returns:
@@ -544,7 +544,7 @@ class MultipleTrajectorySearchV1(MultipleTrajectorySearch):
 		"""
 		return r"""Tseng, Lin-Yu, and Chun Chen. "Multiple trajectory search for unconstrained/constrained multi-objective optimization." Evolutionary Computation, 2009. CEC'09. IEEE Congress on. IEEE, 2009."""
 
-	def setParameters(self, **kwargs):
+	def set_parameters(self, **kwargs):
 		r"""Set core parameters of MultipleTrajectorySearchV1 algorithm.
 
 		Args:
@@ -554,6 +554,6 @@ class MultipleTrajectorySearchV1(MultipleTrajectorySearch):
 			* :func:`NiaPy.algorithms.other.MultipleTrajectorySearch.setParameters`
 		"""
 		kwargs.pop('NoLsBest', None)
-		MultipleTrajectorySearch.setParameters(self, NoLsBest=0, LSs=(MTS_LS1v1, MTS_LS2), **kwargs)
+		MultipleTrajectorySearch.set_parameters(self, NoLsBest=0, LSs=(MTS_LS1v1, MTS_LS2), **kwargs)
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

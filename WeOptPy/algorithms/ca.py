@@ -147,7 +147,7 @@ class CamelAlgorithm(Algorithm):
 	Name = ['CamelAlgorithm', 'CA']
 
 	@staticmethod
-	def algorithmInfo():
+	def algorithm_info():
 		r"""Get information about algorithm.
 
 		Returns:
@@ -156,7 +156,7 @@ class CamelAlgorithm(Algorithm):
 		return r'''Ali, Ramzy. (2016). Novel Optimization Algorithm Inspired by Camel Traveling Behavior. Iraq J. Electrical and Electronic Engineering. 12. 167-177.'''
 
 	@staticmethod
-	def typeParameters():
+	def type_parameters():
 		r"""Get dictionary with functions for checking values of parameters.
 
 		Returns:
@@ -172,7 +172,7 @@ class CamelAlgorithm(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.typeParameters`
 		"""
-		d = Algorithm.typeParameters()
+		d = Algorithm.type_parameters()
 		d.update({
 			'omega': lambda x: isinstance(x, (float, int)),
 			'mu': lambda x: isinstance(x, float) and 0 <= x <= 1,
@@ -184,11 +184,11 @@ class CamelAlgorithm(Algorithm):
 		})
 		return d
 
-	def setParameters(self, NP=50, omega=0.25, mu=0.5, alpha=0.5, S_init=10, E_init=10, T_min=-10, T_max=10, **ukwargs):
+	def set_parameters(self, n=50, omega=0.25, mu=0.5, alpha=0.5, S_init=10, E_init=10, T_min=-10, T_max=10, **ukwargs):
 		r"""Set the arguments of an algorithm.
 
 		Arguments:
-			NP (Optional[int]): Population size :math:`\in [1, \infty)`.
+			n (Optional[int]): Population size :math:`\in [1, \infty)`.
 			T_min (Optional[float]): Minimum temperature, must be true :math:`$T_{min} < T_{max}`.
 			T_max (Optional[float]): Maximum temperature, must be true :math:`T_{min} < T_{max}`.
 			omega (Optional[float]): Burden factor :math:`\in [0, 1]`.
@@ -199,16 +199,16 @@ class CamelAlgorithm(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.setParameters`
 		"""
-		Algorithm.setParameters(self, NP=NP, itype=Camel, InitPopFunc=ukwargs.pop('InitPopFunc', self.initPop), **ukwargs)
+		Algorithm.set_parameters(self, n=n, itype=Camel, init_pop_func=ukwargs.pop('init_pop_func', self.initPop), **ukwargs)
 		self.omega, self.mu, self.alpha, self.S_init, self.E_init, self.T_min, self.T_max = omega, mu, alpha, S_init, E_init, T_min, T_max
 
-	def getParameters(self):
+	def get_parameters(self):
 		r"""Get parameters of the algorithm.
 
 		Returns:
 			 Dict[str, Any]:
 		"""
-		d = Algorithm.getParameters(self)
+		d = Algorithm.get_parameters(self)
 		d.update({
 			'omega': self.omega,
 			'mu': self.mu,
@@ -283,7 +283,7 @@ class CamelAlgorithm(Algorithm):
 		if c.f_past < mu * c.f: return Camel(self.E_init, self.S_init, rnd=self.Rand, task=task)
 		else: return c.next()
 
-	def initPopulation(self, task):
+	def init_population(self, task):
 		r"""Initialize population.
 
 		Args:
@@ -298,10 +298,10 @@ class CamelAlgorithm(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.initPopulation`
 		"""
-		caravan, fcaravan, _ = Algorithm.initPopulation(self, task)
+		caravan, fcaravan, _ = Algorithm.init_population(self, task)
 		return caravan, fcaravan, {}
 
-	def runIteration(self, task, caravan, fcaravan, cb, fcb, **dparams):
+	def run_iteration(self, task, caravan, fcaravan, cb, fcb, **dparams):
 		r"""Core function of Camel Algorithm.
 
 		Args:
@@ -324,7 +324,7 @@ class CamelAlgorithm(Algorithm):
 		ncaravan = objects2array([self.oasis(c, self.rand(), self.alpha) for c in ncaravan])
 		ncaravan = objects2array([self.lifeCycle(c, self.mu, task) for c in ncaravan])
 		fncaravan = np.asarray([c.f for c in ncaravan])
-		cb, fcb = self.getBest(ncaravan, fncaravan, cb, fcb)
+		cb, fcb = self.get_best(ncaravan, fncaravan, cb, fcb)
 		return ncaravan, fncaravan, cb, fcb, {}
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

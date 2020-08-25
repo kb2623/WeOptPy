@@ -195,7 +195,7 @@ class AnarchicSocietyOptimization(Algorithm):
 	Name = ['AnarchicSocietyOptimization', 'ASO']
 
 	@staticmethod
-	def typeParameters():
+	def type_parameters():
 		r"""Get dictionary with functions for checking values of parameters.
 
 		Returns:
@@ -210,7 +210,7 @@ class AnarchicSocietyOptimization(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.typeParameters`
 		"""
-		d = Algorithm.typeParameters()
+		d = Algorithm.type_parameters()
 		d.update({
 			'alpha': lambda x: True,
 			'gamma': lambda x: True,
@@ -221,7 +221,7 @@ class AnarchicSocietyOptimization(Algorithm):
 		})
 		return d
 
-	def setParameters(self, NP=43, alpha=(1, 0.83), gamma=(1.17, 0.56), theta=(0.932, 0.832), d=euclidean, dn=euclidean, nl=1, F=1.2, CR=0.25, Combination=Elitism, **ukwargs):
+	def set_parameters(self, n=43, alpha=(1, 0.83), gamma=(1.17, 0.56), theta=(0.932, 0.832), d=euclidean, dn=euclidean, nl=1, F=1.2, CR=0.25, Combination=Elitism, **ukwargs):
 		r"""Set the parameters for the algorithm.
 
 		Args:
@@ -242,7 +242,7 @@ class AnarchicSocietyOptimization(Algorithm):
 				* :func:`NiaPy.algorithms.other.Crossover`
 				* :func:`NiaPy.algorithms.other.Sequential`
 		"""
-		Algorithm.setParameters(self, NP=NP, **ukwargs)
+		Algorithm.set_parameters(self, n=n, **ukwargs)
 		self.alpha, self.gamma, self.theta, self.d, self.dn, self.nl, self.F, self.CR, self.Combination = alpha, gamma, theta, d, dn, nl, F, CR, Combination
 
 	def init(self, task):
@@ -337,7 +337,7 @@ class AnarchicSocietyOptimization(Algorithm):
 		Xpb[ix_pb], Xpb_f[ix_pb] = X[ix_pb], X_f[ix_pb]
 		return Xpb, Xpb_f
 
-	def initPopulation(self, task):
+	def init_population(self, task):
 		r"""Initialize first population and additional arguments.
 
 		Args:
@@ -359,13 +359,13 @@ class AnarchicSocietyOptimization(Algorithm):
 			* :func:`NiaPy.algorithms.algorithm.Algorithm.initPopulation`
 			* :func:`NiaPy.algorithms.other.aso.AnarchicSocietyOptimization.init`
 		"""
-		X, X_f, d = Algorithm.initPopulation(self, task)
+		X, X_f, d = Algorithm.init_population(self, task)
 		alpha, gamma, theta = self.init(task)
 		Xpb, Xpb_f = self.uBestAndPBest(X, X_f, np.full([self.NP, task.D], 0.0), np.full(self.NP, task.optType.value * np.inf))
 		d.update({'Xpb': Xpb, 'Xpb_f': Xpb_f, 'alpha': alpha, 'gamma': gamma, 'theta': theta, 'rs': self.d(task.Upper, task.Lower)})
 		return X, X_f, d
 
-	def runIteration(self, task, X, X_f, xb, fxb, Xpb, Xpb_f, alpha, gamma, theta, rs, **dparams):
+	def run_iteration(self, task, X, X_f, xb, fxb, Xpb, Xpb_f, alpha, gamma, theta, rs, **dparams):
 		r"""Core function of AnarchicSocietyOptimization algorithm.
 
 		Args:
@@ -400,7 +400,7 @@ class AnarchicSocietyOptimization(Algorithm):
 		Xtmp = np.asarray([self.Combination(X[i], Xpb[i], xb, X[self.randint(len(X), skip=[i])], MP_c[i], MP_s[i], MP_p[i], self.F, self.CR, task, self.Rand) for i in range(len(X))])
 		X, X_f = np.asarray([Xtmp[i][0] for i in range(len(X))]), np.asarray([Xtmp[i][1] for i in range(len(X))])
 		Xpb, Xpb_f = self.uBestAndPBest(X, X_f, Xpb, Xpb_f)
-		xb, fxb = self.getBest(X, X_f, xb, fxb)
+		xb, fxb = self.get_best(X, X_f, xb, fxb)
 		return X, X_f, xb, fxb, {'Xpb': Xpb, 'Xpb_f': Xpb_f, 'alpha': alpha, 'gamma': gamma, 'theta': theta, 'rs': rs}
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

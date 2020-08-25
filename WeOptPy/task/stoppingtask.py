@@ -17,96 +17,81 @@ logger.setLevel('INFO')
 class StoppingTask(CountingTask):
 	r"""Optimization task with implemented checking for stopping criterias.
 
-	Attributes:
-			  nGEN (int): Maximum number of algorithm iterations/generations.
-			  nFES (int): Maximum number of function evaluations.
-			  refValue (float): Reference function/fitness values to reach in optimization.
-			  x (numpy.ndarray): Best found individual.
-			  x_f (float): Best found individual function/fitness value.
+	Args:
+		no_gen (int): Maximum number of algorithm iterations/generations.
+		no_fes (int): Maximum number of function evaluations.
+		rvalue (float): Reference function/fitness values to reach in optimization.
+		x (numpy.ndarray): Best found individual.
+		x_f (float): Best found individual function/fitness value.
 
 	See Also:
-			  * :class:`NiaPy.util.CountingTask`
-
+		* :class:`NiaPy.util.CountingTask`
 	"""
-
-	def __init__(self, nFES=np.inf, nGEN=np.inf, refValue=None, logger=False, **kwargs):
+	def __init__(self, no_fes=np.inf, no_gen=np.inf, rvalue=None, verbose=False, **kwargs):
 		r"""Initialize task class for optimization.
 
 		Arguments:
-				  nFES (Optional[int]): Number of function evaluations.
-				  nGEN (Optional[int]): Number of generations or iterations.
-				  refValue (Optional[float]): Reference value of function/fitness function.
-				  logger (Optional[bool]): Enable/disable logging of improvements.
+			no_fes (Optional[int]): Number of function evaluations.
+			no_gen (Optional[int]): Number of generations or iterations.
+			rvalue (Optional[float]): Reference value of function/fitness function.
+			verbose (Optional[bool]): Enable/disable logging of improvements.
 
 		Note:
-				  Storing improvements during the evolutionary cycle is
-				  captured in self.n_evals and self.x_f_vals
+			Storing improvements during the evolutionary cycle is
+			captured in self.n_evals and self.x_f_vals
 
 		See Also:
-				  * :func:`NiaPy.util.CountingTask.__init__`
-
+			* :func:`NiaPy.util.CountingTask.__init__`
 		"""
-
 		CountingTask.__init__(self, **kwargs)
-		self.refValue = (-np.inf if refValue is None else refValue)
-		self.logger = logger
+		self.refValue = (-np.inf if rvalue is None else rvalue)
+		self.verbose = verbose
 		self.x, self.x_f = None, np.inf
-		self.nFES, self.nGEN = nFES, nGEN
+		self.nFES, self.nGEN = no_fes, no_gen
 		self.n_evals = []
 		self.x_f_vals = []
 
-	def eval(self, A):
+	def eval(self, a):
 		r"""Evaluate solution.
 
 		Args:
-				  A (numpy.ndarray): Solution to evaluate.
+			a (numpy.ndarray): Solution to evaluate.
 
 		Returns:
-				  float: Fitness/function value of solution.
+			float: Fitness/function value of solution.
 
 		See Also:
-				  * :func:`NiaPy.util.StoppingTask.stopCond`
-				  * :func:`NiaPy.util.CountingTask.eval`
-
+			* :func:`NiaPy.util.StoppingTask.stopCond`
+			* :func:`NiaPy.util.CountingTask.eval`
 		"""
-
-		if self.stopCond():
-			return np.inf * self.optType.value
-
-		x_f = CountingTask.eval(self, A)
-
+		if self.stop_cond(): return np.inf * self.optType.value
+		x_f = CountingTask.eval(self, a)
 		if x_f < self.x_f:
 			self.x_f = x_f
 			self.n_evals.append(self.Evals)
 			self.x_f_vals.append(x_f)
-			if self.logger:
-				logger.info('nFES:%d => %s' % (self.Evals, self.x_f))
-
+			if self.verbose: logger.info('nFES:%d => %s' % (self.Evals, self.x_f))
 		return x_f
 
-	def stopCond(self):
+	def stop_cond(self):
 		r"""Check if stopping condition reached.
 
 		Returns:
-				  bool: `True` if number of function evaluations or number of algorithm iterations/generations or reference values is reach else `False`
-
+			bool: `True` if number of function evaluations or number of algorithm iterations/generations or reference values is reach else `False`
 		"""
-
 		return (self.Evals >= self.nFES) or (self.Iters >= self.nGEN) or (self.refValue > self.x_f)
 
-	def stopCondI(self):
+	def stop_cond_i(self):
 		r"""Check if stopping condition reached and increase number of iterations.
 
 		Returns:
-				  bool: `True` if number of function evaluations or number of algorithm iterations/generations or reference values is reach else `False`.
+			bool: `True` if number of function evaluations or number of algorithm iterations/generations or reference values is reach else `False`.
 
 		See Also:
-				  * :func:`NiaPy.util.StoppingTask.stopCond`
-				  * :func:`NiaPy.util.CountingTask.nextIter`
-
+			* :func:`NiaPy.util.StoppingTask.stopCond`
+			* :func:`NiaPy.util.CountingTask.nextIter`
 		"""
-
-		r = self.stopCond()
+		r = self.stop_cond()
 		CountingTask.nextIter(self)
 		return r
 
@@ -114,10 +99,9 @@ class StoppingTask(CountingTask):
 		r"""Get values of x and y axis for plotting covariance graph.
 
 		Returns:
-				  Tuple[List[int], List[float]]:
-						1. List of ints of function evaluations.
-						2. List of ints of function/fitness values.
-
+			Tuple[List[int], List[float]]:
+				1. List of ints of function evaluations.
+				2. List of ints of function/fitness values.
 		"""
 		r1, r2 = [], []
 		for i, v in enumerate(self.n_evals):
@@ -136,5 +120,6 @@ class StoppingTask(CountingTask):
 		plt.ylabel('Fitness')
 		plt.title('Convergence graph')
 		plt.show()
-		
+
+
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

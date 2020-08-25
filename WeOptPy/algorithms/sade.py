@@ -46,7 +46,7 @@ class StrategyAdaptationDifferentialEvolution(DifferentialEvolution):
     Name = ['StrategyAdaptationDifferentialEvolution', 'SADE', 'SaDE']
 
     @staticmethod
-    def algorithmInfo():
+    def algorithm_info():
         r"""Geg basic algorithm information.
 
         Returns:
@@ -57,16 +57,16 @@ class StrategyAdaptationDifferentialEvolution(DifferentialEvolution):
         """
         return r"""Qin, A. Kai, and Ponnuthurai N. Suganthan. "Self-adaptive differential evolution algorithm for numerical optimization." 2005 IEEE congress on evolutionary computation. Vol. 2. IEEE, 2005."""
 
-    def setParameters(self, **kwargs):
-        DifferentialEvolution.setParameters(self, **kwargs)
+    def set_parameters(self, **kwargs):
+        DifferentialEvolution.set_parameters(self, **kwargs)
     # TODO add parameters of the algorithm
 
-    def getParameters(self):
-        d = DifferentialEvolution.getParameters(self)
+    def get_parameters(self):
+        d = DifferentialEvolution.get_parameters(self)
         # TODO add paramters values
         return d
 
-    def runIteration(self, task, pop, fpop, xb, fxb, **dparams):
+    def run_iteration(self, task, pop, fpop, xb, fxb, **dparams):
         # TODO implemnt algorithm
         return pop, fpop, xb, fxb, dparams
 
@@ -101,7 +101,7 @@ class StrategyAdaptationDifferentialEvolutionV1(DifferentialEvolution):
     Name = ['StrategyAdaptationDifferentialEvolutionV1', 'SADEV1', 'SaDEV1']
 
     @staticmethod
-    def algorithmInfo():
+    def algorithm_info():
         r"""Get algorithm information.
 
         Returns:
@@ -112,15 +112,15 @@ class StrategyAdaptationDifferentialEvolutionV1(DifferentialEvolution):
         """
         return r"""Qin, A. Kai, Vicky Ling Huang, and Ponnuthurai N. Suganthan. "Differential evolution algorithm with strategy adaptation for global numerical optimization." IEEE transactions on Evolutionary Computation 13.2 (2009): 398-417."""
 
-    def setParameters(self, **kwargs):
-        DifferentialEvolution.setParameters(self, **kwargs)
+    def set_parameters(self, **kwargs):
+        DifferentialEvolution.set_parameters(self, **kwargs)
     # TODO add parameters of the algorithm
 
-    def getParameters(self):
-        d = DifferentialEvolution.getParameters(self)
+    def get_parameters(self):
+        d = DifferentialEvolution.get_parameters(self)
         # TODO add paramters values
         return d
 
-    def runIteration(self, task, pop, fpop, xb, fxb, **dparams):
+    def run_iteration(self, task, pop, fpop, xb, fxb, **dparams):
         # TODO implement algorithm
         return pop, fpop, xb, fxb, dparams

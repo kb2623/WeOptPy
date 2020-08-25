@@ -24,8 +24,8 @@ class Task:
 
 	Attributes:
 		D (int): Dimension of the problem.
-		Lower (numpy.ndarray): Lower bounds of the problem.
-		Upper (numpy.ndarray): Upper bounds of the problem.
+		Lower (numpy.ndarray): lower bounds of the problem.
+		Upper (numpy.ndarray): upper bounds of the problem.
 		bRange (numpy.ndarray): Search range between upper and lower limits.
 		optType (OptimizationType): Optimization type to use.
 
@@ -44,8 +44,8 @@ class Task:
 			D (Optional[int]): Number of dimensions.
 			optType (Optional[OptimizationType]): Set the type of optimization.
 			benchmark (Union[str, Benchmark]): Problem to solve with optimization.
-			Lower (Optional[numpy.ndarray]): Lower limits of the problem.
-			Upper (Optional[numpy.ndarray]): Upper limits of the problem.
+			Lower (Optional[numpy.ndarray]): lower limits of the problem.
+			Upper (Optional[numpy.ndarray]): upper limits of the problem.
 			frepair (Optional[Callable[[numpy.ndarray, numpy.ndarray, numpy.ndarray, Dict[str, Any]], numpy.ndarray]]): Function for reparing individuals components to desired limits.
 			kwargs (Dict[str, Any]): Additional arguments.
 
@@ -60,11 +60,11 @@ class Task:
 		# set optimization function
 		self.benchmark = Factory().get_benchmark(benchmark) if benchmark is not None else None
 		if self.benchmark is not None: self.Fun = self.benchmark.function() if self.benchmark is not None else None
-		# set Lower limits
+		# set lower limits
 		if Lower is not None: self.Lower = fullArray(Lower, self.D)
 		elif Lower is None and benchmark is not None: self.Lower = fullArray(self.benchmark.Lower, self.D)
 		else: self.Lower = fullArray(0, self.D)
-		# set Upper limits
+		# set upper limits
 		if Upper is not None: self.Upper = fullArray(Upper, self.D)
 		elif Upper is None and benchmark is not None: self.Upper = fullArray(self.benchmark.Upper, self.D)
 		else: self.Upper = fullArray(0, self.D)
@@ -85,7 +85,7 @@ class Task:
 		r"""Get the array of lower bound constraint.
 
 		Returns:
-			numpy.ndarray: Lower bound.
+			numpy.ndarray: lower bound.
 		"""
 		return self.Lower
 
@@ -93,7 +93,7 @@ class Task:
 		r"""Get the array of upper bound constraint.
 
 		Returns:
-			numpy.ndarray: Upper bound.
+			numpy.ndarray: upper bound.
 		"""
 		return self.Upper
 
@@ -152,7 +152,7 @@ class Task:
 		"""
 		return False not in (A >= self.Lower) and False not in (A <= self.Upper)
 
-	def stopCond(self):
+	def stop_cond(self):
 		r"""Check if optimization task should stop.
 
 		Returns:

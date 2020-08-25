@@ -5,7 +5,7 @@ from numpy import random as rand
 
 from WeOptPy.algorithms.interfaces.individual import (
 	Individual,
-	defaultNumPyInit
+	default_numpy_init
 )
 from WeOptPy.util.exception import (
 	FesException,
@@ -15,6 +15,7 @@ from WeOptPy.util.exception import (
 )
 
 __all__ = ['Algorithm']
+
 
 class Algorithm:
 	r"""Class for implementing algorithms.
@@ -38,18 +39,18 @@ class Algorithm:
 	Name = ['Algorithm', 'AAA']
 	Rand = rand.RandomState(None)
 	NP = 50
-	InitPopFunc = defaultNumPyInit
+	InitPopFunc = default_numpy_init
 	itype = None
 
 	@staticmethod
-	def typeParameters():
+	def type_parameters():
 		r"""Return functions for checking values of parameters.
 
 		Return:
 			Dict[str, Callable[[Any], bool]]:
-				* NP: Check if number of individuals is :math:`\in [0, \infty]`.
+				* n: Check if number of individuals is :math:`\in [0, \infty]`.
 		"""
-		return {'NP': lambda x: isinstance(x, int) and x > 0}
+		return {'n': lambda x: isinstance(x, int) and x > 0}
 
 	def __init__(self, seed=None, **kwargs):
 		r"""Initialize algorithm and create name for an algorithm.
@@ -62,10 +63,10 @@ class Algorithm:
 			* :func:`NiaPy.algorithms.Algorithm.setParameters`
 		"""
 		self.Rand, self.exception = rand.RandomState(seed), None
-		self.setParameters(**kwargs)
+		self.set_parameters(**kwargs)
 
 	@staticmethod
-	def algorithmInfo():
+	def algorithm_info():
 		r"""Get algorithm information.
 
 		Returns:
@@ -73,12 +74,12 @@ class Algorithm:
 		"""
 		return '''Basic algorithm. No implementation!!!'''
 
-	def setParameters(self, NP=50, InitPopFunc=defaultNumPyInit, itype=None, **kwargs):
+	def set_parameters(self, n=50, init_pop_func=default_numpy_init, itype=None, **kwargs):
 		r"""Set the parameters/arguments of the algorithm.
 
 		Args:
-			NP (Optional[int]): Number of individuals in population :math:`\in [1, \infty]`.
-			InitPopFunc (Optional[Callable[[Task, int, Optional[rand.RandomState], Dict[str, Any]], Tuple[numpy.ndarray, numpy.ndarray]]]): Type of individuals used by algorithm.
+			n (Optional[int]): Number of individuals in population :math:`\in [1, \infty]`.
+			init_pop_func (Optional[Callable[[Task, int, Optional[rand.RandomState], Dict[str, Any]], Tuple[numpy.ndarray, numpy.ndarray]]]): Type of individuals used by algorithm.
 			itype (Individual): Individual type used in population, default is Numpy array.
 			kwargs (Dict[str, Any]): Additional arguments.
 
@@ -86,9 +87,9 @@ class Algorithm:
 			* :func:`NiaPy.algorithms.defaultNumPyInit`
 			* :func:`NiaPy.algorithms.defaultIndividualInit`
 		"""
-		self.NP, self.InitPopFunc, self.itype = NP, InitPopFunc, itype
+		self.NP, self.InitPopFunc, self.itype = n, init_pop_func, itype
 
-	def getParameters(self):
+	def get_parameters(self):
 		r"""Get parameters of the algorithm.
 
 		Returns:
@@ -97,87 +98,87 @@ class Algorithm:
 				* Value of parameter: Represents the value of the parameter
 		"""
 		return {
-			'NP': self.NP,
-			'InitPopFunc': self.InitPopFunc,
+			'n': self.NP,
+			'init_pop_func': self.InitPopFunc,
 			'itype': self.itype
 		}
 
-	def rand(self, D=1):
-		r"""Get random distribution of shape D in range from 0 to 1.
+	def rand(self, d=1):
+		r"""Get random distribution of shape d in range from 0 to 1.
 
 		Args:
-			D (Optional[int]): Shape of returned random distribution.
+			d (Optional[int]): Shape of returned random distribution.
 
 		Returns:
 			Union[float, numpy.ndarray]: Random number or numbers :math:`\in [0, 1]`.
 		"""
-		if isinstance(D, (np.ndarray, list)): return self.Rand.rand(*D)
-		elif D > 1: return self.Rand.rand(D)
+		if isinstance(d, (np.ndarray, list)): return self.Rand.rand(*d)
+		elif d > 1: return self.Rand.rand(d)
 		else: return self.Rand.rand()
 
-	def uniform(self, Lower, Upper, D=None):
-		r"""Get uniform random distribution of shape D in range from "Lower" to "Upper".
+	def uniform(self, lower, upper, d=None):
+		r"""Get uniform random distribution of shape d in range from "Lower" to "Upper".
 
 		Args:
-			Lower (Union[float, numpy.ndarray]): Lower bound.
-			Upper (Union[float, numpy.ndarray]): Upper bound.
-			D (Optional[Union[int, Iterable[int]]]): Shape of returned uniform random distribution.
+			lower (Union[float, numpy.ndarray]): Lower bound.
+			upper (Union[float, numpy.ndarray]): Upper bound.
+			d (Optional[Union[int, Iterable[int]]]): Shape of returned uniform random distribution.
 
 		Returns:
 			Union[float, numpy.ndarray]: Array of numbers :math:`\in [\mathit{Lower}, \mathit{Upper}]`.
 		"""
-		return self.Rand.uniform(Lower, Upper, D) if D is not None else self.Rand.uniform(Lower, Upper)
+		return self.Rand.uniform(lower, upper, d) if d is not None else self.Rand.uniform(lower, upper)
 
-	def normal(self, loc, scale, D=None):
-		r"""Get normal random distribution of shape D with mean "loc" and standard deviation "scale".
+	def normal(self, loc, scale, d=None):
+		r"""Get normal random distribution of shape d with mean "loc" and standard deviation "scale".
 
 		Args:
 			loc (float): Mean of the normal random distribution.
 			scale (float): Standard deviation of the normal random distribution.
-			D (Optional[Union[int, Iterable[int]]]): Shape of returned normal random distribution.
+			d (Optional[Union[int, Iterable[int]]]): Shape of returned normal random distribution.
 
 		Returns:
 			Union[numpy.ndarray, float]: Array of numbers.
 		"""
-		return self.Rand.normal(loc, scale, D) if D is not None else self.Rand.normal(loc, scale)
+		return self.Rand.normal(loc, scale, d) if d is not None else self.Rand.normal(loc, scale)
 
-	def randn(self, D=None):
-		r"""Get standard normal distribution of shape D.
+	def randn(self, d=None):
+		r"""Get standard normal distribution of shape d.
 
 		Args:
-			D (Optional[Union[int, Iterable[int]]]): Shape of returned standard normal distribution.
+			d (Optional[Union[int, Iterable[int]]]): Shape of returned standard normal distribution.
 
 		Returns:
 			Union[numpy.ndarray, float]: Random generated numbers or one random generated number :math:`\in [0, 1]`.
 		"""
-		if D is None: return self.Rand.randn()
-		elif isinstance(D, int): return self.Rand.randn(D)
-		return self.Rand.randn(*D)
+		if d is None: return self.Rand.randn()
+		elif isinstance(d, int): return self.Rand.randn(d)
+		return self.Rand.randn(*d)
 
-	def randint(self, Nmax, D=1, Nmin=0, skip=None):
-		r"""Get discrete uniform (integer) random distribution of D shape in range from "Nmin" to "Nmax".
+	def randint(self, nmax, d=1, nmin=0, skip=None):
+		r"""Get discrete uniform (integer) random distribution of d shape in range from "nmin" to "Nmax".
 
 		Args:
-			Nmin (int): Lower integer bound.
-			D (Optional[Union[int, Iterable[int]]]): shape of returned discrete uniform random distribution.
-			Nmax (Optional[int]): One above upper integer bound.
+			nmin (int): lower integer bound.
+			d (Optional[Union[int, Iterable[int]]]): shape of returned discrete uniform random distribution.
+			nmax (Optional[int]): One above upper integer bound.
 			skip (Optional[Union[int, Iterable[int]]]): numbers to skip.
 
 		Returns:
 			Union[int, numpy.ndarray]: Random generated integer number.
 		"""
 		r = None
-		if isinstance(D, (list, tuple, np.ndarray)): r = self.Rand.randint(Nmin, Nmax, D)
-		elif D > 1: r = self.Rand.randint(Nmin, Nmax, D)
-		else: r = self.Rand.randint(Nmin, Nmax)
-		return r if skip is None or r not in skip else self.randint(Nmax, D, Nmin, skip)
+		if isinstance(d, (list, tuple, np.ndarray)): r = self.Rand.randint(nmin, nmax, d)
+		elif d > 1: r = self.Rand.randint(nmin, nmax, d)
+		else: r = self.Rand.randint(nmin, nmax)
+		return r if skip is None or r not in skip else self.randint(nmax, d, nmin, skip)
 
-	def getBest(self, X, X_f, xb=None, xb_f=np.inf):
+	def get_best(self, x, x_f, xb=None, xb_f=np.inf):
 		r"""Get the best individual for population.
 
 		Args:
-			X (numpy.ndarray): Current population.
-			X_f (numpy.ndarray): Current populations fitness/function values of aligned individuals.
+			x (numpy.ndarray): Current population.
+			x_f (numpy.ndarray): Current populations fitness/function values of aligned individuals.
 			xb (Optional[numpy.ndarray]): Best individual.
 			xb_f (Optional[float]): Fitness value of best individual.
 
@@ -186,12 +187,12 @@ class Algorithm:
 				1. Coordinates of best solution.
 				2. beset fitness/function value.
 		"""
-		ib = np.argmin(X_f)
-		if isinstance(X_f, (float, int)) and xb_f >= X_f: xb, xb_f = X, X_f
-		elif isinstance(X_f, (np.ndarray, list)) and xb_f >= X_f[ib]: xb, xb_f = X[ib], X_f[ib]
+		ib = np.argmin(x_f)
+		if isinstance(x_f, (float, int)) and xb_f >= x_f: xb, xb_f = x, x_f
+		elif isinstance(x_f, (np.ndarray, list)) and xb_f >= x_f[ib]: xb, xb_f = x[ib], x_f[ib]
 		return (xb.x.copy() if isinstance(xb, Individual) else xb.copy()), xb_f
 
-	def initPopulation(self, task):
+	def init_population(self, task):
 		r"""Initialize starting population of optimization algorithm.
 
 		Args:
@@ -209,7 +210,7 @@ class Algorithm:
 		pop, fpop = self.InitPopFunc(task=task, NP=self.NP, rnd=self.Rand, itype=self.itype)
 		return pop, fpop, {}
 
-	def runIteration(self, task, pop, fpop, xb, fxb, **dparams):
+	def run_iteration(self, task, pop, fpop, xb, fxb, **dparams):
 		r"""Core functionality of algorithm.
 
 		This function is called on every algorithm iteration.
@@ -219,11 +220,11 @@ class Algorithm:
 			pop (numpy.ndarray): Current population coordinates.
 			fpop (numpy.ndarray): Current population fitness value.
 			xb (numpy.ndarray): Current generation best individuals coordinates.
-			xb_f (float): current generation best individuals fitness value.
+			fxb (float): current generation best individuals fitness value.
 			dparams (Dict[str, Any]): Additional arguments for algorithms.
 
 		Returns:
-			Tuple[np.ndarray, np.ndarray, np.ndarray, float, Dict[str, Any]]:
+			Tuple[n.ndarray, n.ndarray, n.ndarray, float, Dict[str, Any]]:
 				1. New populations coordinates.
 				2. New populations fitness values.
 				3. New global best position/solution
@@ -235,7 +236,7 @@ class Algorithm:
 		"""
 		return pop, fpop, xb, fxb, dparams
 
-	def runYield(self, task):
+	def run_yield(self, task):
 		r"""Run the algorithm for a single iteration and return the best solution.
 
 		Args:
@@ -253,14 +254,14 @@ class Algorithm:
 			* :func:`NiaPy.algorithms.Algorithm.initPopulation`
 			* :func:`NiaPy.algorithms.Algorithm.runIteration`
 		"""
-		pop, fpop, dparams = self.initPopulation(task)
-		xb, fxb = self.getBest(pop, fpop)
+		pop, fpop, dparams = self.init_population(task)
+		xb, fxb = self.get_best(pop, fpop)
 		yield xb, fxb
 		while True:
-			pop, fpop, xb, fxb, dparams = self.runIteration(task, pop, fpop, xb, fxb, **dparams)
+			pop, fpop, xb, fxb, dparams = self.run_iteration(task, pop, fpop, xb, fxb, **dparams)
 			yield xb, fxb
 
-	def runTask(self, task):
+	def run_task(self, task):
 		r"""Start the optimization.
 
 		Args:
@@ -274,8 +275,8 @@ class Algorithm:
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.runYield`
 		"""
-		algo, xb, fxb = self.runYield(task), None, np.inf
-		while not task.stopCond():
+		algo, xb, fxb = self.run_yield(task), None, np.inf
+		while not task.stop_cond():
 			xb, fxb = next(algo)
 			task.nextIter()
 		return xb, fxb
@@ -296,7 +297,7 @@ class Algorithm:
 		"""
 		try:
 			# task.start()
-			r = self.runTask(task)
+			r = self.run_task(task)
 			return r[0], r[1] * task.optType.value
 		except (FesException, GenException, TimeException, RefException): return task.x, task.x_f * task.optType.value
 		except Exception as e: self.exception = e
@@ -319,11 +320,12 @@ class Algorithm:
 		return self.run(task)
 
 	def bad_run(self):
-		r"""Check if some exeptions where thrown when the algorithm was running.
+		r"""Check if some exceptions where thrown when the algorithm was running.
 
 		Returns:
 			bool: True if some error where detected at runtime of the algorithm, otherwise False
 		"""
 		return self.exception is not None
-	
+
+
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

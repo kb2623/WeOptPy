@@ -46,17 +46,17 @@ class TabuSearch(Algorithm):
 	Name = ['TabuSearch', 'TS']
 
 	@staticmethod
-	def typeParameters(): return {
-		'NP': lambda x: isinstance(x, int) and x > 0
+	def type_parameters(): return {
+		'n': lambda x: isinstance(x, int) and x > 0
 	}
 
-	def setParameters(self, **ukwargs):
+	def set_parameters(self, **ukwargs):
 		r"""Set the algorithm parameters/arguments."""
-		Algorithm.setParameters(self, **ukwargs)
+		Algorithm.set_parameters(self, **ukwargs)
 
 	def move(self): return list()
 
-	def runIteration(self, task, pop, fpop, xb, fxb, **dparams):
+	def run_iteration(self, task, pop, fpop, xb, fxb, **dparams):
 		r"""Core function of the algorithm.
 
 		Args:

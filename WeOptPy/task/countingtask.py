@@ -28,13 +28,13 @@ class CountingTask(Task):
 		Task.__init__(self, **kwargs)
 		self.Iters, self.Evals = 0, 0
 
-	def eval(self, A):
+	def eval(self, a):
 		r"""Evaluate the solution A.
 
 		This function increments function evaluation counter `self.Evals`.
 
 		Args:
-			A (numpy.ndarray): Solutions to evaluate.
+			a (numpy.ndarray): Solutions to evaluate.
 
 		Returns:
 			float: Fitness/function values of solution.
@@ -42,7 +42,7 @@ class CountingTask(Task):
 		See Also:
 			* :func:`WeOptPy.util.Task.eval`
 		"""
-		r = Task.eval(self, A)
+		r = Task.eval(self, a)
 		self.Evals += 1
 		return r
 

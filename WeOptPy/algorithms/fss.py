@@ -54,7 +54,7 @@ class FishSchoolSearch(Algorithm):
 		MIT
 
 	Reference paper:
-		Bastos Filho, Lima Neto, Lins, D. O. Nascimento and P. Lima, “A novel search algorithm based on fish school behavior,” in 2008 IEEE International Conference on Systems, Man and Cybernetics, Oct 2008, pp. 2646–2651.
+		Bastos Filho, Lima Neto, Lins, d. O. Nascimento and P. Lima, “A novel search algorithm based on fish school behavior,” in 2008 IEEE International Conference on Systems, Man and Cybernetics, Oct 2008, pp. 2646–2651.
 
 	Attributes:
 		Name (List[str]): List of strings representing algorithm name.
@@ -71,15 +71,15 @@ class FishSchoolSearch(Algorithm):
 	Name = ['FSS', 'FishSchoolSearch']
 
 	@staticmethod
-	def typeParameters():
+	def type_parameters():
 		# TODO
 		return {'school_size': lambda x: False, 'SI_final': lambda x: False}
 
-	def setParameters(self, NP=25, SI_init=3, SI_final=10, SV_init=3, SV_final=13, min_w=0.3, w_scale=0.7, **ukwargs):
+	def set_parameters(self, n=25, SI_init=3, SI_final=10, SV_init=3, SV_final=13, min_w=0.3, w_scale=0.7, **ukwargs):
 		r"""Set core arguments of FishSchoolSearch algorithm.
 
 		Arguments:
-			NP (Optional[int]): Number of fishes in school.
+			n (Optional[int]): Number of fishes in school.
 			SI_init (Optional[int]): Length of initial individual step.
 			SI_final (Optional[int]): Length of final individual step.
 			SV_init (Optional[int]): Length of initial volatile step.
@@ -90,7 +90,7 @@ class FishSchoolSearch(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.setParameters`
 		"""
-		Algorithm.setParameters(self, NP=NP, **ukwargs)
+		Algorithm.set_parameters(self, n=n, **ukwargs)
 		self.step_individual_init = SI_init
 		self.step_individual_final = SI_final
 		self.step_volitive_init = SV_init
@@ -98,7 +98,7 @@ class FishSchoolSearch(Algorithm):
 		self.min_w = min_w
 		self.w_scale = w_scale
 
-	def getParameters(self):
+	def get_parameters(self):
 		r"""Get algorithm parameters.
 
 		Returns:
@@ -107,7 +107,7 @@ class FishSchoolSearch(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.setParameters`
 		"""
-		d = Algorithm.getParameters(self)
+		d = Algorithm.get_parameters(self)
 		d.update({
 			'SI_init': self.step_individual_init,
 			'SI_final': self.step_individual_final,
@@ -257,7 +257,7 @@ class FishSchoolSearch(Algorithm):
 			new_pos = task.repair(fish.x + (curr_step_individual * self.uniform(-1, 1, task.D)), rnd=self.Rand)
 			cost = task.eval(new_pos)
 			if cost < fish.f:
-				xb, fxb = self.getBest(new_pos, cost, xb, fxb)
+				xb, fxb = self.get_best(new_pos, cost, xb, fxb)
 				fish.delta_cost = abs(cost - fish.f)
 				fish.f = cost
 				delta_pos = np.zeros((task.D,), dtype=np.float)
@@ -307,10 +307,10 @@ class FishSchoolSearch(Algorithm):
 			if curr_weight_school > prev_weight_school: fish.x -= (fish.x - barycenter) * curr_step_volitive * self.uniform(0, 1, task.D)
 			else: fish.x += (fish.x - barycenter) * curr_step_volitive * self.uniform(0, 1, task.D)
 			fish.evaluate(task, rnd=self.Rand)
-			xb, fxb = self.getBest(fish.x, fish.f, xb, fxb)
+			xb, fxb = self.get_best(fish.x, fish.f, xb, fxb)
 		return school, xb, fxb
 
-	def initPopulation(self, task):
+	def init_population(self, task):
 		r"""Initialize the school.
 
 		Args:
@@ -322,7 +322,7 @@ class FishSchoolSearch(Algorithm):
 		curr_step_individual, curr_step_volitive, curr_weight_school, prev_weight_school, school = self.init_school(task)
 		return school, np.asarray([f.f for f in school]), {'curr_step_individual': curr_step_individual, 'curr_step_volitive': curr_step_volitive, 'curr_weight_school': curr_weight_school, 'prev_weight_school': prev_weight_school}
 
-	def runIteration(self, task, school, fschool, xb, fxb, curr_step_individual, curr_step_volitive, curr_weight_school, prev_weight_school, **dparams):
+	def run_iteration(self, task, school, fschool, xb, fxb, curr_step_individual, curr_step_volitive, curr_weight_school, prev_weight_school, **dparams):
 		r"""Core function of algorithm.
 
 		Args:

@@ -26,11 +26,6 @@ class DEMTSTestCase(AlgorithmTestCase):
         ca_customc = self.algo(NP=40, seed=self.seed)
         AlgorithmTestCase.test_algorithm_run(self, ca_custom, ca_customc, MyBenchmark())
 
-    def test_griewank_works_fine(self):
-        ca_griewank = self.algo(NP=40, seed=self.seed)
-        ca_griewankc = self.algo(NP=40, seed=self.seed)
-        AlgorithmTestCase.test_algorithm_run(self, ca_griewank, ca_griewankc)
-
 
 class DEMTSv1TestCase(AlgorithmTestCase):
     def setUp(self):
@@ -41,11 +36,6 @@ class DEMTSv1TestCase(AlgorithmTestCase):
         ca_custom = self.algo(NP=40, seed=self.seed)
         ca_customc = self.algo(NP=40, seed=self.seed)
         AlgorithmTestCase.test_algorithm_run(self, ca_custom, ca_customc, MyBenchmark())
-
-    def test_griewank_works_fine(self):
-        ca_griewank = self.algo(NP=40, seed=self.seed)
-        ca_griewankc = self.algo(NP=40, seed=self.seed)
-        AlgorithmTestCase.test_algorithm_run(self, ca_griewank, ca_griewankc)
 
 
 class DynNpDEMTSTestCase(AlgorithmTestCase):
@@ -58,11 +48,6 @@ class DynNpDEMTSTestCase(AlgorithmTestCase):
         ca_customc = self.algo(NP=40, seed=self.seed)
         AlgorithmTestCase.test_algorithm_run(self, ca_custom, ca_customc, MyBenchmark())
 
-    def test_griewank_works_fine(self):
-        ca_griewank = self.algo(NP=40, seed=self.seed)
-        ca_griewankc = self.algo(NP=40, seed=self.seed)
-        AlgorithmTestCase.test_algorithm_run(self, ca_griewank, ca_griewankc)
-
 
 class DynNpDEMTSv1TestCase(AlgorithmTestCase):
     def setUp(self):
@@ -73,11 +58,6 @@ class DynNpDEMTSv1TestCase(AlgorithmTestCase):
         ca_custom = self.algo(NP=40, seed=self.seed)
         ca_customc = self.algo(NP=40, seed=self.seed)
         AlgorithmTestCase.test_algorithm_run(self, ca_custom, ca_customc, MyBenchmark())
-
-    def test_griewank_works_fine(self):
-        ca_griewank = self.algo(NP=40, seed=self.seed)
-        ca_griewankc = self.algo(NP=40, seed=self.seed)
-        AlgorithmTestCase.test_algorithm_run(self, ca_griewank, ca_griewankc)
 
 
 class MSDEMTSTestCase(AlgorithmTestCase):
@@ -90,11 +70,6 @@ class MSDEMTSTestCase(AlgorithmTestCase):
         ca_customc = self.algo(NP=40, seed=self.seed)
         AlgorithmTestCase.test_algorithm_run(self, ca_custom, ca_customc, MyBenchmark())
 
-    def test_griewank_works_fine(self):
-        ca_griewank = self.algo(NP=40, seed=self.seed)
-        ca_griewankc = self.algo(NP=40, seed=self.seed)
-        AlgorithmTestCase.test_algorithm_run(self, ca_griewank, ca_griewankc)
-
 
 class MSDEMTSv1STestCase(AlgorithmTestCase):
     def setUp(self):
@@ -105,11 +80,6 @@ class MSDEMTSv1STestCase(AlgorithmTestCase):
         ca_custom = self.algo(NP=40, seed=self.seed)
         ca_customc = self.algo(NP=40, seed=self.seed)
         AlgorithmTestCase.test_algorithm_run(self, ca_custom, ca_customc, MyBenchmark())
-
-    def test_griewank_works_fine(self):
-        ca_griewank = self.algo(NP=40, seed=self.seed)
-        ca_griewankc = self.algo(NP=40, seed=self.seed)
-        AlgorithmTestCase.test_algorithm_run(self, ca_griewank, ca_griewankc)
 
 
 class DynNpMSDEMTSTestCase(AlgorithmTestCase):
@@ -122,11 +92,6 @@ class DynNpMSDEMTSTestCase(AlgorithmTestCase):
         ca_customc = self.algo(NP=40, seed=self.seed)
         AlgorithmTestCase.test_algorithm_run(self, ca_custom, ca_customc, MyBenchmark())
 
-    def test_griewank_works_fine(self):
-        ca_griewank = self.algo(NP=40, seed=self.seed)
-        ca_griewankc = self.algo(NP=40, seed=self.seed)
-        AlgorithmTestCase.test_algorithm_run(self, ca_griewank, ca_griewankc)
-
 
 class DynNpMSDEMTSv1TestCase(AlgorithmTestCase):
     def setUp(self):
@@ -138,7 +103,5 @@ class DynNpMSDEMTSv1TestCase(AlgorithmTestCase):
         ca_customc = self.algo(NP=40, seed=self.seed)
         AlgorithmTestCase.test_algorithm_run(self, ca_custom, ca_customc, MyBenchmark())
 
-    def test_griewank_works_fine(self):
-        ca_griewank = self.algo(NP=40, seed=self.seed)
-        ca_griewankc = self.algo(NP=40, seed=self.seed)
-        AlgorithmTestCase.test_algorithm_run(self, ca_griewank, ca_griewankc)
+
+# vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

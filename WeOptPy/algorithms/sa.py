@@ -76,7 +76,7 @@ class SimulatedAnnealing(Algorithm):
 	Name = ['SimulatedAnnealing', 'SA']
 
 	@staticmethod
-	def algorithmInfo():
+	def algorithm_info():
 		r"""Get basic information of algorithm.
 
 		Returns:
@@ -88,7 +88,7 @@ class SimulatedAnnealing(Algorithm):
 		return r"""None"""
 
 	@staticmethod
-	def typeParameters():
+	def type_parameters():
 		r"""Get dictionary with functions for checking values of parameters.
 
 		Returns:
@@ -102,7 +102,7 @@ class SimulatedAnnealing(Algorithm):
 			'epsilon': lambda x: isinstance(x, float) and 0 < x < 1
 		}
 
-	def setParameters(self, delta=0.5, T=2000, deltaT=0.8, coolingMethod=coolDelta, epsilon=1e-23, **ukwargs):
+	def set_parameters(self, delta=0.5, T=2000, deltaT=0.8, coolingMethod=coolDelta, epsilon=1e-23, **ukwargs):
 		r"""Set the algorithm parameters/arguments.
 
 		Arguments:
@@ -115,11 +115,11 @@ class SimulatedAnnealing(Algorithm):
 		See Also
 			* :func:`NiaPy.algorithms.Algorithm.setParameters`
 		"""
-		ukwargs.pop('NP', None)
-		Algorithm.setParameters(self, NP=1, **ukwargs)
+		ukwargs.pop('n', None)
+		Algorithm.set_parameters(self, n=1, **ukwargs)
 		self.delta, self.T, self.deltaT, self.cool, self.epsilon = delta, T, deltaT, coolingMethod, epsilon
 
-	def getParameters(self):
+	def get_parameters(self):
 		r"""Get algorithms parametes values.
 
 		Returns:
@@ -128,7 +128,7 @@ class SimulatedAnnealing(Algorithm):
 		See Also
 			* :func:`NiaPy.algorithms.Algorithm.getParameters`
 		"""
-		d = Algorithm.getParameters(self)
+		d = Algorithm.get_parameters(self)
 		d.update({
 			'delta': self.delta,
 			'deltaT': self.deltaT,
@@ -137,7 +137,7 @@ class SimulatedAnnealing(Algorithm):
 		})
 		return d
 
-	def initPopulation(self, task):
+	def init_population(self, task):
 		r"""Initialize the starting population.
 
 		Args:
@@ -153,7 +153,7 @@ class SimulatedAnnealing(Algorithm):
 		curT, xfit = self.T, task.eval(x)
 		return x, xfit, {'curT': curT}
 
-	def runIteration(self, task, x, xfit, xb, fxb, curT, **dparams):
+	def run_iteration(self, task, x, xfit, xb, fxb, curT, **dparams):
 		r"""Core funciton of the algorithm.
 
 		Args:
@@ -178,7 +178,7 @@ class SimulatedAnnealing(Algorithm):
 		deltaFit, r = cfit - xfit, self.rand()
 		if deltaFit < 0 or r < np.exp(deltaFit / curT): x, xfit = c, cfit
 		curT = self.cool(curT, self.T, deltaT=self.deltaT, nFES=task.nFES)
-		xb, fxb = self.getBest(x, xfit, xb, fxb)
+		xb, fxb = self.get_best(x, xfit, xb, fxb)
 		return x, xfit, xb, fxb, {'curT': curT}
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

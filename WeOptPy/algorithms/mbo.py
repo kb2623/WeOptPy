@@ -37,7 +37,7 @@ class MonarchButterflyOptimization(Algorithm):
 	Name = ['MonarchButterflyOptimization', 'MBO']
 
 	@staticmethod
-	def algorithmInfo():
+	def algorithm_info():
 		r"""Get information of the algorithm.
 
 		Returns:
@@ -54,7 +54,7 @@ class MonarchButterflyOptimization(Algorithm):
 		"""
 
 	@staticmethod
-	def typeParameters():
+	def type_parameters():
 		r"""Get dictionary with functions for checking values of parameters.
 
 		Returns:
@@ -64,18 +64,18 @@ class MonarchButterflyOptimization(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.algorithm.Algorithm.typeParameters`
 		"""
-		d = Algorithm.typeParameters()
+		d = Algorithm.type_parameters()
 		d.update({
 			'PAR': lambda x: isinstance(x, float) and x > 0,
 			'PER': lambda x: isinstance(x, float) and x > 0
 		})
 		return d
 
-	def setParameters(self, NP=20, PAR=5.0 / 12.0, PER=1.2, **ukwargs):
+	def set_parameters(self, n=20, PAR=5.0 / 12.0, PER=1.2, **ukwargs):
 		r"""Set the parameters of the algorithm.
 
 		Args:
-			NP (Optional[int]): Population size.
+			n (Optional[int]): Population size.
 			PAR (Optional[int]): Partition.
 			PER (Optional[int]): Period.
 			ukwargs (Dict[str, Any]): Additional arguments.
@@ -83,17 +83,17 @@ class MonarchButterflyOptimization(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.setParameters`
 		"""
-		Algorithm.setParameters(self, NP=NP, **ukwargs)
-		self.NP, self.PAR, self.PER, self.keep, self.BAR, self.NP1 = NP, PAR, PER, 2, PAR, int(np.ceil(PAR * NP))
-		self.NP2 = int(NP - self.NP1)
+		Algorithm.set_parameters(self, n=n, **ukwargs)
+		self.NP, self.PAR, self.PER, self.keep, self.BAR, self.NP1 = n, PAR, PER, 2, PAR, int(n.ceil(PAR * n))
+		self.NP2 = int(n - self.NP1)
 
-	def getParameters(self):
+	def get_parameters(self):
 		r"""Get parameters values for the algorithm.
 
 		Returns:
 			Dict[str, Any]: TODO.
 		"""
-		d = Algorithm.getParameters(self)
+		d = Algorithm.get_parameters(self)
 		d.update({
 			'PAR': self.PAR,
 			'PER': self.PER,
@@ -109,8 +109,8 @@ class MonarchButterflyOptimization(Algorithm):
 
 		Args:
 			x (numpy.ndarray): Individual to repair.
-			lower (numpy.ndarray): Lower limits for dimensions.
-			upper (numpy.ndarray): Upper limits for dimensions.
+			lower (numpy.ndarray): lower limits for dimensions.
+			upper (numpy.ndarray): upper limits for dimensions.
 
 		Returns:
 			numpy.ndarray: Repaired individual.
@@ -152,10 +152,10 @@ class MonarchButterflyOptimization(Algorithm):
 			for parnum1 in range(0, D):
 				r1 = self.uniform(0.0, 1.0) * self.PER
 				if r1 <= self.PAR:
-					r2 = self.randint(Nmin=0, Nmax=NP1 - 1)
+					r2 = self.randint(nmin=0, nmax=NP1 - 1)
 					Butterflies[k1, parnum1] = pop1[r2, parnum1]
 				else:
-					r3 = self.randint(Nmin=0, Nmax=NP2 - 1)
+					r3 = self.randint(nmin=0, nmax=NP2 - 1)
 					Butterflies[k1, parnum1] = pop2[r3, parnum1]
 		return Butterflies
 
@@ -183,7 +183,7 @@ class MonarchButterflyOptimization(Algorithm):
 				if self.uniform(0.0, 1.0) >= self.PAR:
 					Butterflies[k2, parnum2] = best[parnum2]
 				else:
-					r4 = self.randint(Nmin=0, Nmax=NP2 - 1)
+					r4 = self.randint(nmin=0, nmax=NP2 - 1)
 					Butterflies[k2, parnum2] = pop2[r4, 1]
 					if self.uniform(0.0, 1.0) > self.BAR:
 						Butterflies[k2, parnum2] += scale * (delataX[parnum2] - 0.5)
@@ -209,7 +209,7 @@ class MonarchButterflyOptimization(Algorithm):
 
 		return Fitness, Butterflies
 
-	def initPopulation(self, task):
+	def init_population(self, task):
 		r"""Initialize the starting population.
 
 		Args:
@@ -229,7 +229,7 @@ class MonarchButterflyOptimization(Algorithm):
 		Fitness, Butterflies = self.evaluateAndSort(task, Butterflies)
 		return Butterflies, Fitness, {'tmp_best': Butterflies[0]}
 
-	def runIteration(self, task, Butterflies, Evaluations, xb, fxb, tmp_best, **dparams):
+	def run_iteration(self, task, Butterflies, Evaluations, xb, fxb, tmp_best, **dparams):
 		r"""Core function of Forest Optimization Algorithm.
 
 		Args:
@@ -258,7 +258,7 @@ class MonarchButterflyOptimization(Algorithm):
 		tmp_best = Butterflies[0]
 		Butterflies[-self.keep:] = tmpElite
 		Fitness, Butterflies = self.evaluateAndSort(task, Butterflies)
-		xb, fxb = self.getBest(Butterflies, Fitness, xb, fxb)
+		xb, fxb = self.get_best(Butterflies, Fitness, xb, fxb)
 		return Butterflies, Fitness, xb, fxb, {'tmp_best': tmp_best}
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

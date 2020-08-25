@@ -50,7 +50,7 @@ class GlowwormSwarmOptimization(Algorithm):
     Name = ['GlowwormSwarmOptimization', 'GSO']
 
     @staticmethod
-    def algorithmInfo():
+    def algorithm_info():
         r"""Get basic information of algorithm.
 
         Returns:
@@ -59,7 +59,7 @@ class GlowwormSwarmOptimization(Algorithm):
         return r"""Kaipa, Krishnanand N., and Debasish Ghose. Glowworm swarm optimization: theory, algorithms, and applications. Vol. 698. Springer, 2017."""
 
     @staticmethod
-    def typeParameters():
+    def type_parameters():
         r"""Get dictionary with functions for checking values of parameters.
 
         Returns:
@@ -82,7 +82,7 @@ class GlowwormSwarmOptimization(Algorithm):
             's': lambda x: isinstance(x, float) and x > 0
         }
 
-    def setParameters(self, n=25, l0=5, nt=5, rho=0.4, gamma=0.6, beta=0.08, s=0.03, Distance=euclidean, **ukwargs):
+    def set_parameters(self, n=25, l0=5, nt=5, rho=0.4, gamma=0.6, beta=0.08, s=0.03, Distance=euclidean, **ukwargs):
         r"""Set the arguments of an algorithm.
 
         Arguments:
@@ -96,18 +96,18 @@ class GlowwormSwarmOptimization(Algorithm):
             s (Optional[float]): --
             Distance (Optional[Callable[[numpy.ndarray, numpy.ndarray], float]]]): Measure distance between two individuals.
         """
-        ukwargs.pop('NP', None)
-        Algorithm.setParameters(self, NP=n, **ukwargs)
+        ukwargs.pop('n', None)
+        Algorithm.set_parameters(self, n=n, **ukwargs)
         self.l0, self.nt, self.rho, self.gamma, self.beta, self.s, self.Distance = l0, nt, rho, gamma, beta, s, Distance
 
-    def getParameters(self):
+    def get_parameters(self):
         r"""Get algorithms parameters values.
 
         Returns:
             Dict[str, Any]: TODO.
         """
-        d = Algorithm.getParameters(self)
-        d.pop('NP', None)
+        d = Algorithm.get_parameters(self)
+        d.pop('n', None)
         d.update({
             'n': self.NP,
             'l0': self.l0,
@@ -192,7 +192,7 @@ class GlowwormSwarmOptimization(Algorithm):
         """
         return R + self.beta * (self.nt - np.sum(N))
 
-    def initPopulation(self, task):
+    def init_population(self, task):
         r"""Initialize population.
 
         Args:
@@ -207,13 +207,13 @@ class GlowwormSwarmOptimization(Algorithm):
                     * R (numpy.ndarray): TODO.
                     * rs (numpy.ndarray): TODO.
         """
-        GS, GS_f, d = Algorithm.initPopulation(self, task)
+        GS, GS_f, d = Algorithm.init_population(self, task)
         rs = euclidean(np.full(task.D, 0), task.bRange)
         L, R = np.full(self.NP, self.l0), np.full(self.NP, rs)
         d.update({'L': L, 'R': R, 'rs': rs})
         return GS, GS_f, d
 
-    def runIteration(self, task, GS, GS_f, xb, fxb, L, R, rs, **dparams):
+    def run_iteration(self, task, GS, GS_f, xb, fxb, L, R, rs, **dparams):
         r"""Core function of GlowwormSwarmOptimization algorithm.
 
         Args:
@@ -246,7 +246,7 @@ class GlowwormSwarmOptimization(Algorithm):
         for i in range(self.NP): GS[i] = task.repair(GSo[i] + self.s * ((GSo[j[i]] - GSo[i]) / (self.Distance(GSo[j[i]], GSo[i]) + 1e-31)), rnd=self.Rand)
         for i in range(self.NP): R[i] = max(0, min(rs, self.rangeUpdate(Ro[i], N[i], rs)))
         GS_f = np.apply_along_axis(task.eval, 1, GS)
-        xb, fxb = self.getBest(GS, GS_f, xb, fxb)
+        xb, fxb = self.get_best(GS, GS_f, xb, fxb)
         return GS, GS_f, xb, fxb, {'L': L, 'R': R, 'rs': rs}
 
 class GlowwormSwarmOptimizationV1(GlowwormSwarmOptimization):
@@ -279,13 +279,13 @@ class GlowwormSwarmOptimizationV1(GlowwormSwarmOptimization):
     """
     Name = ['GlowwormSwarmOptimizationV1', 'GSOv1']
 
-    def setParameters(self, **kwargs):
+    def set_parameters(self, **kwargs):
         r"""Set default parameters of the algorithm.
 
         Args:
             **kwargs (dict): Additional arguments.
         """
-        GlowwormSwarmOptimization.setParameters(self, **kwargs)
+        GlowwormSwarmOptimization.set_parameters(self, **kwargs)
 
     def calcLuciferin(self, L, GS_f):
         r"""TODO.
@@ -342,7 +342,7 @@ class GlowwormSwarmOptimizationV2(GlowwormSwarmOptimization):
     """
     Name = ['GlowwormSwarmOptimizationV2', 'GSOv2']
 
-    def setParameters(self, alpha=0.2, **kwargs):
+    def set_parameters(self, alpha=0.2, **kwargs):
         r"""Set core parameters for GlowwormSwarmOptimizationV2 algorithm.
 
         Args:
@@ -352,7 +352,7 @@ class GlowwormSwarmOptimizationV2(GlowwormSwarmOptimization):
         See Also:
             * :func:`NiaPy.algorithms.basic.GlowwormSwarmOptimization.setParameters`
         """
-        GlowwormSwarmOptimization.setParameters(self, **kwargs)
+        GlowwormSwarmOptimization.set_parameters(self, **kwargs)
         self.alpha = alpha
 
     def rangeUpdate(self, P, N, rs):
@@ -398,7 +398,7 @@ class GlowwormSwarmOptimizationV3(GlowwormSwarmOptimization):
     """
     Name = ['GlowwormSwarmOptimizationV3', 'GSOv3']
 
-    def setParameters(self, beta1=0.2, **kwargs):
+    def set_parameters(self, beta1=0.2, **kwargs):
         r"""Set core parameters for GlowwormSwarmOptimizationV3 algorithm.
 
         Args:
@@ -408,7 +408,7 @@ class GlowwormSwarmOptimizationV3(GlowwormSwarmOptimization):
         See Also:
             * :func:`NiaPy.algorithms.basic.GlowwormSwarmOptimization.setParameters`
         """
-        GlowwormSwarmOptimization.setParameters(self, **kwargs)
+        GlowwormSwarmOptimization.set_parameters(self, **kwargs)
         self.beta1 = beta1
 
     def rangeUpdate(self, R, N, rs):

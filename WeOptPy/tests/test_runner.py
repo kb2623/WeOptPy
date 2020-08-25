@@ -2,8 +2,7 @@
 
 from unittest import TestCase
 
-import NiaPy
-from NiaPy.benchmarks.benchmark import Benchmark
+import WeOptPy
 
 
 class MyBenchmark(Benchmark):
@@ -32,3 +31,6 @@ class RunnerTestCase(TestCase):
 
     def test_runner_bad_benchmark_thorws_fine(self):
         self.assertRaises(TypeError, lambda: NiaPy.Runner(4, 10, 3, 'EvolutionStrategy1p1', 'TesterMan').run())
+
+
+# vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

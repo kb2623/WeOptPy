@@ -36,30 +36,27 @@ class Runner:
 	It also support exporting results in various formats (e.g. LaTeX, Excel, JSON)
 
 	Attributes:
-			  D (int): Dimension of problem
-			  NP (int): Population size
-			  nFES (int): Number of function evaluations
-			  nRuns (int): Number of repetitions
-			  useAlgorithms (Union[List[str], List[Algorithm]]): List of algorithms to run
-			  useBenchmarks (Union[List[str], List[Benchmark]]): List of benchmarks to run
+		D (int): Dimension of problem
+		NP (int): Population size
+		nFES (int): Number of function evaluations
+		nRuns (int): Number of repetitions
+		useAlgorithms (Union[List[str], List[Algorithm]]): List of algorithms to run
+		useBenchmarks (Union[List[str], List[Benchmark]]): List of benchmarks to run
 
 	Returns:
-			  results (Dict[str, Dict]): Returns the results.
+		results (Dict[str, Dict]): Returns the results.
 
 	"""
-
 	def __init__(self, D=10, nFES=1000000, nRuns=1, useAlgorithms='ArtificialBeeColonyAlgorithm', useBenchmarks='Ackley', **kwargs):
 		r"""Initialize Runner.
 
 		Args:
-				  D (int): Dimension of problem
-				  nFES (int): Number of function evaluations
-				  nRuns (int): Number of repetitions
-				  useAlgorithms (List[Algorithm]): List of algorithms to run
-				  useBenchmarks (List[Benchmarks]): List of benchmarks to run
-
+			D (int): Dimension of problem
+			nFES (int): Number of function evaluations
+			nRuns (int): Number of repetitions
+			useAlgorithms (List[Algorithm]): List of algorithms to run
+			useBenchmarks (List[Benchmarks]): List of benchmarks to run
 		"""
-
 		self.D = D
 		self.nFES = nFES
 		self.nRuns = nRuns
@@ -72,13 +69,12 @@ class Runner:
 		r"""Create optimization task.
 
 		Args:
-				  name (str): Benchmark name.
+			name (str): Benchmark name.
 
 		Returns:
-				  Task: Optimization task to use.
-
+			Task: Optimization task to use.
 		"""
-		return StoppingTask(D=self.D, nFES=self.nFES, optType=OptimizationType.MINIMIZATION, benchmark=name)
+		return StoppingTask(D=self.D, no_fes=self.nFES, optType=OptimizationType.MINIMIZATION, benchmark=name)
 
 	@classmethod
 	def __create_export_dir(cls):
@@ -91,12 +87,11 @@ class Runner:
 		r"""Generate export file name.
 
 		Args:
-				  extension (str): File format.
+			extension (str): File format.
 
 		Returns:
-
+			str:
 		"""
-
 		return "export/" + str(datetime.datetime.now()).replace(":", ".") + "." + extension
 
 	def __export_to_log(self):
@@ -108,10 +103,8 @@ class Runner:
 		r"""Export the results in the JSON form.
 
 		See Also:
-				  * :func:`NiaPy.Runner.__createExportDir`
-
+			* :func:`NiaPy.Runner.__createExportDir`
 		"""
-
 		self.__create_export_dir()
 		with open(self.__generate_export_name("json"), "w") as outFile:
 			json.dump(self.results, outFile)
@@ -121,10 +114,8 @@ class Runner:
 		r"""Export the results in the xlsx form.
 
 		See Also:
-				  :func:`NiaPy.Runner.__generateExportName`
-
+			* :func:`NiaPy.Runner.__generateExportName`
 		"""
-
 		self.__create_export_dir()
 		workbook = xlsxwriter.Workbook(self.__generate_export_name("xlsx"))
 		worksheet = workbook.add_worksheet()
@@ -147,8 +138,8 @@ class Runner:
 		r"""Export the results in the form of latex table.
 
 		See Also:
-				  :func:`NiaPy.Runner.__createExportDir`
-				  :func:`NiaPy.Runner.__generateExportName`
+			* :func:`NiaPy.Runner.__createExportDir`
+			* :func:`NiaPy.Runner.__generateExportName`
 
 		"""
 
@@ -216,23 +207,21 @@ class Runner:
 	def run(self, export="log", verbose=False):
 		"""Execute runner.
 
-		Arguments:
-				  export (str): Takes export type (e.g. log, json, xlsx, latex) (default: "log")
-				  verbose (bool): Switch for verbose logging (default: {False})
+		Args:
+			export (str): Takes export type (e.g. log, json, xlsx, latex) (default: "log")
+			verbose (bool): Switch for verbose logging (default: {False})
 
 		Raises:
-				  TypeError: Raises TypeError if export type is not supported
+			TypeError: Raises TypeError if export type is not supported
 
 		Returns:
-				  dict: Returns dictionary of results
+			dict: Returns dictionary of results
 
 		See Also:
-				  * :func:`NiaPy.Runner.useAlgorithms`
-				  * :func:`NiaPy.Runner.useBenchmarks`
-				  * :func:`NiaPy.Runner.__algorithmFactory`
-
+			* :func:`NiaPy.Runner.useAlgorithms`
+			* :func:`NiaPy.Runner.useBenchmarks`
+			* :func:`NiaPy.Runner.__algorithmFactory`
 		"""
-
 		for alg in self.useAlgorithms:
 			if not isinstance(alg, "".__class__):
 				alg_name = str(type(alg).__name__)
@@ -271,5 +260,6 @@ class Runner:
 		else:
 			raise TypeError("Passed export type is not supported!")
 		return self.results
-	
+
+
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

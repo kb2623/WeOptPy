@@ -38,7 +38,7 @@ class BatAlgorithm(Algorithm):
 	Name = ['BatAlgorithm', 'BA']
 
 	@staticmethod
-	def algorithmInfo():
+	def algorithm_info():
 		r"""Get algorithms information.
 
 		Returns:
@@ -47,7 +47,7 @@ class BatAlgorithm(Algorithm):
 		return r'''Yang, Xin-She. "A new metaheuristic bat-inspired algorithm." Nature inspired cooperative strategies for optimization (NICSO 2010). Springer, Berlin, Heidelberg, 2010. 65-74.'''
 
 	@staticmethod
-	def typeParameters():
+	def type_parameters():
 		r"""Return dict with where key of dict represents parameter name and values represent checking functions for selected parameter.
 
 		Returns:
@@ -60,7 +60,7 @@ class BatAlgorithm(Algorithm):
 		See Also:
 			 * :func:`NiaPy.algorithms.Algorithm.typeParameters`
 		"""
-		d = Algorithm.typeParameters()
+		d = Algorithm.type_parameters()
 		d.update({
 			'A': lambda x: isinstance(x, (float, int)) and x > 0,
 			'r': lambda x: isinstance(x, (float, int)) and x > 0,
@@ -69,7 +69,7 @@ class BatAlgorithm(Algorithm):
 		})
 		return d
 
-	def setParameters(self, NP=40, A=0.5, r=0.5, Qmin=0.0, Qmax=2.0, **ukwargs):
+	def set_parameters(self, n=40, A=0.5, r=0.5, Qmin=0.0, Qmax=2.0, **ukwargs):
 		r"""Set the parameters of the algorithm.
 
 		Args:
@@ -81,16 +81,16 @@ class BatAlgorithm(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.setParameters`
 		"""
-		Algorithm.setParameters(self, NP=NP, **ukwargs)
+		Algorithm.set_parameters(self, n=n, **ukwargs)
 		self.A, self.r, self.Qmin, self.Qmax = A, r, Qmin, Qmax
 
-	def getParameters(self):
+	def get_parameters(self):
 		r"""Get parameters of the algorithm.
 
 		Returns:
 			Dict[str, Any]
 		"""
-		d = Algorithm.getParameters(self)
+		d = Algorithm.get_parameters(self)
 		d.update({
 			'A': self.A,
 			'r': self.r,
@@ -99,7 +99,7 @@ class BatAlgorithm(Algorithm):
 		})
 		return d
 
-	def initPopulation(self, task):
+	def init_population(self, task):
 		r"""Initialize the starting population.
 
 		Parameters:
@@ -117,7 +117,7 @@ class BatAlgorithm(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.initPopulation`
 		"""
-		Sol, Fitness, d = Algorithm.initPopulation(self, task)
+		Sol, Fitness, d = Algorithm.init_population(self, task)
 		S, Q, v = np.full([self.NP, task.D], 0.0), np.full(self.NP, 0.0), np.full([self.NP, task.D], 0.0)
 		d.update({'S': S, 'Q': Q, 'v': v})
 		return Sol, Fitness, d
@@ -135,7 +135,7 @@ class BatAlgorithm(Algorithm):
 		"""
 		return task.repair(best + 0.001 * self.normal(0, 1, task.D))
 
-	def runIteration(self, task, Sol, Fitness, xb, fxb, S, Q, v, **dparams):
+	def run_iteration(self, task, Sol, Fitness, xb, fxb, S, Q, v, **dparams):
 		r"""Core function of Bat Algorithm.
 
 		Parameters:

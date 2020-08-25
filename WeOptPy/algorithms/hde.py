@@ -101,7 +101,7 @@ class DifferentialEvolutionMTS(DifferentialEvolution, MultipleTrajectorySearch):
         See Also:
             :func:`NiaPy.algorithms.basic.de.DifferentialEvolution.typeParameters`
         """
-        d = DifferentialEvolution.typeParameters()
+        d = DifferentialEvolution.type_parameters()
         d.update({
             'NoLsTests': lambda x: isinstance(x, int) and x >= 0,
             'NoLs': lambda x: isinstance(x, int) and x >= 0,
@@ -118,12 +118,12 @@ class DifferentialEvolutionMTS(DifferentialEvolution, MultipleTrajectorySearch):
         See Also:
             :func:`NiaPy.algorithms.basic.de.DifferentialEvolution.setParameters`
         """
-        DifferentialEvolution.setParameters(self, itype=ukwargs.pop('itype', MtsIndividual), **ukwargs)
+        DifferentialEvolution.set_parameters(self, itype=ukwargs.pop('itype', MtsIndividual), **ukwargs)
         self.LSs, self.NoLsTests, self.NoLs, self.NoEnabled = LSs, NoLsTests, NoLs, NoEnabled
         self.BONUS1, self.BONUS2 = BONUS1, BONUS2
 
     def getParameters(self):
-        d = DifferentialEvolution.getParameters(self)
+        d = DifferentialEvolution.get_parameters(self)
         # TODO add parameter values to dictionary
         return d
 
@@ -217,7 +217,7 @@ class DynNpDifferentialEvolutionMTS(DifferentialEvolutionMTS, DynNpDifferentialE
             * :func:`NiaPy.algorithms.modified.hde.DifferentialEvolutionMTS.setParameters`
             * :func`NiaPy.algorithms.basic.de.DynNpDifferentialEvolution.setParameters`
         """
-        DynNpDifferentialEvolution.setParameters(self, pmax=pmax, rp=rp, **ukwargs)
+        DynNpDifferentialEvolution.set_parameters(self, pmax=pmax, rp=rp, **ukwargs)
         DifferentialEvolutionMTS.setParameters(self, **ukwargs)
 
     def postSelection(self, X, task, xb, fxb, **kwargs):
@@ -294,7 +294,7 @@ class MultiStrategyDifferentialEvolutionMTS(DifferentialEvolutionMTS, MultiStrat
             * :func:`NiaPy.algorithms.basic.MultiStrategyDifferentialEvolution.setParameters`
         """
         DifferentialEvolutionMTS.setParameters(self, **ukwargs)
-        MultiStrategyDifferentialEvolution.setParameters(self, itype=ukwargs.pop('itype', MtsIndividual), **ukwargs)
+        MultiStrategyDifferentialEvolution.set_parameters(self, itype=ukwargs.pop('itype', MtsIndividual), **ukwargs)
 
     def evolve(self, pop, xb, task, **kwargs):
         r"""Evolve population.

@@ -41,7 +41,7 @@ class FlowerPollinationAlgorithm(Algorithm):
 	Name = ['FlowerPollinationAlgorithm', 'FPA']
 
 	@staticmethod
-	def typeParameters():
+	def type_parameters():
 		r"""TODO.
 
 		Returns:
@@ -52,27 +52,27 @@ class FlowerPollinationAlgorithm(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.typeParameters`
 		"""
-		d = Algorithm.typeParameters()
+		d = Algorithm.type_parameters()
 		d.update({
 			'p': lambda x: isinstance(x, float) and 0 <= x <= 1,
 			'beta': lambda x: isinstance(x, (float, int)) and x > 0,
 		})
 		return d
 
-	def setParameters(self, NP=25, p=0.35, beta=1.5, **ukwargs):
+	def set_parameters(self, n=25, p=0.35, beta=1.5, **ukwargs):
 		r"""Set core parameters of FlowerPollinationAlgorithm algorithm.
 
 		Args:
-			NP (int): Population size.
+			n (int): Population size.
 			p (float): Probability switch.
 			beta (float): Shape of the gamma distribution (should be greater than zero).
 
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.setParameters`
 		"""
-		Algorithm.setParameters(self, NP=NP, **ukwargs)
+		Algorithm.set_parameters(self, n=n, **ukwargs)
 		self.p, self.beta = p, beta
-		self.S = np.zeros((NP, 10))
+		self.S = n.zeros((n, 10))
 
 	def levy(self, D):
 		r"""Levy function.
@@ -83,12 +83,12 @@ class FlowerPollinationAlgorithm(Algorithm):
 		sigma = (Gamma(1 + self.beta) * np.sin(np.pi * self.beta / 2) / (Gamma((1 + self.beta) / 2) * self.beta * 2 ** ((self.beta - 1) / 2))) ** (1 / self.beta)
 		return 0.01 * (self.normal(0, 1, D) * sigma / np.fabs(self.normal(0, 1, D)) ** (1 / self.beta))
 
-	def initPopulation(self, task):
-		pop, fpop, d = Algorithm.initPopulation(self, task)
+	def init_population(self, task):
+		pop, fpop, d = Algorithm.init_population(self, task)
 		d.update({'S': np.zeros((self.NP, task.D))})
 		return pop, fpop, d
 
-	def runIteration(self, task, Sol, Sol_f, xb, fxb, S, **dparams):
+	def run_iteration(self, task, Sol, Sol_f, xb, fxb, S, **dparams):
 		r"""Core function of FlowerPollinationAlgorithm algorithm.
 
 		Args:

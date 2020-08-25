@@ -38,7 +38,7 @@ class CuckooSearch(Algorithm):
 	Name = ['CuckooSearch', 'CS']
 
 	@staticmethod
-	def algorithmInfo():
+	def algorithm_info():
 		r"""Get algorithms information.
 
 		Returns:
@@ -47,7 +47,7 @@ class CuckooSearch(Algorithm):
 		return r"""Yang, Xin-She, and Suash Deb. "Cuckoo search via Lévy flights." Nature & Biologically Inspired Computing, 2009. NaBIC 2009. World Congress on. IEEE, 2009."""
 
 	@staticmethod
-	def typeParameters():
+	def type_parameters():
 		r"""TODO.
 
 		Returns:
@@ -62,7 +62,7 @@ class CuckooSearch(Algorithm):
 			'alpha': lambda x: isinstance(x, (float, int)),
 		}
 
-	def setParameters(self, N=50, pa=0.2, alpha=0.5, **ukwargs):
+	def set_parameters(self, N=50, pa=0.2, alpha=0.5, **ukwargs):
 		r"""Set the arguments of an algorithm.
 
 		Arguments:
@@ -74,13 +74,13 @@ class CuckooSearch(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.setParameters`
 		"""
-		ukwargs.pop('NP', None)
-		Algorithm.setParameters(self, NP=N, **ukwargs)
+		ukwargs.pop('n', None)
+		Algorithm.set_parameters(self, n=N, **ukwargs)
 		self.pa, self.alpha = pa, alpha
 
-	def getParameters(self):
-		d = Algorithm.getParameters(self)
-		d.pop('NP', None)
+	def get_parameters(self):
+		d = Algorithm.get_parameters(self)
+		d.pop('n', None)
 		d.update({
 			'N': self.NP,
 			'pa': self.pa,
@@ -107,7 +107,7 @@ class CuckooSearch(Algorithm):
 		fpop[si] = np.apply_along_axis(task.eval, 1, pop[si])
 		return pop, fpop
 
-	def initPopulation(self, task):
+	def init_population(self, task):
 		r"""Initialize starting population.
 
 		Args:
@@ -123,11 +123,11 @@ class CuckooSearch(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.initPopulation`
 		"""
-		N, N_f, d = Algorithm.initPopulation(self, task)
+		N, N_f, d = Algorithm.init_population(self, task)
 		d.update({'pa_v': self.NP * self.pa})
 		return N, N_f, d
 
-	def runIteration(self, task, pop, fpop, xb, fxb, pa_v, **dparams):
+	def run_iteration(self, task, pop, fpop, xb, fxb, pa_v, **dparams):
 		r"""Core function of CuckooSearch algorithm.
 
 		Args:
@@ -155,7 +155,7 @@ class CuckooSearch(Algorithm):
 		while i == j: j = self.randint(self.NP)
 		if Nn_f <= fpop[j]: pop[j], fpop[j] = Nn, Nn_f
 		pop, fpop = self.emptyNests(pop, fpop, pa_v, task)
-		xb, fxb = self.getBest(pop, fpop, xb, fxb)
+		xb, fxb = self.get_best(pop, fpop, xb, fxb)
 		return pop, fpop, xb, fxb, {'pa_v': pa_v}
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

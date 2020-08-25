@@ -27,7 +27,7 @@ class BeesAlgorithm(Algorithm):
 		DT Pham, A Ghanbarzadeh, E Koc, S Otri, S Rahim, and M Zaidi. The bees algorithm-a novel tool for complex optimisation problems. In Proceedings of the 2nd Virtual International Conference on Intelligent Production Machines and Systems (IPROMS 2006), pages 454–459, 2006
 
 	Attributes:
-		NP (Optional[int]): Number of scout bees parameter.
+		n (Optional[int]): Number of scout bees parameter.
 		m (Optional[int]): Number of sites selected out of n visited sites parameter.
 		e (Optional[int]): Number of best sites out of m selected sitest parameter.
 		nep (Optional[int]): Number of bees recruited for best e sites parameter.
@@ -41,21 +41,21 @@ class BeesAlgorithm(Algorithm):
 	"""
 	Name = ['BeesAlgorithm', 'BEA']
 	@staticmethod
-	def algorithmInfo():
+	def algorithm_info():
 		return r"""
 			Description: A new population-based search algorithm called the Bees Algorithm (BA) is presented. The algorithm mimics the food foraging behaviour of swarms of honey bees.
-			Authors: D.T. Pham, A. Ghanbarzadeh,  E. Koç, S. Otri,  S. Rahim, M. Zaidi
+			Authors: d.T. Pham, A. Ghanbarzadeh,  E. Koç, S. Otri,  S. Rahim, M. Zaidi
 			Year: 2006
 			Main reference: DT Pham, A Ghanbarzadeh, E Koc, S Otri, S Rahim, and M Zaidi. The bees algorithm-a novel tool for complex optimisation problems. In Proceedings of the 2nd Virtual International Conference on Intelligent Production Machines and Systems (IPROMS 2006), pages 454–459, 2006
 		"""
 
 	@staticmethod
-	def typeParameters():
+	def type_parameters():
 		r"""Get dictionary with functions for checking values of parameters.
 
 		Returns:
 			Dict[str, Callable]:
-				* NP (Callable[[int], bool]): Checks if number of bees parameter has a proper value.
+				* n (Callable[[int], bool]): Checks if number of bees parameter has a proper value.
 				* m (Callable[[int], bool]): Checks if number of selected sites parameter has a proper value.
 				* e (Callable[[int], bool]): Checks if number of elite selected sites parameter has a proper value.
 				* nep (Callable[[int], bool]): Checks if number of elite bees parameter has a proper value.
@@ -65,9 +65,9 @@ class BeesAlgorithm(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.algorithm.Algorithm.typeParameters`
 		"""
-		d = Algorithm.typeParameters()
+		d = Algorithm.type_parameters()
 		d.update({
-			'NP': lambda x: isinstance(x, int) and x > 0,
+			'n': lambda x: isinstance(x, int) and x > 0,
 			'm': lambda x: isinstance(x, int) and x > 0,
 			'e': lambda x: isinstance(x, int) and x > 0,
 			'nep': lambda x: isinstance(x, int) and x > 0,
@@ -76,11 +76,11 @@ class BeesAlgorithm(Algorithm):
 		})
 		return d
 
-	def setParameters(self, NP=40, m=5, e=4, ngh=1, nep=4, nsp=2, **ukwargs):
+	def set_parameters(self, n=40, m=5, e=4, ngh=1, nep=4, nsp=2, **ukwargs):
 		r"""Set the parameters of the algorithm.
 
 		Args:
-			NP (Optional[int]): Number of scout bees parameter.
+			n (Optional[int]): Number of scout bees parameter.
 			m (Optional[int]): Number of sites selected out of n visited sites parameter.
 			e (Optional[int]): Number of best sites out of m selected sitest parameter.
 			nep (Optional[int]): Number of bees recruited for best e sites parameter.
@@ -91,16 +91,16 @@ class BeesAlgorithm(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.setParameters`
 		"""
-		Algorithm.setParameters(self, NP=NP, **ukwargs)
-		self.n, self.m, self.e, self.nep, self.nsp, self.ngh = NP, m, e, nep, nsp, ngh
+		Algorithm.set_parameters(self, n=n, **ukwargs)
+		self.n, self.m, self.e, self.nep, self.nsp, self.ngh = n, m, e, nep, nsp, ngh
 
-	def getParameters(self):
+	def get_parameters(self):
 		r"""Get parameters of the algorithm.
 
 		Returns:
 			Dict[str, Any]:
 		"""
-		d = Algorithm.getParameters(self)
+		d = Algorithm.get_parameters(self)
 		d.update({
 			'm': self.m,
 			'e': self.e,
@@ -133,7 +133,7 @@ class BeesAlgorithm(Algorithm):
 		res = task.eval(y)
 		return y, res
 
-	def initPopulation(self, task):
+	def init_population(self, task):
 		r"""Initialize the starting population.
 
 		Args:
@@ -147,14 +147,14 @@ class BeesAlgorithm(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.initPopulation`
 		"""
-		BeesPosition, BeesCost, _ = Algorithm.initPopulation(self, task)
+		BeesPosition, BeesCost, _ = Algorithm.init_population(self, task)
 		idxs = np.argsort(BeesCost)
 		BeesCost = BeesCost[idxs]
 		BeesPosition = BeesPosition[idxs, :]
 
 		return BeesPosition, BeesCost, {'ngh': self.ngh}
 
-	def runIteration(self, task, BeesPosition, BeesCost, xb, fxb, ngh, **dparams):
+	def run_iteration(self, task, BeesPosition, BeesCost, xb, fxb, ngh, **dparams):
 		r"""Core function of Forest Optimization Algorithm.
 
 		Args:

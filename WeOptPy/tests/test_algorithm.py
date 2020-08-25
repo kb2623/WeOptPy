@@ -15,15 +15,13 @@ from WeOptPy.algorithms.interfaces import (
 	Algorithm,
 	Individual
 )
-from WeOptPy.benchmarks.interfaces import Benchmark
-from WeOptPy.benchmarks import Sphere
 
 logging.basicConfig()
 logger = logging.getLogger('NiaPy.test')
 logger.setLevel('INFO')
 
 
-class MyBenchmark(Benchmark):
+class MyBenchmark:
 	r"""Testing benchmark class.
 
 	Date:
@@ -56,7 +54,7 @@ class IndividualTestCase(TestCase):
 	"""
 	def setUp(self):
 		self.D = 20
-		self.x, self.task = rnd.uniform(-100, 100, self.D), StoppingTask(D=self.D, nFES=230, nGEN=np.inf, benchmark=MyBenchmark())
+		self.x, self.task = rnd.uniform(-100, 100, self.D), StoppingTask(D=self.D, no_fes=230, no_gen=np.inf, benchmark=MyBenchmark())
 		self.s1, self.s2, self.s3 = Individual(x=self.x, e=False), Individual(task=self.task, rand=rnd), Individual(task=self.task)
 
 	def test_generateSolutin_fine(self):
@@ -147,45 +145,45 @@ class AlgorithmBaseTestCase(TestCase):
 
 	def test_algorithm_info_fine(self):
 		r"""Check if method works fine."""
-		i = Algorithm.algorithmInfo()
+		i = Algorithm.algorithm_info()
 		self.assertIsNotNone(i)
 
 	def test_algorithm_getParameters_fine(self):
 		r"""Check if method works fine."""
 		algo = Algorithm()
-		params = algo.getParameters()
+		params = algo.get_parameters()
 		self.assertIsNotNone(params)
 
 	def test_type_parameters_fine(self):
-		d = Algorithm.typeParameters()
+		d = Algorithm.type_parameters()
 		self.assertIsNotNone(d)
 
 	def test_init_population_numpy_fine(self):
 		r"""Test if custome generation initialization works ok."""
 		a = Algorithm(NP=10, InitPopFunc=init_pop_numpy)
 		t = Task(D=20, benchmark=MyBenchmark())
-		self.assertTrue(np.array_equal(np.full((10, t.D), 0.0), a.initPopulation(t)[0]))
+		self.assertTrue(np.array_equal(np.full((10, t.D), 0.0), a.init_population(t)[0]))
 
 	def test_init_population_individual_fine(self):
 		r"""Test if custome generation initialization works ok."""
 		a = Algorithm(NP=10, InitPopFunc=init_pop_individual, itype=Individual)
 		t = Task(D=20, benchmark=MyBenchmark())
 		i = Individual(x=np.full(t.D, 0.0), task=t)
-		pop, fpop, d = a.initPopulation(t)
+		pop, fpop, d = a.init_population(t)
 		for e in pop: self.assertEqual(i, e)
 
 	def test_setParameters(self):
-		self.a.setParameters(t=None, a=20)
+		self.a.set_parameters(t=None, a=20)
 		self.assertRaises(AttributeError, lambda: self.assertEqual(self.a.a, None))
 
 	def test_randint_fine(self):
-		o = self.a.randint(Nmax=20, Nmin=10, D=[10, 10])
+		o = self.a.randint(nmax=20, nmin=10, D=[10, 10])
 		self.assertEqual(o.shape, (10, 10))
 		self.assertTrue(np.array_equal(self.rnd.randint(10, 20, (10, 10)), o))
-		o = self.a.randint(Nmax=20, Nmin=10, D=(10, 5))
+		o = self.a.randint(nmax=20, nmin=10, D=(10, 5))
 		self.assertEqual(o.shape, (10, 5))
 		self.assertTrue(np.array_equal(self.rnd.randint(10, 20, (10, 5)), o))
-		o = self.a.randint(Nmax=20, Nmin=10, D=10)
+		o = self.a.randint(nmax=20, nmin=10, D=10)
 		self.assertEqual(o.shape, (10,))
 		self.assertTrue(np.array_equal(self.rnd.randint(10, 20, 10), o))
 
@@ -285,17 +283,17 @@ class AlgorithmTestCase(TestCase):
 
 	def test_algorithm_type_parameters(self):
 		r"""Test if type parametes for algorithm work fine."""
-		tparams = self.algo.typeParameters()
+		tparams = self.algo.type_parameters()
 		self.assertIsNotNone(tparams)
 
 	def test_algorithm_info_fine(self):
 		r"""Test if algorithm info works fine."""
-		info = self.algo.algorithmInfo()
+		info = self.algo.algorithm_info()
 		self.assertIsNotNone(info)
 
 	def test_algorithm_get_parameters_fine(self):
 		r"""Test if algorithms parameters values are fine."""
-		params = self.algo().getParameters()
+		params = self.algo().get_parameters()
 		self.assertIsNotNone(params)
 
 	def setUpTasks(self, D, bech='griewank', nFES=None, nGEN=None):

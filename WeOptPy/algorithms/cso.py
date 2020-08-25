@@ -26,8 +26,8 @@ class CatSwarmOptimization(Algorithm):
 	Name = ['CatSwarmOptimization', 'CSO']
 
 	@staticmethod
-	def typeParameters(): return {
-		'NP': lambda x: isinstance(x, int) and x > 0,
+	def type_parameters(): return {
+		'n': lambda x: isinstance(x, int) and x > 0,
 		'MR': lambda x: isinstance(x, (int, float)) and 0 <= x <= 1,
 		'C1': lambda x: isinstance(x, (int, float)) and x >= 0,
 		'SMP': lambda x: isinstance(x, int) and x > 0,
@@ -37,11 +37,11 @@ class CatSwarmOptimization(Algorithm):
 		'vMax': lambda x: isinstance(x, (int, float)) and x > 0
 	}
 
-	def setParameters(self, NP=30, MR=0.1, C1=2.05, SMP=3, SPC=True, CDC=0.85, SRD=0.2, vMax=1.9, **ukwargs):
+	def set_parameters(self, n=30, MR=0.1, C1=2.05, SMP=3, SPC=True, CDC=0.85, SRD=0.2, vMax=1.9, **ukwargs):
 		r"""Set the algorithm parameters.
 
 		Arguments:
-			NP (int): Number of individuals in population
+			n (int): Number of individuals in population
 			MR (float): Mixture ratio
 			C1 (float): Constant in tracing mode
 			SMP (int): Seeking memory pool
@@ -53,10 +53,10 @@ class CatSwarmOptimization(Algorithm):
 			See Also:
 				* :func:`NiaPy.algorithms.Algorithm.setParameters`
 		"""
-		Algorithm.setParameters(self, NP=NP, **ukwargs)
+		Algorithm.set_parameters(self, n=n, **ukwargs)
 		self.MR, self.C1, self.SMP, self.SPC, self.CDC, self.SRD, self.vMax = MR, C1, SMP, SPC, CDC, SRD, vMax
 
-	def initPopulation(self, task):
+	def init_population(self, task):
 		r"""Initialize population.
 
 		Args:
@@ -71,7 +71,7 @@ class CatSwarmOptimization(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.initPopulation`
 		"""
-		pop, fpop, d = Algorithm.initPopulation(self, task)
+		pop, fpop, d = Algorithm.init_population(self, task)
 		d['modes'] = self.randomSeekTrace()
 		d['velocities'] = self.uniform(-self.vMax, self.vMax, [len(pop), task.D])
 		return pop, fpop, d
@@ -80,7 +80,7 @@ class CatSwarmOptimization(Algorithm):
 		r"""Set cats into seeking/tracing mode.
 
 		Returns:
-			numpy.ndarray: One or zero. One means tracing mode. Zero means seeking mode. Length of list is equal to NP.
+			numpy.ndarray: One or zero. One means tracing mode. Zero means seeking mode. Length of list is equal to n.
 		"""
 		lista = np.zeros((self.NP,), dtype=int)
 		indexes = np.arange(self.NP)
@@ -171,7 +171,7 @@ class CatSwarmOptimization(Algorithm):
 		cat_new = task.repair(cat + Vnew)
 		return cat_new, task.eval(cat_new), Vnew
 
-	def runIteration(self, task, pop, fpop, xb, fxb, velocities, modes, **dparams):
+	def run_iteration(self, task, pop, fpop, xb, fxb, velocities, modes, **dparams):
 		r"""Core function of Cat Swarm Optimization algorithm.
 
 		Args:

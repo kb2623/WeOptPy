@@ -7,7 +7,7 @@ from scipy.spatial.distance import euclidean
 from WeOptPy.algorithms.interfaces import (
 	Algorithm,
 	Individual,
-	defaultIndividualInit
+	default_individual_init
 )
 from WeOptPy.util import objects2array
 
@@ -265,7 +265,7 @@ class DifferentialEvolution(Algorithm):
 	Name = ['DifferentialEvolution', 'DE']
 
 	@staticmethod
-	def algorithmInfo():
+	def algorithm_info():
 		r"""Get basic information of algorithm.
 
 		Returns:
@@ -277,7 +277,7 @@ class DifferentialEvolution(Algorithm):
 		return r"""Storn, Rainer, and Kenneth Price. "Differential evolution - a simple and efficient heuristic for global optimization over continuous spaces." Journal of global optimization 11.4 (1997): 341-359."""
 
 	@staticmethod
-	def typeParameters():
+	def type_parameters():
 		r"""Get dictionary with functions for checking values of parameters.
 
 		Returns:
@@ -288,18 +288,18 @@ class DifferentialEvolution(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.typeParameters`
 		"""
-		d = Algorithm.typeParameters()
+		d = Algorithm.type_parameters()
 		d.update({
 			'F': lambda x: isinstance(x, (float, int)) and 0 < x <= 2,
 			'CR': lambda x: isinstance(x, float) and 0 <= x <= 1
 		})
 		return d
 
-	def setParameters(self, NP=50, F=1, CR=0.8, CrossMutt=CrossRand1, **ukwargs):
+	def set_parameters(self, n=50, F=1, CR=0.8, CrossMutt=CrossRand1, **ukwargs):
 		r"""Set the algorithm parameters.
 
 		Args:
-			NP (Optional[int]): Population size.
+			n (Optional[int]): Population size.
 			F (Optional[float]): Scaling factor.
 			CR (Optional[float]): Crossover rate.
 			CrossMutt (Optional[Callable[[numpy.ndarray, int, numpy.ndarray, float, float, mtrand.RandomState, list], numpy.ndarray]]): Crossover and mutation strategy.
@@ -308,10 +308,10 @@ class DifferentialEvolution(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.setParameters`
 		"""
-		Algorithm.setParameters(self, NP=NP, InitPopFunc=ukwargs.pop('InitPopFunc', defaultIndividualInit), itype=ukwargs.pop('itype', Individual), **ukwargs)
+		Algorithm.set_parameters(self, n=n, init_pop_func=ukwargs.pop('init_pop_func', default_individual_init), itype=ukwargs.pop('itype', Individual), **ukwargs)
 		self.F, self.CR, self.CrossMutt = F, CR, CrossMutt
 
-	def getParameters(self):
+	def get_parameters(self):
 		r"""Get parameters values of the algorithm.
 
 		Returns:
@@ -320,7 +320,7 @@ class DifferentialEvolution(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.getParameters`
 		"""
-		d = Algorithm.getParameters(self)
+		d = Algorithm.get_parameters(self)
 		d.update({
 			'F': self.F,
 			'CR': self.CR,
@@ -360,7 +360,7 @@ class DifferentialEvolution(Algorithm):
 				3. New global best solutions fitness/objective value.
 		"""
 		arr = objects2array([e if e.f < pop[i].f else pop[i] for i, e in enumerate(npop)])
-		xb, fxb = self.getBest(arr, np.asarray([e.f for e in arr]), xb, fxb)
+		xb, fxb = self.get_best(arr, np.asarray([e.f for e in arr]), xb, fxb)
 		return arr, xb, fxb
 
 	def postSelection(self, pop, task, xb, fxb, **kwargs):
@@ -380,7 +380,7 @@ class DifferentialEvolution(Algorithm):
 		"""
 		return pop, xb, fxb
 
-	def runIteration(self, task, pop, fpop, xb, fxb, **dparams):
+	def run_iteration(self, task, pop, fpop, xb, fxb, **dparams):
 		r"""Core function of Differential Evolution algorithm.
 
 		Args:
@@ -408,7 +408,7 @@ class DifferentialEvolution(Algorithm):
 		pop, xb, fxb = self.selection(pop, npop, xb, fxb, task=task)
 		pop, xb, fxb = self.postSelection(pop, task, xb, fxb)
 		fpop = np.asarray([x.f for x in pop])
-		xb, fxb = self.getBest(pop, fpop, xb, fxb)
+		xb, fxb = self.get_best(pop, fpop, xb, fxb)
 		return pop, fpop, xb, fxb, {}
 
 
@@ -437,7 +437,7 @@ class CrowdingDifferentialEvolution(DifferentialEvolution):
 	Name = ['CrowdingDifferentialEvolution', 'CDE']
 
 	@staticmethod
-	def algorithmInfo():
+	def algorithm_info():
 		r"""Get basic information of algorithm.
 
 		Returns:
@@ -448,7 +448,7 @@ class CrowdingDifferentialEvolution(DifferentialEvolution):
 		"""
 		return r"""No New"""
 
-	def setParameters(self, CrowPop=0.1, **ukwargs):
+	def set_parameters(self, CrowPop=0.1, **ukwargs):
 		r"""Set core parameters of algorithm.
 
 		Args:
@@ -458,7 +458,7 @@ class CrowdingDifferentialEvolution(DifferentialEvolution):
 		See Also:
 			* :func:`NiaPy.algorithms.basic.DifferentialEvolution.setParameters`
 		"""
-		DifferentialEvolution.setParameters(self, **ukwargs)
+		DifferentialEvolution.set_parameters(self, **ukwargs)
 		self.CrowPop = CrowPop
 
 	def selection(self, pop, npop, xb, fxb, task, **kwargs):
@@ -511,7 +511,7 @@ class DynNpDifferentialEvolution(DifferentialEvolution):
 	Name = ['DynNpDifferentialEvolution', 'dynNpDE']
 
 	@staticmethod
-	def algorithmInfo():
+	def algorithm_info():
 		r"""Get basic information of algorithm.
 
 		Returns:
@@ -523,7 +523,7 @@ class DynNpDifferentialEvolution(DifferentialEvolution):
 		return r"""No info"""
 
 	@staticmethod
-	def typeParameters():
+	def type_parameters():
 		r"""Get dictionary with functions for checking values of parameters.
 
 		Returns:
@@ -534,12 +534,12 @@ class DynNpDifferentialEvolution(DifferentialEvolution):
 		See Also:
 			* :func:`NiaPy.algorithms.basic.DifferentialEvolution.typeParameters`
 		"""
-		r = DifferentialEvolution.typeParameters()
+		r = DifferentialEvolution.type_parameters()
 		r['rp'] = lambda x: isinstance(x, (float, int)) and x > 0
 		r['pmax'] = lambda x: isinstance(x, int) and x > 0
 		return r
 
-	def setParameters(self, pmax=50, rp=3, **ukwargs):
+	def set_parameters(self, pmax=50, rp=3, **ukwargs):
 		r"""Set the algorithm parameters.
 
 		Arguments:
@@ -549,7 +549,7 @@ class DynNpDifferentialEvolution(DifferentialEvolution):
 		See Also:
 			* :func:`NiaPy.algorithms.basic.DifferentialEvolution.setParameters`
 		"""
-		DifferentialEvolution.setParameters(self, **ukwargs)
+		DifferentialEvolution.set_parameters(self, **ukwargs)
 		self.pmax, self.rp = pmax, rp
 
 	def postSelection(self, pop, task, xb, fxb, **kwargs):
@@ -684,7 +684,7 @@ class AgingNpDifferentialEvolution(DifferentialEvolution):
 	Name = ['AgingNpDifferentialEvolution', 'ANpDE']
 
 	@staticmethod
-	def algorithmInfo():
+	def algorithm_info():
 		r"""Get basic information of algorithm.
 
 		Returns:
@@ -696,7 +696,7 @@ class AgingNpDifferentialEvolution(DifferentialEvolution):
 		return r"""No info"""
 
 	@staticmethod
-	def typeParameters():
+	def type_parameters():
 		r"""Get dictionary with functions for checking values of parameters.
 
 		Returns:
@@ -709,7 +709,7 @@ class AgingNpDifferentialEvolution(DifferentialEvolution):
 		See Also:
 			* :func:`NiaPy.algorithms.basic.DifferentialEvolution.typeParameters`
 		"""
-		r = DifferentialEvolution.typeParameters()
+		r = DifferentialEvolution.type_parameters()
 		r.update({
 			'Lt_min': lambda x: isinstance(x, int) and x >= 0,
 			'Lt_max': lambda x: isinstance(x, int) and x >= 0,
@@ -718,7 +718,7 @@ class AgingNpDifferentialEvolution(DifferentialEvolution):
 		})
 		return r
 
-	def setParameters(self, Lt_min=0, Lt_max=12, delta_np=0.3, omega=0.3, age=proportional, CrossMutt=CrossBest1, **ukwargs):
+	def set_parameters(self, Lt_min=0, Lt_max=12, delta_np=0.3, omega=0.3, age=proportional, CrossMutt=CrossBest1, **ukwargs):
 		r"""Set the algorithm parameters.
 
 		Arguments:
@@ -729,7 +729,7 @@ class AgingNpDifferentialEvolution(DifferentialEvolution):
 		See Also:
 			* :func:`NiaPy.algorithms.basic.DifferentialEvolution.setParameters`
 		"""
-		DifferentialEvolution.setParameters(self, itype=AgingIndividual, **ukwargs)
+		DifferentialEvolution.set_parameters(self, itype=AgingIndividual, **ukwargs)
 		self.Lt_min, self.Lt_max, self.age, self.delta_np, self.omega = Lt_min, Lt_max, age, delta_np, omega
 		self.mu = abs(self.Lt_max - self.Lt_min) / 2
 
@@ -826,7 +826,7 @@ class AgingNpDifferentialEvolution(DifferentialEvolution):
 		"""
 		npop, xb, fxb = DifferentialEvolution.selection(self, pop, npop, xb, fxb, task)
 		npop = np.append(npop, self.popIncrement(pop, task))
-		xb, fxb = self.getBest(npop, np.asarray([e.f for e in npop]), xb, fxb)
+		xb, fxb = self.get_best(npop, np.asarray([e.f for e in npop]), xb, fxb)
 		pop = self.aging(task, npop)
 		return pop, xb, fxb
 
@@ -896,7 +896,7 @@ class MultiStrategyDifferentialEvolution(DifferentialEvolution):
 	Name = ['MultiStrategyDifferentialEvolution', 'MsDE']
 
 	@staticmethod
-	def algorithmInfo():
+	def algorithm_info():
 		r"""Get basic information of algorithm.
 
 		Returns:
@@ -908,7 +908,7 @@ class MultiStrategyDifferentialEvolution(DifferentialEvolution):
 		return r"""No info"""
 
 	@staticmethod
-	def typeParameters():
+	def type_parameters():
 		r"""Get dictionary with functions for checking values of parameters.
 
 		Returns:
@@ -917,12 +917,12 @@ class MultiStrategyDifferentialEvolution(DifferentialEvolution):
 		See Also:
 			* :func:`NiaPy.algorithms.basic.DifferentialEvolution.typeParameters`
 		"""
-		r = DifferentialEvolution.typeParameters()
+		r = DifferentialEvolution.type_parameters()
 		r.pop('CrossMutt', None)
 		r.update({'strategies': lambda x: callable(x)})
 		return r
 
-	def setParameters(self, strategies=(CrossRand1, CrossBest1, CrossCurr2Best1, CrossRand2), **ukwargs):
+	def set_parameters(self, strategies=(CrossRand1, CrossBest1, CrossCurr2Best1, CrossRand2), **ukwargs):
 		r"""Set the arguments of the algorithm.
 
 		Args:
@@ -932,10 +932,10 @@ class MultiStrategyDifferentialEvolution(DifferentialEvolution):
 		See Also:
 			* :func:`NiaPy.algorithms.basic.DifferentialEvolution.setParameters`
 		"""
-		DifferentialEvolution.setParameters(self, CrossMutt=multiMutations, **ukwargs)
+		DifferentialEvolution.set_parameters(self, CrossMutt=multiMutations, **ukwargs)
 		self.strategies = strategies
 
-	def getParameters(self):
+	def get_parameters(self):
 		r"""Get parameters values of the algorithm.
 
 		Returns:
@@ -944,7 +944,7 @@ class MultiStrategyDifferentialEvolution(DifferentialEvolution):
 		See Also:
 			* :func:`NiaPy.algorithms.basic.DifferentialEvolution.getParameters`
 		"""
-		d = DifferentialEvolution.getParameters(self)
+		d = DifferentialEvolution.get_parameters(self)
 		d.update({'strategies': self.strategies})
 		return d
 
@@ -988,7 +988,7 @@ class DynNpMultiStrategyDifferentialEvolution(MultiStrategyDifferentialEvolution
 	Name = ['DynNpMultiStrategyDifferentialEvolution', 'dynNpMsDE']
 
 	@staticmethod
-	def algorithmInfo():
+	def algorithm_info():
 		r"""Get basic information of algorithm.
 
 		Returns:
@@ -1000,7 +1000,7 @@ class DynNpMultiStrategyDifferentialEvolution(MultiStrategyDifferentialEvolution
 		return r"""No info"""
 
 	@staticmethod
-	def typeParameters():
+	def type_parameters():
 		r"""Get dictionary with functions for checking values of parameters.
 
 		Returns:
@@ -1011,12 +1011,12 @@ class DynNpMultiStrategyDifferentialEvolution(MultiStrategyDifferentialEvolution
 		See Also:
 			* :func:`NiaPy.algorithms.basic.MultiStrategyDifferentialEvolution.typeParameters`
 		"""
-		r = MultiStrategyDifferentialEvolution.typeParameters()
+		r = MultiStrategyDifferentialEvolution.type_parameters()
 		r['rp'] = lambda x: isinstance(x, (float, int)) and x > 0
 		r['pmax'] = lambda x: isinstance(x, int) and x > 0
 		return r
 
-	def setParameters(self, **ukwargs):
+	def set_parameters(self, **ukwargs):
 		r"""Set the arguments of the algorithm.
 
 		Args:
@@ -1026,8 +1026,8 @@ class DynNpMultiStrategyDifferentialEvolution(MultiStrategyDifferentialEvolution
 			* :func:`NiaPy.algorithms.basic.MultiStrategyDifferentialEvolution.setParameters`
 			* :func:`NiaPy.algorithms.basic.DynNpDifferentialEvolution.setParameters`
 		"""
-		DynNpDifferentialEvolution.setParameters(self, **ukwargs)
-		MultiStrategyDifferentialEvolution.setParameters(self, **ukwargs)
+		DynNpDifferentialEvolution.set_parameters(self, **ukwargs)
+		MultiStrategyDifferentialEvolution.set_parameters(self, **ukwargs)
 
 	def evolve(self, pop, xb, task, **kwargs):
 		r"""Evolve the current population.
@@ -1088,7 +1088,7 @@ class AgingNpMultiMutationDifferentialEvolution(AgingNpDifferentialEvolution, Mu
 	Name = ['AgingNpMultiMutationDifferentialEvolution', 'ANpMSDE']
 
 	@staticmethod
-	def algorithmInfo():
+	def algorithm_info():
 		r"""Get basic information of algorithm.
 
 		Returns:
@@ -1100,7 +1100,7 @@ class AgingNpMultiMutationDifferentialEvolution(AgingNpDifferentialEvolution, Mu
 		return r"""No info"""
 
 	@staticmethod
-	def typeParameters():
+	def type_parameters():
 		r"""Get dictionary with functions for checking values of parameters.
 
 		Returns:
@@ -1110,11 +1110,11 @@ class AgingNpMultiMutationDifferentialEvolution(AgingNpDifferentialEvolution, Mu
 			* :func:`NiaPy.algorithms.basic.MultiStrategyDifferentialEvolution.typeParameters`
 			* :func:`NiaPy.algorithms.basic.AgingNpDifferentialEvolution.typeParameters`
 		"""
-		d = AgingNpDifferentialEvolution.typeParameters()
-		d.update(MultiStrategyDifferentialEvolution.typeParameters())
+		d = AgingNpDifferentialEvolution.type_parameters()
+		d.update(MultiStrategyDifferentialEvolution.type_parameters())
 		return d
 
-	def setParameters(self, **ukwargs):
+	def set_parameters(self, **ukwargs):
 		r"""Set core parameter arguments.
 
 		Args:
@@ -1124,8 +1124,8 @@ class AgingNpMultiMutationDifferentialEvolution(AgingNpDifferentialEvolution, Mu
 			* :func:`NiaPy.algorithms.basic.AgingNpDifferentialEvolution.setParameters`
 			* :func:`NiaPy.algorithms.basic.MultiStrategyDifferentialEvolution.setParameters`
 		"""
-		AgingNpDifferentialEvolution.setParameters(self, **ukwargs)
-		MultiStrategyDifferentialEvolution.setParameters(self, stratgeys=(CrossRand1, CrossBest1, CrossCurr2Rand1, CrossRand2), itype=AgingIndividual, **ukwargs)
+		AgingNpDifferentialEvolution.set_parameters(self, **ukwargs)
+		MultiStrategyDifferentialEvolution.set_parameters(self, stratgeys=(CrossRand1, CrossBest1, CrossCurr2Rand1, CrossRand2), itype=AgingIndividual, **ukwargs)
 
 	def evolve(self, pop, xb, task, **kwargs):
 		r"""Evolve current population.

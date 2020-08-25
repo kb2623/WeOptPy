@@ -51,13 +51,13 @@ def MakeArgParser():
 			  Name of algorithm to use. Default value is `jDE`.
 		 * `-b` or `--bech` (str):
 			  Name of benchmark to use. Default values is `Benchmark`.
-		 * `-D` (int):
+		 * `-d` (int):
 			  Number of dimensions/components usd by benchmark. Default values is `10`.
 		 * `-nFES` (int):
 			  Number of maximum funciton evaluations. Default values is `inf`.
 		 * `-nGEN` (int):
 			  Number of maximum algorithm iterations/generations. Default values is `inf`.
-		 * `-NP` (int):
+		 * `-n` (int):
 			  Number of inidividuals in population. Default values is `43`.
 		 * `-r` or `--runType` (str);
 			  Run type of run. Value can be:
@@ -83,10 +83,10 @@ def MakeArgParser():
 	parser, cbechs = ArgumentParser(description='Runer example.'), makeCbechs()
 	parser.add_argument('-a', '--algorithm', dest='algo', default='jDE', type=str)
 	parser.add_argument('-b', '--bech', dest='bech', nargs='*', default=cbechs[0], choices=cbechs, type=str)
-	parser.add_argument('-D', dest='D', default=10, type=int)
+	parser.add_argument('-d', dest='d', default=10, type=int)
 	parser.add_argument('-nFES', dest='nFES', default=np.inf, type=int)
 	parser.add_argument('-nGEN', dest='nGEN', default=np.inf, type=int)
-	parser.add_argument('-NP', dest='NP', default=43, type=int)
+	parser.add_argument('-n', dest='n', default=43, type=int)
 	parser.add_argument('-r', '--runType', dest='runType', choices=['', 'log', 'plot'], default='', type=str)
 	parser.add_argument('-seed', dest='seed', nargs='+', default=[None], type=int)
 	parser.add_argument('-optType', dest='optType', default=optimizationType('min'), type=optimizationType)

@@ -24,8 +24,8 @@ def limit_repair(x, Lower, Upper, **kwargs):
 
 	Arguments:
 		x (numpy.ndarray): Solution to check and repair if needed.
-		Lower (numpy.ndarray): Lower bounds of search space.
-		Upper (numpy.ndarray): Upper bounds of search space.
+		Lower (numpy.ndarray): lower bounds of search space.
+		Upper (numpy.ndarray): upper bounds of search space.
 		kwargs (Dict[str, Any]): Additional arguments.
 
 	Returns:
@@ -43,8 +43,8 @@ def limitInversRepair(x, Lower, Upper, **kwargs):
 
 	Arguments:
 		x (numpy.ndarray): Solution to check and repair if needed.
-		Lower (numpy.ndarray): Lower bounds of search space.
-		Upper (numpy.ndarray): Upper bounds of search space.
+		Lower (numpy.ndarray): lower bounds of search space.
+		Upper (numpy.ndarray): upper bounds of search space.
 		kwargs (Dict[str, Any]): Additional arguments.
 
 	Returns:
@@ -62,8 +62,8 @@ def wangRepair(x, Lower, Upper, **kwargs):
 
 	Arguments:
 		x (numpy.ndarray): Solution to check and repair if needed.
-		Lower (numpy.ndarray): Lower bounds of search space.
-		Upper (numpy.ndarray): Upper bounds of search space.
+		Lower (numpy.ndarray): lower bounds of search space.
+		Upper (numpy.ndarray): upper bounds of search space.
 		kwargs (Dict[str, Any]): Additional arguments.
 
 	Returns:
@@ -81,8 +81,8 @@ def randRepair(x, Lower, Upper, rnd=rand, **kwargs):
 
 	Arguments:
 		x (numpy.ndarray): Solution to check and repair if needed.
-		Lower (numpy.ndarray): Lower bounds of search space.
-		Upper (numpy.ndarray): Upper bounds of search space.
+		Lower (numpy.ndarray): lower bounds of search space.
+		Upper (numpy.ndarray): upper bounds of search space.
 		rnd (mtrand.RandomState): Random generator.
 		kwargs (Dict[str, Any]): Additional arguments.
 
@@ -101,8 +101,8 @@ def reflectRepair(x, Lower, Upper, **kwargs):
 
 	Args:
 		x (numpy.ndarray): Solution to be fixed.
-		Lower (numpy.ndarray): Lower bounds of search space.
-		Upper (numpy.ndarray): Upper bounds of search space.
+		Lower (numpy.ndarray): lower bounds of search space.
+		Upper (numpy.ndarray): upper bounds of search space.
 		kwargs (Dict[str, Any]): Additional arguments.
 
 	Returns:
@@ -116,7 +116,7 @@ def reflectRepair(x, Lower, Upper, **kwargs):
 
 
 def fullArray(a, D):
-	r"""Fill or create array of length D, from value or value form a.
+	r"""Fill or create array of length d, from value or value form a.
 
 	Arguments:
 		a (Union[int, float, Any, numpy.ndarray, Iterable[Union[int, float, Any]]]): Input values for fill.

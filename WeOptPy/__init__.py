@@ -8,7 +8,6 @@ from __future__ import print_function
 from WeOptPy import (
 	util,
 	algorithms,
-	benchmarks,
 	task
 )
 from WeOptPy.runner import Runner
@@ -16,7 +15,6 @@ from WeOptPy.factory import Factory
 
 __all__ = [
 	'algorithms',
-	'benchmarks',
 	'util',
 	'task',
 	'Runner',

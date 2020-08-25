@@ -7,9 +7,10 @@ from WeOptPy.util.utility import objects2array
 
 __all__ = [
 	'Individual',
-	'defaultNumPyInit',
-	'defaultIndividualInit',
+	'default_numpy_init',
+	'default_individual_init',
 ]
+
 
 class Individual:
 	r"""Class that represents one solution in population of solutions.
@@ -42,10 +43,10 @@ class Individual:
 		"""
 		self.f = task.optType.value * np.inf if task is not None else np.inf
 		if x is not None: self.x = x if isinstance(x, np.ndarray) else np.asarray(x)
-		else: self.generateSolution(task, rnd)
+		else: self.generate_solution(task, rnd)
 		if e and task is not None: self.evaluate(task, rnd)
 
-	def generateSolution(self, task, rnd=rand):
+	def generate_solution(self, task, rnd=rand):
 		r"""Generate new solution.
 
 		Generate new solution for this individual and set it to ``self.x``.
@@ -88,7 +89,7 @@ class Individual:
 		r"""Compare the individuals for equalities.
 
 		Args:
-			other (Union[Any, np.ndarray]): Object that we want to compare this object to.
+			other (Union[Any, n.ndarray]): Object that we want to compare this object to.
 
 		Returns:
 			bool: `True` if equal or `False` if no equal.
@@ -135,30 +136,32 @@ class Individual:
 		"""
 		return len(self.x)
 
-def defaultNumPyInit(task, NP, rnd=rand, **kwargs):
-	r"""Initialize starting population that is represented with `numpy.ndarray` with shape `{NP, task.D}`.
+
+def default_numpy_init(task, n, rnd=rand, **kwargs):
+	r"""Initialize starting population that is represented with `numpy.ndarray` with shape `{n, task.d}`.
 
 	Args:
 		task (Task): Optimization task.
-		NP (int): Number of individuals in population.
+		n (int): Number of individuals in population.
 		rnd (Optional[rand.RandomState]): Random number generator.
 		kwargs (Dict[str, Any]): Additional arguments.
 
 	Returns:
 		Tuple[numpy.ndarray, numpy.ndarray]:
-			1. New population with shape `{NP, task.D}`.
+			1. New population with shape `{n, task.d}`.
 			2. New population function/fitness values.
 	"""
-	pop = task.Lower + rnd.rand(NP, task.D) * task.bRange
+	pop = task.Lower + rnd.rand(n, task.D) * task.bRange
 	fpop = np.apply_along_axis(task.eval, 1, pop)
 	return pop, fpop
 
-def defaultIndividualInit(task, NP, rnd=rand, itype=None, **kwargs):
-	r"""Initialize `NP` individuals of type `itype`.
+
+def default_individual_init(task, n, rnd=rand, itype=None, **kwargs):
+	r"""Initialize `n` individuals of type `itype`.
 
 	Args:
 		task (Task): Optimization task.
-		NP (int): Number of individuals in population.
+		n (int): Number of individuals in population.
 		rnd (Optional[rand.RandomState]): Random number generator.
 		itype (Optional[Individual]): Class of individual in population.
 		kwargs (Dict[str, Any]): Additional arguments.
@@ -168,7 +171,8 @@ def defaultIndividualInit(task, NP, rnd=rand, itype=None, **kwargs):
 			1. Initialized individuals.
 			2. Initialized individuals function/fitness values.
 	"""
-	pop = objects2array([itype(task=task, rnd=rnd, e=True) for _ in range(NP)])
+	pop = objects2array([itype(task=task, rnd=rnd, e=True) for _ in range(n)])
 	return pop, np.asarray([x.f for x in pop])
+
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

@@ -34,22 +34,22 @@ class GreyWolfOptimizer(Algorithm):
     Name = ['GreyWolfOptimizer', 'GWO']
 
     @staticmethod
-    def typeParameters(): return {
-        'NP': lambda x: isinstance(x, int) and x > 0
+    def type_parameters(): return {
+        'n': lambda x: isinstance(x, int) and x > 0
     }
 
-    def setParameters(self, NP=25, **ukwargs):
-        r"""Set the algorithm parameters.
+    def set_parameters(self, n=25, **ukwargs):
+		 r"""Set the algorithm parameters.
 
-        Arguments:
-            NP (int): Number of individuals in population
+		 Arguments:
+			  n (int): Number of individuals in population
 
-        See Also:
-            * :func:`NiaPy.algorithms.Algorithm.setParameters`
-        """
-        Algorithm.setParameters(self, NP=NP, **ukwargs)
+		 See Also:
+			  * :func:`NiaPy.algorithms.Algorithm.setParameters`
+		 """
+        Algorithm.set_parameters(self, n=n, **ukwargs)
 
-    def initPopulation(self, task):
+    def init_population(self, task):
         r"""Initialize population.
 
         Args:
@@ -65,13 +65,13 @@ class GreyWolfOptimizer(Algorithm):
         See Also:
             * :func:`NiaPy.algorithms.Algorithm.initPopulation`
         """
-        pop, fpop, d = Algorithm.initPopulation(self, task)
+        pop, fpop, d = Algorithm.init_population(self, task)
         si = np.argsort(fpop)
         A, A_f, B, B_f, D, D_f = np.copy(pop[si[0]]), fpop[si[0]], np.copy(pop[si[1]]), fpop[si[1]], np.copy(pop[si[2]]), fpop[si[2]]
-        d.update({'A': A, 'A_f': A_f, 'B': B, 'B_f': B_f, 'D': D, 'D_f': D_f})
+        d.update({'A': A, 'A_f': A_f, 'B': B, 'B_f': B_f, 'd': D, 'D_f': D_f})
         return pop, fpop, d
 
-    def runIteration(self, task, pop, fpop, xb, fxb, A, A_f, B, B_f, D, D_f, **dparams):
+    def run_iteration(self, task, pop, fpop, xb, fxb, A, A_f, B, B_f, D, D_f, **dparams):
         r"""Core funciton of GreyWolfOptimizer algorithm.
 
         Args:
@@ -109,5 +109,5 @@ class GreyWolfOptimizer(Algorithm):
             if f < A_f: A, A_f = pop[i].copy(), f
             elif A_f < f < B_f: B, B_f = pop[i].copy(), f
             elif B_f < f < D_f: D, D_f = pop[i].copy(), f
-        xb, fxb = self.getBest(A, A_f, xb, fxb)
-        return pop, fpop, xb, fxb, {'A': A, 'A_f': A_f, 'B': B, 'B_f': B_f, 'D': D, 'D_f': D_f}
+        xb, fxb = self.get_best(A, A_f, xb, fxb)
+        return pop, fpop, xb, fxb, {'A': A, 'A_f': A_f, 'B': B, 'B_f': B_f, 'd': D, 'D_f': D_f}

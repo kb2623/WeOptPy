@@ -13,11 +13,11 @@ class FOATestCase(AlgorithmTestCase):
         self.algo = ForestOptimizationAlgorithm
 
     def test_type_parameters(self):
-        tp = self.algo.typeParameters()
-        self.assertTrue(tp['NP'](1))
-        self.assertFalse(tp['NP'](0))
-        self.assertFalse(tp['NP'](-1))
-        self.assertFalse(tp['NP'](1.0))
+        tp = self.algo.type_parameters()
+        self.assertTrue(tp['n'](1))
+        self.assertFalse(tp['n'](0))
+        self.assertFalse(tp['n'](-1))
+        self.assertFalse(tp['n'](1.0))
         self.assertTrue(tp['lt'](1))
         self.assertFalse(tp['lt'](0))
         self.assertFalse(tp['lt'](-1))
@@ -45,7 +45,5 @@ class FOATestCase(AlgorithmTestCase):
         foac = self.algo(NP=20, lt=5, lsc=1, gsc=1, al=20, tr=0.35, seed=self.seed)
         AlgorithmTestCase.test_algorithm_run(self, foa, foac, MyBenchmark())
 
-    def test_griewank_works_fine(self):
-        foa_griewank = self.algo(NP=20, lt=5, lsc=1, gsc=1, al=20, tr=0.35, seed=self.seed)
-        foa_griewankc = self.algo(NP=20, lt=5, lsc=1, gsc=1, al=20, tr=0.35, seed=self.seed)
-        AlgorithmTestCase.test_algorithm_run(self, foa_griewank, foa_griewankc)
+
+# vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

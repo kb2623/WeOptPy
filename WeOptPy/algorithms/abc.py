@@ -6,7 +6,7 @@ import numpy as np
 from WeOptPy.algorithms.interfaces import (
 	Algorithm,
 	Individual,
-	defaultIndividualInit
+	default_individual_init
 )
 
 __all__ = ['ArtificialBeeColonyAlgorithm']
@@ -52,7 +52,7 @@ class ArtificialBeeColonyAlgorithm(Algorithm):
 		MIT
 
 	Reference paper:
-		Karaboga, D., and Bahriye B. "A powerful and efficient algorithm for numerical function optimization: artificial bee colony (ABC) algorithm." Journal of global optimization 39.3 (2007): 459-471.
+		Karaboga, d., and Bahriye B. "A powerful and efficient algorithm for numerical function optimization: artificial bee colony (ABC) algorithm." Journal of global optimization 39.3 (2007): 459-471.
 
 	Arguments
 		Name (List[str]): List containing strings that represent algorithm names
@@ -64,7 +64,7 @@ class ArtificialBeeColonyAlgorithm(Algorithm):
 	Name = ['ArtificialBeeColonyAlgorithm', 'ABC']
 
 	@staticmethod
-	def typeParameters():
+	def type_parameters():
 		r"""Return functions for checking values of parameters.
 
 		Returns:
@@ -74,11 +74,11 @@ class ArtificialBeeColonyAlgorithm(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.typeParameters`
 		"""
-		d = Algorithm.typeParameters()
+		d = Algorithm.type_parameters()
 		d.update({'Limit': lambda x: isinstance(x, int) and x > 0})
 		return d
 
-	def setParameters(self, NP=10, Limit=100, **ukwargs):
+	def set_parameters(self, n=10, Limit=100, **ukwargs):
 		r"""Set the parameters of Artificial Bee Colony Algorithm.
 
 		Parameters:
@@ -88,7 +88,7 @@ class ArtificialBeeColonyAlgorithm(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.setParameters`
 		"""
-		Algorithm.setParameters(self, NP=NP, InitPopFunc=defaultIndividualInit, itype=SolutionABC, **ukwargs)
+		Algorithm.set_parameters(self, n=n, init_pop_func=default_individual_init, itype=SolutionABC, **ukwargs)
 		self.FoodNumber, self.Limit = int(self.NP / 2), Limit
 
 	def CalculateProbs(self, Foods, Probs):
@@ -106,7 +106,7 @@ class ArtificialBeeColonyAlgorithm(Algorithm):
 		Probs = [Probs[i] / s for i in range(self.FoodNumber)]
 		return Probs
 
-	def initPopulation(self, task):
+	def init_population(self, task):
 		r"""Initialize the starting population.
 
 		Parameters:
@@ -123,11 +123,11 @@ class ArtificialBeeColonyAlgorithm(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.initPopulation`
 		"""
-		Foods, fpop, _ = Algorithm.initPopulation(self, task)
+		Foods, fpop, _ = Algorithm.init_population(self, task)
 		Probs, Trial = np.full(self.FoodNumber, 0.0), np.full(self.FoodNumber, 0.0)
 		return Foods, fpop, {'Probs': Probs, 'Trial': Trial}
 
-	def runIteration(self, task, Foods, fpop, xb, fxb, Probs, Trial, **dparams):
+	def run_iteration(self, task, Foods, fpop, xb, fxb, Probs, Trial, **dparams):
 		r"""Core function of  the algorithm.
 
 		Parameters:

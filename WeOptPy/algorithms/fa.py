@@ -37,7 +37,7 @@ class FireflyAlgorithm(Algorithm):
 	Name = ['FireflyAlgorithm', 'FA']
 
 	@staticmethod
-	def algorithmInfo():
+	def algorithm_info():
 		return r"""
 			Description: Firefly algorithm is inspired by the flashing behavior of fireflies.
 			Author: Xin-She Yang
@@ -46,7 +46,7 @@ class FireflyAlgorithm(Algorithm):
 		"""
 
 	@staticmethod
-	def typeParameters():
+	def type_parameters():
 		r"""TODO.
 
 		Returns:
@@ -58,7 +58,7 @@ class FireflyAlgorithm(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.typeParameters`
 		"""
-		d = Algorithm.typeParameters()
+		d = Algorithm.type_parameters()
 		d.update({
 			'alpha': lambda x: isinstance(x, (float, int)) and x > 0,
 			'betamin': lambda x: isinstance(x, (float, int)) and x > 0,
@@ -66,11 +66,11 @@ class FireflyAlgorithm(Algorithm):
 		})
 		return d
 
-	def setParameters(self, NP=20, alpha=1, betamin=1, gamma=2, **ukwargs):
+	def set_parameters(self, n=20, alpha=1, betamin=1, gamma=2, **ukwargs):
 		r"""Set the parameters of the algorithm.
 
 		Args:
-			NP (Optional[int]): Population size.
+			n (Optional[int]): Population size.
 			alpha (Optional[float]): Alpha parameter.
 			betamin (Optional[float]): Betamin parameter.
 			gamma (Optional[flaot]): Gamma parameter.
@@ -79,7 +79,7 @@ class FireflyAlgorithm(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.setParameters`
 		"""
-		Algorithm.setParameters(self, NP=NP, **ukwargs)
+		Algorithm.set_parameters(self, n=n, **ukwargs)
 		self.alpha, self.betamin, self.gamma = alpha, betamin, gamma
 
 	def alpha_new(self, a, alpha):
@@ -121,7 +121,7 @@ class FireflyAlgorithm(Algorithm):
 			moved = True
 		return Fireflies[i], moved
 
-	def initPopulation(self, task):
+	def init_population(self, task):
 		r"""Initialize the starting population.
 
 		Args:
@@ -137,10 +137,10 @@ class FireflyAlgorithm(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.initPopulation`
 		"""
-		Fireflies, Intensity, _ = Algorithm.initPopulation(self, task)
+		Fireflies, Intensity, _ = Algorithm.init_population(self, task)
 		return Fireflies, Intensity, {'alpha': self.alpha}
 
-	def runIteration(self, task, Fireflies, Intensity, xb, fxb, alpha, **dparams):
+	def run_iteration(self, task, Fireflies, Intensity, xb, fxb, alpha, **dparams):
 		r"""Core function of Firefly Algorithm.
 
 		Args:
@@ -169,7 +169,7 @@ class FireflyAlgorithm(Algorithm):
 		tmp = np.asarray([self.move_ffa(i, Fireflies[Index], Intensity[Index], Fireflies, alpha, task) for i in range(self.NP)])
 		Fireflies, evalF = np.asarray([tmp[i][0] for i in range(len(tmp))]), np.asarray([tmp[i][1] for i in range(len(tmp))])
 		Intensity[np.where(evalF)] = np.apply_along_axis(task.eval, 1, Fireflies[np.where(evalF)])
-		xb, fxb = self.getBest(Fireflies, Intensity, xb, fxb)
+		xb, fxb = self.get_best(Fireflies, Intensity, xb, fxb)
 		return Fireflies, Intensity, xb, fxb, {'alpha': alpha}
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3
