@@ -131,7 +131,7 @@ class ForestOptimizationAlgorithm(Algorithm):
 		perms = self.rand([deltas.shape[0], deltas.shape[1]]).argsort(1)
 		deltas = deltas[np.arange(deltas.shape[0])[:, None], perms]
 		trees += deltas
-		trees = np.apply_along_axis(limit_repair, 1, trees, task.Lower, task.Upper)
+		trees = np.apply_along_axis(limit_repair, 1, trees, task.lower, task.upper)
 		return trees
 
 	def globalSeeding(self, task, candidates, size):
@@ -146,7 +146,7 @@ class ForestOptimizationAlgorithm(Algorithm):
 			numpy.ndarray: Resulting trees.
 		"""
 		seeds = candidates[self.randint(len(candidates), D=size)]
-		deltas = self.uniform(task.benchmark.Lower, task.benchmark.Upper, (size, self.gsc))
+		deltas = self.uniform(task.benchmark.lower, task.benchmark.upper, (size, self.gsc))
 		deltas = np.append(deltas, np.zeros((size, task.D - self.gsc)), axis=1)
 		perms = self.rand([deltas.shape[0], deltas.shape[1]]).argsort(1)
 		deltas = deltas[np.arange(deltas.shape[0])[:, None], perms]
@@ -218,7 +218,7 @@ class ForestOptimizationAlgorithm(Algorithm):
 		"""
 		Trees, Evaluations, _ = Algorithm.init_population(self, task)
 		age = np.zeros(self.NP, dtype=np.int32)
-		self.dx = np.absolute(task.benchmark.Upper) / 5
+		self.dx = np.absolute(task.benchmark.upper) / 5
 		return Trees, Evaluations, {'age': age}
 
 	def run_iteration(self, task, Trees, Evaluations, xb, fxb, age, **dparams):

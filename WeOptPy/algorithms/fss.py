@@ -127,7 +127,7 @@ class FishSchoolSearch(Algorithm):
 		Returns:
 			numpy.ndarray: Array with uniform distribution.
 		"""
-		return np.asarray([self.uniform(task.Lower, task.Upper, task.D) for _ in range(self.NP)])
+		return np.asarray([self.uniform(task.lower, task.upper, task.D) for _ in range(self.NP)])
 
 	def gen_weight(self):
 		r"""Get initial weight for fish.
@@ -151,8 +151,8 @@ class FishSchoolSearch(Algorithm):
 
 	def init_school(self, task):
 		"""Initialize fish school with uniform distribution."""
-		curr_step_individual = self.step_individual_init * (task.Upper - task.Lower)
-		curr_step_volitive = self.step_volitive_init * (task.Upper - task.Lower)
+		curr_step_individual = self.step_individual_init * (task.upper - task.lower)
+		curr_step_volitive = self.step_volitive_init * (task.upper - task.lower)
 		curr_weight_school = 0.0
 		prev_weight_school = 0.0
 		school = []

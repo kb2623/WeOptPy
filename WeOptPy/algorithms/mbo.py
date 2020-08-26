@@ -225,7 +225,7 @@ class MonarchButterflyOptimization(Algorithm):
 		See Also:
 			 * :func:`NiaPy.algorithms.Algorithm.initPopulation`
 		"""
-		Butterflies = self.uniform(task.Lower, task.Upper, [self.NP, task.D])
+		Butterflies = self.uniform(task.lower, task.upper, [self.NP, task.D])
 		Fitness, Butterflies = self.evaluateAndSort(task, Butterflies)
 		return Butterflies, Fitness, {'tmp_best': Butterflies[0]}
 
@@ -252,8 +252,8 @@ class MonarchButterflyOptimization(Algorithm):
 		"""
 		tmpElite = np.copy(Butterflies[:self.keep])
 		max_t = task.nGEN if np.isinf(task.nGEN) is False else task.nFES / self.NP
-		Butterflies = np.apply_along_axis(self.repair, 1, self.migrationOperator(task.D, self.NP1, self.NP2, Butterflies), task.Lower, task.Upper)
-		Butterflies = np.apply_along_axis(self.repair, 1, self.adjustingOperator(task.Iters, max_t, task.D, self.NP1, self.NP2, Butterflies, tmp_best), task.Lower, task.Upper)
+		Butterflies = np.apply_along_axis(self.repair, 1, self.migrationOperator(task.D, self.NP1, self.NP2, Butterflies), task.lower, task.upper)
+		Butterflies = np.apply_along_axis(self.repair, 1, self.adjustingOperator(task.Iters, max_t, task.D, self.NP1, self.NP2, Butterflies, tmp_best), task.lower, task.upper)
 		Fitness, Butterflies = self.evaluateAndSort(task, Butterflies)
 		tmp_best = Butterflies[0]
 		Butterflies[-self.keep:] = tmpElite

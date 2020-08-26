@@ -81,7 +81,7 @@ class Task:
 		"""
 		return self.D
 
-	def bcLower(self):
+	def lower(self):
 		r"""Get the array of lower bound constraint.
 
 		Returns:
@@ -89,7 +89,7 @@ class Task:
 		"""
 		return self.Lower
 
-	def bcUpper(self):
+	def upper(self):
 		r"""Get the array of upper bound constraint.
 
 		Returns:
@@ -97,7 +97,7 @@ class Task:
 		"""
 		return self.Upper
 
-	def bcRange(self):
+	def range(self):
 		r"""Get the range of bound constraint.
 
 		Returns:
@@ -124,7 +124,7 @@ class Task:
 		"""
 		return self.frepair(x, self.Lower, self.Upper, rnd=rnd)
 
-	def nextIter(self):
+	def next_iteration(self):
 		r"""Increments the number of algorithm iterations."""
 
 	def start(self):
@@ -141,7 +141,7 @@ class Task:
 		"""
 		return self.Fun(self.D, A) * self.optType.value
 
-	def isFeasible(self, A):
+	def is_feasible(self, A):
 		r"""Check if the solution is feasible.
 
 		Arguments:
@@ -159,5 +159,6 @@ class Task:
 			bool: `True` if stopping condition is meet else `False`.
 		"""
 		return False
-	
+
+
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

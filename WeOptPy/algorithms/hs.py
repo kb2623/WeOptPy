@@ -133,7 +133,7 @@ class HarmonySearch(Algorithm):
         H = np.full(task.D, .0)
         for i in range(task.D):
             r, j = self.rand(), self.randint(self.NP)
-            H[i] = HM[j, i] if r > self.r_accept else self.adjustment(HM[j, i], task) if r > self.r_pa else self.uniform(task.Lower[i], task.Upper[i])
+            H[i] = HM[j, i] if r > self.r_accept else self.adjustment(HM[j, i], task) if r > self.r_pa else self.uniform(task.lower[i], task.upper[i])
         return H
 
     def init_population(self, task):

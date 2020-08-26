@@ -14,9 +14,9 @@ from WeOptPy.util.utility import (
 	classifie
 )
 from WeOptPy.util.argparser import (
-	MakeArgParser,
-	getArgs,
-	getDictArgs
+	make_arg_parser,
+	get_args,
+	get_dict_args
 )
 from WeOptPy.util.exception import (
 	FesException,
@@ -33,9 +33,9 @@ __all__ = [
 	'wangRepair',
 	'randRepair',
 	'reflectRepair',
-	'MakeArgParser',
-	'getArgs',
-	'getDictArgs',
+	'make_arg_parser',
+	'get_args',
+	'get_dict_args',
 	'FesException',
 	'GenException',
 	'TimeException',

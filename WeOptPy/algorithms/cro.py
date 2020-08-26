@@ -43,7 +43,7 @@ def BroodingSimple(pop, p, task, rnd=rand, **kwargs):
 			1. New population.
 			2. New population function/fitness values.
 	"""
-	for i in range(len(pop)): pop[i] = task.repair(np.asarray([pop[i, d] if rnd.rand() < p else task.Lower[d] + task.bRange[d] * rnd.rand() for d in range(task.D)]), rnd=rnd)
+	for i in range(len(pop)): pop[i] = task.repair(np.asarray([pop[i, d] if rnd.rand() < p else task.lower[d] + task.bRange[d] * rnd.rand() for d in range(task.D)]), rnd=rnd)
 	return pop, np.apply_along_axis(task.eval, 1, pop)
 
 

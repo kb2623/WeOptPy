@@ -129,7 +129,7 @@ class BeesAlgorithm(Algorithm):
 		ind = self.randint(task.D)
 		y = np.array(x, copy=True)
 		y[ind] = x[ind] + self.uniform(-ngh, ngh)
-		y = limit_repair(y, task.Lower, task.Upper)
+		y = limit_repair(y, task.lower, task.upper)
 		res = task.eval(y)
 		return y, res
 
@@ -196,7 +196,7 @@ class BeesAlgorithm(Algorithm):
 				BeesPosition[ies, :] = BestBeePos
 				BeesCost[ies] = BestBeeCost
 		for ies in range(self.m, self.n):
-			BeesPosition[ies, :] = np.array(self.uniform(task.Lower, task.Upper, task.D))
+			BeesPosition[ies, :] = np.array(self.uniform(task.lower, task.upper, task.D))
 			BeesCost[ies] = task.eval(BeesPosition[ies, :])
 		idxs = np.argsort(BeesCost)
 		BeesCost = BeesCost[idxs]

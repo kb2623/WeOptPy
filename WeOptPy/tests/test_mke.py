@@ -25,13 +25,13 @@ class MkeSolutionTestCase(TestCase):
 		self.sol1, self.sol2, self.sol3 = MkeSolution(x=self.x, e=False), MkeSolution(task=self.task), MkeSolution(x=self.x, e=False)
 
 	def test_uPersonalBest_fine(self):
-		self.sol2.uPersonalBest()
+		self.sol2.update_personal_best()
 		self.assertTrue(np.array_equal(self.sol2.x, self.sol2.x_pb))
 		self.assertEqual(self.sol2.f_pb, self.sol2.f)
 		self.sol3.evaluate(self.task)
 		self.sol3.x = np.full(self.task.D, -5.11)
 		self.sol3.evaluate(self.task)
-		self.sol3.uPersonalBest()
+		self.sol3.update_personal_best()
 		self.assertTrue(np.array_equal(self.sol3.x, self.sol3.x_pb))
 		self.assertEqual(self.sol3.f_pb, self.sol3.f)
 

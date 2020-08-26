@@ -2,9 +2,9 @@
 
 from WeOptPy.algorithms import AnarchicSocietyOptimization
 from WeOptPy.algorithms.aso import (
-	Elitism,
-	Sequential,
-	Crossover
+	elitism,
+	sequential,
+	crossover
 )
 
 from WeOptPy.tests.test_algorithm import (
@@ -36,22 +36,22 @@ class ASOTestCase(AlgorithmTestCase):
 
 class ASOElitismTestCase(ASOTestCase):
 	def test_custom_works_fine(self):
-		aso_custom = self.algo(NP=40, Combination=Elitism, seed=self.seed)
-		aso_customc = self.algo(NP=40, Combination=Elitism, seed=self.seed)
+		aso_custom = self.algo(NP=40, Combination=elitism, seed=self.seed)
+		aso_customc = self.algo(NP=40, Combination=elitism, seed=self.seed)
 		AlgorithmTestCase.test_algorithm_run(self, aso_custom, aso_customc, MyBenchmark())
 
 
 class ASOSequentialTestCase(AlgorithmTestCase):
 	def test_custom_works_fine(self):
-		aso_custom = self.algo(NP=40, Combination=Sequential, seed=self.seed)
-		aso_customc = self.algo(NP=40, Combination=Sequential, seed=self.seed)
+		aso_custom = self.algo(NP=40, Combination=sequential, seed=self.seed)
+		aso_customc = self.algo(NP=40, Combination=sequential, seed=self.seed)
 		AlgorithmTestCase.test_algorithm_run(self, aso_custom, aso_customc, MyBenchmark())
 
 
 class ASOCrossoverTestCase(AlgorithmTestCase):
 	def test_custom_works_fine(self):
-		aso_custom = self.algo(NP=40, Combination=Crossover, seed=self.seed)
-		aso_customc = self.algo(NP=40, Combination=Crossover, seed=self.seed)
+		aso_custom = self.algo(NP=40, Combination=crossover, seed=self.seed)
+		aso_customc = self.algo(NP=40, Combination=crossover, seed=self.seed)
 		AlgorithmTestCase.test_algorithm_run(self, aso_custom, aso_customc, MyBenchmark())
 
 

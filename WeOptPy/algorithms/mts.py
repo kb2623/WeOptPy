@@ -269,7 +269,7 @@ def MTS_LS3v1(Xk, Xk_fit, Xb, Xb_fit, improve, SR, task, phi=3, BONUS1=10, BONUS
 		elif len(Xn_f[iBetter]) > 0:
 			ib, improve = np.argmin(Xn_f[iBetter]), True
 			Xk, Xk_fit = Xn[iBetter][ib][0].copy(), Xn_f[iBetter][ib][0]
-		Su, Sl = np.fmin(task.Upper, Xk + 2 * Disp), np.fmax(task.Lower, Xk - 2 * Disp)
+		Su, Sl = np.fmin(task.upper, Xk + 2 * Disp), np.fmax(task.lower, Xk - 2 * Disp)
 		Disp = (Su - Sl) / 10
 	return Xk, Xk_fit, Xb, Xb_fit, improve, grade, SR
 

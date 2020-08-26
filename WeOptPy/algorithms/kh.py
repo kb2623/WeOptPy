@@ -771,7 +771,7 @@ class KrillHerdV11(KrillHerd):
 		"""
 		KH, KH_f, d = Algorithm.init_population(self, task)
 		KHo, KHo_f = np.full([self.NP, task.D], task.optType.value * np.inf), np.full(self.NP, task.optType.value * np.inf)
-		N, F, Dt = np.full(self.NP, .0), np.full(self.NP, .0), np.mean(task.bcRange()) / 2
+		N, F, Dt = np.full(self.NP, .0), np.full(self.NP, .0), np.mean(task.range()) / 2
 		d.update({'KHo': KHo, 'KHo_f': KHo_f, 'N': N, 'F': F, 'Dt': Dt})
 		return KH, KH_f, d
 

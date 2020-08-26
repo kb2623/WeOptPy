@@ -92,7 +92,7 @@ class StoppingTask(CountingTask):
 			* :func:`NiaPy.util.CountingTask.nextIter`
 		"""
 		r = self.stop_cond()
-		CountingTask.nextIter(self)
+		CountingTask.next_iteration(self)
 		return r
 
 	def return_conv(self):

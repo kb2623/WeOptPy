@@ -36,7 +36,7 @@ twine = ">=1.13.0"
 singledispatch = ">=3.4.0.3"
 configparser = ">=3.7.4"
 funcsigs = ">=1.0.2"
-futures = ">=3.1.0"
+# futures = ">=3.1.0"
 Pygments = ">=2.3.1"
 MacFSEvents = {version = ">=0.8.1",sys_platform = "== 'darwin'"}
 Sphinx = ">=1.8.0b1"

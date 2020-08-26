@@ -103,7 +103,7 @@ class CuckooSearch(Algorithm):
 				2. New population fitness/function values
 		"""
 		si = np.argsort(fpop)[:int(pa_v):-1]
-		pop[si] = task.Lower + self.rand(task.D) * task.bRange
+		pop[si] = task.lower + self.rand(task.D) * task.bRange
 		fpop[si] = np.apply_along_axis(task.eval, 1, pop[si])
 		return pop, fpop
 

@@ -149,7 +149,7 @@ class SimulatedAnnealing(Algorithm):
 				2. Initial solutions fitness/objective value
 				3. Additional arguments
 		"""
-		x = task.Lower + task.bcRange() * self.rand(task.D)
+		x = task.lower + task.range() * self.rand(task.D)
 		curT, xfit = self.T, task.eval(x)
 		return x, xfit, {'curT': curT}
 

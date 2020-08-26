@@ -7,1019 +7,1034 @@ from WeOptPy.util import fullArray
 from WeOptPy.util.utility import reflectRepair
 
 __all__ = [
-    'ParticleSwarmAlgorithm',
-    'ParticleSwarmOptimization',
-    'CenterParticleSwarmOptimization',
-    'MutatedParticleSwarmOptimization',
-    'MutatedCenterParticleSwarmOptimization',
-    'ComprehensiveLearningParticleSwarmOptimizer',
-    'MutatedCenterUnifiedParticleSwarmOptimization',
-    'OppositionVelocityClampingParticleSwarmOptimization'
+	'ParticleSwarmAlgorithm',
+	'ParticleSwarmOptimization',
+	'CenterParticleSwarmOptimization',
+	'MutatedParticleSwarmOptimization',
+	'MutatedCenterParticleSwarmOptimization',
+	'ComprehensiveLearningParticleSwarmOptimizer',
+	'MutatedCenterUnifiedParticleSwarmOptimization',
+	'OppositionVelocityClampingParticleSwarmOptimization'
 ]
 
+
 class ParticleSwarmAlgorithm(Algorithm):
-    r"""Implementation of Particle Swarm Optimization algorithm.
+	r"""Implementation of Particle Swarm Optimization algorithm.
 
-    Algorithm:
-        Particle Swarm Optimization algorithm
+	Algorithm:
+		Particle Swarm Optimization algorithm
 
-    Date:
-        2018
+	Date:
+		2018
 
-    Authors:
-        Lucija Brezočnik, Grega Vrbančič, Iztok Fister Jr. and Klemen Berkovič
+	Authors:
+		Lucija Brezočnik, Grega Vrbančič, Iztok Fister Jr. and Klemen Berkovič
 
-    License:
-        MIT
+	License:
+		MIT
 
-    Reference paper:
-        TODO: Find the right paper
+	Reference paper:
+		TODO: Find the right paper
 
-    Attributes:
-        Name (List[str]): List of strings representing algorithm names
-        C1 (float): Cognitive component.
-        C2 (float): Social component.
-        w (Union[float, numpy.ndarray[float]]): Inertial weight.
-        vMin (Union[float, numpy.ndarray[float]]): Minimal velocity.
-        vMax (Union[float, numpy.ndarray[float]]): Maximal velocity.
-        Repair (Callable[[numpy.ndarray, numpy.ndarray, numpy.ndarray, mtrnd.RandomState], numpy.ndarray]): Repair method for velocity.
+	Attributes:
+		Name (List[str]): List of strings representing algorithm names
+		C1 (float): Cognitive component.
+		C2 (float): Social component.
+		w (Union[float, numpy.ndarray[float]]): Inertial weight.
+		vMin (Union[float, numpy.ndarray[float]]): Minimal velocity.
+		vMax (Union[float, numpy.ndarray[float]]): Maximal velocity.
+		Repair (Callable[[numpy.ndarray, numpy.ndarray, numpy.ndarray, mtrnd.RandomState], numpy.ndarray]): Repair method for velocity.
 
-    See Also:
-        * :class:`NiaPy.algorithms.Algorithm`
-    """
-    Name = ['WeightedVelocityClampingParticleSwarmAlgorithm', 'WVCPSO']
+	See Also:
+		* :class:`NiaPy.algorithms.Algorithm`
+	"""
+	Name = ['WeightedVelocityClampingParticleSwarmAlgorithm', 'WVCPSO']
 
-    @staticmethod
-    def algorithm_info():
-        r"""Get basic information of algorithm.
+	@staticmethod
+	def algorithm_info():
+		r"""Get basic information of algorithm.
 
-        Returns:
-            str: Basic information of algorithm.
+		Returns:
+			str: Basic information of algorithm.
 
-        See Also:
-            * :func:`NiaPy.algorithms.Algorithm.algorithmInfo`
-        """
-        return r"""TODO find one"""
+		See Also:
+			* :func:`NiaPy.algorithms.Algorithm.algorithmInfo`
+		"""
+		return r"""TODO find one"""
 
-    @staticmethod
-    def type_parameters():
-        r"""Get dictionary with functions for checking values of parameters.
+	@staticmethod
+	def type_parameters():
+		r"""Get dictionary with functions for checking values of parameters.
 
-        Returns:
-            Dict[str, Callable[[Union[int, float]], bool]]:
-            * n (Callable[[int], bool])
-            * C1 (Callable[[Union[int, float]], bool])
-            * C2 (Callable[[Union[int, float]], bool])
-            * w (Callable[[float], bool])
-            * vMin (Callable[[Union[int, float]], bool])
-            * vMax (Callable[[Union[int, float], bool])
-        """
-        d = Algorithm.type_parameters()
-        d.update({
-            'C1': lambda x: isinstance(x, (int, float)) and x >= 0,
-            'C2': lambda x: isinstance(x, (int, float)) and x >= 0,
-            'w': lambda x: isinstance(x, float) and x >= 0,
-            'vMin': lambda x: isinstance(x, (int, float)),
-            'vMax': lambda x: isinstance(x, (int, float))
-        })
-        return d
+		Returns:
+			Dict[str, Callable[[Union[int, float]], bool]]:
+				* n (Callable[[int], bool])
+				* C1 (Callable[[Union[int, float]], bool])
+				* C2 (Callable[[Union[int, float]], bool])
+				* w (Callable[[float], bool])
+				* vMin (Callable[[Union[int, float]], bool])
+				* vMax (Callable[[Union[int, float], bool])
+		"""
+		d = Algorithm.type_parameters()
+		d.update({
+			'C1': lambda x: isinstance(x, (int, float)) and x >= 0,
+			'C2': lambda x: isinstance(x, (int, float)) and x >= 0,
+			'w': lambda x: isinstance(x, float) and x >= 0,
+			'vMin': lambda x: isinstance(x, (int, float)),
+			'vMax': lambda x: isinstance(x, (int, float))
+		})
+		return d
 
-    def set_parameters(self, n=25, C1=2.0, C2=2.0, w=0.7, vMin=-1.5, vMax=1.5, Repair=reflectRepair, **ukwargs):
-		 r"""Set Particle Swarm Algorithm main parameters.
+	def set_parameters(self, n=25, c1=2.0, c2=2.0, w=0.7, min_velocity=-1.5, max_velocity=1.5, repair=reflectRepair, **ukwargs):
+		r"""Set Particle Swarm Algorithm main parameters.
 
-		 Args:
-			  n (int): Population size
-			  C1 (float): Cognitive component.
-			  C2 (float): Social component.
-			  w (Union[float, numpy.ndarray]): Inertial weight.
-			  vMin (Union[float, numpy.ndarray]): Minimal velocity.
-			  vMax (Union[float, numpy.ndarray]): Maximal velocity.
-			  Repair (Callable[[np.ndarray, np.ndarray, np.ndarray, dict], np.ndarray]): Repair method for velocity.
-			  **ukwargs: Additional arguments
+		Args:
+			n (int): Population size
+			c1 (float): Cognitive component.
+			c2 (float): Social component.
+			w (Union[float, numpy.ndarray]): Inertial weight.
+			min_velocity (Union[float, numpy.ndarray]): Minimal velocity.
+			max_velocity (Union[float, numpy.ndarray]): Maximal velocity.
+			repair (Callable[[np.ndarray, np.ndarray, np.ndarray, dict], np.ndarray]): Repair method for velocity.
+			**ukwargs: Additional arguments
 
-		 See Also:
-			  * :func:`NiaPy.algorithms.Algorithm.setParameters`
-		 """
-        Algorithm.set_parameters(self, n=n, **ukwargs)
-        self.C1, self.C2, self.w, self.vMin, self.vMax, self.Repair = C1, C2, w, vMin, vMax, Repair
+		See Also:
+			* :func:`NiaPy.algorithms.Algorithm.setParameters`
+		"""
+		Algorithm.set_parameters(self, n=n, **ukwargs)
+		self.C1, self.C2, self.w, self.vMin, self.vMax, self.Repair = c1, c2, w, min_velocity, max_velocity, repair
 
-    def get_parameters(self):
-        r"""Get value of parametrs for this instance of algorithm.
+	def get_parameters(self):
+		r"""Get value of parameters for this instance of algorithm.
 
-        Returns:
-            Dict[str, Union[int, float, n.ndarray]]: Dictionari which has parameters maped to values.
+		Returns:
+			Dict[str, Union[int, float, numpy.ndarray]]: Dictionary which has parameters mapped to values.
 
-        See Also:
-            * :func:`NiaPy.algorithms.Algorithm.getParameters`
-        """
-        d = Algorithm.get_parameters(self)
-        d.update({
-            'C1': self.C1,
-            'C2': self.C2,
-            'w': self.w,
-            'vMin': self.vMin,
-            'vMax': self.vMax
-        })
-        return d
+		See Also:
+			* :func:`NiaPy.algorithms.Algorithm.getParameters`
+		"""
+		d = Algorithm.get_parameters(self)
+		d.update({
+			'C1': self.C1,
+			'C2': self.C2,
+			'w': self.w,
+			'vMin': self.vMin,
+			'vMax': self.vMax
+		})
+		return d
 
-    def init(self, task):
-        r"""Initialize dynamic arguments of Particle Swarm Optimization algorithm.
+	def init(self, task):
+		r"""Initialize dynamic arguments of Particle Swarm Optimization algorithm.
 
-        Args:
-            task (Task): Optimization task.
+		Args:
+			task (Task): Optimization task.
 
-        Returns:
-            Dict[str, Union[float, n.ndarray]]:
-                * w (numpy.ndarray): Inertial weight.
-                * vMin (numpy.ndarray): Mininal velocity.
-                * vMax (numpy.ndarray): Maximal velocity.
-                * V (numpy.ndarray): Initial velocity of particle.
-        """
-        return {
-            'w': fullArray(self.w, task.D),
-            'vMin': fullArray(self.vMin, task.D),
-            'vMax': fullArray(self.vMax, task.D),
-            'V': np.full([self.NP, task.D], 0.0)
-        }
+		Returns:
+			Dict[str, Union[float, numpy.ndarray]]:
+				* w (numpy.ndarray): Inertial weight.
+				* vMin (numpy.ndarray): Mininal velocity.
+				* vMax (numpy.ndarray): Maximal velocity.
+				* V (numpy.ndarray): Initial velocity of particle.
+		"""
+		return {
+			'w': fullArray(self.w, task.D),
+			'vMin': fullArray(self.vMin, task.D),
+			'vMax': fullArray(self.vMax, task.D),
+			'V': np.full([self.NP, task.D], 0.0)
+		}
 
-    def init_population(self, task):
-        r"""Initialize population and dynamic arguments of the Particle Swarm Optimization algorithm.
+	def init_population(self, task):
+		r"""Initialize population and dynamic arguments of the Particle Swarm Optimization algorithm.
 
-        Args:
-            task: Optimization task.
+		Args:
+			task: Optimization task.
 
-        Returns:
-            Tuple[n.ndarray, n.ndarray, dict]:
-            1. Initial population.
-            2. Initial population fitness/function values.
-            3. Additional arguments:
-                * popb (numpy.ndarray): particles best population.
-                * fpopb (numpy.ndarray[float]): particles best positions function/fitness value.
-                * w (numpy.ndarray): Inertial weight.
-                * vMin (numpy.ndarray): Minimal velocity.
-                * vMax (numpy.ndarray): Maximal velocity.
-                * V (numpy.ndarray): Initial velocity of particle.
+		Returns:
+			Tuple[numpy.ndarray, numpy.ndarray, dict]:
+				1. Initial population.
+				2. Initial population fitness/function values.
+				3. Additional arguments:
+					* popb (numpy.ndarray): particles best population.
+					* fpopb (numpy.ndarray[float]): particles best positions function/fitness value.
+					* w (numpy.ndarray): Inertial weight.
+					* vMin (numpy.ndarray): Minimal velocity.
+					* vMax (numpy.ndarray): Maximal velocity.
+					* V (numpy.ndarray): Initial velocity of particle.
 
-        See Also:
-            * :func:`NiaPy.algorithms.Algorithm.initPopulation`
-        """
-        pop, fpop, d = Algorithm.init_population(self, task)
-        d.update(self.init(task))
-        d.update({'popb': pop.copy(), 'fpopb': fpop.copy()})
-        return pop, fpop, d
+		See Also:
+			* :func:`NiaPy.algorithms.Algorithm.initPopulation`
+		"""
+		pop, fpop, d = Algorithm.init_population(self, task)
+		d.update(self.init(task))
+		d.update({'popb': pop.copy(), 'fpopb': fpop.copy()})
+		return pop, fpop, d
 
-    def updateVelocity(self, V, p, pb, gb, w, vMin, vMax, task, **kwargs):
-        r"""Update particle velocity.
+	def update_velocity(self, v, p, pb, gb, w, min_velocity, max_velocity, task, **kwargs):
+		r"""Update particle velocity.
 
-        Args:
-            V (numpy.ndarray): Current velocity of particle.
-            p (numpy.ndarray): Current position of particle.
-            pb (numpy.ndarray): Personal best position of particle.
-            gb (numpy.ndarray): Global best position of particle.
-            w (numpy.ndarray): Weights for velocity adjustment.
-            vMin (numpy.ndarray): Minimal velocity allowed.
-            vMax (numpy.ndarray): Maximal velocity allowed.
-            task (Task): Optimization task.
-            kwargs: Additional arguments.
+		Args:
+			v (numpy.ndarray): Current velocity of particle.
+			p (numpy.ndarray): Current position of particle.
+			pb (numpy.ndarray): Personal best position of particle.
+			gb (numpy.ndarray): Global best position of particle.
+			w (numpy.ndarray): Weights for velocity adjustment.
+			min_velocity (numpy.ndarray): Minimal velocity allowed.
+			max_velocity (numpy.ndarray): Maximal velocity allowed.
+			task (Task): Optimization task.
+			kwargs: Additional arguments.
 
-        Returns:
-            numpy.ndarray: Updated velocity of particle.
-        """
-        return self.Repair(w * V + self.C1 * self.rand(task.D) * (pb - p) + self.C2 * self.rand(task.D) * (gb - p), vMin, vMax)
+		Returns:
+			numpy.ndarray: Updated velocity of particle.
+		"""
+		return self.Repair(w * v + self.C1 * self.rand(task.D) * (pb - p) + self.C2 * self.rand(task.D) * (gb - p), min_velocity, max_velocity)
 
-    def run_iteration(self, task, pop, fpop, xb, fxb, popb, fpopb, w, vMin, vMax, V, **dparams):
-        r"""Core function of Particle Swarm Optimization algorithm.
+	def run_iteration(self, task, pop, fpop, xb, fxb, popb, fpopb, w, min_velocity, max_velocity, v, **dparams):
+		r"""Core function of Particle Swarm Optimization algorithm.
 
-        Args:
-            task (Task): Optimization task.
-            pop (numpy.ndarray): Current populations.
-            fpop (numpy.ndarray): Current population fitness/function values.
-            xb (numpy.ndarray): Current best particle.
-            fxb (float): Current best particle fitness/function value.
-            popb (numpy.ndarray): Particles best position.
-            fpopb (numpy.ndarray): Particles best positions fitness/function values.
-            w (numpy.ndarray): Inertial weights.
-            vMin (numpy.ndarray): Minimal velocity.
-            vMax (numpy.ndarray): Maximal velocity.
-            V (numpy.ndarray): Velocity of particles.
-            **dparams: Additional function arguments.
+		Args:
+			task (Task): Optimization task.
+			pop (numpy.ndarray): Current populations.
+			fpop (numpy.ndarray): Current population fitness/function values.
+			xb (numpy.ndarray): Current best particle.
+			fxb (float): Current best particle fitness/function value.
+			popb (numpy.ndarray): Particles best position.
+			fpopb (numpy.ndarray): Particles best positions fitness/function values.
+			w (numpy.ndarray): Inertial weights.
+			min_velocity (numpy.ndarray): Minimal velocity.
+			max_velocity (numpy.ndarray): Maximal velocity.
+			v (numpy.ndarray): Velocity of particles.
+			**dparams: Additional function arguments.
 
-        Returns:
-            Tuple[n.ndarray, n.ndarray, n.ndarray, float, dict]:
-            1. New population.
-            2. New population fitness/function values.
-            3. New global best position.
-            4. New global best positions function/fitness value.
-            5. Additional arguments:
-                * popb (numpy.ndarray): Particles best population.
-                * fpopb (numpy.ndarray[float]): Particles best positions function/fitness value.
-                * w (numpy.ndarray): Inertial weight.
-                * vMin (numpy.ndarray): Minimal velocity.
-                * vMax (numpy.ndarray): Maximal velocity.
-                * V (numpy.ndarray): Initial velocity of particle.
+		Returns:
+			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, dict]:
+				1. New population.
+				2. New population fitness/function values.
+				3. New global best position.
+				4. New global best positions function/fitness value.
+				5. Additional arguments:
+					* popb (numpy.ndarray): Particles best population.
+					* fpopb (numpy.ndarray[float]): Particles best positions function/fitness value.
+					* w (numpy.ndarray): Inertial weight.
+					* vMin (numpy.ndarray): Minimal velocity.
+					* vMax (numpy.ndarray): Maximal velocity.
+					* V (numpy.ndarray): Initial velocity of particle.
 
-        See Also:
-            * :class:`NiaPy.algorithms.algorithm.runIteration`
-        """
-        for i in range(len(pop)):
-            V[i] = self.updateVelocity(V[i], pop[i], popb[i], xb, w, vMin, vMax, task)
-            pop[i] = task.repair(pop[i] + V[i], rnd=self.Rand)
-            fpop[i] = task.eval(pop[i])
-            if fpop[i] < fpopb[i]:
-                popb[i], fpopb[i] = pop[i].copy(), fpop[i]
-                if fpop[i] < fxb: xb, fxb = pop[i].copy(), fpop[i]
-        return pop, fpop, xb, fxb, {'popb': popb, 'fpopb': fpopb, 'w': w, 'vMin': vMin, 'vMax': vMax, 'V': V}
+		See Also:
+			* :class:`NiaPy.algorithms.algorithm.runIteration`
+		"""
+		for i in range(len(pop)):
+			v[i] = self.update_velocity(v[i], pop[i], popb[i], xb, w, min_velocity, max_velocity, task)
+			pop[i] = task.repair(pop[i] + v[i], rnd=self.Rand)
+			fpop[i] = task.eval(pop[i])
+			if fpop[i] < fpopb[i]: popb[i], fpopb[i] = pop[i].copy(), fpop[i]
+			if fpop[i] < fxb: xb, fxb = pop[i].copy(), fpop[i]
+		return pop, fpop, xb, fxb, {'popb': popb, 'fpopb': fpopb, 'w': w, 'vMin': min_velocity, 'vMax': max_velocity, 'V': v}
+
 
 class ParticleSwarmOptimization(ParticleSwarmAlgorithm):
-    r"""Implementation of Particle Swarm Optimization algorithm.
+	r"""Implementation of Particle Swarm Optimization algorithm.
 
-    Algorithm:
-        Particle Swarm Optimization algorithm
+	Algorithm:
+		Particle Swarm Optimization algorithm
 
-    Date:
-        2018
+	Date:
+		2018
 
-    Authors:
-        Lucija Brezočnik, Grega Vrbančič, Iztok Fister Jr. and Klemen Berkovič
+	Authors:
+		Lucija Brezočnik, Grega Vrbančič, Iztok Fister Jr. and Klemen Berkovič
 
-    License:
-        MIT
+	License:
+		MIT
 
-    Reference paper:
-        Kennedy, J. and Eberhart, R. "Particle Swarm Optimization". Proceedings of IEEE International Conference on Neural Networks. IV. pp. 1942--1948, 1995.
+	Reference paper:
+		Kennedy, J. and Eberhart, R. "Particle Swarm Optimization". Proceedings of IEEE International Conference on Neural Networks. IV. pp. 1942--1948, 1995.
 
-    Attributes:
-        Name (List[str]): List of strings representing algorithm names
-        C1 (float): Cognitive component.
-        C2 (float): Social component.
-        Repair (Callable[[numpy.ndarray, numpy.ndarray, numpy.ndarray, mtrnd.RandomState], numpy.ndarray]): Repair method for velocity.
+	Attributes:
+		Name (List[str]): List of strings representing algorithm names
+		C1 (float): Cognitive component.
+		C2 (float): Social component.
+		Repair (Callable[[numpy.ndarray, numpy.ndarray, numpy.ndarray, mtrnd.RandomState], numpy.ndarray]): Repair method for velocity.
 
-    See Also:
-        * :class:`NiaPy.algorithms.basic.WeightedVelocityClampingParticleSwarmAlgorithm`
-    """
-    Name = ['ParticleSwarmAlgorithm', 'PSO']
+	See Also:
+		* :class:`NiaPy.algorithms.basic.WeightedVelocityClampingParticleSwarmAlgorithm`
+	"""
+	Name = ['ParticleSwarmAlgorithm', 'PSO']
 
-    @staticmethod
-    def algorithm_info():
-        r"""Get basic information of algorithm.
+	@staticmethod
+	def algorithm_info():
+		r"""Get basic information of algorithm.
 
-        Returns:
-            str: Basic information of algorithm.
+		Returns:
+			str: Basic information of algorithm.
 
-        See Also:
-            * :func:`NiaPy.algorithms.Algorithm.algorithmInfo`
-        """
-        return r"""Kennedy, J. and Eberhart, R. "Particle Swarm Optimization". Proceedings of IEEE International Conference on Neural Networks. IV. pp. 1942--1948, 1995."""
+		See Also:
+			* :func:`NiaPy.algorithms.Algorithm.algorithmInfo`
+		"""
+		return r"""Kennedy, J. and Eberhart, R. "Particle Swarm Optimization". Proceedings of IEEE International Conference on Neural Networks. IV. pp. 1942--1948, 1995."""
 
-    @staticmethod
-    def type_parameters():
-        r"""Get dictionary with functions for checking values of parameters.
+	@staticmethod
+	def type_parameters():
+		r"""Get dictionary with functions for checking values of parameters.
 
-        Returns:
-            Dict[str, Callable[[Union[int, float]], bool]]:
-            * n: Population size.
-            * C1: Cognitive component.
-            * C2: Social component.
-        """
-        d = ParticleSwarmAlgorithm.type_parameters()
-        d.pop('w', None), d.pop('vMin', None), d.pop('vMax', None)
-        return d
+		Returns:
+			Dict[str, Callable[[Union[int, float]], bool]]:
+			* n: Population size.
+			* C1: Cognitive component.
+			* C2: Social component.
+		"""
+		d = ParticleSwarmAlgorithm.type_parameters()
+		d.pop('w', None), d.pop('vMin', None), d.pop('vMax', None)
+		return d
 
-    def set_parameters(self, **ukwargs):
-        r"""Set core parameters of algorithm.
+	def set_parameters(self, **ukwargs):
+		r"""Set core parameters of algorithm.
 
-        Args:
-            **ukwargs (Dict[str, Any]): Additional parameters.
+		Args:
+			**ukwargs (Dict[str, Any]): Additional parameters.
 
-        See Also:
-            * :func:`NiaPy.algorithms.basic.WeightedVelocityClampingParticleSwarmAlgorithm.setParameters`
-        """
-        ukwargs.pop('w', None), ukwargs.pop('vMin', None), ukwargs.pop('vMax', None)
-        ParticleSwarmAlgorithm.set_parameters(self, w=1, vMin=-np.inf, vMax=np.inf, **ukwargs)
+		See Also:
+			* :func:`NiaPy.algorithms.basic.WeightedVelocityClampingParticleSwarmAlgorithm.setParameters`
+		"""
+		ukwargs.pop('w', None), ukwargs.pop('vMin', None), ukwargs.pop('vMax', None)
+		ParticleSwarmAlgorithm.set_parameters(self, w=1, min_velocity=-np.inf, max_velocity=np.inf, **ukwargs)
 
-    def get_parameters(self):
-        r"""Get value of parametrs for this instance of algorithm.
+	def get_parameters(self):
+		r"""Get value of parameters for this instance of algorithm.
 
-        Returns:
-            Dict[str, Union[int, float, n.ndarray]]: Dictionari which has parameters maped to values.
+		Returns:
+			Dict[str, Union[int, float, numpy.ndarray]]: Dictionari which has parameters maped to values.
 
-        See Also:
-            * :func:`NiaPy.algorithms.basic.ParticleSwarmAlgorithm.getParameters`
-        """
-        d = ParticleSwarmAlgorithm.get_parameters(self)
-        d.pop('w', None), d.pop('vMin', None), d.pop('vMax', None)
-        return d
+		See Also:
+			* :func:`NiaPy.algorithms.basic.ParticleSwarmAlgorithm.getParameters`
+		"""
+		d = ParticleSwarmAlgorithm.get_parameters(self)
+		d.pop('w', None), d.pop('vMin', None), d.pop('vMax', None)
+		return d
+
 
 class OppositionVelocityClampingParticleSwarmOptimization(ParticleSwarmAlgorithm):
-    r"""Implementation of Opposition-Based Particle Swarm Optimization with Velocity Clamping.
+	r"""Implementation of Opposition-Based Particle Swarm Optimization with Velocity Clamping.
 
-    Algorithm:
-        Opposition-Based Particle Swarm Optimization with Velocity Clamping
+	Algorithm:
+		Opposition-Based Particle Swarm Optimization with Velocity Clamping
 
-    Date:
-        2019
+	Date:
+		2019
 
-    Authors:
-        Klemen Berkovič
+	Authors:
+		Klemen Berkovič
 
-    License:
-        MIT
+	License:
+		MIT
 
-    Reference paper:
-        Shahzad, Farrukh, et al. "Opposition-based particle swarm optimization with velocity clamping (OVCPSO)." Advances in Computational Intelligence. Springer, Berlin, Heidelberg, 2009. 339-348
+	Reference paper:
+		Shahzad, Farrukh, et al. "Opposition-based particle swarm optimization with velocity clamping (OVCPSO)." Advances in Computational Intelligence. Springer, Berlin, Heidelberg, 2009. 339-348
 
-    Attributes:
-        p0: Probability of opposite learning phase.
-        w_min: Minimum inertial weight.
-        w_max: Maximum inertial weight.
-        sigma: Velocity scaling factor.
+	Attributes:
+		p0: Probability of opposite learning phase.
+		w_min: Minimum inertial weight.
+		w_max: Maximum inertial weight.
+		sigma: Velocity scaling factor.
 
-    See Also:
-        * :class:`NiaPy.algorithms.basic.ParticleSwarmAlgorithm`
-    """
-    Name = ['OppositionVelocityClampingParticleSwarmOptimization', 'OVCPSO']
+	See Also:
+		* :class:`NiaPy.algorithms.basic.ParticleSwarmAlgorithm`
+	"""
+	Name = ['OppositionVelocityClampingParticleSwarmOptimization', 'OVCPSO']
 
-    @staticmethod
-    def algorithm_info():
-        r"""Get basic information of algorithm.
+	@staticmethod
+	def algorithm_info():
+		r"""Get basic information of algorithm.
 
-        Returns:
-            str: Basic information of algorithm.
+		Returns:
+			str: Basic information of algorithm.
 
-        See Also:
-            * :func:`NiaPy.algorithms.Algorithm.algorithmInfo`
-        """
-        return r"""Shahzad, Farrukh, et al. "Opposition-based particle swarm optimization with velocity clamping (OVCPSO)." Advances in Computational Intelligence. Springer, Berlin, Heidelberg, 2009. 339-348"""
+		See Also:
+			* :func:`NiaPy.algorithms.Algorithm.algorithmInfo`
+		"""
+		return r"""Shahzad, Farrukh, et al. "Opposition-based particle swarm optimization with velocity clamping (OVCPSO)." Advances in Computational Intelligence. Springer, Berlin, Heidelberg, 2009. 339-348"""
 
-    def set_parameters(self, p0=.3, w_min=.4, w_max=.9, sigma=.1, C1=1.49612, C2=1.49612, **kwargs):
-        r"""Set core algorithm parameters.
+	def set_parameters(self, p0=.3, w_min=.4, w_max=.9, sigma=.1, c1=1.49612, c2=1.49612, **kwargs):
+		r"""Set core algorithm parameters.
 
-        Args:
-            p0 (float): Probability of running Opposite learning.
-            w_min (numpy.ndarray): Minimal value of weights.
-            w_max (numpy.ndarray): Maximum value of weights.
-            sigma (numpy.ndarray): Velocity range factor.
-            **kwargs: Additional arguments.
+		Args:
+			p0 (float): Probability of running Opposite learning.
+			w_min (numpy.ndarray): Minimal value of weights.
+			w_max (numpy.ndarray): Maximum value of weights.
+			sigma (numpy.ndarray): Velocity range factor.
+			c1 (float): Cognitive component.
+			c2 (float): Social component.
+			**kwargs: Additional arguments.
 
-        See Also:
-            * :func:`NiaPy.algorithm.basic.ParticleSwarmAlgorithm.setParameters`
-        """
-        kwargs.pop('w', None)
-        ParticleSwarmAlgorithm.set_parameters(self, w=w_max, C1=C1, C2=C2, **kwargs)
-        self.p0, self.w_min, self.w_max, self.sigma = p0, w_min, w_max, sigma
+		See Also:
+			* :func:`NiaPy.algorithm.basic.ParticleSwarmAlgorithm.setParameters`
+		"""
+		kwargs.pop('w', None)
+		ParticleSwarmAlgorithm.set_parameters(self, w=w_max, c1=c1, c2=c2, **kwargs)
+		self.p0, self.w_min, self.w_max, self.sigma = p0, w_min, w_max, sigma
 
-    def get_parameters(self):
-        r"""Get value of parametrs for this instance of algorithm.
+	def get_parameters(self):
+		r"""Get value of parameters for this instance of algorithm.
 
-        Returns:
-            Dict[str, Union[int, float, n.ndarray]]: Dictionari which has parameters maped to values.
+		Returns:
+			Dict[str, Union[int, float, numpy.ndarray]]: Dictionary which has parameters mapped to values.
 
-        See Also:
-            * :func:`NiaPy.algorithms.basic.ParticleSwarmAlgorithm.getParameters`
-        """
-        d = ParticleSwarmAlgorithm.get_parameters(self)
-        d.pop('vMin', None), d.pop('vMax', None)
-        d.update({
-            'p0': self.p0, 'w_min': self.w_min, 'w_max': self.w_max, 'sigma': self.sigma
-        })
-        return d
+		See Also:
+			* :func:`NiaPy.algorithms.basic.ParticleSwarmAlgorithm.getParameters`
+		"""
+		d = ParticleSwarmAlgorithm.get_parameters(self)
+		d.pop('vMin', None), d.pop('vMax', None)
+		d.update({
+			'p0': self.p0, 'w_min': self.w_min, 'w_max': self.w_max, 'sigma': self.sigma
+		})
+		return d
 
-    def oppositeLearning(self, S_l, S_h, pop, fpop, task):
-        r"""Run opposite learning phase.
+	def opposite_learning(self, s_l, s_h, pop, fpop, task):
+		r"""Run opposite learning phase.
 
-        Args:
-            S_l (numpy.ndarray): lower limit of opposite particles.
-            S_h (numpy.ndarray): upper limit of opposite particles.
-            pop (numpy.ndarray): Current populations positions.
-            fpop (numpy.ndarray): Current populations functions/fitness values.
-            task (Task): Optimization task.
+		Args:
+			s_l (numpy.ndarray): Lower limit of opposite particles.
+			s_h (numpy.ndarray): Upper limit of opposite particles.
+			pop (numpy.ndarray): Current populations positions.
+			fpop (numpy.ndarray): Current populations functions/fitness values.
+			task (Task): Optimization task.
 
-        Returns:
-            Tuple[n.ndarray, n.ndarray, n.ndarray, float]:
-            1. New particles position
-            2. New particles function/fitness values
-            3. New best position of opposite learning phase
-            4. new best function/fitness value of opposite learning phase
-        """
-        S_r = S_l + S_h
-        S = np.asarray([S_r - e for e in pop])
-        S_f = np.asarray([task.eval(e) for e in S])
-        S, S_f = np.concatenate([pop, S]), np.concatenate([fpop, S_f])
-        sinds = np.argsort(S_f)
-        return S[sinds[:len(pop)]], S_f[sinds[:len(pop)]], S[sinds[0]], S_f[sinds[0]]
+		Returns:
+			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float]:
+				1. New particles position
+				2. New particles function/fitness values
+				3. New best position of opposite learning phase
+				4. new best function/fitness value of opposite learning phase
+		"""
+		s_r = s_l + s_h
+		s = np.asarray([s_r - e for e in pop])
+		s_f = np.asarray([task.eval(e) for e in s])
+		s, s_f = np.concatenate([pop, s]), np.concatenate([fpop, s_f])
+		sinds = np.argsort(s_f)
+		return s[sinds[:len(pop)]], s_f[sinds[:len(pop)]], s[sinds[0]], s_f[sinds[0]]
 
-    def init_population(self, task):
-        r"""Init starting population and dynamic parameters.
+	def init_population(self, task):
+		r"""Init starting population and dynamic parameters.
 
-        Args:
-            task (Task): Optimization task.
+		Args:
+			task (Task): Optimization task.
 
-        Returns:
-            Tuple[n.ndarray, n.ndarray, dict]:
-            1. Initialized population.
-            2. Initialized populations function/fitness values.
-            3. Additional arguments:
-                * popb (numpy.ndarray): particles best population.
-                * fpopb (numpy.ndarray[float]): particles best positions function/fitness value.
-                * vMin (numpy.ndarray): Minimal velocity.
-                * vMax (numpy.ndarray): Maximal velocity.
-                * V (numpy.ndarray): Initial velocity of particle.
-                * S_u (numpy.ndarray): upper bound for opposite learning.
-                * S_l (numpy.ndarray): lower bound for opposite learning.
-        """
-        pop, fpop, d = ParticleSwarmAlgorithm.init_population(self, task)
-        S_l, S_h = task.Lower, task.Upper
-        pop, fpop, _, _ = self.oppositeLearning(S_l, S_h, pop, fpop, task)
-        pb_inds = np.where(fpop < d['fpopb'])
-        d['popb'][pb_inds], d['fpopb'][pb_inds] = pop[pb_inds], fpop[pb_inds]
-        d['vMin'], d['vMax'] = self.sigma * (task.Upper - task.Lower), self.sigma * (task.Lower - task.Upper)
-        d.update({'S_l': S_l, 'S_h': S_h})
-        return pop, fpop, d
+		Returns:
+			Tuple[numpy.ndarray, numpy.ndarray, dict]:
+				1. Initialized population.
+				2. Initialized populations function/fitness values.
+				3. Additional arguments:
+					* popb (numpy.ndarray): particles best population.
+					* fpopb (numpy.ndarray[float]): particles best positions function/fitness value.
+					* vMin (numpy.ndarray): Minimal velocity.
+					* vMax (numpy.ndarray): Maximal velocity.
+					* V (numpy.ndarray): Initial velocity of particle.
+					* S_u (numpy.ndarray): upper bound for opposite learning.
+					* S_l (numpy.ndarray): lower bound for opposite learning.
+		"""
+		pop, fpop, d = ParticleSwarmAlgorithm.init_population(self, task)
+		s_l, s_h = task.lower, task.upper
+		pop, fpop, _, _ = self.opposite_learning(s_l, s_h, pop, fpop, task)
+		pb_inds = np.where(fpop < d['fpopb'])
+		d['popb'][pb_inds], d['fpopb'][pb_inds] = pop[pb_inds], fpop[pb_inds]
+		d['vMin'], d['vMax'] = self.sigma * (task.upper - task.lower), self.sigma * (task.lower - task.upper)
+		d.update({'S_l': s_l, 'S_h': s_h})
+		return pop, fpop, d
 
-    def run_iteration(self, task, pop, fpop, xb, fxb, popb, fpopb, vMin, vMax, V, S_l, S_h, **dparams):
-        r"""Core function of Opposite-based Particle Swarm Optimization with velocity clamping algorithm.
+	def run_iteration(self, task, pop, fpop, xb, fxb, popb, fpopb, min_velocity, max_velocity, v, s_l, s_h, **dparams):
+		r"""Core function of Opposite-based Particle Swarm Optimization with velocity clamping algorithm.
 
-        Args:
-            task (Task): Optimization task.
-            pop (numpy.ndarray): Current population.
-            fpop (numpy.ndarray): Current populations function/fitness values.
-            xb (numpy.ndarray): Current global best position.
-            fxb (float): Current global best positions function/fitness value.
-            popb (numpy.ndarray): Personal best position.
-            fpopb (numpy.ndarray): Personal best positions function/fitness values.
-            vMin (numpy.ndarray): Minimal allowed velocity.
-            vMax (numpy.ndarray): Maximal allowed velocity.
-            V (numpy.ndarray): Populations velocity.
-            S_l (numpy.ndarray): lower bound of opposite learning.
-            S_h (numpy.ndarray): upper bound of opposite learning.
-            **dparams: Additional arguments.
+		Args:
+			task (Task): Optimization task.
+			pop (numpy.ndarray): Current population.
+			fpop (numpy.ndarray): Current populations function/fitness values.
+			xb (numpy.ndarray): Current global best position.
+			fxb (float): Current global best positions function/fitness value.
+			popb (numpy.ndarray): Personal best position.
+			fpopb (numpy.ndarray): Personal best positions function/fitness values.
+			min_velocity (numpy.ndarray): Minimal allowed velocity.
+			max_velocity (numpy.ndarray): Maximal allowed velocity.
+			v (numpy.ndarray): Populations velocity.
+			s_l (numpy.ndarray): lower bound of opposite learning.
+			s_h (numpy.ndarray): upper bound of opposite learning.
+			**dparams: Additional arguments.
 
-        Returns:
-            Tuple[n.ndarray, n.ndarray, n.ndarray, float, dict]:
-            1. New population.
-            2. New populations function/fitness values.
-            3. New global best position.
-            4. New global best positions function/fitness value.
-            5. Additional arguments:
-                * popb: particles best population.
-                * fpopb: particles best positions function/fitness value.
-                * vMin: Minimal velocity.
-                * vMax: Maximal velocity.
-                * V: Initial velocity of particle.
-                * S_u: upper bound for opposite learning.
-                * S_l: lower bound for opposite learning.
-        """
-        if self.rand() < self.p0:
-            pop, fpop, nb, fnb = self.oppositeLearning(S_l, S_h, pop, fpop, task)
-            pb_inds = np.where(fpop < fpopb)
-            popb[pb_inds], fpopb[pb_inds] = pop[pb_inds], fpop[pb_inds]
-            if fnb < fxb: xb, fxb = nb.copy(), fnb
-        else:
-            w = self.w_max - ((self.w_max - self.w_min) / task.nGEN) * task.Iters
-            for i in range(len(pop)):
-                V[i] = self.updateVelocity(V[i], pop[i], popb[i], xb, w, vMin, vMax, task)
-                pop[i] = task.repair(pop[i] + V[i], rnd=self.Rand)
-                fpop[i] = task.eval(pop[i])
-                if fpop[i] < fpopb[i]:
-                    popb[i], fpopb[i] = pop[i].copy(), fpop[i]
-                    if fpop[i] < fxb: xb, fxb = pop[i].copy(), fpop[i]
-            vMin, vMax = self.sigma * np.min(pop, axis=0), self.sigma * np.max(pop, axis=0)
-        return pop, fpop, xb, fxb, {'popb': popb, 'fpopb': fpopb, 'vMin': vMin, 'vMax': vMax, 'V': V, 'S_l': S_l, 'S_h': S_h}
+		Returns:
+			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, dict]:
+				1. New population.
+				2. New populations function/fitness values.
+				3. New global best position.
+				4. New global best positions function/fitness value.
+				5. Additional arguments:
+					* popb: particles best population.
+					* fpopb: particles best positions function/fitness value.
+					* min_velocity: Minimal velocity.
+					* max_velocity: Maximal velocity.
+					* V: Initial velocity of particle.
+					* s_u: upper bound for opposite learning.
+					* s_l: lower bound for opposite learning.
+		"""
+		if self.rand() < self.p0:
+			pop, fpop, nb, fnb = self.opposite_learning(s_l, s_h, pop, fpop, task)
+			pb_inds = np.where(fpop < fpopb)
+			popb[pb_inds], fpopb[pb_inds] = pop[pb_inds], fpop[pb_inds]
+			if fnb < fxb: xb, fxb = nb.copy(), fnb
+		else:
+			w = self.w_max - ((self.w_max - self.w_min) / task.nGEN) * task.Iters
+			for i in range(len(pop)):
+				v[i] = self.update_velocity(v[i], pop[i], popb[i], xb, w, min_velocity, max_velocity, task)
+				pop[i] = task.repair(pop[i] + v[i], rnd=self.Rand)
+				fpop[i] = task.eval(pop[i])
+				if fpop[i] < fpopb[i]:
+					popb[i], fpopb[i] = pop[i].copy(), fpop[i]
+					if fpop[i] < fxb: xb, fxb = pop[i].copy(), fpop[i]
+			min_velocity, max_velocity = self.sigma * np.min(pop, axis=0), self.sigma * np.max(pop, axis=0)
+		return pop, fpop, xb, fxb, {'popb': popb, 'fpopb': fpopb, 'min_velocity': min_velocity, 'max_velocity': max_velocity, 'v': v, 's_l': s_l, 's_h': s_h}
+
 
 class CenterParticleSwarmOptimization(ParticleSwarmAlgorithm):
-    r"""Implementation of Center Particle Swarm Optimization.
+	r"""Implementation of Center Particle Swarm Optimization.
 
-    Algorithm:
-        Center Particle Swarm Optimization
+	Algorithm:
+		Center Particle Swarm Optimization
 
-    Date:
-        2019
+	Date:
+		2019
 
-    Authors:
-        Klemen Berkovič
+	Authors:
+		Klemen Berkovič
 
-    License:
-        MIT
+	License:
+		MIT
 
-    Reference paper:
-        H.-C. Tsai, Predicting strengths of concrete-type specimens using hybrid multilayer perceptrons with center-Unified particle swarm optimization, Adv. Eng. Softw. 37 (2010) 1104–1112.
+	Reference paper:
+		H.-C. Tsai, Predicting strengths of concrete-type specimens using hybrid multilayer perceptrons with center-Unified particle swarm optimization, Adv. Eng. Softw. 37 (2010) 1104–1112.
 
-    See Also:
-        * :class:`NiaPy.algorithms.basic.WeightedVelocityClampingParticleSwarmAlgorithm`
-    """
-    Name = ['CenterParticleSwarmOptimization', 'CPSO']
+	See Also:
+		* :class:`NiaPy.algorithms.basic.WeightedVelocityClampingParticleSwarmAlgorithm`
+	"""
+	Name = ['CenterParticleSwarmOptimization', 'CPSO']
 
-    @staticmethod
-    def algorithm_info():
-        r"""Get basic information of algorithm.
+	@staticmethod
+	def algorithm_info():
+		r"""Get basic information of algorithm.
 
-        Returns:
-            str: Basic information of algorithm.
+		Returns:
+			str: Basic information of algorithm.
 
-        See Also:
-            * :func:`NiaPy.algorithms.Algorithm.algorithmInfo`
-        """
-        return r"""H.-C. Tsai, Predicting strengths of concrete-type specimens using hybrid multilayer perceptrons with center-Unified particle swarm optimization, Adv. Eng. Softw. 37 (2010) 1104–1112."""
+		See Also:
+			* :func:`NiaPy.algorithms.Algorithm.algorithmInfo`
+		"""
+		return r"""H.-C. Tsai, Predicting strengths of concrete-type specimens using hybrid multilayer perceptrons with center-Unified particle swarm optimization, Adv. Eng. Softw. 37 (2010) 1104–1112."""
 
-    def set_parameters(self, **kwargs):
-        r"""Set core algorithm parameters.
+	def set_parameters(self, **kwargs):
+		r"""Set core algorithm parameters.
 
-        Args:
-            **kwargs: Additional arguments.
+		Args:
+			**kwargs: Additional arguments.
 
-        See Also:
-            :func:`NiaPy.algorithm.basic.WeightedVelocityClampingParticleSwarmAlgorithm.setParameters`
-        """
-        kwargs.pop('vMin', None), kwargs.pop('vMax', None)
-        ParticleSwarmAlgorithm.set_parameters(self, vMin=-np.inf, vMax=np.inf, **kwargs)
+		See Also:
+			:func:`NiaPy.algorithm.basic.WeightedVelocityClampingParticleSwarmAlgorithm.setParameters`
+		"""
+		kwargs.pop('vMin', None), kwargs.pop('vMax', None)
+		ParticleSwarmAlgorithm.set_parameters(self, min_velocity=-np.inf, max_velocity=np.inf, **kwargs)
 
-    def get_parameters(self):
-        r"""Get value of parametrs for this instance of algorithm.
+	def get_parameters(self):
+		r"""Get value of parameters for this instance of algorithm.
 
-        Returns:
-            Dict[str, Union[int, float, n.ndarray]]: Dictionari which has parameters maped to values.
+		Returns:
+			Dict[str, Union[int, float, numpy.ndarray]]: Dictionary which has parameters mapped to values.
 
-        See Also:
-            * :func:`NiaPy.algorithms.basic.ParticleSwarmAlgorithm.getParameters`
-        """
-        d = ParticleSwarmAlgorithm.get_parameters(self)
-        d.pop('vMin', None), d.pop('vMax', None)
-        return d
+		See Also:
+			* :func:`NiaPy.algorithms.basic.ParticleSwarmAlgorithm.getParameters`
+		"""
+		d = ParticleSwarmAlgorithm.get_parameters(self)
+		d.pop('vMin', None), d.pop('vMax', None)
+		return d
 
-    def run_iteration(self, task, pop, fpop, xb, fxb, **dparams):
-        r"""Core function of algorithm.
+	def run_iteration(self, task, pop, fpop, xb, fxb, **dparams):
+		r"""Core function of algorithm.
 
-        Args:
-            task (Task): Optimization task.
-            pop (numpy.ndarray): Current population of particles.
-            fpop (numpy.ndarray): Current particles function/fitness values.
-            xb (numpy.ndarray): Current global best particle.
-            fxb (numpy.ndarray): Current global best particles function/fitness value.
-            **dparams: Additional arguments.
+		Args:
+			task (Task): Optimization task.
+			pop (numpy.ndarray): Current population of particles.
+			fpop (numpy.ndarray): Current particles function/fitness values.
+			xb (numpy.ndarray): Current global best particle.
+			fxb (numpy.ndarray): Current global best particles function/fitness value.
+			**dparams: Additional arguments.
 
-        Returns:
-            Tuple[n.ndarray, n.ndarray, n.ndarray, float, dict]:
-            1. New population of particles.
-            2. New populations function/fitness values.
-            3. New global best particle.
-            4. New global best particle function/fitness value.
-            5. Additional arguments.
+		Returns:
+			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, dict]:
+				1. New population of particles.
+				2. New populations function/fitness values.
+				3. New global best particle.
+				4. New global best particle function/fitness value.
+				5. Additional arguments.
 
-        See Also:
-            * :func:`NiaPy.algorithm.basic.WeightedVelocityClampingParticleSwarmAlgorithm.runIteration`
-        """
-        pop, fpop, xb, fxb, d = ParticleSwarmAlgorithm.run_iteration(self, task, pop, fpop, xb, fxb, **dparams)
-        c = np.sum(pop, axis=0) / len(pop)
-        fc = task.eval(c)
-        if fc <= fxb: xb, fxb = c, fc
-        return pop, fpop, xb, fxb, d
+		See Also:
+			* :func:`NiaPy.algorithm.basic.WeightedVelocityClampingParticleSwarmAlgorithm.runIteration`
+		"""
+		pop, fpop, xb, fxb, d = ParticleSwarmAlgorithm.run_iteration(self, task, pop, fpop, xb, fxb, **dparams)
+		c = np.sum(pop, axis=0) / len(pop)
+		fc = task.eval(c)
+		if fc <= fxb: xb, fxb = c, fc
+		return pop, fpop, xb, fxb, d
+
 
 class MutatedParticleSwarmOptimization(ParticleSwarmAlgorithm):
-    r"""Implementation of Mutated Particle Swarm Optimization.
+	r"""Implementation of Mutated Particle Swarm Optimization.
 
-    Algorithm:
-        Mutated Particle Swarm Optimization
+	Algorithm:
+		Mutated Particle Swarm Optimization
 
-    Date:
-        2019
+	Date:
+		2019
 
-    Authors:
-        Klemen Berkovič
+	Authors:
+		Klemen Berkovič
 
-    License:
-        MIT
+	License:
+		MIT
 
-    Reference paper:
-        H. Wang, C. Li, Y. Liu, S. Zeng, A hybrid particle swarm algorithm with cauchy mutation, Proceedings of the 2007 IEEE Swarm Intelligence Symposium (2007) 356–360.
+	Reference paper:
+		H. Wang, C. Li, Y. Liu, S. Zeng, A hybrid particle swarm algorithm with cauchy mutation, Proceedings of the 2007 IEEE Swarm Intelligence Symposium (2007) 356–360.
 
-    Attributes:
-        nmutt (int): Number of mutations of global best particle.
+	Attributes:
+		nmutt (int): Number of mutations of global best particle.
 
-    See Also:
-        * :class:`NiaPy.algorithms.basic.WeightedVelocityClampingParticleSwarmAlgorithm`
-    """
-    Name = ['MutatedParticleSwarmOptimization', 'MPSO']
+	See Also:
+		* :class:`NiaPy.algorithms.basic.WeightedVelocityClampingParticleSwarmAlgorithm`
+	"""
+	Name = ['MutatedParticleSwarmOptimization', 'MPSO']
 
-    @staticmethod
-    def algorithm_info():
-        r"""Get basic information of algorithm.
+	@staticmethod
+	def algorithm_info():
+		r"""Get basic information of algorithm.
 
-        Returns:
-            str: Basic information of algorithm.
+		Returns:
+			str: Basic information of algorithm.
 
-        See Also:
-            * :func:`NiaPy.algorithms.Algorithm.algorithmInfo`
-        """
-        return r"""H. Wang, C. Li, Y. Liu, S. Zeng, A hybrid particle swarm algorithm with cauchy mutation, Proceedings of the 2007 IEEE Swarm Intelligence Symposium (2007) 356–360."""
+		See Also:
+			* :func:`NiaPy.algorithms.Algorithm.algorithmInfo`
+		"""
+		return r"""H. Wang, C. Li, Y. Liu, S. Zeng, A hybrid particle swarm algorithm with cauchy mutation, Proceedings of the 2007 IEEE Swarm Intelligence Symposium (2007) 356–360."""
 
-    def set_parameters(self, nmutt=10, **kwargs):
-        r"""Set core algorithm parameters.
+	def set_parameters(self, nmutt=10, **kwargs):
+		r"""Set core algorithm parameters.
 
-        Args:
-            nmutt (int): Number of mutations of global best particle.
-            **kwargs: Additional arguments.
+		Args:
+			nmutt (int): Number of mutations of global best particle.
+			**kwargs: Additional arguments.
 
-        See Also:
-            :func:`NiaPy.algorithm.basic.WeightedVelocityClampingParticleSwarmAlgorithm.setParameters`
-        """
-        kwargs.pop('vMin', None), kwargs.pop('vMax', None)
-        ParticleSwarmAlgorithm.set_parameters(self, vMin=-np.inf, vMax=np.inf, **kwargs)
-        self.nmutt = nmutt
+		See Also:
+			* :func:`NiaPy.algorithm.basic.WeightedVelocityClampingParticleSwarmAlgorithm.setParameters`
+		"""
+		kwargs.pop('min_velocity', None), kwargs.pop('max_velocity', None)
+		ParticleSwarmAlgorithm.set_parameters(self, min_velocity=-np.inf, max_velocity=np.inf, **kwargs)
+		self.nmutt = nmutt
 
-    def get_parameters(self):
-        r"""Get value of parametrs for this instance of algorithm.
+	def get_parameters(self):
+		r"""Get value of parameters for this instance of algorithm.
 
-        Returns:
-            Dict[str, Union[int, float, n.ndarray]]: Dictionari which has parameters maped to values.
+		Returns:
+			Dict[str, Union[int, float, numpy.ndarray]]: Dictionary which has parameters mapped to values.
 
-        See Also:
-            * :func:`NiaPy.algorithms.basic.ParticleSwarmAlgorithm.getParameters`
-        """
-        d = ParticleSwarmAlgorithm.get_parameters(self)
-        d.pop('vMin', None), d.pop('vMax', None)
-        d.update({'nmutt': self.nmutt})
-        return d
+		See Also:
+			* :func:`NiaPy.algorithms.basic.ParticleSwarmAlgorithm.getParameters`
+		"""
+		d = ParticleSwarmAlgorithm.get_parameters(self)
+		d.pop('min_velocity', None), d.pop('max_velocity', None)
+		d.update({'nmutt': self.nmutt})
+		return d
 
-    def run_iteration(self, task, pop, fpop, xb, fxb, **dparams):
-        r"""Core function of algorithm.
+	def run_iteration(self, task, pop, fpop, xb, fxb, **dparams):
+		r"""Core function of algorithm.
 
-        Args:
-            task (Task): Optimization task.
-            pop (numpy.ndarray): Current population of particles.
-            fpop (numpy.ndarray): Current particles function/fitness values.
-            xb (numpy.ndarray): Current global best particle.
-            fxb (float): Current global best particles function/fitness value.
-            **dparams: Additional arguments.
+		Args:
+			task (Task): Optimization task.
+			pop (numpy.ndarray): Current population of particles.
+			fpop (numpy.ndarray): Current particles function/fitness values.
+			xb (numpy.ndarray): Current global best particle.
+			fxb (float): Current global best particles function/fitness value.
+			**dparams: Additional arguments.
 
-        Returns:
-            Tuple[n.ndarray, n.ndarray, n.ndarray, float, dict]:
-            1. New population of particles.
-            2. New populations function/fitness values.
-            3. New global best particle.
-            4. New global best particle function/fitness value.
-            5. Additional arguments.
+		Returns:
+			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, dict]:
+				1. New population of particles.
+				2. New populations function/fitness values.
+				3. New global best particle.
+				4. New global best particle function/fitness value.
+				5. Additional arguments.
 
-        See Also:
-            * :func:`NiaPy.algorithm.basic.WeightedVelocityClampingParticleSwarmAlgorithm.runIteration`
-        """
-        pop, fpop, xb, fxb, d = ParticleSwarmAlgorithm.run_iteration(self, task, pop, fpop, xb, fxb, **dparams)
-        v = d['V']
-        v_a = (np.sum(v, axis=0) / len(v))
-        v_a = v_a / np.max(np.abs(v_a))
-        for _ in range(self.nmutt):
-            g = task.repair(xb + v_a * self.uniform(task.Lower, task.Upper), self.Rand)
-            fg = task.eval(g)
-            if fg <= fxb: xb, fxb = g, fg
-        return pop, fpop, xb, fxb, d
+		See Also:
+			* :func:`NiaPy.algorithm.basic.WeightedVelocityClampingParticleSwarmAlgorithm.runIteration`
+		"""
+		pop, fpop, xb, fxb, d = ParticleSwarmAlgorithm.run_iteration(self, task, pop, fpop, xb, fxb, **dparams)
+		v = d['V']
+		v_a = (np.sum(v, axis=0) / len(v))
+		v_a = v_a / np.max(np.abs(v_a))
+		for _ in range(self.nmutt):
+			g = task.repair(xb + v_a * self.uniform(task.lower, task.upper), self.Rand)
+			fg = task.eval(g)
+			if fg <= fxb: xb, fxb = g, fg
+		return pop, fpop, xb, fxb, d
+
 
 class MutatedCenterParticleSwarmOptimization(CenterParticleSwarmOptimization):
-    r"""Implementation of Mutated Particle Swarm Optimization.
+	r"""Implementation of Mutated Particle Swarm Optimization.
 
-    Algorithm:
-        Mutated Center Particle Swarm Optimization
+	Algorithm:
+		Mutated Center Particle Swarm Optimization
 
-    Date:
-        2019
+	Date:
+		2019
 
-    Authors:
-        Klemen Berkovič
+	Authors:
+		Klemen Berkovič
 
-    License:
-        MIT
+	License:
+		MIT
 
-    Reference paper:
-        TODO find one
+	Reference paper:
+		TODO find one
 
-    Attributes:
-        nmutt (int): Number of mutations of global best particle.
+	Attributes:
+		nmutt (int): Number of mutations of global best particle.
 
-    See Also:
-        * :class:`NiaPy.algorithms.basic.CenterParticleSwarmOptimization`
-    """
-    Name = ['MutatedCenterParticleSwarmOptimization', 'MCPSO']
+	See Also:
+		* :class:`NiaPy.algorithms.basic.CenterParticleSwarmOptimization`
+	"""
+	Name = ['MutatedCenterParticleSwarmOptimization', 'MCPSO']
 
-    @staticmethod
-    def algorithm_info():
-        r"""Get basic information of algorithm.
+	@staticmethod
+	def algorithm_info():
+		r"""Get basic information of algorithm.
 
-        Returns:
-            str: Basic information of algorithm.
+		Returns:
+			str: Basic information of algorithm.
 
-        See Also:
-            * :func:`NiaPy.algorithms.Algorithm.algorithmInfo`
-        """
-        return r"""TODO find one"""
+		See Also:
+			* :func:`NiaPy.algorithms.Algorithm.algorithmInfo`
+		"""
+		return r"""TODO find one"""
 
-    def set_parameters(self, nmutt=10, **kwargs):
-        r"""Set core algorithm parameters.
+	def set_parameters(self, nmutt=10, **kwargs):
+		r"""Set core algorithm parameters.
 
-        Args:
-            nmutt (int): Number of mutations of global best particle.
-            **kwargs: Additional arguments.
+		Args:
+			nmutt (int): Number of mutations of global best particle.
+			**kwargs: Additional arguments.
 
-        See Also:
-            :func:`NiaPy.algorithm.basic.CenterParticleSwarmOptimization.setParameters`
-        """
-        kwargs.pop('vMin', None), kwargs.pop('vMax', None)
-        ParticleSwarmAlgorithm.set_parameters(self, vMin=-np.inf, vMax=np.inf, **kwargs)
-        self.nmutt = nmutt
+		See Also:
+			* :func:`NiaPy.algorithm.basic.CenterParticleSwarmOptimization.setParameters`
+		"""
+		kwargs.pop('min_velocity', None), kwargs.pop('max_velocity', None)
+		ParticleSwarmAlgorithm.set_parameters(self, min_velocity=-np.inf, max_velocity=np.inf, **kwargs)
+		self.nmutt = nmutt
 
-    def get_parameters(self):
-        r"""Get value of parametrs for this instance of algorithm.
+	def get_parameters(self):
+		r"""Get value of parameters for this instance of algorithm.
 
-        Returns:
-            Dict[str, Union[int, float, n.ndarray]]: Dictionari which has parameters maped to values.
+		Returns:
+			Dict[str, Union[int, float, numpy.ndarray]]: Dictionary which has parameters mapped to values.
 
-        See Also:
-            * :func:`NiaPy.algorithms.basic.CenterParticleSwarmOptimization.getParameters`
-        """
-        d = CenterParticleSwarmOptimization.get_parameters(self)
-        d.update({'nmutt': self.nmutt})
-        return d
+		See Also:
+			* :func:`NiaPy.algorithms.basic.CenterParticleSwarmOptimization.getParameters`
+		"""
+		d = CenterParticleSwarmOptimization.get_parameters(self)
+		d.update({'nmutt': self.nmutt})
+		return d
 
-    def run_iteration(self, task, pop, fpop, xb, fxb, **dparams):
-        r"""Core function of algorithm.
+	def run_iteration(self, task, pop, fpop, xb, fxb, **dparams):
+		r"""Core function of algorithm.
 
-        Args:
-            task (Task): Optimization task.
-            pop (numpy.ndarray): Current population of particles.
-            fpop (numpy.ndarray): Current particles function/fitness values.
-            xb (numpy.ndarray): Current global best particle.
-            fxb (float: Current global best particles function/fitness value.
-            **dparams: Additional arguments.
+		Args:
+			task (Task): Optimization task.
+			pop (numpy.ndarray): Current population of particles.
+			fpop (numpy.ndarray): Current particles function/fitness values.
+			xb (numpy.ndarray): Current global best particle.
+			fxb (float: Current global best particles function/fitness value.
+			**dparams: Additional arguments.
 
-        Returns:
-            Tuple[n.ndarray, n.ndarray, n.ndarray, float, dict]:
-            1. New population of particles.
-            2. New populations function/fitness values.
-            3. New global best particle.
-            4. New global best particle function/fitness value.
-            5. Additional arguments.
+		Returns:
+			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, dict]:
+				1. New population of particles.
+				2. New populations function/fitness values.
+				3. New global best particle.
+				4. New global best particle function/fitness value.
+				5. Additional arguments.
 
-        See Also:
-            * :func:`NiaPy.algorithm.basic.WeightedVelocityClampingParticleSwarmAlgorithm.runIteration`
-        """
-        pop, fpop, xb, fxb, d = CenterParticleSwarmOptimization.run_iteration(self, task, pop, fpop, xb, fxb, **dparams)
-        v = d['V']
-        v_a = (np.sum(v, axis=0) / len(v))
-        v_a = v_a / np.max(np.abs(v_a))
-        for _ in range(self.nmutt):
-            g = task.repair(xb + v_a * self.uniform(task.Lower, task.Upper), self.Rand)
-            fg = task.eval(g)
-            if fg <= fxb: xb, fxb = g, fg
-        return pop, fpop, xb, fxb, d
+		See Also:
+			* :func:`NiaPy.algorithm.basic.WeightedVelocityClampingParticleSwarmAlgorithm.runIteration`
+		"""
+		pop, fpop, xb, fxb, d = CenterParticleSwarmOptimization.run_iteration(self, task, pop, fpop, xb, fxb, **dparams)
+		v = d['v']
+		v_a = (np.sum(v, axis=0) / len(v))
+		v_a = v_a / np.max(np.abs(v_a))
+		for _ in range(self.nmutt):
+			g = task.repair(xb + v_a * self.uniform(task.lower, task.upper), self.Rand)
+			fg = task.eval(g)
+			if fg <= fxb: xb, fxb = g, fg
+		return pop, fpop, xb, fxb, d
+
 
 class MutatedCenterUnifiedParticleSwarmOptimization(MutatedCenterParticleSwarmOptimization):
-    r"""Implementation of Mutated Particle Swarm Optimization.
+	r"""Implementation of Mutated Particle Swarm Optimization.
 
-    Algorithm:
-        Mutated Center Unified Particle Swarm Optimization
+	Algorithm:
+		Mutated Center Unified Particle Swarm Optimization
 
-    Date:
-        2019
+	Date:
+		2019
 
-    Authors:
-        Klemen Berkovič
+	Authors:
+		Klemen Berkovič
 
-    License:
-        MIT
+	License:
+		MIT
 
-    Reference paper:
-        Tsai, Hsing-Chih. "Unified particle swarm delivers high efficiency to particle swarm optimization." Applied Soft Computing 55 (2017): 371-383.
+	Reference paper:
+		Tsai, Hsing-Chih. "Unified particle swarm delivers high efficiency to particle swarm optimization." Applied Soft Computing 55 (2017): 371-383.
 
-    Attributes:
-        nmutt (int): Number of mutations of global best particle.
+	Attributes:
+		nmutt (int): Number of mutations of global best particle.
 
-    See Also:
-        * :class:`NiaPy.algorithms.basic.CenterParticleSwarmOptimization`
-    """
-    Name = ['MutatedCenterUnifiedParticleSwarmOptimization', 'MCUPSO']
+	See Also:
+		* :class:`NiaPy.algorithms.basic.CenterParticleSwarmOptimization`
+	"""
+	Name = ['MutatedCenterUnifiedParticleSwarmOptimization', 'MCUPSO']
 
-    @staticmethod
-    def algorithm_info():
-        r"""Get basic information of algorithm.
+	@staticmethod
+	def algorithm_info():
+		r"""Get basic information of algorithm.
 
-        Returns:
-            str: Basic information of algorithm.
+		Returns:
+			str: Basic information of algorithm.
 
-        See Also:
-            * :func:`NiaPy.algorithms.Algorithm.algorithmInfo`
-        """
-        return r"""Tsai, Hsing-Chih. "Unified particle swarm delivers high efficiency to particle swarm optimization." Applied Soft Computing 55 (2017): 371-383."""
+		See Also:
+			* :func:`NiaPy.algorithms.Algorithm.algorithmInfo`
+		"""
+		return r"""Tsai, Hsing-Chih. "Unified particle swarm delivers high efficiency to particle swarm optimization." Applied Soft Computing 55 (2017): 371-383."""
 
-    def set_parameters(self, **kwargs):
-        r"""Set core algorithm parameters.
+	def set_parameters(self, **kwargs):
+		r"""Set core algorithm parameters.
 
-        Args:
-            **kwargs: Additional arguments.
+		Args:
+			**kwargs: Additional arguments.
 
-        See Also:
-            :func:`NiaPy.algorithm.basic.MutatedCenterParticleSwarmOptimization.setParameters`
-        """
-        kwargs.pop('vMin', None), kwargs.pop('vMax', None)
-        MutatedCenterParticleSwarmOptimization.set_parameters(self, vMin=-np.inf, vMax=np.inf, **kwargs)
+		See Also:
+			* :func:`NiaPy.algorithm.basic.MutatedCenterParticleSwarmOptimization.setParameters`
+		"""
+		kwargs.pop('vMin', None), kwargs.pop('vMax', None)
+		MutatedCenterParticleSwarmOptimization.set_parameters(self, vMin=-np.inf, vMax=np.inf, **kwargs)
 
-    def updateVelocity(self, V, p, pb, gb, w, vMin, vMax, task, **kwargs):
-        r"""Update particle velocity.
+	def update_velocity(self, v, p, pb, gb, w, min_velocity, max_velocity, task, **kwargs):
+		r"""Update particle velocity.
 
-        Args:
-            V (numpy.ndarray): Current velocity of particle.
-            p (numpy.ndarray): Current position of particle.
-            pb (numpy.ndarray): Personal best position of particle.
-            gb (numpy.ndarray): Global best position of particle.
-            w (numpy.ndarray): Weights for velocity adjustment.
-            vMin (numpy.ndarray): Minimal velocity allowed.
-            vMax (numpy.ndarray): Maxmimal velocity allowed.
-            task (Task): Optimization task.
-            kwargs: Additional arguments.
+		Args:
+			v (numpy.ndarray): Current velocity of particle.
+			p (numpy.ndarray): Current position of particle.
+			pb (numpy.ndarray): Personal best position of particle.
+			gb (numpy.ndarray): Global best position of particle.
+			w (numpy.ndarray): Weights for velocity adjustment.
+			min_velocity (numpy.ndarray): Minimal velocity allowed.
+			max_velocity (numpy.ndarray): Maxmimal velocity allowed.
+			task (Task): Optimization task.
+			kwargs (dict): Additional arguments.
 
-        Returns:
-            numpy.ndarray: Updated velocity of particle.
-        """
-        r3 = self.rand(task.D)
-        return self.Repair(w * V + self.C1 * self.rand(task.D) * (pb - p) * r3 + self.C2 * self.rand(task.D) * (gb - p) * (1 - r3), vMin, vMax)
+		Returns:
+			numpy.ndarray: Updated velocity of particle.
+		"""
+		r3 = self.rand(task.D)
+		return self.Repair(w * v + self.C1 * self.rand(task.D) * (pb - p) * r3 + self.C2 * self.rand(task.D) * (gb - p) * (1 - r3), min_velocity, max_velocity)
+
 
 class ComprehensiveLearningParticleSwarmOptimizer(ParticleSwarmAlgorithm):
-    r"""Implementation of Mutated Particle Swarm Optimization.
+	r"""Implementation of Mutated Particle Swarm Optimization.
 
-    Algorithm:
-        Comprehensive Learning Particle Swarm Optimizer
+	Algorithm:
+		Comprehensive Learning Particle Swarm Optimizer
 
-    Date:
-        2019
+	Date:
+		2019
 
-    Authors:
-        Klemen Berkovič
+	Authors:
+		Klemen Berkovič
 
-    License:
-        MIT
+	License:
+		MIT
 
-    Reference paper:
-        J. J. Liang, A. K. Qin, P. N. Suganthan and S. Baskar, "Comprehensive learning particle swarm optimizer for global optimization of multimodal functions," in IEEE Transactions on Evolutionary Computation, vol. 10, no. 3, pp. 281-295, June 2006. doi: 10.1109/TEVC.2005.857610
+	Reference paper:
+		J. J. Liang, A. K. Qin, P. N. Suganthan and S. Baskar, "Comprehensive learning particle swarm optimizer for global optimization of multimodal functions," in IEEE Transactions on Evolutionary Computation, vol. 10, no. 3, pp. 281-295, June 2006. doi: 10.1109/TEVC.2005.857610
 
-    Reference URL:
-        http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=1637688&isnumber=34326
+	Reference URL:
+		http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=1637688&isnumber=34326
 
-    Attributes:
-        w0 (float): Inertia weight.
-        w1 (float): Inertia weight.
-        C (float): Velocity constant.
-        m (int): Refresh rate.
+	Attributes:
+		w0 (float): Inertia weight.
+		w1 (float): Inertia weight.
+		C (float): Velocity constant.
+		m (int): Refresh rate.
 
-    See Also:
-        * :class:`NiaPy.algorithms.basic.ParticleSwarmAlgorithm`
-    """
-    Name = ['ComprehensiveLearningParticleSwarmOptimizer', 'CLPSO']
+	See Also:
+		* :class:`NiaPy.algorithms.basic.ParticleSwarmAlgorithm`
+	"""
+	Name = ['ComprehensiveLearningParticleSwarmOptimizer', 'CLPSO']
 
-    @staticmethod
-    def algorithm_info():
-        r"""Get basic information of algorithm.
+	@staticmethod
+	def algorithm_info():
+		r"""Get basic information of algorithm.
 
-        Returns:
-            str: Basic information of algorithm.
+		Returns:
+			str: Basic information of algorithm.
 
-        See Also:
-            * :func:`NiaPy.algorithms.Algorithm.algorithmInfo`
-        """
-        return r"""J. J. Liang, A. K. Qin, P. N. Suganthan and S. Baskar, "Comprehensive learning particle swarm optimizer for global optimization of multimodal functions," in IEEE Transactions on Evolutionary Computation, vol. 10, no. 3, pp. 281-295, June 2006. doi: 10.1109/TEVC.2005.857610	"""
+		See Also:
+			* :func:`NiaPy.algorithms.Algorithm.algorithmInfo`
+		"""
+		return r"""J. J. Liang, A. K. Qin, P. N. Suganthan and S. Baskar, "Comprehensive learning particle swarm optimizer for global optimization of multimodal functions," in IEEE Transactions on Evolutionary Computation, vol. 10, no. 3, pp. 281-295, June 2006. doi: 10.1109/TEVC.2005.857610	"""
 
-    def set_parameters(self, m=10, w0=.9, w1=.4, C=1.49445, **ukwargs):
-        r"""Set Particle Swarm Algorithm main parameters.
+	def set_parameters(self, m=10, w0=.9, w1=.4, c=1.49445, **ukwargs):
+		r"""Set Particle Swarm Algorithm main parameters.
 
-        Args:
-            w0 (int): Inertia weight.
-            w1 (float): Inertia weight.
-            C (float): Velocity constant.
-            m (float): Refresh rate.
-            **ukwargs: Additional arguments
+		Args:
+			w0 (int): Inertia weight.
+			w1 (float): Inertia weight.
+			c (float): Velocity constant.
+			m (float): Refresh rate.
+			ukwargs (dict): Additional arguments
 
-        See Also:
-            * :func:`NiaPy.algorithms.basic.ParticleSwarmAlgorithm.setParameters`
-        """
-        ParticleSwarmAlgorithm.set_parameters(self, **ukwargs)
-        self.m, self.w0, self.w1, self.C = m, w0, w1, C
+		See Also:
+			* :func:`NiaPy.algorithms.basic.ParticleSwarmAlgorithm.setParameters`
+		"""
+		ParticleSwarmAlgorithm.set_parameters(self, **ukwargs)
+		self.m, self.w0, self.w1, self.C = m, w0, w1, c
 
-    def get_parameters(self):
-        r"""Get value of parametrs for this instance of algorithm.
+	def get_parameters(self):
+		r"""Get value of parameters for this instance of algorithm.
 
-        Returns:
-            Dict[str, Union[int, float, n.ndarray]]: Dictionari which has parameters maped to values.
+		Returns:
+			Dict[str, Union[int, float, numpy.ndarray]]: Dictionary which has parameters mapped to values.
 
-        See Also:
-            * :func:`NiaPy.algorithms.basic.ParticleSwarmAlgorithm.getParameters`
-        """
-        d = ParticleSwarmAlgorithm.get_parameters(self)
-        d.update({
-            'm': self.m, 'w0': self.w0, 'w1': self.w1, 'C': self.C
-        })
-        return d
+		See Also:
+			* :func:`NiaPy.algorithms.basic.ParticleSwarmAlgorithm.getParameters`
+		"""
+		d = ParticleSwarmAlgorithm.get_parameters(self)
+		d.update({
+			'm': self.m,
+			'w0': self.w0,
+			'w1': self.w1,
+			'c': self.C
+		})
+		return d
 
-    def init(self, task):
-        r"""Initialize dynamic arguments of Particle Swarm Optimization algorithm.
+	def init(self, task):
+		r"""Initialize dynamic arguments of Particle Swarm Optimization algorithm.
 
-        Args:
-            task (Task): Optimization task.
+		Args:
+			task (Task): Optimization task.
 
-        Returns:
-            Dict[str, n.ndarray]:
-            * vMin: Mininal velocity.
-            * vMax: Maximal velocity.
-            * V: Initial velocity of particle.
-            * flag: Refresh gap counter.
-        """
-        return {'vMin': fullArray(self.vMin, task.D), 'vMax': fullArray(self.vMax, task.D), 'V': np.full([self.NP, task.D], 0.0), 'flag': np.full(self.NP, 0), 'Pc': np.asarray([.05 + .45 * (np.exp(10 * (i - 1) / (self.NP - 1)) - 1) / (np.exp(10) - 1) for i in range(self.NP)])}
+		Returns:
+			Dict[str, numpy.ndarray]:
+				* vMin: Mininal velocity.
+				* vMax: Maximal velocity.
+				* V: Initial velocity of particle.
+				* flag: Refresh gap counter.
+		"""
+		return {'min_velocity': fullArray(self.vMin, task.D), 'max_velocity': fullArray(self.vMax, task.D), 'v': np.full([self.NP, task.D], 0.0), 'flag': np.full(self.NP, 0), 'pc': np.asarray([.05 + .45 * (np.exp(10 * (i - 1) / (self.NP - 1)) - 1) / (np.exp(10) - 1) for i in range(self.NP)])}
 
-    def generatePbestCL(self, i, Pc, pbs, fpbs):
-        r"""Generate new personal best position for learning.
+	def generate_personal_best_cl(self, i, pc, pbs, fpbs):
+		r"""Generate new personal best position for learning.
 
-        Args:
-            i (int): Current particle.
-            Pc (float): Learning probability.
-            pbs (numpy.ndarray): Personal best positions for population.
-            fpbs (numpy.ndarray): Personal best positions function/fitness values for persolan best position.
+		Args:
+			i (int): Current particle.
+			pc (float): Learning probability.
+			pbs (numpy.ndarray): Personal best positions for population.
+			fpbs (numpy.ndarray): Personal best positions function/fitness values for persolan best position.
 
-        Returns:
-            numpy.ndarray: Personal best for learning.
-        """
-        pbest = []
-        for j in range(len(pbs[i])):
-            if self.rand() > Pc: pbest.append(pbs[i, j])
-            else:
-                r1, r2 = int(self.rand() * len(pbs)), int(self.rand() * len(pbs))
-                if fpbs[r1] < fpbs[r2]: pbest.append(pbs[r1, j])
-                else: pbest.append(pbs[r2, j])
-        return np.asarray(pbest)
+		Returns:
+			numpy.ndarray: Personal best for learning.
+		"""
+		pbest = []
+		for j in range(len(pbs[i])):
+			if self.rand() > pc: pbest.append(pbs[i, j])
+			else:
+				r1, r2 = int(self.rand() * len(pbs)), int(self.rand() * len(pbs))
+				if fpbs[r1] < fpbs[r2]: pbest.append(pbs[r1, j])
+				else: pbest.append(pbs[r2, j])
+		return np.asarray(pbest)
 
-    def updateVelocityCL(self, V, p, pb, w, vMin, vMax, task, **kwargs):
-        r"""Update particle velocity.
+	def update_velocity_cl(self, v, p, pb, w, min_velocity, max_velocity, task, **kwargs):
+		r"""Update particle velocity.
 
-        Args:
-            V (numpy.ndarray): Current velocity of particle.
-            p (numpy.ndarray): Current position of particle.
-            pb (numpy.ndarray): Personal best position of particle.
-            w (numpy.ndarray): Weights for velocity adjustment.
-            vMin (numpy.ndarray): Minimal velocity allowed.
-            vMax (numpy.ndarray): Maxmimal velocity allowed.
-            task (Task): Optimization task.
-            kwargs: Additional arguments.
+		Args:
+			v (numpy.ndarray): Current velocity of particle.
+			p (numpy.ndarray): Current position of particle.
+			pb (numpy.ndarray): Personal best position of particle.
+			w (numpy.ndarray): Weights for velocity adjustment.
+			min_velocity (numpy.ndarray): Minimal velocity allowed.
+			max_velocity (numpy.ndarray): Maxmimal velocity allowed.
+			task (Task): Optimization task.
+			kwargs (dict): Additional arguments.
 
-        Returns:
-            numpy.ndarray: Updated velocity of particle.
-        """
-        return self.Repair(w * V + self.C * self.rand(task.D) * (pb - p), vMin, vMax)
+		Returns:
+			numpy.ndarray: Updated velocity of particle.
+		"""
+		return self.Repair(w * v + self.C * self.rand(task.D) * (pb - p), min_velocity, max_velocity)
 
-    def run_iteration(self, task, pop, fpop, xb, fxb, popb, fpopb, vMin, vMax, V, flag, Pc, **dparams):
-        r"""Core function of algorithm.
+	def run_iteration(self, task, pop, fpop, xb, fxb, popb, fpopb, min_velocity, max_velocity, v, flag, pc, **dparams):
+		r"""Core function of algorithm.
 
-        Args:
-            task (Task): Optimization task.
-            pop (numpy.ndarray): Current populations.
-            fpop (numpy.ndarray): Current population fitness/function values.
-            xb (numpy.ndarray): Current best particle.
-            fxb (float): Current best particle fitness/function value.
-            popb (numpy.ndarray): Particles best position.
-            fpopb (numpy.ndarray): Particles best positions fitness/function values.
-            vMin (numpy.ndarray): Minimal velocity.
-            vMax (numpy.ndarray): Maximal velocity.
-            V (numpy.ndarray): Velocity of particles.
-            flag (numpy.ndarray): Refresh rate counter.
-            Pc (numpy.ndarray): Learning rate.
-            **dparams (Dict[str, Any]): Additional function arguments.
+		Args:
+			task (Task): Optimization task.
+			pop (numpy.ndarray): Current populations.
+			fpop (numpy.ndarray): Current population fitness/function values.
+			xb (numpy.ndarray): Current best particle.
+			fxb (float): Current best particle fitness/function value.
+			popb (numpy.ndarray): Particles best position.
+			fpopb (numpy.ndarray): Particles best positions fitness/function values.
+			min_velocity (numpy.ndarray): Minimal velocity.
+			max_velocity (numpy.ndarray): Maximal velocity.
+			v (numpy.ndarray): Velocity of particles.
+			flag (numpy.ndarray): Refresh rate counter.
+			pc (numpy.ndarray): Learning rate.
+			dparams (dict): Additional function arguments.
 
-        Returns:
-            Tuple[n.ndarray, n.ndarray, n.ndarray, dict]:
-            1. New population.
-            2. New population fitness/function values.
-            3. New global best position.
-            4. New global best positions function/fitness value.
-            5. Additional arguments:
-                * popb: Particles best population.
-                * fpopb: Particles best positions function/fitness value.
-                * vMin: Minimal velocity.
-                * vMax: Maximal velocity.
-                * V: Initial velocity of particle.
-                * flag: Refresh gap counter.
-                * Pc: Learning rate.
+		Returns:
+			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, dict]:
+				1. New population.
+				2. New population fitness/function values.
+				3. New global best position.
+				4. New global best positions function/fitness value.
+				5. Additional arguments:
+					* popb: Particles best population.
+					* fpopb: Particles best positions function/fitness value.
+					* min_velocity: Minimal velocity.
+					* max_velocity: Maximal velocity.
+					* V: Initial velocity of particle.
+					* flag: Refresh gap counter.
+					* pc: Learning rate.
 
-        See Also:
-            * :class:`NiaPy.algorithms.basic.ParticleSwarmAlgorithm.runIteration`
-        """
-        w = self.w0 * (self.w0 - self.w1) * task.Iters / task.nGEN
-        for i in range(len(pop)):
-            if flag[i] >= self.m:
-                V[i] = self.updateVelocity(V[i], pop[i], popb[i], xb, 1, vMin, vMax, task)
-                pop[i] = task.repair(pop[i] + V[i], rnd=self.Rand)
-                fpop[i] = task.eval(pop[i])
-                if fpop[i] < fpopb[i]:
-                    popb[i], fpopb[i] = pop[i].copy(), fpop[i]
-                    if fpop[i] < fxb: xb, fxb = pop[i].copy(), fpop[i]
-                flag[i] = 0
-            pbest = self.generatePbestCL(i, Pc[i], popb, fpopb)
-            V[i] = self.updateVelocityCL(V[i], pop[i], pbest, w, vMin, vMax, task)
-            pop[i] = pop[i] + V[i]
-            if not ((pop[i] < task.Lower).any() or (pop[i] > task.Upper).any()):
-                fpop[i] = task.eval(pop[i])
-                if fpop[i] < fpopb[i]:
-                    popb[i], fpopb[i] = pop[i].copy(), fpop[i]
-                    if fpop[i] < fxb: xb, fxb = pop[i].copy(), fpop[i]
-        return pop, fpop, xb, fxb, {'popb': popb, 'fpopb': fpopb, 'vMin': vMin, 'vMax': vMax, 'V': V, 'flag': flag, 'Pc': Pc}
+		See Also:
+			* :class:`NiaPy.algorithms.basic.ParticleSwarmAlgorithm.runIteration`
+		"""
+		w = self.w0 * (self.w0 - self.w1) * task.Iters / task.nGEN
+		for i in range(len(pop)):
+			if flag[i] >= self.m:
+				v[i] = self.update_velocity(v[i], pop[i], popb[i], xb, 1, min_velocity, max_velocity, task)
+				pop[i] = task.repair(pop[i] + v[i], rnd=self.Rand)
+				fpop[i] = task.eval(pop[i])
+				if fpop[i] < fpopb[i]:
+					popb[i], fpopb[i] = pop[i].copy(), fpop[i]
+					if fpop[i] < fxb: xb, fxb = pop[i].copy(), fpop[i]
+				flag[i] = 0
+			pbest = self.generate_personal_best_cl(i, pc[i], popb, fpopb)
+			v[i] = self.update_velocity_cl(v[i], pop[i], pbest, w, min_velocity, max_velocity, task)
+			pop[i] = pop[i] + v[i]
+			if not ((pop[i] < task.lower).any() or (pop[i] > task.upper).any()):
+				fpop[i] = task.eval(pop[i])
+				if fpop[i] < fpopb[i]:
+					popb[i], fpopb[i] = pop[i].copy(), fpop[i]
+					if fpop[i] < fxb: xb, fxb = pop[i].copy(), fpop[i]
+		return pop, fpop, xb, fxb, {'popb': popb, 'fpopb': fpopb, 'min_velocity': min_velocity, 'max_velocity': max_velocity, 'v': v, 'flag': flag, 'pc': pc}
+
+
+# vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

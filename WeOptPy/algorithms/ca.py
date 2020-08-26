@@ -94,7 +94,7 @@ class Camel(Individual):
 		"""
 		delta = -1 + rnd.rand() * 2
 		self.x = self.x_past + delta * (1 - (self.E / E_init)) * np.exp(1 - self.S / S_init) * (cb - self.x_past)
-		if not task.isFeasible(self.x): self.x = self.x_past
+		if not task.is_feasible(self.x): self.x = self.x_past
 		else: self.f = task.eval(self.x)
 
 	def next(self):

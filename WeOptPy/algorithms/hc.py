@@ -102,7 +102,7 @@ class HillClimbAlgorithm(Algorithm):
                 2. New individual function/fitness value.
                 3. Additional arguments.
         """
-        x = task.Lower + self.rand(task.D) * task.bRange
+        x = task.lower + self.rand(task.D) * task.bRange
         return x, task.eval(x), {}
 
     def runIteration(self, task, x, fx, xb, fxb, **dparams):
@@ -122,7 +122,7 @@ class HillClimbAlgorithm(Algorithm):
                 2. New solutions function/fitness value.
                 3. Additional arguments.
         """
-        lo, xn = False, task.bcLower() + task.bcRange() * self.rand(task.D)
+        lo, xn = False, task.lower() + task.range() * self.rand(task.D)
         xn_f = task.eval(xn)
         while not lo:
             yn, yn_f = self.Neighborhood(x, self.delta, task, rnd=self.Rand)

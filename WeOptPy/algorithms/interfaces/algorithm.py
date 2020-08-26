@@ -278,7 +278,7 @@ class Algorithm:
 		algo, xb, fxb = self.run_yield(task), None, np.inf
 		while not task.stop_cond():
 			xb, fxb = next(algo)
-			task.nextIter()
+			task.next_iteration()
 		return xb, fxb
 
 	def run(self, task):

@@ -44,15 +44,15 @@ class StoppingTaskBaseTestCase(TestCase):
 
 	def test_lower(self):
 		self.assertTrue(np.array_equal(fullArray(self.Lower, self.D), self.task.Lower))
-		self.assertTrue(np.array_equal(fullArray(self.Lower, self.D), self.task.bcLower()))
+		self.assertTrue(np.array_equal(fullArray(self.Lower, self.D), self.task.lower()))
 
 	def test_upper(self):
 		self.assertTrue(np.array_equal(fullArray(self.Upper, self.D), self.task.Upper))
-		self.assertTrue(np.array_equal(fullArray(self.Upper, self.D), self.task.bcUpper()))
+		self.assertTrue(np.array_equal(fullArray(self.Upper, self.D), self.task.upper()))
 
 	def test_range(self):
 		self.assertTrue(np.array_equal(fullArray(self.Upper, self.D) - fullArray(self.Lower, self.D), self.task.bRange))
-		self.assertTrue(np.array_equal(fullArray(self.Upper, self.D) - fullArray(self.Lower, self.D), self.task.bcRange()))
+		self.assertTrue(np.array_equal(fullArray(self.Upper, self.D) - fullArray(self.Lower, self.D), self.task.range()))
 
 	def test_ngens(self):
 		self.assertEqual(np.inf, self.task.nGEN)
@@ -76,10 +76,10 @@ class StoppingTaskBaseTestCase(TestCase):
 		self.assertEqual(0, self.task.iters())
 
 	def test_next_iter(self):
-		self.assertEqual(None, self.task.nextIter())
+		self.assertEqual(None, self.task.next_iteration())
 
 	def test_is_feasible(self):
-		self.assertFalse(self.task.isFeasible(fullArray([1, 2, 3], self.D)))
+		self.assertFalse(self.task.is_feasible(fullArray([1, 2, 3], self.D)))
 
 
 class StoppingTaskTestCase(TestCase):
@@ -102,20 +102,20 @@ class StoppingTaskTestCase(TestCase):
 
 	def test_isFeasible_fine(self):
 		x = np.full(self.D, 10)
-		self.assertTrue(self.t.isFeasible(x))
+		self.assertTrue(self.t.is_feasible(x))
 		x = np.full(self.D, -10)
-		self.assertTrue(self.t.isFeasible(x))
+		self.assertTrue(self.t.is_feasible(x))
 		x = rnd.uniform(-10, 10, self.D)
-		self.assertTrue(self.t.isFeasible(x))
+		self.assertTrue(self.t.is_feasible(x))
 		x = np.full(self.D, -20)
-		self.assertFalse(self.t.isFeasible(x))
+		self.assertFalse(self.t.is_feasible(x))
 		x = np.full(self.D, 20)
-		self.assertFalse(self.t.isFeasible(x))
+		self.assertFalse(self.t.is_feasible(x))
 
 	def test_nextIter_fine(self):
 		for i in range(self.nGEN):
 			self.assertFalse(self.t.stop_cond())
-			self.t.nextIter()
+			self.t.next_iteration()
 		self.assertTrue(self.t.stop_cond())
 
 	def test_stopCondI(self):
@@ -135,7 +135,7 @@ class StoppingTaskTestCase(TestCase):
 
 	def test_eval_over_nGEN_fine(self):
 		x = np.full(self.D, 1.0)
-		for i in range(self.nGEN): self.t.nextIter()
+		for i in range(self.nGEN): self.t.next_iteration()
 		self.assertEqual(np.inf, self.t.eval(x))
 		self.assertTrue(self.t.stop_cond())
 
@@ -148,7 +148,7 @@ class StoppingTaskTestCase(TestCase):
 	def test_nGEN_count_fine(self):
 		x = np.full(self.D, 1.0)
 		for i in range(self.nGEN):
-			self.t.nextIter()
+			self.t.next_iteration()
 			self.assertEqual(self.t.Iters, i + 1, 'Error at %s. iteration' % (i + 1))
 
 	def test_stopCond_evals_fine(self):
@@ -162,9 +162,9 @@ class StoppingTaskTestCase(TestCase):
 	def test_stopCond_iters_fine(self):
 		x = np.full(self.D, 1.0)
 		for i in range(self.nGEN - 1):
-			self.t.nextIter()
+			self.t.next_iteration()
 			self.assertFalse(self.t.stop_cond())
-		self.t.nextIter()
+		self.t.next_iteration()
 		self.assertTrue(self.t.stop_cond())
 
 	def test_stopCond_refValue_fine(self):
@@ -172,7 +172,7 @@ class StoppingTaskTestCase(TestCase):
 		for i in range(self.nGEN - 5):
 			self.assertFalse(self.t.stop_cond())
 			self.assertEqual(self.D, self.t.eval(x))
-			self.t.nextIter()
+			self.t.next_iteration()
 		x = np.full(self.D, 0.0)
 		self.assertEqual(0, self.t.eval(x))
 		self.assertTrue(self.t.stop_cond())
@@ -215,20 +215,20 @@ class ThrowingTaskTestCase(TestCase):
 
 	def test_isFeasible_fine(self):
 		x = np.full(self.D, 10)
-		self.assertTrue(self.t.isFeasible(x))
+		self.assertTrue(self.t.is_feasible(x))
 		x = np.full(self.D, -10)
-		self.assertTrue(self.t.isFeasible(x))
+		self.assertTrue(self.t.is_feasible(x))
 		x = rnd.uniform(-10, 10, self.D)
-		self.assertTrue(self.t.isFeasible(x))
+		self.assertTrue(self.t.is_feasible(x))
 		x = np.full(self.D, -20)
-		self.assertFalse(self.t.isFeasible(x))
+		self.assertFalse(self.t.is_feasible(x))
 		x = np.full(self.D, 20)
-		self.assertFalse(self.t.isFeasible(x))
+		self.assertFalse(self.t.is_feasible(x))
 
 	def test_nextIter_fine(self):
 		for i in range(self.nGEN):
 			self.assertFalse(self.t.stop_cond())
-			self.t.nextIter()
+			self.t.next_iteration()
 		self.assertTrue(self.t.stop_cond())
 
 	def test_stopCondI(self):
@@ -248,7 +248,7 @@ class ThrowingTaskTestCase(TestCase):
 
 	def test_eval_over_nGEN_fine(self):
 		x = np.full(self.D, 1.0)
-		for i in range(self.nGEN): self.t.nextIter()
+		for i in range(self.nGEN): self.t.next_iteration()
 		self.assertRaises(GenException, lambda: self.t.eval(x))
 
 	def test_nFES_count_fine(self):
@@ -260,7 +260,7 @@ class ThrowingTaskTestCase(TestCase):
 	def test_nGEN_count_fine(self):
 		x = np.full(self.D, 1.0)
 		for i in range(self.nGEN):
-			self.t.nextIter()
+			self.t.next_iteration()
 			self.assertEqual(self.t.Iters, i + 1, 'Error at %s. iteration' % (i + 1))
 
 	def test_stopCond_evals_fine(self):
@@ -274,9 +274,9 @@ class ThrowingTaskTestCase(TestCase):
 	def test_stopCond_iters_fine(self):
 		x = np.full(self.D, 1.0)
 		for i in range(self.nGEN - 1):
-			self.t.nextIter()
+			self.t.next_iteration()
 			self.assertFalse(self.t.stop_cond())
-		self.t.nextIter()
+		self.t.next_iteration()
 		self.assertTrue(self.t.stop_cond())
 
 	def test_stopCond_refValue_fine(self):
@@ -284,7 +284,7 @@ class ThrowingTaskTestCase(TestCase):
 		for i in range(self.nGEN - 5):
 			self.assertFalse(self.t.stop_cond())
 			self.assertEqual(self.D, self.t.eval(x))
-			self.t.nextIter()
+			self.t.next_iteration()
 		x = np.full(self.D, 0.0)
 		self.assertEqual(0, self.t.eval(x))
 		self.assertRaises(RefException, lambda: self.t.eval(x))

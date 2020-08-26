@@ -462,7 +462,7 @@ class EvolutionStrategyML(EvolutionStrategyMpL):
 
 
 def CovarianceMaatrixAdaptionEvolutionStrategyF(task, epsilon=1e-20, rnd=rand):
-	lam, alpha_mu, hs, sigma0 = (4 + np.round(3 * np.log(task.D))) * 10, 2, 0, 0.3 * task.bcRange()
+	lam, alpha_mu, hs, sigma0 = (4 + np.round(3 * np.log(task.D))) * 10, 2, 0, 0.3 * task.range()
 	mu = int(np.round(lam / 2))
 	w = np.log(mu + 0.5) - np.log(range(1, mu + 1))
 	w = w / np.sum(w)
@@ -473,7 +473,7 @@ def CovarianceMaatrixAdaptionEvolutionStrategyF(task, epsilon=1e-20, rnd=rand):
 	cc, c1 = (4 + mueff / task.D) / (4 + task.D + 2 * mueff / task.D), 2 / ((task.D + 1.3) ** 2 + mueff)
 	cmu, hth = min(1 - c1, alpha_mu * (mueff - 2 + 1 / mueff) / ((task.D + 2) ** 2 + alpha_mu * mueff / 2)), (1.4 + 2 / (task.D + 1)) * ENN
 	ps, pc, C, sigma, M = np.full(task.D, 0.0), np.full(task.D, 0.0), np.eye(task.D), sigma0, np.full(task.D, 0.0)
-	x = rnd.uniform(task.bcLower(), task.bcUpper())
+	x = rnd.uniform(task.lower(), task.upper())
 	x_f = task.eval(x)
 	while not task.stop_cond_i():
 		pop_step = np.asarray([rnd.multivariate_normal(np.full(task.D, 0.0), C) for _ in range(int(lam))])

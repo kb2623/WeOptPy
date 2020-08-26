@@ -58,8 +58,8 @@ class IndividualTestCase(TestCase):
 		self.s1, self.s2, self.s3 = Individual(x=self.x, e=False), Individual(task=self.task, rand=rnd), Individual(task=self.task)
 
 	def test_generateSolutin_fine(self):
-		self.assertTrue(self.task.isFeasible(self.s2))
-		self.assertTrue(self.task.isFeasible(self.s3))
+		self.assertTrue(self.task.is_feasible(self.s2))
+		self.assertTrue(self.task.is_feasible(self.s3))
 
 	def test_evaluate_fine(self):
 		self.s1.evaluate(self.task)
@@ -67,7 +67,7 @@ class IndividualTestCase(TestCase):
 
 	def test_repair_fine(self):
 		s = Individual(x=np.full(self.D, 100))
-		self.assertFalse(self.task.isFeasible(s.x))
+		self.assertFalse(self.task.is_feasible(s.x))
 
 	def test_eq_fine(self):
 		self.assertFalse(self.s1 == self.s2)
@@ -254,7 +254,7 @@ class TestingTask(StoppingTask, TestCase):
 
 	def eval(self, A):
 		r"""Check if is algorithm trying to evaluate solution out of bounds."""
-		self.assertTrue(self.isFeasible(A), 'Solution %s is not in feasible space!!!' % A)
+		self.assertTrue(self.is_feasible(A), 'Solution %s is not in feasible space!!!' % A)
 		return StoppingTask.eval(self, A)
 
 

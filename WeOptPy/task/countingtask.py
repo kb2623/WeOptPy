@@ -62,7 +62,7 @@ class CountingTask(Task):
 		"""
 		return self.Iters
 
-	def nextIter(self):
+	def next_iteration(self):
 		r"""Increases the number of algorithm iterations made.
 
 		This function increments number of algorithm iterations/generations counter `self.Iters`.

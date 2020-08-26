@@ -112,7 +112,7 @@ class NelderMeadMethod(Algorithm):
 				1. New initialized population.
 				2. New initialized population fitness/function values.
 		"""
-		X = self.uniform(task.Lower, task.Upper, [task.D if NP is None or NP < task.D else NP, task.D])
+		X = self.uniform(task.lower, task.upper, [task.D if NP is None or NP < task.D else NP, task.D])
 		X_f = np.apply_along_axis(task.eval, 1, X)
 		return X, X_f
 
