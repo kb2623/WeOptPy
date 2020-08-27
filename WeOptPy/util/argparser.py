@@ -50,7 +50,7 @@ def make_arg_parser():
 			Name of benchmark to use. Default values is `Benchmark`.
 		* `-d` (int):
 			Number of dimensions/components usd by benchmark. Default values is `10`.
-		* `-nFES` (int):
+		* `-no_fes` (int):
 			Number of maximum function evaluations. Default values is `inf`.
 		* `-nGEN` (int):
 			Number of maximum algorithm iterations/generations. Default values is `inf`.
@@ -79,7 +79,7 @@ def make_arg_parser():
 	parser = ArgumentParser(description='Runer example.')
 	parser.add_argument('-a', '--algorithm', dest='algo', default='jDE', type=str)
 	parser.add_argument('-d', dest='d', default=10, type=int)
-	parser.add_argument('-nFES', dest='nFES', default=np.inf, type=int)
+	parser.add_argument('-no_fes', dest='no_fes', default=np.inf, type=int)
 	parser.add_argument('-nGEN', dest='nGEN', default=np.inf, type=int)
 	parser.add_argument('-n', dest='n', default=43, type=int)
 	parser.add_argument('-r', '--runType', dest='runType', choices=['', 'log', 'plot'], default='', type=str)

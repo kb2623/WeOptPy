@@ -155,23 +155,23 @@ class Algorithm:
 		elif isinstance(d, int): return self.Rand.randn(d)
 		return self.Rand.randn(*d)
 
-	def randint(self, nmax, d=1, nmin=0, skip=None):
-		r"""Get discrete uniform (integer) random distribution of d shape in range from "nmin" to "Nmax".
+	def randint(self, maximum, d=1, minimum=0, skip=None):
+		r"""Get discrete uniform (integer) random distribution of d shape in range from "minimum" to "Nmax".
 
 		Args:
-			nmin (int): lower integer bound.
+			minimum (int): lower integer bound.
 			d (Optional[Union[int, Iterable[int]]]): shape of returned discrete uniform random distribution.
-			nmax (Optional[int]): One above upper integer bound.
+			maximum (Optional[int]): One above upper integer bound.
 			skip (Optional[Union[int, Iterable[int]]]): numbers to skip.
 
 		Returns:
 			Union[int, numpy.ndarray]: Random generated integer number.
 		"""
 		r = None
-		if isinstance(d, (list, tuple, np.ndarray)): r = self.Rand.randint(nmin, nmax, d)
-		elif d > 1: r = self.Rand.randint(nmin, nmax, d)
-		else: r = self.Rand.randint(nmin, nmax)
-		return r if skip is None or r not in skip else self.randint(nmax, d, nmin, skip)
+		if isinstance(d, (list, tuple, np.ndarray)): r = self.Rand.randint(minimum, maximum, d)
+		elif d > 1: r = self.Rand.randint(minimum, maximum, d)
+		else: r = self.Rand.randint(minimum, maximum)
+		return r if skip is None or r not in skip else self.randint(maximum, d, minimum, skip)
 
 	def get_best(self, x, x_f, xb=None, xb_f=np.inf):
 		r"""Get the best individual for population.
@@ -205,7 +205,7 @@ class Algorithm:
 				3. Additional arguments.
 
 		See Also:
-			* :func:`NiaPy.algorithms.Algorithm.setParameters`
+			* :func:`WeOptPy.algorithms.Algorithm.setParameters`
 		"""
 		pop, fpop = self.InitPopFunc(task=task, n=self.NP, rnd=self.Rand, itype=self.itype)
 		return pop, fpop, {}

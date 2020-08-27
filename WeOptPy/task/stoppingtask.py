@@ -70,7 +70,7 @@ class StoppingTask(CountingTask):
 			self.x_f = x_f
 			self.n_evals.append(self.Evals)
 			self.x_f_vals.append(x_f)
-			if self.verbose: logger.info('nFES:%d => %s' % (self.Evals, self.x_f))
+			if self.verbose: logger.info('no_fes:%d => %s' % (self.Evals, self.x_f))
 		return x_f
 
 	def stop_cond(self):

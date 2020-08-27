@@ -16,33 +16,33 @@ class ArgParserTestCase(TestCase):
 		self.assertTrue(self.parser)
 
 	def test_getArgs_fine(self):
-		args = get_args(['-d', '10', '-nFES', '100000000', '-a', 'SCA'])
+		args = get_args(['-d', '10', '-no_fes', '100000000', '-a', 'SCA'])
 		self.assertTrue(args)
 		self.assertEqual(args.D, 10)
 		self.assertEqual(args.nFES, 100000000)
 		self.assertEqual(args.algo, 'SCA')
 
 	def test_getDictArgs_fine(self):
-		args = get_dict_args(['-d', '10', '-nFES', '100000000', '-a', 'SCA'])
+		args = get_dict_args(['-d', '10', '-no_fes', '100000000', '-a', 'SCA'])
 		self.assertTrue(args)
 		self.assertEqual(args['d'], 10)
-		self.assertEqual(args['nFES'], 100000000)
+		self.assertEqual(args['no_fes'], 100000000)
 		self.assertEqual(args['algo'], 'SCA')
 		self.assertEqual(args['seed'], [None])
 
 	def test_getDictArgs_seed_fine(self):
-		args = get_dict_args(['-d', '10', '-nFES', '100000000', '-a', 'SCA', '-seed', '1'])
+		args = get_dict_args(['-d', '10', '-no_fes', '100000000', '-a', 'SCA', '-seed', '1'])
 		self.assertTrue(args)
 		self.assertEqual(args['d'], 10)
-		self.assertEqual(args['nFES'], 100000000)
+		self.assertEqual(args['no_fes'], 100000000)
 		self.assertEqual(args['algo'], 'SCA')
 		self.assertEqual(args['seed'], [1])
 
 	def test_getDictArgs_seed_fine_two(self):
-		args = get_dict_args(['-d', '10', '-nFES', '100000000', '-a', 'SCA', '-seed', '1', '234', '231523'])
+		args = get_dict_args(['-d', '10', '-no_fes', '100000000', '-a', 'SCA', '-seed', '1', '234', '231523'])
 		self.assertTrue(args)
 		self.assertEqual(args['d'], 10)
-		self.assertEqual(args['nFES'], 100000000)
+		self.assertEqual(args['no_fes'], 100000000)
 		self.assertEqual(args['algo'], 'SCA')
 		self.assertEqual(args['seed'], [1, 234, 231523])
 

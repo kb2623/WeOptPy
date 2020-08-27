@@ -152,10 +152,10 @@ class MonarchButterflyOptimization(Algorithm):
 			for parnum1 in range(0, D):
 				r1 = self.uniform(0.0, 1.0) * self.PER
 				if r1 <= self.PAR:
-					r2 = self.randint(nmin=0, nmax=NP1 - 1)
+					r2 = self.randint(minimum=0, maximum=NP1 - 1)
 					Butterflies[k1, parnum1] = pop1[r2, parnum1]
 				else:
-					r3 = self.randint(nmin=0, nmax=NP2 - 1)
+					r3 = self.randint(minimum=0, maximum=NP2 - 1)
 					Butterflies[k1, parnum1] = pop2[r3, parnum1]
 		return Butterflies
 
@@ -183,7 +183,7 @@ class MonarchButterflyOptimization(Algorithm):
 				if self.uniform(0.0, 1.0) >= self.PAR:
 					Butterflies[k2, parnum2] = best[parnum2]
 				else:
-					r4 = self.randint(nmin=0, nmax=NP2 - 1)
+					r4 = self.randint(minimum=0, maximum=NP2 - 1)
 					Butterflies[k2, parnum2] = pop2[r4, 1]
 					if self.uniform(0.0, 1.0) > self.BAR:
 						Butterflies[k2, parnum2] += scale * (delataX[parnum2] - 0.5)

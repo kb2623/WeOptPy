@@ -75,7 +75,7 @@ class HybridBatAlgorithm(BatAlgorithm):
 		BatAlgorithm.set_parameters(self, **ukwargs)
 		self.F, self.CR, self.CrossMutt = F, CR, CrossMutt
 
-	def localSearch(self, best, task, i, Sol, **kwargs):
+	def local_search(self, best, task, i, Sol, **kwargs):
 		r"""Improve the best solution.
 
 		Args:

@@ -36,32 +36,31 @@ class Runner:
 	It also support exporting results in various formats (e.g. LaTeX, Excel, JSON)
 
 	Attributes:
-		D (int): Dimension of problem
+		d (int): Dimension of problem
 		NP (int): Population size
-		nFES (int): Number of function evaluations
-		nRuns (int): Number of repetitions
-		useAlgorithms (Union[List[str], List[Algorithm]]): List of algorithms to run
-		useBenchmarks (Union[List[str], List[Benchmark]]): List of benchmarks to run
+		no_fes (int): Number of function evaluations
+		no_runs (int): Number of repetitions
+		algorithms (Union[List[str], List[Algorithm]]): List of algorithms to run
 
 	Returns:
 		results (Dict[str, Dict]): Returns the results.
 
 	"""
-	def __init__(self, D=10, nFES=1000000, nRuns=1, useAlgorithms='ArtificialBeeColonyAlgorithm', useBenchmarks='Ackley', **kwargs):
+	def __init__(self, d=10, no_fes=1000000, no_runs=1, algorithms='ArtificialBeeColonyAlgorithm', *args, **kwargs):
 		r"""Initialize Runner.
 
 		Args:
-			D (int): Dimension of problem
-			nFES (int): Number of function evaluations
-			nRuns (int): Number of repetitions
-			useAlgorithms (List[Algorithm]): List of algorithms to run
-			useBenchmarks (List[Benchmarks]): List of benchmarks to run
+			d (int): Dimension of problem
+			no_fes (int): Number of function evaluations
+			no_runs (int): Number of repetitions
+			algorithms (List[Algorithm]): List of algorithms to run
+			args (list): Additional arguments.
+			kwargs (dict): Additional keyword arguments.
 		"""
-		self.D = D
-		self.nFES = nFES
-		self.nRuns = nRuns
-		self.useAlgorithms = useAlgorithms
-		self.useBenchmarks = useBenchmarks
+		self.D = d
+		self.nFES = no_fes
+		self.nRuns = no_runs
+		self.useAlgorithms = algorithms
 		self.results = {}
 		self.factory = Factory()
 
@@ -96,7 +95,6 @@ class Runner:
 
 	def __export_to_log(self):
 		r"""Print the results to terminal."""
-
 		print(self.results)
 
 	def __export_to_json(self):
@@ -134,76 +132,6 @@ class Runner:
 		workbook.close()
 		logger.info("Export to XLSX completed!")
 
-	def __export_to_latex(self):
-		r"""Export the results in the form of latex table.
-
-		See Also:
-			* :func:`NiaPy.Runner.__createExportDir`
-			* :func:`NiaPy.Runner.__generateExportName`
-
-		"""
-
-		self.__create_export_dir()
-
-		metrics = ["Best", "Median", "Worst", "Mean", "Std."]
-
-		def only_upper(s):
-			return "".join(c for c in s if c.isupper())
-
-		with open(self.__generate_export_name("tex"), "a") as outFile:
-			outFile.write("\\documentclass{article}\n")
-			outFile.write("\\usepackage[utf8]{inputenc}\n")
-			outFile.write("\\usepackage{siunitx}\n")
-			outFile.write("\\sisetup{\n")
-			outFile.write("round-mode=places,round-precision=3}\n")
-			outFile.write("\\begin{document}\n")
-			outFile.write("\\begin{table}[h]\n")
-			outFile.write("\\centering\n")
-			begin_tabular = "\\begin{tabular}{cc"
-			for alg in self.results:
-				for _i in range(len(self.results[alg])):
-					begin_tabular += "S"
-				firstLine = "   &"
-				for benchmark in self.results[alg].keys():
-					firstLine += "  &   \\multicolumn{1}{c}{\\textbf{" + benchmark + "}}"
-				firstLine += " \\\\"
-				break
-			begin_tabular += "}\n"
-			outFile.write(begin_tabular)
-			outFile.write("\\hline\n")
-			outFile.write(firstLine + "\n")
-			outFile.write("\\hline\n")
-			for alg in self.results:
-				for metric in metrics:
-					line = ""
-					if metric != "Worst":
-						line += "   &   " + metric
-					else:
-						shortAlg = ""
-						if alg.endswith("Algorithm"):
-							shortAlg = only_upper(alg[:-9])
-						else:
-							shortAlg = only_upper(alg)
-						line += "\\textbf{" + shortAlg + "} &   " + metric
-						for benchmark in self.results[alg]:
-							if metric == "Best":
-								line += "   &   " + str(amin(self.results[alg][benchmark]))
-							elif metric == "Median":
-								line += "   &   " + str(median(self.results[alg][benchmark]))
-							elif metric == "Worst":
-								line += "   &   " + str(amax(self.results[alg][benchmark]))
-							elif metric == "Mean":
-								line += "   &   " + str(mean(self.results[alg][benchmark]))
-							else:
-								line += "   &   " + str(std(self.results[alg][benchmark]))
-						line += "   \\\\"
-						outFile.write(line + "\n")
-					outFile.write("\\hline\n")
-				outFile.write("\\end{tabular}\n")
-				outFile.write("\\end{table}\n")
-				outFile.write("\\end{document}")
-		logger.info("Export to Latex completed!")
-
 	def run(self, export="log", verbose=False):
 		"""Execute runner.
 
@@ -218,7 +146,7 @@ class Runner:
 			dict: Returns dictionary of results
 
 		See Also:
-			* :func:`NiaPy.Runner.useAlgorithms`
+			* :func:`NiaPy.Runner.algorithms`
 			* :func:`NiaPy.Runner.useBenchmarks`
 			* :func:`NiaPy.Runner.__algorithmFactory`
 		"""

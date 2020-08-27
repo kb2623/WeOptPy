@@ -37,6 +37,10 @@ class ASOTestCase(AlgorithmTestCase):
 class ASOElitismTestCase(ASOTestCase):
 	def test_custom_works_fine(self):
 		aso_custom = self.algo(NP=40, Combination=elitism, seed=self.seed)
+		AlgorithmTestCase.test_algorithm_run(self, aso_custom, MyBenchmark())
+
+	def test_custom_works_fine_parallel(self):
+		aso_custom = self.algo(NP=40, Combination=elitism, seed=self.seed)
 		aso_customc = self.algo(NP=40, Combination=elitism, seed=self.seed)
 		AlgorithmTestCase.test_algorithm_run(self, aso_custom, aso_customc, MyBenchmark())
 

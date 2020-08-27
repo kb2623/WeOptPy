@@ -57,10 +57,10 @@ class IndividualTestCase(TestCase):
 	"""
 	def setUp(self):
 		self.D = 20
-		self.x, self.task = rnd.uniform(-100, 100, self.D), StoppingTask(D=self.D, no_fes=230, no_gen=np.inf, benchmark=MyBenchmark())
+		self.x, self.task = rnd.uniform(-100, 100, self.D), StoppingTask(d=self.D, no_fes=230, no_gen=np.inf, benchmark=MyBenchmark())
 		self.s1, self.s2, self.s3 = Individual(x=self.x, e=False), Individual(task=self.task, rand=rnd), Individual(task=self.task)
 
-	def test_generateSolutin_fine(self):
+	def test_generate_solution_fine(self):
 		self.assertTrue(self.task.is_feasible(self.s2))
 		self.assertTrue(self.task.is_feasible(self.s3))
 
@@ -163,30 +163,30 @@ class AlgorithmBaseTestCase(TestCase):
 
 	def test_init_population_numpy_fine(self):
 		r"""Test if custome generation initialization works ok."""
-		a = Algorithm(NP=10, InitPopFunc=init_pop_numpy)
+		a = Algorithm(n=10, InitPopFunc=init_pop_numpy)
 		t = Task(d=20, benchmark=MyBenchmark())
 		self.assertTrue(np.array_equal(np.full((10, t.D), 0.0), a.init_population(t)[0]))
 
 	def test_init_population_individual_fine(self):
 		r"""Test if custome generation initialization works ok."""
-		a = Algorithm(NP=10, InitPopFunc=init_pop_individual, itype=Individual)
+		a = Algorithm(n=10, InitPopFunc=init_pop_individual, itype=Individual)
 		t = Task(d=20, benchmark=MyBenchmark())
 		i = Individual(x=np.full(t.D, 0.0), task=t)
 		pop, fpop, d = a.init_population(t)
 		for e in pop: self.assertEqual(i, e)
 
-	def test_setParameters(self):
+	def test_set_parameters(self):
 		self.a.set_parameters(t=None, a=20)
 		self.assertRaises(AttributeError, lambda: self.assertEqual(self.a.a, None))
 
 	def test_randint_fine(self):
-		o = self.a.randint(nmax=20, nmin=10, D=[10, 10])
+		o = self.a.randint(maximum=20, minimum=10, d=[10, 10])
 		self.assertEqual(o.shape, (10, 10))
 		self.assertTrue(np.array_equal(self.rnd.randint(10, 20, (10, 10)), o))
-		o = self.a.randint(nmax=20, nmin=10, D=(10, 5))
+		o = self.a.randint(maximum=20, minimum=10, d=(10, 5))
 		self.assertEqual(o.shape, (10, 5))
 		self.assertTrue(np.array_equal(self.rnd.randint(10, 20, (10, 5)), o))
-		o = self.a.randint(nmax=20, nmin=10, D=10)
+		o = self.a.randint(maximum=20, minimum=10, d=10)
 		self.assertEqual(o.shape, (10,))
 		self.assertTrue(np.array_equal(self.rnd.randint(10, 20, 10), o))
 
@@ -245,7 +245,7 @@ class TestingTask(StoppingTask, TestCase):
 		Klemen Berkovič
 
 	See Also:
-		* :class:`NiaPy.util.StoppingTask`
+		* :class:`WeOptPy.task.StoppingTask`
 	"""
 	def names(self):
 		r"""Get names of benchmark.
@@ -277,7 +277,7 @@ class AlgorithmTestCase(TestCase):
 		seed (int): Starting seed of random generator.
 
 	See Also:
-		* :class:`NiaPy.algorithms.Algorithm`
+		* :class:`WeOptPy.algorithms.Algorithm`
 	"""
 	def setUp(self):
 		r"""Setup basic parameters of the algorithm run."""
@@ -299,11 +299,11 @@ class AlgorithmTestCase(TestCase):
 		params = self.algo().get_parameters()
 		self.assertIsNotNone(params)
 
-	def setUpTasks(self, D, bech='griewank', nFES=None, nGEN=None):
+	def __set_up_task(self, d, bech='griewank', nFES=None, nGEN=None):
 		r"""Setup optimization tasks for testing.
 
 		Args:
-			D (int): Dimension of the problem.
+			d (int): Dimension of the problem.
 			bech (Optional[str, class]): Optimization problem to use.
 			nFES (int): Number of fitness/objective function evaluations.
 			nGEN (int): Number of generations.
@@ -311,7 +311,7 @@ class AlgorithmTestCase(TestCase):
 		Returns:
 			Task: Testing task.
 		"""
-		return TestingTask(D=D, nFES=self.nFES if nFES is None else nFES, nGEN=self.nGEN if nGEN is None else nGEN, benchmark=bech)
+		return TestingTask(d=d, nFES=self.nFES if nFES is None else nFES, nGEN=self.nGEN if nGEN is None else nGEN, benchmark=bech)
 
 	def test_algorithm_run(self, a=None, benc='griewank', nFES=None, nGEN=None):
 		r"""Run main testing of algorithm.
@@ -324,12 +324,12 @@ class AlgorithmTestCase(TestCase):
 		"""
 		if a is None: return
 		for D in self.D:
-			task = self.setUpTasks(D, benc, nFES=nFES)
+			task = self.__set_up_task(D, benc, nFES=nFES)
 			x = a.run(task)
 			self.assertFalse(a.bad_run(), "Something went wrong at runtime of the algorithm --> %s" % a.exception)
-			self.assertIsNotNone(x), self.assertIsNotNone(y)
+			self.assertIsNotNone(x)
 			logger.info('%s\n%s -> %s' % (task.names(), x[0], x[1]))
-			self.assertAlmostEqual(task1.benchmark.function()(D, x[0].x if isinstance(x[0], Individual) else x[0]), x[1], msg='Best individual fitness values does not mach the given one')
+			self.assertAlmostEqual(task.benchmark.function()(D, x[0].x if isinstance(x[0], Individual) else x[0]), x[1], msg='Best individual fitness values does not mach the given one')
 			self.assertAlmostEqual(task.x_f, x[1], msg='While running the algorithm, algorithm got better individual with fitness: %s' % task.x_f)
 			self.assertTrue(self.nFES >= task.Evals)
 			self.assertTrue(self.nGEN >= task.Iters)
@@ -346,7 +346,7 @@ class AlgorithmTestCase(TestCase):
 		"""
 		if a is None or b is None: return
 		for D in self.D:
-			task1, task2 = self.setUpTasks(D, benc, nFES=nFES), self.setUpTasks(D, benc, nFES=nFES)
+			task1, task2 = self.__set_up_task(D, benc, nFES=nFES), self.__set_up_task(D, benc, nFES=nFES)
 			q = Queue(maxsize=2)
 			thread1, thread2 = Thread(target=lambda a, t, q: q.put(a.run(t)), args=(a, task1, q)), Thread(target=lambda a, t, q: q.put(a.run(t)), args=(b, task2, q))
 			thread1.start(), thread2.start()

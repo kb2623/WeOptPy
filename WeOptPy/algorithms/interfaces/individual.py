@@ -57,7 +57,7 @@ class Individual:
 			task (Task): Optimization task.
 			rnd (Optional[rand.RandomState]): Random numbers generator object.
 		"""
-		if task is not None: self.x = task.lower + task.bRange * rnd.rand(task.D)
+		if task is not None: self.x = task.Lower + task.bRange * rnd.rand(task.D)
 
 	def evaluate(self, task, rnd=rand):
 		r"""Evaluate the solution.
@@ -151,7 +151,7 @@ def default_numpy_init(task, n, rnd=rand, **kwargs):
 			1. New population with shape `{n, task.d}`.
 			2. New population function/fitness values.
 	"""
-	pop = task.lower + rnd.rand(n, task.D) * task.bRange
+	pop = task.Lower + rnd.rand(n, task.D) * task.bRange
 	fpop = np.apply_along_axis(task.eval, 1, pop)
 	return pop, fpop
 

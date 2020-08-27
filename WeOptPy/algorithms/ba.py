@@ -23,7 +23,7 @@ class BatAlgorithm(Algorithm):
 		MIT
 
 	Reference paper:
-		Yang, Xin-She. "A new metaheuristic bat-inspired algorithm." Nature inspired cooperative strategies for optimization (NICSO 2010). Springer, Berlin, Heidelberg, 2010. 65-74.
+		Yang, Xin-She. "A new metahevristic bat-inspired algorithm." Nature inspired cooperative strategies for optimization (NICSO 2010). Springer, Berlin, Heidelberg, 2010. 65-74.
 
 	Attributes:
 		Name (List[str]): List of strings representing algorithm name.
@@ -58,7 +58,7 @@ class BatAlgorithm(Algorithm):
 				* Qmax (Callable[[Union[float, int]], bool]): Maximum frequency.
 
 		See Also:
-			 * :func:`NiaPy.algorithms.Algorithm.typeParameters`
+			* :func:`WeOptPy.algorithms.Algorithm.typeParameters`
 		"""
 		d = Algorithm.type_parameters()
 		d.update({
@@ -79,7 +79,7 @@ class BatAlgorithm(Algorithm):
 			Qmax (Optional[float]): Maximum frequency.
 
 		See Also:
-			* :func:`NiaPy.algorithms.Algorithm.setParameters`
+			* :func:`WeOptPy.algorithms.Algorithm.setParameters`
 		"""
 		Algorithm.set_parameters(self, n=n, **ukwargs)
 		self.A, self.r, self.Qmin, self.Qmax = A, r, Qmin, Qmax
@@ -122,7 +122,7 @@ class BatAlgorithm(Algorithm):
 		d.update({'S': S, 'Q': Q, 'v': v})
 		return Sol, Fitness, d
 
-	def localSearch(self, best, task, **kwargs):
+	def local_search(self, best, task, **kwargs):
 		r"""Improve the best solution according to the Yang (2010).
 
 		Args:
@@ -167,11 +167,12 @@ class BatAlgorithm(Algorithm):
 		for i in range(self.NP):
 			Q[i] = self.Qmin + (self.Qmax - self.Qmin) * self.uniform(0, 1)
 			v[i] += (Sol[i] - xb) * Q[i]
-			if self.rand() > self.r: S[i] = self.localSearch(best=xb, task=task, i=i, Sol=Sol)
+			if self.rand() > self.r: S[i] = self.local_search(best=xb, task=task, i=i, Sol=Sol)
 			else: S[i] = task.repair(Sol[i] + v[i], rnd=self.Rand)
 			Fnew = task.eval(S[i])
 			if (Fnew <= Fitness[i]) and (self.rand() < self.A): Sol[i], Fitness[i] = S[i], Fnew
 			if Fnew <= fxb: xb, fxb = S[i].copy(), Fnew
 		return Sol, Fitness, xb, fxb, {'S': S, 'Q': Q, 'v': v}
+
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

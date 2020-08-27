@@ -123,9 +123,9 @@ class ArtificialBeeColonyAlgorithm(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.initPopulation`
 		"""
-		Foods, fpop, _ = Algorithm.init_population(self, task)
-		Probs, Trial = np.full(self.FoodNumber, 0.0), np.full(self.FoodNumber, 0.0)
-		return Foods, fpop, {'probs': Probs, 'trial': Trial}
+		foods, fpop, _ = Algorithm.init_population(self, task)
+		probs, trial = np.full(self.FoodNumber, 0.0), np.full(self.FoodNumber, 0.0)
+		return foods, fpop, {'probs': probs, 'trial': trial}
 
 	def run_iteration(self, task, foods, fpop, xb, fxb, probs, trial, **dparams):
 		r"""Core function of  the algorithm.
@@ -160,7 +160,7 @@ class ArtificialBeeColonyAlgorithm(Algorithm):
 				foods[i], trial[i] = new_solution, 0
 				if new_solution.f < fxb: xb, fxb = new_solution.x.copy(), new_solution.f
 			else: trial[i] += 1
-		probs, t, s = self.calculate_probs(foods, probs), 0, 0
+		probs, t, s = self.calculate_probs(foods), 0, 0
 		while t < self.FoodNumber:
 			if self.rand() < probs[s]:
 				t += 1

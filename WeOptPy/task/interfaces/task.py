@@ -103,7 +103,7 @@ class Task:
 		Returns:
 			numpy.ndarray: Range between lower and upper bound.
 		"""
-		return self.Upper - self.Lower
+		return self.bRange
 
 	def repair(self, x, rnd=rand):
 		r"""Repair solution and put the solution in the random position inside of the bounds of problem.
