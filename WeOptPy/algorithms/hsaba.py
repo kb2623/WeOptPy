@@ -95,7 +95,7 @@ class HybridSelfAdaptiveBatAlgorithm(SelfAdaptiveBatAlgorithm):
 		})
 		return d
 
-	def localSearch(self, best, A, i, Sol, Fitness, task, **kwargs):
+	def local_search(self, best, A, i, Sol, Fitness, task, **kwargs):
 		r"""Improve the best solution.
 
 		Args:

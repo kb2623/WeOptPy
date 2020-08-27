@@ -24,8 +24,12 @@ class ABCTestCase(AlgorithmTestCase):
 
 	def test_custom_works_fine(self):
 		abc_custom = self.algo(NP=10, Limit=2, seed=self.seed)
+		AlgorithmTestCase.test_algorithm_run(self, abc_custom, MyBenchmark())
+
+	def test_custom_works_fine_parallel(self):
+		abc_custom = self.algo(NP=10, Limit=2, seed=self.seed)
 		abc_customc = self.algo(NP=10, Limit=2, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, abc_custom, abc_customc, MyBenchmark())
+		AlgorithmTestCase.test_algorithm_run_parallel(self, abc_custom, abc_customc, MyBenchmark())
 
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

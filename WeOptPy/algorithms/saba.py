@@ -63,22 +63,23 @@ class AdaptiveBatAlgorithm(Algorithm):
 		})
 		return d
 
-	def set_parameters(self, n=100, A=0.5, epsilon=0.001, alpha=1.0, r=0.5, Qmin=0.0, Qmax=2.0, **ukwargs):
+	def set_parameters(self, n=100, a=0.5, epsilon=0.001, alpha=1.0, r=0.5, qmin=0.0, qmax=2.0, **ukwargs):
 		r"""Set the parameters of the algorithm.
 
 		Args:
-			A (Optional[float]): Starting loudness.
+			n (int): Number of individuals in population.
+			a (Optional[float]): Starting loudness.
 			epsilon (Optional[float]): Scaling factor.
 			alpha (Optional[float]): Constant for updating loudness.
 			r (Optional[float]): Pulse rate.
-			Qmin (Optional[float]): Minimum frequency.
-			Qmax (Optional[float]): Maximum frequency.
+			qmin (Optional[float]): Minimum frequency.
+			qmax (Optional[float]): Maximum frequency.
 
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.setParameters`
 		"""
 		Algorithm.set_parameters(self, n=n, **ukwargs)
-		self.A, self.epsilon, self.alpha, self.r, self.Qmin, self.Qmax = A, epsilon, alpha, r, Qmin, Qmax
+		self.A, self.epsilon, self.alpha, self.r, self.Qmin, self.Qmax = a, epsilon, alpha, r, qmin, qmax
 
 	def get_parameters(self):
 		r"""Get algorithm parameters.
@@ -119,12 +120,12 @@ class AdaptiveBatAlgorithm(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.initPopulation`
 		"""
-		Sol, Fitness, d = Algorithm.init_population(self, task)
-		A, S, Q, v = np.full(self.NP, self.A), np.full([self.NP, task.D], 0.0), np.full(self.NP, 0.0), np.full([self.NP, task.D], 0.0)
-		d.update({'A': A, 'S': S, 'Q': Q, 'v': v})
-		return Sol, Fitness, d
+		sol, fitness, d = Algorithm.init_population(self, task)
+		a, s, Q, v = np.full(self.NP, self.A), np.full([self.NP, task.D], 0.0), np.full(self.NP, 0.0), np.full([self.NP, task.D], 0.0)
+		d.update({'a': a, 'S': s, 'Q': Q, 'v': v})
+		return sol, fitness, d
 
-	def localSearch(self, best, A, task, **kwargs):
+	def local_search(self, best, A, task, **kwargs):
 		r"""Improve the best solution according to the Yang (2010).
 
 		Args:
@@ -138,7 +139,7 @@ class AdaptiveBatAlgorithm(Algorithm):
 		"""
 		return task.repair(best + self.epsilon * A * self.normal(0, 1, task.D), rnd=self.Rand)
 
-	def updateLoudness(self, A):
+	def update_loudness(self, A):
 		r"""Update loudness when the prey is found.
 
 		Args:
@@ -155,10 +156,11 @@ class AdaptiveBatAlgorithm(Algorithm):
 
 		Parameters:
 			task (Task): Optimization task.
-			Sol (numpy.ndarray): Current population
-			Fitness (numpy.ndarray[float]): Current population fitness/funciton values
-			best (numpy.ndarray): Current best individual
-			f_min (float): Current best individual function/fitness value
+			Sol (numpy.ndarray): Current population.
+			Fitness (numpy.ndarray[float]): Current population fitness/function values.
+			xb (numpy.ndarray): Current best individual.
+			fxb (float): Current best individual function/fitness value.
+			A (numpy.ndarray): TODO
 			S (numpy.ndarray): TODO
 			Q (numpy.ndarray[float]): TODO
 			v (numpy.ndarray[float]): TODO
@@ -166,8 +168,8 @@ class AdaptiveBatAlgorithm(Algorithm):
 
 		Returns:
 			Tuple[numpy.ndarray, numpy.ndarray[float], Dict[str, Any]]:
-				1. New population
-				2. New population fitness/function vlues
+				1. New population.
+				2. New population fitness/function values.
 				3. Additional arguments:
 					* A (numpy.ndarray[float]): Loudness.
 					* S (numpy.ndarray): TODO
@@ -177,11 +179,11 @@ class AdaptiveBatAlgorithm(Algorithm):
 		for i in range(self.NP):
 			Q[i] = self.Qmin + (self.Qmax - self.Qmin) * self.uniform(0, 1)
 			v[i] += (Sol[i] - xb) * Q[i]
-			if self.rand() > self.r: S[i] = self.localSearch(best=xb, A=A[i], task=task, i=i, Sol=Sol)
+			if self.rand() > self.r: S[i] = self.local_search(best=xb, A=A[i], task=task, i=i, Sol=Sol)
 			else: S[i] = task.repair(Sol[i] + v[i], rnd=self.Rand)
 			Fnew = task.eval(S[i])
 			if (Fnew <= Fitness[i]) and (self.rand() < A[i]): Sol[i], Fitness[i] = S[i], Fnew
-			if Fnew <= fxb: xb, fxb, A[i] = S[i].copy(), Fnew, self.updateLoudness(A[i])
+			if Fnew <= fxb: xb, fxb, A[i] = S[i].copy(), Fnew, self.update_loudness(A[i])
 		return Sol, Fitness, xb, fxb, {'A': A, 'S': S, 'Q': Q, 'v': v}
 
 
@@ -291,7 +293,7 @@ class SelfAdaptiveBatAlgorithm(AdaptiveBatAlgorithm):
 		d.update({'A': A, 'r': r})
 		return Sol, Fitness, d
 
-	def selfAdaptation(self, A, r):
+	def self_adaptation(self, A, r):
 		r"""Adaptation step.
 
 		Args:
@@ -333,14 +335,15 @@ class SelfAdaptiveBatAlgorithm(AdaptiveBatAlgorithm):
 					* v (numpy.ndarray[float]): TODO
 		"""
 		for i in range(self.NP):
-			A[i], r[i] = self.selfAdaptation(A[i], r[i])
+			A[i], r[i] = self.self_adaptation(A[i], r[i])
 			Q[i] = self.Qmin + (self.Qmax - self.Qmin) * self.uniform(0, 1)
 			v[i] += (Sol[i] - xb) * Q[i]
-			if self.rand() > r[i]: S[i] = self.localSearch(best=xb, A=A[i], task=task, i=i, Sol=Sol, Fitness=Fitness)
+			if self.rand() > r[i]: S[i] = self.local_search(best=xb, A=A[i], task=task, i=i, Sol=Sol, Fitness=Fitness)
 			else: S[i] = task.repair(Sol[i] + v[i], rnd=self.Rand)
 			Fnew = task.eval(S[i])
 			if (Fnew <= Fitness[i]) and (self.rand() < (self.A_l - A[i]) / self.A): Sol[i], Fitness[i] = S[i], Fnew
 			if Fnew <= fxb: xb, fxb = S[i].copy(), Fnew
 		return Sol, Fitness, xb, fxb, {'A': A, 'r': r, 'S': S, 'Q': Q, 'v': v}
+
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

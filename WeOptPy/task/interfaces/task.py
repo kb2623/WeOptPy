@@ -23,11 +23,11 @@ class Task:
 		Klemen Berkovič
 
 	Attributes:
-		D (int): Dimension of the problem.
-		Lower (numpy.ndarray): lower bounds of the problem.
-		Upper (numpy.ndarray): upper bounds of the problem.
+		d (int): Dimension of the problem.
+		lower (numpy.ndarray): lower bounds of the problem.
+		upper (numpy.ndarray): upper bounds of the problem.
 		bRange (numpy.ndarray): Search range between upper and lower limits.
-		optType (OptimizationType): Optimization type to use.
+		optimization_type (OptimizationType): Optimization type to use.
 
 	See Also:
 		* :class:`NiaPy.util.Utility`
@@ -37,15 +37,15 @@ class Task:
 	Lower, Upper, bRange = np.inf, np.inf, np.inf
 	optType = OptimizationType.MINIMIZATION
 
-	def __init__(self, D=0, optType=OptimizationType.MINIMIZATION, benchmark=None, Lower=None, Upper=None, frepair=limit_repair, **kwargs):
+	def __init__(self, d=0, optimization_type=OptimizationType.MINIMIZATION, benchmark=None, lower=None, upper=None, frepair=limit_repair, **kwargs):
 		r"""Initialize task class for optimization.
 
 		Args:
-			D (Optional[int]): Number of dimensions.
-			optType (Optional[OptimizationType]): Set the type of optimization.
+			d (Optional[int]): Number of dimensions.
+			optimization_type (Optional[OptimizationType]): Set the type of optimization.
 			benchmark (Union[str, Benchmark]): Problem to solve with optimization.
-			Lower (Optional[numpy.ndarray]): lower limits of the problem.
-			Upper (Optional[numpy.ndarray]): upper limits of the problem.
+			lower (Optional[numpy.ndarray]): lower limits of the problem.
+			upper (Optional[numpy.ndarray]): upper limits of the problem.
 			frepair (Optional[Callable[[numpy.ndarray, numpy.ndarray, numpy.ndarray, Dict[str, Any]], numpy.ndarray]]): Function for reparing individuals components to desired limits.
 			kwargs (Dict[str, Any]): Additional arguments.
 
@@ -54,19 +54,19 @@ class Task:
 			* `func`:NiaPy.util.Utility.repair`
 		"""
 		# dimension of the problem
-		self.D = D
+		self.D = d
 		# set optimization type
-		self.optType = optType
+		self.optType = optimization_type
 		# set optimization function
-		self.benchmark = Factory().get_benchmark(benchmark) if benchmark is not None else None
+		self.benchmark = benchmark
 		if self.benchmark is not None: self.Fun = self.benchmark.function() if self.benchmark is not None else None
 		# set lower limits
-		if Lower is not None: self.Lower = fullArray(Lower, self.D)
-		elif Lower is None and benchmark is not None: self.Lower = fullArray(self.benchmark.Lower, self.D)
+		if lower is not None: self.Lower = fullArray(lower, self.D)
+		elif lower is None and benchmark is not None: self.Lower = fullArray(self.benchmark.Lower, self.D)
 		else: self.Lower = fullArray(0, self.D)
 		# set upper limits
-		if Upper is not None: self.Upper = fullArray(Upper, self.D)
-		elif Upper is None and benchmark is not None: self.Upper = fullArray(self.benchmark.Upper, self.D)
+		if upper is not None: self.Upper = fullArray(upper, self.D)
+		elif upper is None and benchmark is not None: self.Upper = fullArray(self.benchmark.Upper, self.D)
 		else: self.Upper = fullArray(0, self.D)
 		# set range
 		self.bRange = self.Upper - self.Lower
@@ -130,27 +130,27 @@ class Task:
 	def start(self):
 		r"""Start stopwatch."""
 
-	def eval(self, A):
+	def eval(self, x):
 		r"""Evaluate the solution A.
 
 		Args:
-			A (numpy.ndarray): Solution to evaluate.
+			x (numpy.ndarray): Solution to evaluate.
 
 		Returns:
 			float: Fitness/function values of solution.
 		"""
-		return self.Fun(self.D, A) * self.optType.value
+		return self.Fun(x) * self.optType.value
 
-	def is_feasible(self, A):
+	def is_feasible(self, x):
 		r"""Check if the solution is feasible.
 
 		Arguments:
-			A (Union[numpy.ndarray, Individual]): Solution to check for feasibility.
+			x (Union[numpy.ndarray, Individual]): Solution to check for feasibility.
 
 		Returns:
 			bool: `True` if solution is in feasible space else `False`.
 		"""
-		return False not in (A >= self.Lower) and False not in (A <= self.Upper)
+		return False not in (x >= self.Lower) and False not in (x <= self.Upper)
 
 	def stop_cond(self):
 		r"""Check if optimization task should stop.

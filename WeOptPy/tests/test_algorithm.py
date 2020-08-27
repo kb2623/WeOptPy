@@ -9,7 +9,10 @@ import numpy as np
 from numpy import random as rnd
 
 from WeOptPy.util import objects2array
-from WeOptPy.task.interfaces import Task
+from WeOptPy.task.interfaces import (
+	Task,
+	UtilityFunction
+)
 from WeOptPy.task import StoppingTask
 from WeOptPy.algorithms.interfaces import (
 	Algorithm,
@@ -21,7 +24,7 @@ logger = logging.getLogger('NiaPy.test')
 logger.setLevel('INFO')
 
 
-class MyBenchmark:
+class MyBenchmark(UtilityFunction):
 	r"""Testing benchmark class.
 
 	Date:
@@ -34,10 +37,10 @@ class MyBenchmark:
 		* :class:`NiaPy.benchmarks.Benchmark`
 	"""
 	def __init__(self):
-		Benchmark.__init__(self, -5.12, 5.12)
+		UtilityFunction.__init__(self, -5.12, 5.12)
 
 	def function(self):
-		return Sphere(self.Lower, self.Upper).function()
+		return lambda x: np.sum(x ** 3)
 
 
 class IndividualTestCase(TestCase):
@@ -161,13 +164,13 @@ class AlgorithmBaseTestCase(TestCase):
 	def test_init_population_numpy_fine(self):
 		r"""Test if custome generation initialization works ok."""
 		a = Algorithm(NP=10, InitPopFunc=init_pop_numpy)
-		t = Task(D=20, benchmark=MyBenchmark())
+		t = Task(d=20, benchmark=MyBenchmark())
 		self.assertTrue(np.array_equal(np.full((10, t.D), 0.0), a.init_population(t)[0]))
 
 	def test_init_population_individual_fine(self):
 		r"""Test if custome generation initialization works ok."""
 		a = Algorithm(NP=10, InitPopFunc=init_pop_individual, itype=Individual)
-		t = Task(D=20, benchmark=MyBenchmark())
+		t = Task(d=20, benchmark=MyBenchmark())
 		i = Individual(x=np.full(t.D, 0.0), task=t)
 		pop, fpop, d = a.init_population(t)
 		for e in pop: self.assertEqual(i, e)
@@ -252,10 +255,10 @@ class TestingTask(StoppingTask, TestCase):
 		"""
 		return self.benchmark.Name
 
-	def eval(self, A):
+	def eval(self, x):
 		r"""Check if is algorithm trying to evaluate solution out of bounds."""
-		self.assertTrue(self.is_feasible(A), 'Solution %s is not in feasible space!!!' % A)
-		return StoppingTask.eval(self, A)
+		self.assertTrue(self.is_feasible(x), 'Solution %s is not in feasible space!!!' % x)
+		return StoppingTask.eval(self, x)
 
 
 class AlgorithmTestCase(TestCase):
@@ -306,13 +309,33 @@ class AlgorithmTestCase(TestCase):
 			nGEN (int): Number of generations.
 
 		Returns:
-			Tuple[Taks, Taks]: Two testing tasks.
+			Task: Testing task.
 		"""
-		task1, task2 = TestingTask(D=D, nFES=self.nFES if nFES is None else nFES, nGEN=self.nGEN if nGEN is None else nGEN, benchmark=bech), TestingTask(D=D, nFES=self.nFES if nFES is None else nFES, nGEN=self.nGEN if nGEN is None else nGEN, benchmark=bech)
-		return task1, task2
+		return TestingTask(D=D, nFES=self.nFES if nFES is None else nFES, nGEN=self.nGEN if nGEN is None else nGEN, benchmark=bech)
 
-	def test_algorithm_run(self, a=None, b=None, benc='griewank', nFES=None, nGEN=None):
+	def test_algorithm_run(self, a=None, benc='griewank', nFES=None, nGEN=None):
 		r"""Run main testing of algorithm.
+
+		Args:
+			a (Algorithm): First instance of algorithm.
+			benc (Union[Benchmark, str]): Benchmark to use for testing.
+			nFES (int): Number of function evaluations.
+			nGEN (int): Number of algorithm generations/iterations.
+		"""
+		if a is None: return
+		for D in self.D:
+			task = self.setUpTasks(D, benc, nFES=nFES)
+			x = a.run(task)
+			self.assertFalse(a.bad_run(), "Something went wrong at runtime of the algorithm --> %s" % a.exception)
+			self.assertIsNotNone(x), self.assertIsNotNone(y)
+			logger.info('%s\n%s -> %s' % (task.names(), x[0], x[1]))
+			self.assertAlmostEqual(task1.benchmark.function()(D, x[0].x if isinstance(x[0], Individual) else x[0]), x[1], msg='Best individual fitness values does not mach the given one')
+			self.assertAlmostEqual(task.x_f, x[1], msg='While running the algorithm, algorithm got better individual with fitness: %s' % task.x_f)
+			self.assertTrue(self.nFES >= task.Evals)
+			self.assertTrue(self.nGEN >= task.Iters)
+
+	def test_algorithm_run_parallel(self, a=None, b=None, benc='griewank', nFES=None, nGEN=None):
+		r"""Run main testing of algorithm in parallel.
 
 		Args:
 			a (Algorithm): First instance of algorithm.
@@ -323,7 +346,7 @@ class AlgorithmTestCase(TestCase):
 		"""
 		if a is None or b is None: return
 		for D in self.D:
-			task1, task2 = self.setUpTasks(D, benc, nFES=nFES)
+			task1, task2 = self.setUpTasks(D, benc, nFES=nFES), self.setUpTasks(D, benc, nFES=nFES)
 			q = Queue(maxsize=2)
 			thread1, thread2 = Thread(target=lambda a, t, q: q.put(a.run(t)), args=(a, task1, q)), Thread(target=lambda a, t, q: q.put(a.run(t)), args=(b, task2, q))
 			thread1.start(), thread2.start()

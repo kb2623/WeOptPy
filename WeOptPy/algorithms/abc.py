@@ -92,7 +92,7 @@ class ArtificialBeeColonyAlgorithm(Algorithm):
 		Algorithm.set_parameters(self, n=n, init_pop_func=default_individual_init, itype=SolutionABC, **ukwargs)
 		self.FoodNumber, self.Limit = int(self.NP / 2), limit
 
-	def CalculateProbs(self, foods):
+	def calculate_probs(self, foods):
 		r"""Calculate the probes.
 
 		Args:
@@ -102,7 +102,7 @@ class ArtificialBeeColonyAlgorithm(Algorithm):
 			numpy.ndarray: TODO
 		"""
 		probs = [1.0 / (foods[i].f + 0.01) for i in range(self.FoodNumber)]
-		s = sum(probs)
+		s = np.sum(probs)
 		probs = [probs[i] / s for i in range(self.FoodNumber)]
 		return probs
 
@@ -125,7 +125,7 @@ class ArtificialBeeColonyAlgorithm(Algorithm):
 		"""
 		Foods, fpop, _ = Algorithm.init_population(self, task)
 		Probs, Trial = np.full(self.FoodNumber, 0.0), np.full(self.FoodNumber, 0.0)
-		return Foods, fpop, {'Probs': Probs, 'Trial': Trial}
+		return Foods, fpop, {'probs': Probs, 'trial': Trial}
 
 	def run_iteration(self, task, foods, fpop, xb, fxb, probs, trial, **dparams):
 		r"""Core function of  the algorithm.
@@ -160,7 +160,7 @@ class ArtificialBeeColonyAlgorithm(Algorithm):
 				foods[i], trial[i] = new_solution, 0
 				if new_solution.f < fxb: xb, fxb = new_solution.x.copy(), new_solution.f
 			else: trial[i] += 1
-		probs, t, s = self.CalculateProbs(foods, probs), 0, 0
+		probs, t, s = self.calculate_probs(foods, probs), 0, 0
 		while t < self.FoodNumber:
 			if self.rand() < probs[s]:
 				t += 1

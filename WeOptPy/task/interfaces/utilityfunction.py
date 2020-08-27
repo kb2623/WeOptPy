@@ -37,7 +37,7 @@ class UtilityFunction:
 			upper (Union[int, float, list, numpy.ndarray]): Upper bounds.
 			kwargs (Dict[str, Any]): Additional arguments.
 		"""
-		self.lower, self.upper = lower, upper
+		self.Lower, self.Upper = lower, upper
 
 	@staticmethod
 	def latex_code():
@@ -64,7 +64,7 @@ class UtilityFunction:
 			Returns:
 				float: Fitness value for the solution
 			"""
-			return np.inf
+			return np.sum(x ** 2)
 		return fun
 
 	def __call__(self):

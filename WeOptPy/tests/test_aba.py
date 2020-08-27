@@ -14,10 +14,10 @@ class ABATestCase(AlgorithmTestCase):
 		April 2019
 
 	Author:
-		Klemen Berkovic
+		Klemen Berkovič
 
 	See Also:
-		* :class:`NiaPy.algorithms.modified.AdaptiveBatAlgorithm`
+		* :class:`WeOptPy.algorithms.AdaptiveBatAlgorithm`
 	"""
 	def test_algorithm_info(self):
 		"""Test algorithm info method of class AdaptiveBatAlgorithm."""

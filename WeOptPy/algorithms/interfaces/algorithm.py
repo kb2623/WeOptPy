@@ -207,7 +207,7 @@ class Algorithm:
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.setParameters`
 		"""
-		pop, fpop = self.InitPopFunc(task=task, NP=self.NP, rnd=self.Rand, itype=self.itype)
+		pop, fpop = self.InitPopFunc(task=task, n=self.NP, rnd=self.Rand, itype=self.itype)
 		return pop, fpop, {}
 
 	def run_iteration(self, task, pop, fpop, xb, fxb, **dparams):
