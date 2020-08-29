@@ -52,7 +52,7 @@ class Camel(Individual):
 		self.x_past, self.f_past = self.x, self.f
 		self.steps = 0
 
-	def nextT(self, T_min, T_max, rnd=rand):
+	def nextt(self, T_min, T_max, rnd=rand):
 		r"""Apply nextT function on Camel.
 
 		Args:
@@ -62,7 +62,7 @@ class Camel(Individual):
 		"""
 		self.T = (T_max - T_min) * rnd.rand() + T_min
 
-	def nextS(self, omega, n_gens):
+	def nexts(self, omega, n_gens):
 		r"""Apply nextS on Camel.
 
 		Args:
@@ -71,7 +71,7 @@ class Camel(Individual):
 		"""
 		self.S = self.S_past * (1 - omega * self.steps / n_gens)
 
-	def nextE(self, n_gens, T_max):
+	def nexte(self, n_gens, T_max):
 		r"""Apply function nextE on function on Camel.
 
 		Args:
@@ -80,7 +80,7 @@ class Camel(Individual):
 		"""
 		self.E = self.E_past * (1 - self.T / T_max) * (1 - self.steps / n_gens)
 
-	def nextX(self, cb, E_init, S_init, task, rnd=rand):
+	def nextx(self, cb, E_init, S_init, task, rnd=rand):
 		r"""Apply function nextX on Camel.
 
 		This method/function move this Camel to new position in search space.
@@ -220,7 +220,7 @@ class CamelAlgorithm(Algorithm):
 		})
 		return d
 
-	def init_pop(self, task, n, rnd, itype, **kwargs):
+	def init_pop(self, task, n, rnd, itype, *args, **kwargs):
 		r"""Initialize starting population.
 
 		Args:
@@ -228,15 +228,18 @@ class CamelAlgorithm(Algorithm):
 			n (int): Number of camels in population.
 			rnd (mtrand.RandomState): Random number generator.
 			itype (Individual): Individual type.
-			kwargs (Dict[str, Any]): Additional arguments.
+			wargs (list): Additional arguments.
+			kwargs (dict): Additional keyword arguments.
 
 		Returns:
-			Tuple[numpy.ndarray, numpy.ndarray]:
+			Tuple[numpy.ndarray, numpy.ndarray, list, dict]:
 				1. Initialize population of camels.
 				2. Initialized populations function/fitness values.
+				3. Additional arguments.
+				4. Additional keyword arguments.
 		"""
 		caravan = objects2array([itype(E_init=self.E_init, S_init=self.S_init, task=task, rnd=rnd, e=True) for _ in range(n)])
-		return caravan, np.asarray([c.f for c in caravan]), [], {}
+		return caravan, np.asarray([c.f for c in caravan]), args, kwargs
 
 	def walk(self, c, cb, task):
 		r"""Move the camel in search space.
@@ -249,10 +252,10 @@ class CamelAlgorithm(Algorithm):
 		Returns:
 			Camel: Camel that moved in the search space.
 		"""
-		c.nextT(self.T_min, self.T_max, self.Rand)
-		c.nextS(self.omega, task.nGEN)
-		c.nextE(task.nGEN, self.T_max)
-		c.nextX(cb, self.E_init, self.S_init, task, self.Rand)
+		c.nextt(self.T_min, self.T_max, self.Rand)
+		c.nexts(self.omega, task.nGEN)
+		c.nexte(task.nGEN, self.T_max)
+		c.nextx(cb, self.E_init, self.S_init, task, self.Rand)
 		return c
 
 	def oasis(self, c, rn, alpha):
@@ -278,7 +281,7 @@ class CamelAlgorithm(Algorithm):
 			task (Task): Optimization task.
 
 		Returns:
-			Camel: Camel with life cycle applyed to it.
+			Camel: Camel with life cycle applied to it.
 		"""
 		if c.f_past < mu * c.f: return Camel(self.E_init, self.S_init, rnd=self.Rand, task=task)
 		else: return c.next()
@@ -287,7 +290,7 @@ class CamelAlgorithm(Algorithm):
 		r"""Initialize population.
 
 		Args:
-			task (Task): Optimization taks.
+			task (Task): Optimization task.
 
 		Returns:
 			Tuple[numpy.ndarray, numpy.ndarray, list, dict]:
@@ -315,18 +318,20 @@ class CamelAlgorithm(Algorithm):
 			dparams (dict): Additional keyword arguments.
 
 		Returns:
-			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, folat, dict]:
-				1. New population
-				2. New population function/fitness value
-				3. New global best solution
-				4. New global best fitness/objective value
-				5. Additional arguments
+			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, list, dict]:
+				1. New population.
+				2. New population function/fitness value.
+				3. New global best solution.
+				4. New global best fitness/objective value.
+				5. Additional arguments.
+				6. Additional keyword arguments.
 		"""
 		ncaravan = objects2array([self.walk(c, cb, task) for c in caravan])
 		ncaravan = objects2array([self.oasis(c, self.rand(), self.alpha) for c in ncaravan])
 		ncaravan = objects2array([self.life_cycle(c, self.mu, task) for c in ncaravan])
 		fncaravan = np.asarray([c.f for c in ncaravan])
 		cb, fcb = self.get_best(ncaravan, fncaravan, cb, fcb)
-		return ncaravan, fncaravan, cb, fcb, args, {}
+		return ncaravan, fncaravan, cb, fcb, args, dparams
+
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3
