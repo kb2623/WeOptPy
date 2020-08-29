@@ -131,7 +131,7 @@ class Task:
 		r"""Start stopwatch."""
 
 	def eval(self, x):
-		r"""Evaluate the solution A.
+		r"""Evaluate the solution a.
 
 		Args:
 			x (numpy.ndarray): Solution to evaluate.

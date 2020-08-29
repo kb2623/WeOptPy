@@ -26,7 +26,7 @@ class SineCosineAlgorithm(Algorithm):
 		https://www.sciencedirect.com/science/article/pii/S0950705115005043
 
 	Reference paper:
-		Seyedali Mirjalili, SCA: A Sine Cosine Algorithm for solving optimization problems, Knowledge-Based Systems, Volume 96, 2016, Pages 120-133, ISSN 0950-7051, https://doi.org/10.1016/j.knosys.2015.12.022.
+		Seyedali Mirjalili, SCA: a Sine Cosine Algorithm for solving optimization problems, Knowledge-Based Systems, Volume 96, 2016, Pages 120-133, ISSN 0950-7051, https://doi.org/10.1016/j.knosys.2015.12.022.
 
 	Attributes:
 		Name (List[str]): List of string representing algorithm names.
@@ -49,7 +49,7 @@ class SineCosineAlgorithm(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.algorithmInfo`
 		"""
-		return r"""Seyedali Mirjalili, SCA: A Sine Cosine Algorithm for solving optimization problems, Knowledge-Based Systems, Volume 96, 2016, Pages 120-133, ISSN 0950-7051, https://doi.org/10.1016/j.knosys.2015.12.022."""
+		return r"""Seyedali Mirjalili, SCA: a Sine Cosine Algorithm for solving optimization problems, Knowledge-Based Systems, Volume 96, 2016, Pages 120-133, ISSN 0950-7051, https://doi.org/10.1016/j.knosys.2015.12.022."""
 
 	@staticmethod
 	def type_parameters():

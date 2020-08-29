@@ -175,7 +175,7 @@ class AnarchicSocietyOptimization(Algorithm):
 		MIT
 
 	Reference paper:
-		Ahmadi-Javid, Amir. "Anarchic Society Optimization: A human-inspired method." Evolutionary Computation (CEC), 2011 IEEE Congress on. IEEE, 2011.
+		Ahmadi-Javid, Amir. "Anarchic Society Optimization: a human-inspired method." Evolutionary Computation (CEC), 2011 IEEE Congress on. IEEE, 2011.
 
 	Attributes:
 		Name (list of str): List of stings representing name of algorithm.
@@ -309,8 +309,8 @@ class AnarchicSocietyOptimization(Algorithm):
 		Args:
 			i (int): Index of individual for hum we are looking for neighbours.
 			X (numpy.ndarray): Current population.
-			X_f (numpy.ndarray[float]): Current population fitness/function values.
-			rs (numpy.ndarray[float]): Distance between individuals.
+			X_f (numpy.ndarray): Current population fitness/function values.
+			rs (numpy.ndarray): Distance between individuals.
 
 		Returns:
 			numpy.ndarray: Indexes that represent individuals closest to `i`-th individual.
@@ -323,12 +323,12 @@ class AnarchicSocietyOptimization(Algorithm):
 
 		Args:
 			X (numpy.ndarray): Current population.
-			X_f (numpy.ndarray[float]): Current population fitness/function values.
+			X_f (numpy.ndarray): Current population fitness/function values.
 			Xpb (numpy.ndarray): Current population best positions.
-			Xpb_f (numpy.ndarray[float]): Current populations best positions fitness/function values.
+			Xpb_f (numpy.ndarray): Current populations best positions fitness/function values.
 
 		Returns:
-			Tuple[numpy.ndarray, numpy.ndarray[float], numpy.ndarray, float]:
+			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float]:
 				1. New personal best positions for current population.
 				2. New personal best positions function/fitness values for current population.
 				3. New best individual.
@@ -345,10 +345,11 @@ class AnarchicSocietyOptimization(Algorithm):
 			task (Task): Optimization task
 
 		Returns:
-			Tuple[numpy.ndarray, numpy.ndarray, dict]:
+			Tuple[numpy.ndarray, numpy.ndarray, list, dict]:
 				1. Initialized population
 				2. Initialized population fitness/function values
-				3. Dict[str, Any]:
+				3. Additional arguments.
+				4. Additional keyword arguments:
 					* Xpb (numpy.ndarray): Initialized populations best positions.
 					* Xpb_f (numpy.ndarray): Initialized populations best positions function/fitness values.
 					* alpha (numpy.ndarray): TODO.
@@ -360,13 +361,13 @@ class AnarchicSocietyOptimization(Algorithm):
 			* :func:`NiaPy.algorithms.algorithm.Algorithm.initPopulation`
 			* :func:`NiaPy.algorithms.other.aso.AnarchicSocietyOptimization.init`
 		"""
-		X, X_f, d = Algorithm.init_population(self, task)
+		X, X_f, args, d = Algorithm.init_population(self, task)
 		alpha, gamma, theta = self.init(task)
 		Xpb, Xpb_f = self.update_best_and_personal_best(X, X_f, np.full([self.NP, task.D], 0.0), np.full(self.NP, task.optType.value * np.inf))
-		d.update({'Xpb': Xpb, 'Xpb_f': Xpb_f, 'alpha': alpha, 'gamma': gamma, 'theta': theta, 'rs': self.d(task.upper, task.lower)})
-		return X, X_f, d
+		d.update({'Xpb': Xpb, 'Xpb_f': Xpb_f, 'alpha': alpha, 'gamma': gamma, 'theta': theta, 'rs': euclidean(task.Upper, task.Lower)})
+		return X, X_f, args, d
 
-	def run_iteration(self, task, X, X_f, xb, fxb, Xpb, Xpb_f, alpha, gamma, theta, rs, **dparams):
+	def run_iteration(self, task, X, X_f, xb, fxb, Xpb, Xpb_f, alpha, gamma, theta, rs, *args, **dparams):
 		r"""Core function of AnarchicSocietyOptimization algorithm.
 
 		Args:
@@ -380,7 +381,8 @@ class AnarchicSocietyOptimization(Algorithm):
 			alpha (numpy.ndarray): TODO.
 			gamma (numpy.ndarray): TODO.
 			theta (numpy.ndarray): TODO.
-			dparams: Additional arguments.
+			args (list): Additional arguments.
+			dparams (dict): Additional keyword arguments.
 
 		Returns:
 			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, dict]:
@@ -388,7 +390,8 @@ class AnarchicSocietyOptimization(Algorithm):
 				2. Initialized population fitness/function values
 				3. New global best solution
 				4. New global best solutions fitness/objective value
-				5. Dict[str, Union[float, int, numpy.ndarray]:
+				5. Additional arguments.
+				6. Additional keyword arguments:
 					* Xpb (numpy.ndarray): Initialized populations best positions.
 					* Xpb_f (numpy.ndarray): Initialized populations best positions function/fitness values.
 					* alpha (numpy.ndarray): TODO.
@@ -402,7 +405,7 @@ class AnarchicSocietyOptimization(Algorithm):
 		X, X_f = np.asarray([Xtmp[i][0] for i in range(len(X))]), np.asarray([Xtmp[i][1] for i in range(len(X))])
 		Xpb, Xpb_f = self.update_best_and_personal_best(X, X_f, Xpb, Xpb_f)
 		xb, fxb = self.get_best(X, X_f, xb, fxb)
-		return X, X_f, xb, fxb, {'Xpb': Xpb, 'Xpb_f': Xpb_f, 'alpha': alpha, 'gamma': gamma, 'theta': theta, 'rs': rs}
+		return X, X_f, xb, fxb, args, {'Xpb': Xpb, 'Xpb_f': Xpb_f, 'alpha': alpha, 'gamma': gamma, 'theta': theta, 'rs': rs}
 
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

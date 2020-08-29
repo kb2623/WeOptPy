@@ -178,7 +178,7 @@ intersphinx_mapping = {'https://docs.python.org/': None}
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = True
 
-# A boolean that decides whether parentheses are appended to function and method role text (e.g. the content of :func:`input`) to signify that the name is callable. Default is True
+# a boolean that decides whether parentheses are appended to function and method role text (e.g. the content of :func:`input`) to signify that the name is callable. Default is True
 add_function_parentheses = True
 
 # Napolen settings

@@ -64,7 +64,7 @@ class SelfAdaptiveDifferentialEvolution(DifferentialEvolution):
 		MIT
 
 	Reference paper:
-		Brest, J., Greiner, S., Boskovic, B., Mernik, M., Zumer, V. Self-adapting control parameters in differential evolution: A comparative study on numerical benchmark problems. IEEE transactions on evolutionary computation, 10(6), 646-657, 2006.
+		Brest, J., Greiner, S., Boskovic, B., Mernik, M., Zumer, V. Self-adapting control parameters in differential evolution: a comparative study on numerical benchmark problems. IEEE transactions on evolutionary computation, 10(6), 646-657, 2006.
 
 	Attributes:
 		Name (List[str]): List of strings representing algorithm name
@@ -85,7 +85,7 @@ class SelfAdaptiveDifferentialEvolution(DifferentialEvolution):
 		Returns:
 			str: Algorithm information.
 		"""
-		return r"""Brest, J., Greiner, S., Boskovic, B., Mernik, M., Zumer, V. Self-adapting control parameters in differential evolution: A comparative study on numerical benchmark problems. IEEE transactions on evolutionary computation, 10(6), 646-657, 2006."""
+		return r"""Brest, J., Greiner, S., Boskovic, B., Mernik, M., Zumer, V. Self-adapting control parameters in differential evolution: a comparative study on numerical benchmark problems. IEEE transactions on evolutionary computation, 10(6), 646-657, 2006."""
 
 	@staticmethod
 	def type_parameters():

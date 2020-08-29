@@ -22,7 +22,7 @@ class HybridSelfAdaptiveBatAlgorithm(SelfAdaptiveBatAlgorithm):
 		MIT
 
 	Reference paper:
-		Fister, Iztok, Simon Fong, and Janez Brest. "A novel hybrid self-adaptive bat algorithm." The Scientific World Journal 2014 (2014).
+		Fister, Iztok, Simon Fong, and Janez Brest. "a novel hybrid self-adaptive bat algorithm." The Scientific World Journal 2014 (2014).
 
 	Reference URL:
 		https://www.hindawi.com/journals/tswj/2014/709738/cta/
@@ -45,7 +45,7 @@ class HybridSelfAdaptiveBatAlgorithm(SelfAdaptiveBatAlgorithm):
 		Returns:
 			str: Basic information.
 		"""
-		return r"""Fister, Iztok, Simon Fong, and Janez Brest. "A novel hybrid self-adaptive bat algorithm." The Scientific World Journal 2014 (2014)."""
+		return r"""Fister, Iztok, Simon Fong, and Janez Brest. "a novel hybrid self-adaptive bat algorithm." The Scientific World Journal 2014 (2014)."""
 
 	@staticmethod
 	def type_parameters():

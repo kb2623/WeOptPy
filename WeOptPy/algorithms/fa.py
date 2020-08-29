@@ -23,7 +23,7 @@ class FireflyAlgorithm(Algorithm):
 		MIT
 
 	Reference paper:
-		Fister, I., Fister Jr, I., Yang, X. S., & Brest, J. (2013). A comprehensive review of firefly algorithms. Swarm and Evolutionary Computation, 13, 34-46.
+		Fister, I., Fister Jr, I., Yang, X. S., & Brest, J. (2013). a comprehensive review of firefly algorithms. Swarm and Evolutionary Computation, 13, 34-46.
 
 	Attributes:
 		Name (List[str]): List of strings representing algorithm name.

@@ -92,7 +92,7 @@ class AdaptiveBatAlgorithm(Algorithm):
 		"""
 		d = Algorithm.get_parameters(self)
 		d.update({
-			'A': self.A,
+			'a': self.A,
 			'epsilon': self.epsilon,
 			'alpha': self.alpha,
 			'r': self.r,
@@ -108,11 +108,12 @@ class AdaptiveBatAlgorithm(Algorithm):
 			task (Task): Optimization task
 
 		Returns:
-			Tuple[numpy.ndarray, numpy.ndarray[float], Dict[str, Any]]:
+			Tuple[numpy.ndarray, numpy.ndarray[float], list, dict]:
 				1. New population.
 				2. New population fitness/function values.
-				3. Additional arguments:
-					* A (float): Loudness.
+				3. Additional arguments.
+				4. Additional keyword arguments:
+					* a (float): Loudness.
 					* S (numpy.ndarray): TODO
 					* Q (numpy.ndarray[float]): 	TODO
 					* v (numpy.ndarray[float]): TODO
@@ -120,38 +121,38 @@ class AdaptiveBatAlgorithm(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.initPopulation`
 		"""
-		sol, fitness, d = Algorithm.init_population(self, task)
+		sol, fitness, args, d = Algorithm.init_population(self, task)
 		a, s, Q, v = np.full(self.NP, self.A), np.full([self.NP, task.D], 0.0), np.full(self.NP, 0.0), np.full([self.NP, task.D], 0.0)
 		d.update({'a': a, 'S': s, 'Q': Q, 'v': v})
-		return sol, fitness, d
+		return sol, fitness, args, d
 
-	def local_search(self, best, A, task, **kwargs):
+	def local_search(self, best, a, task, **kwargs):
 		r"""Improve the best solution according to the Yang (2010).
 
 		Args:
 			best (numpy.ndarray): Global best individual.
-			A (float): Loudness.
+			a (float): Loudness.
 			task (Task): Optimization task.
 			kwargs (Dict[str, Any]): Additional arguments.
 
 		Returns:
 			numpy.ndarray: New solution based on global best individual.
 		"""
-		return task.repair(best + self.epsilon * A * self.normal(0, 1, task.D), rnd=self.Rand)
+		return task.repair(best + self.epsilon * a * self.normal(0, 1, task.D), rnd=self.Rand)
 
-	def update_loudness(self, A):
+	def update_loudness(self, a):
 		r"""Update loudness when the prey is found.
 
 		Args:
-			A (float): Loudness.
+			a (float): Loudness.
 
 		Returns:
 			float: New loudness.
 		"""
-		nA = A * self.alpha
-		return nA if nA > 1e-13 else self.A
+		na = a * self.alpha
+		return na if na > 1e-13 else self.A
 
-	def run_iteration(self, task, Sol, Fitness, xb, fxb, A, S, Q, v, **dparams):
+	def run_iteration(self, task, Sol, Fitness, xb, fxb, a, S, Q, v, *args, **dparams):
 		r"""Core function of Bat Algorithm.
 
 		Parameters:
@@ -160,31 +161,33 @@ class AdaptiveBatAlgorithm(Algorithm):
 			Fitness (numpy.ndarray[float]): Current population fitness/function values.
 			xb (numpy.ndarray): Current best individual.
 			fxb (float): Current best individual function/fitness value.
-			A (numpy.ndarray): TODO
+			a (numpy.ndarray): TODO
 			S (numpy.ndarray): TODO
 			Q (numpy.ndarray[float]): TODO
 			v (numpy.ndarray[float]): TODO
-			dparams (Dict[str, Any]): Additional algorithm arguments
+			args (list): Additional arguments.
+			dparams (dict): Additional keyword algorithm arguments.
 
 		Returns:
-			Tuple[numpy.ndarray, numpy.ndarray[float], Dict[str, Any]]:
+			Tuple[numpy.ndarray, numpy.ndarray, list, dict]:
 				1. New population.
 				2. New population fitness/function values.
-				3. Additional arguments:
-					* A (numpy.ndarray[float]): Loudness.
+				3. Additional arguments.
+				4. Additional keyword arguments:
+					* a (numpy.ndarray): Loudness.
 					* S (numpy.ndarray): TODO
-					* Q (numpy.ndarray[float]): TODO
-					* v (numpy.ndarray[float]): TODO
+					* Q (numpy.ndarray): TODO
+					* v (numpy.ndarray): TODO
 		"""
 		for i in range(self.NP):
 			Q[i] = self.Qmin + (self.Qmax - self.Qmin) * self.uniform(0, 1)
 			v[i] += (Sol[i] - xb) * Q[i]
-			if self.rand() > self.r: S[i] = self.local_search(best=xb, A=A[i], task=task, i=i, Sol=Sol)
+			if self.rand() > self.r: S[i] = self.local_search(best=xb, a=a[i], task=task, i=i, Sol=Sol)
 			else: S[i] = task.repair(Sol[i] + v[i], rnd=self.Rand)
 			Fnew = task.eval(S[i])
-			if (Fnew <= Fitness[i]) and (self.rand() < A[i]): Sol[i], Fitness[i] = S[i], Fnew
-			if Fnew <= fxb: xb, fxb, A[i] = S[i].copy(), Fnew, self.update_loudness(A[i])
-		return Sol, Fitness, xb, fxb, {'A': A, 'S': S, 'Q': Q, 'v': v}
+			if (Fnew <= Fitness[i]) and (self.rand() < a[i]): Sol[i], Fitness[i] = S[i], Fnew
+			if Fnew <= fxb: xb, fxb, a[i] = S[i].copy(), Fnew, self.update_loudness(a[i])
+		return Sol, Fitness, xb, fxb, args, {'a': a, 'S': S, 'Q': Q, 'v': v}
 
 
 class SelfAdaptiveBatAlgorithm(AdaptiveBatAlgorithm):
@@ -203,7 +206,7 @@ class SelfAdaptiveBatAlgorithm(AdaptiveBatAlgorithm):
 		MIT
 
 	Reference paper:
-		Fister Jr., Iztok and Fister, Dusan and Yang, Xin-She. "A Hybrid Bat Algorithm". Elektrotehniski vestnik, 2013. 1-7.
+		Fister Jr., Iztok and Fister, Dusan and Yang, Xin-She. "a Hybrid Bat Algorithm". Elektrotehniski vestnik, 2013. 1-7.
 
 	Attributes:
 		Name (List[str]): List of strings representing algorithm name.
@@ -226,7 +229,7 @@ class SelfAdaptiveBatAlgorithm(AdaptiveBatAlgorithm):
 		Returns:
 			str: Basic information.
 		"""
-		return r"""Fister Jr., Iztok and Fister, Dusan and Yang, Xin-She. "A Hybrid Bat Algorithm". Elektrotehniski vestnik, 2013. 1-7."""
+		return r"""Fister Jr., Iztok and Fister, Dusan and Yang, Xin-She. "a Hybrid Bat Algorithm". Elektrotehniski vestnik, 2013. 1-7."""
 
 	@staticmethod
 	def type_parameters():
@@ -239,7 +242,7 @@ class SelfAdaptiveBatAlgorithm(AdaptiveBatAlgorithm):
 			* :func:`NiaPy.algorithms.basic.BatAlgorithm.typeParameters`
 		"""
 		d = AdaptiveBatAlgorithm.type_parameters()
-		d.pop('A', None), d.pop('r', None)
+		d.pop('a', None), d.pop('r', None)
 		d.update({
 			'A_l': lambda x: isinstance(x, (float, int)) and x >= 0,
 			'A_u': lambda x: isinstance(x, (float, int)) and x >= 0,
@@ -288,16 +291,30 @@ class SelfAdaptiveBatAlgorithm(AdaptiveBatAlgorithm):
 		return d
 
 	def init_population(self, task):
-		Sol, Fitness, d = AdaptiveBatAlgorithm.init_population(self, task)
-		A, r = np.full(self.NP, self.A), np.full(self.NP, self.r)
-		d.update({'A': A, 'r': r})
-		return Sol, Fitness, d
+		r"""Initialize initial population.
 
-	def self_adaptation(self, A, r):
+		Args:
+			task (Task): Optimization task.
+
+		Returns:
+			Tuple[numpy.ndarray, numpy.ndarray, list, dict]:
+				1. New population.
+				2. New population fitness/function values.
+				3. Additional arguments.
+				4. Additional keyword arguments:
+					* a (numpy.ndarray): Populations loudness.
+					* r (numpy.ndarray): TODO
+		"""
+		Sol, Fitness, args, d = AdaptiveBatAlgorithm.init_population(self, task)
+		A, r = np.full(self.NP, self.A), np.full(self.NP, self.r)
+		d.update({'a': A, 'r': r})
+		return Sol, Fitness, args, d
+
+	def self_adaptation(self, a, r):
 		r"""Adaptation step.
 
 		Args:
-			A (float): Current loudness.
+			a (float): Current loudness.
 			r (float): Current pulse rate.
 
 		Returns:
@@ -305,34 +322,36 @@ class SelfAdaptiveBatAlgorithm(AdaptiveBatAlgorithm):
 				1. New loudness.
 				2. Nwq pulse rate.
 		"""
-		return self.A_l + self.rand() * (self.A_u - self.A_l) if self.rand() < self.tao_1 else A, self.r_l + self.rand() * (self.r_u - self.r_l) if self.rand() < self.tao_2 else r
+		return self.A_l + self.rand() * (self.A_u - self.A_l) if self.rand() < self.tao_1 else a, self.r_l + self.rand() * (self.r_u - self.r_l) if self.rand() < self.tao_2 else r
 
-	def run_iteration(self, task, Sol, Fitness, xb, fxb, A, r, S, Q, v, **dparams):
+	def run_iteration(self, task, Sol, Fitness, xb, fxb, A, r, S, Q, v, *args, **dparams):
 		r"""Core function of Bat Algorithm.
 
 		Parameters:
 			task (Task): Optimization task.
 			Sol (numpy.ndarray): Current population
-			Fitness (numpy.ndarray[float]): Current population fitness/funciton values
+			Fitness (numpy.ndarray[float]): Current population fitness/function values
 			xb (numpy.ndarray): Current best individual
 			fxb (float): Current best individual function/fitness value
-			A (numpy.ndarray[flaot]): Loudness of individuals.
-			r (numpy.ndarray[float[): Pulse rate of individuals.
+			A (numpy.ndarray): Loudness of individuals.
+			r (numpy.ndarray): Pulse rate of individuals.
 			S (numpy.ndarray): TODO
-			Q (numpy.ndarray[float]): TODO
-			v (numpy.ndarray[float]): TODO
-			dparams (Dict[str, Any]): Additional algorithm arguments
+			Q (numpy.ndarray): TODO
+			v (numpy.ndarray): TODO
+			args (list): Additional arguments.
+			dparams (dict): Additional algorithm keyword arguments.
 
 		Returns:
-			Tuple[numpy.ndarray, numpy.ndarray[float], Dict[str, Any]]:
-				1. New population
-				2. New population fitness/function vlues
-				3. Additional arguments:
-					* A (numpy.ndarray[float]): Loudness.
-					* r (numpy.ndarray[float]): Pulse rate.
+			Tuple[numpy.ndarray, numpy.ndarray, list, dict]:
+				1. New population.
+				2. New population fitness/function values.
+				3. Additional arguments.
+				4. Additional keyword arguments:
+					* a (numpy.ndarray): Loudness.
+					* r (numpy.ndarray): Pulse rate.
 					* S (numpy.ndarray): TODO
-					* Q (numpy.ndarray[float]): TODO
-					* v (numpy.ndarray[float]): TODO
+					* Q (numpy.ndarray): TODO
+					* v (numpy.ndarray): TODO
 		"""
 		for i in range(self.NP):
 			A[i], r[i] = self.self_adaptation(A[i], r[i])
@@ -343,7 +362,7 @@ class SelfAdaptiveBatAlgorithm(AdaptiveBatAlgorithm):
 			Fnew = task.eval(S[i])
 			if (Fnew <= Fitness[i]) and (self.rand() < (self.A_l - A[i]) / self.A): Sol[i], Fitness[i] = S[i], Fnew
 			if Fnew <= fxb: xb, fxb = S[i].copy(), Fnew
-		return Sol, Fitness, xb, fxb, {'A': A, 'r': r, 'S': S, 'Q': Q, 'v': v}
+		return Sol, Fitness, xb, fxb, args, {'a': A, 'r': r, 'S': S, 'Q': Q, 'v': v}
 
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

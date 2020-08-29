@@ -24,7 +24,7 @@ class BeesAlgorithm(Algorithm):
 		MIT
 
 	Reference paper:
-		DT Pham, A Ghanbarzadeh, E Koc, S Otri, S Rahim, and M Zaidi. The bees algorithm-a novel tool for complex optimisation problems. In Proceedings of the 2nd Virtual International Conference on Intelligent Production Machines and Systems (IPROMS 2006), pages 454–459, 2006
+		DT Pham, a Ghanbarzadeh, E Koc, S Otri, S Rahim, and M Zaidi. The bees algorithm-a novel tool for complex optimisation problems. In Proceedings of the 2nd Virtual International Conference on Intelligent Production Machines and Systems (IPROMS 2006), pages 454–459, 2006
 
 	Attributes:
 		n (Optional[int]): Number of scout bees parameter.
@@ -43,10 +43,10 @@ class BeesAlgorithm(Algorithm):
 	@staticmethod
 	def algorithm_info():
 		return r"""
-			Description: A new population-based search algorithm called the Bees Algorithm (BA) is presented. The algorithm mimics the food foraging behaviour of swarms of honey bees.
-			Authors: d.T. Pham, A. Ghanbarzadeh,  E. Koç, S. Otri,  S. Rahim, M. Zaidi
+			Description: a new population-based search algorithm called the Bees Algorithm (BA) is presented. The algorithm mimics the food foraging behaviour of swarms of honey bees.
+			Authors: d.T. Pham, a. Ghanbarzadeh,  E. Koç, S. Otri,  S. Rahim, M. Zaidi
 			Year: 2006
-			Main reference: DT Pham, A Ghanbarzadeh, E Koc, S Otri, S Rahim, and M Zaidi. The bees algorithm-a novel tool for complex optimisation problems. In Proceedings of the 2nd Virtual International Conference on Intelligent Production Machines and Systems (IPROMS 2006), pages 454–459, 2006
+			Main reference: DT Pham, a Ghanbarzadeh, E Koc, S Otri, S Rahim, and M Zaidi. The bees algorithm-a novel tool for complex optimisation problems. In Proceedings of the 2nd Virtual International Conference on Intelligent Production Machines and Systems (IPROMS 2006), pages 454–459, 2006
 		"""
 
 	@staticmethod
@@ -110,13 +110,13 @@ class BeesAlgorithm(Algorithm):
 		})
 		return d
 
-	def beeDance(self, x, task, ngh):
+	def bee_dance(self, x, task, ngh):
 		r"""Bees Dance. Search for new positions.
 
 		Args:
 			x (numpy.ndarray): One instance from the population.
 			task (Task): Optimization task
-			ngh (float): A small value for patch search.
+			ngh (float): a small value for patch search.
 
 		Returns:
 			Tuple[numpy.ndarray, float]:
@@ -140,21 +140,23 @@ class BeesAlgorithm(Algorithm):
 			task (Task): Optimization task
 
 		Returns:
-			Tuple[numpy.ndarray, numpy.ndarray, Dict[str, Any]]:
+			Tuple[numpy.ndarray, numpy.ndarray, list, dict]:
 				1. New population.
 				2. New population fitness/function values.
+				3. Additional arguments.
+				4. Additional keyword arguments.
 
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.initPopulation`
 		"""
-		BeesPosition, BeesCost, _ = Algorithm.init_population(self, task)
+		BeesPosition, BeesCost, args, _ = Algorithm.init_population(self, task)
 		idxs = np.argsort(BeesCost)
 		BeesCost = BeesCost[idxs]
 		BeesPosition = BeesPosition[idxs, :]
 
-		return BeesPosition, BeesCost, {'ngh': self.ngh}
+		return BeesPosition, BeesCost, args, {'ngh': self.ngh}
 
-	def run_iteration(self, task, BeesPosition, BeesCost, xb, fxb, ngh, **dparams):
+	def run_iteration(self, task, BeesPosition, BeesCost, xb, fxb, ngh, *args, **dparams):
 		r"""Core function of Forest Optimization Algorithm.
 
 		Args:
@@ -163,45 +165,38 @@ class BeesAlgorithm(Algorithm):
 			BeesCost (numpy.ndarray[float]): Current population function/fitness values.
 			xb (numpy.ndarray): Global best individual.
 			fxb (float): Global best individual fitness/function value.
-			ngh (float): A small value used for patches.
-			dparams (Dict[str, Any]): Additional arguments.
+			ngh (float): a small value used for patches.
+			args (list): Additional arguments.
+			dparams (dict): Additional keyword arguments.
 
 		Returns:
-			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, Dict[str, Any]]:
+			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, list, dict]:
 				1. New population.
 				2. New population fitness/function values.
 				3. New global best solution
 				4. New global best fitness/objective value
-				5. Additional arguments:
-					* ngh (float): A small value used for patches.
+				5. Additional arguments.
+				6. Additional keyword arguments:
+					* ngh (float): a small value used for patches.
 		"""
 		for ies in range(self.e):
 			BestBeeCost = float('inf')
 			for ieb in range(self.nep):
-				NewBeePos, NewBeeCost = self.beeDance(BeesPosition[ies, :], task, ngh)
-				if NewBeeCost < BestBeeCost:
-					BestBeeCost = NewBeeCost
-					BestBeePos = NewBeePos
+				NewBeePos, NewBeeCost = self.bee_dance(BeesPosition[ies, :], task, ngh)
+				if NewBeeCost < BestBeeCost: BestBeeCost, BestBeePos = NewBeeCost, NewBeePos
 			if BestBeeCost < BeesCost[ies]:
-				BeesPosition[ies, :] = BestBeePos
-				BeesCost[ies] = BestBeeCost
+				BeesPosition[ies, :], BeesCost[ies] = BestBeePos, BestBeeCost
 		for ies in range(self.e, self.m):
 			BestBeeCost = float('inf')
 			for ieb in range(self.nsp):
-				NewBeePos, NewBeeCost = self.beeDance(BeesPosition[ies, :], task, ngh)
-				if NewBeeCost < BestBeeCost:
-					BestBeeCost = NewBeeCost
-					BestBeePos = NewBeePos
-			if BestBeeCost < BeesCost[ies]:
-				BeesPosition[ies, :] = BestBeePos
-				BeesCost[ies] = BestBeeCost
+				NewBeePos, NewBeeCost = self.bee_dance(BeesPosition[ies, :], task, ngh)
+				if NewBeeCost < BestBeeCost: BestBeeCost, BestBeePos = NewBeeCost, NewBeePos
+			if BestBeeCost < BeesCost[ies]: BeesPosition[ies, :], BeesCost[ies] = BestBeePos, BestBeeCost
 		for ies in range(self.m, self.n):
-			BeesPosition[ies, :] = np.array(self.uniform(task.lower, task.upper, task.D))
-			BeesCost[ies] = task.eval(BeesPosition[ies, :])
+			BeesPosition[ies, :], BeesCost[ies] = np.array(self.uniform(task.lower, task.upper, task.D)), task.eval(BeesPosition[ies, :])
 		idxs = np.argsort(BeesCost)
-		BeesCost = BeesCost[idxs]
-		BeesPosition = BeesPosition[idxs, :]
+		BeesCost, BeesPosition = BeesCost[idxs], BeesPosition[idxs, :]
 		ngh = ngh * 0.95
-		return BeesPosition, BeesCost, BeesPosition[0].copy(), BeesCost[0], {'ngh': ngh}
+		return BeesPosition, BeesCost, BeesPosition[0].copy(), BeesCost[0], args, {'ngh': ngh}
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

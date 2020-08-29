@@ -199,14 +199,14 @@ class CamelAlgorithm(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.setParameters`
 		"""
-		Algorithm.set_parameters(self, n=n, itype=Camel, init_pop_func=ukwargs.pop('init_pop_func', self.initPop), **ukwargs)
+		Algorithm.set_parameters(self, n=n, itype=Camel, init_pop_func=ukwargs.pop('init_pop_func', self.init_pop), **ukwargs)
 		self.omega, self.mu, self.alpha, self.S_init, self.E_init, self.T_min, self.T_max = omega, mu, alpha, S_init, E_init, T_min, T_max
 
 	def get_parameters(self):
 		r"""Get parameters of the algorithm.
 
 		Returns:
-			 Dict[str, Any]:
+			Dict[str, Any]:
 		"""
 		d = Algorithm.get_parameters(self)
 		d.update({
@@ -220,12 +220,12 @@ class CamelAlgorithm(Algorithm):
 		})
 		return d
 
-	def initPop(self, task, NP, rnd, itype, **kwargs):
+	def init_pop(self, task, n, rnd, itype, **kwargs):
 		r"""Initialize starting population.
 
 		Args:
 			task (Task): Optimization task.
-			NP (int): Number of camels in population.
+			n (int): Number of camels in population.
 			rnd (mtrand.RandomState): Random number generator.
 			itype (Individual): Individual type.
 			kwargs (Dict[str, Any]): Additional arguments.
@@ -235,8 +235,8 @@ class CamelAlgorithm(Algorithm):
 				1. Initialize population of camels.
 				2. Initialized populations function/fitness values.
 		"""
-		caravan = objects2array([itype(E_init=self.E_init, S_init=self.S_init, task=task, rnd=rnd, e=True) for _ in range(NP)])
-		return caravan, np.asarray([c.f for c in caravan])
+		caravan = objects2array([itype(E_init=self.E_init, S_init=self.S_init, task=task, rnd=rnd, e=True) for _ in range(n)])
+		return caravan, np.asarray([c.f for c in caravan]), [], {}
 
 	def walk(self, c, cb, task):
 		r"""Move the camel in search space.
@@ -269,7 +269,7 @@ class CamelAlgorithm(Algorithm):
 		if rn > 1 - alpha and c.f < c.f_past: c.refill(self.S_init, self.E_init)
 		return c
 
-	def lifeCycle(self, c, mu, task):
+	def life_cycle(self, c, mu, task):
 		r"""Apply life cycle to Camel.
 
 		Args:
@@ -290,18 +290,19 @@ class CamelAlgorithm(Algorithm):
 			task (Task): Optimization taks.
 
 		Returns:
-			Tuple[numpy.ndarray[Camel], numpy.ndarray[float], dict]:
+			Tuple[numpy.ndarray, numpy.ndarray, list, dict]:
 				1. New population of Camels.
 				2. New population fitness/function values.
 				3. Additional arguments.
+				4. Additional keyword arguments.
 
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.initPopulation`
 		"""
-		caravan, fcaravan, _ = Algorithm.init_population(self, task)
-		return caravan, fcaravan, {}
+		caravan, fcaravan, args, kwargs = Algorithm.init_population(self, task)
+		return caravan, fcaravan, args, kwargs
 
-	def run_iteration(self, task, caravan, fcaravan, cb, fcb, **dparams):
+	def run_iteration(self, task, caravan, fcaravan, cb, fcb, *args, **dparams):
 		r"""Core function of Camel Algorithm.
 
 		Args:
@@ -310,7 +311,8 @@ class CamelAlgorithm(Algorithm):
 			fcaravan (numpy.ndarray[float]): Current population fitness/function values.
 			cb (Camel): Current best Camel.
 			fcb (float): Current best Camel fitness/function value.
-			dparams (Dict[str, Any]): Additional arguments.
+			args (list): Additional arguments.
+			dparams (dict): Additional keyword arguments.
 
 		Returns:
 			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, folat, dict]:
@@ -322,9 +324,9 @@ class CamelAlgorithm(Algorithm):
 		"""
 		ncaravan = objects2array([self.walk(c, cb, task) for c in caravan])
 		ncaravan = objects2array([self.oasis(c, self.rand(), self.alpha) for c in ncaravan])
-		ncaravan = objects2array([self.lifeCycle(c, self.mu, task) for c in ncaravan])
+		ncaravan = objects2array([self.life_cycle(c, self.mu, task) for c in ncaravan])
 		fncaravan = np.asarray([c.f for c in ncaravan])
 		cb, fcb = self.get_best(ncaravan, fncaravan, cb, fcb)
-		return ncaravan, fncaravan, cb, fcb, {}
+		return ncaravan, fncaravan, cb, fcb, args, {}
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

@@ -35,7 +35,7 @@ class StrategyAdaptationDifferentialEvolution(DifferentialEvolution):
         https://ieeexplore.ieee.org/document/1554904
 
     Reference paper:
-        Qin, A. Kai, and Ponnuthurai N. Suganthan. "Self-adaptive differential evolution algorithm for numerical optimization." 2005 IEEE congress on evolutionary computation. Vol. 2. IEEE, 2005.
+        Qin, a. Kai, and Ponnuthurai N. Suganthan. "Self-adaptive differential evolution algorithm for numerical optimization." 2005 IEEE congress on evolutionary computation. Vol. 2. IEEE, 2005.
 
     Attributes:
         Name (List[str]): List of strings representing algorithm name.
@@ -55,7 +55,7 @@ class StrategyAdaptationDifferentialEvolution(DifferentialEvolution):
         See Also:
             :func:`NiaPy.algorithms.algorithm.Algorithm.algorithmInfo`
         """
-        return r"""Qin, A. Kai, and Ponnuthurai N. Suganthan. "Self-adaptive differential evolution algorithm for numerical optimization." 2005 IEEE congress on evolutionary computation. Vol. 2. IEEE, 2005."""
+        return r"""Qin, a. Kai, and Ponnuthurai N. Suganthan. "Self-adaptive differential evolution algorithm for numerical optimization." 2005 IEEE congress on evolutionary computation. Vol. 2. IEEE, 2005."""
 
     def set_parameters(self, **kwargs):
         DifferentialEvolution.set_parameters(self, **kwargs)
@@ -90,7 +90,7 @@ class StrategyAdaptationDifferentialEvolutionV1(DifferentialEvolution):
         https://ieeexplore.ieee.org/document/4632146
 
     Reference paper:
-        Qin, A. Kai, Vicky Ling Huang, and Ponnuthurai N. Suganthan. "Differential evolution algorithm with strategy adaptation for global numerical optimization." IEEE transactions on Evolutionary Computation 13.2 (2009): 398-417.
+        Qin, a. Kai, Vicky Ling Huang, and Ponnuthurai N. Suganthan. "Differential evolution algorithm with strategy adaptation for global numerical optimization." IEEE transactions on Evolutionary Computation 13.2 (2009): 398-417.
 
     Attributes:
         Name (List[str]): List of strings representing algorithm name.
@@ -110,7 +110,7 @@ class StrategyAdaptationDifferentialEvolutionV1(DifferentialEvolution):
         See Also:
             :func:`NiaPy.algorithms.algorithm.Algorithm.algorithmInfo`
         """
-        return r"""Qin, A. Kai, Vicky Ling Huang, and Ponnuthurai N. Suganthan. "Differential evolution algorithm with strategy adaptation for global numerical optimization." IEEE transactions on Evolutionary Computation 13.2 (2009): 398-417."""
+        return r"""Qin, a. Kai, Vicky Ling Huang, and Ponnuthurai N. Suganthan. "Differential evolution algorithm with strategy adaptation for global numerical optimization." IEEE transactions on Evolutionary Computation 13.2 (2009): 398-417."""
 
     def set_parameters(self, **kwargs):
         DifferentialEvolution.set_parameters(self, **kwargs)

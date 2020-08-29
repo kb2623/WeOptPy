@@ -61,7 +61,7 @@ class GreyWolfOptimizer(Algorithm):
 				1. Initialized population.
 				2. Initialized populations fitness/function values.
 				3. Additional arguments:
-					* A (): TODO
+					* a (): TODO
 
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.initPopulation`
@@ -69,7 +69,7 @@ class GreyWolfOptimizer(Algorithm):
 		pop, fpop, d = Algorithm.init_population(self, task)
 		si = np.argsort(fpop)
 		A, A_f, B, B_f, D, D_f = np.copy(pop[si[0]]), fpop[si[0]], np.copy(pop[si[1]]), fpop[si[1]], np.copy(pop[si[2]]), fpop[si[2]]
-		d.update({'A': A, 'A_f': A_f, 'B': B, 'B_f': B_f, 'd': D, 'D_f': D_f})
+		d.update({'a': A, 'A_f': A_f, 'B': B, 'B_f': B_f, 'd': D, 'D_f': D_f})
 		return pop, fpop, d
 
 	def run_iteration(self, task, pop, fpop, xb, fxb, A, A_f, B, B_f, D, D_f, **dparams):
@@ -94,7 +94,7 @@ class GreyWolfOptimizer(Algorithm):
 				1. New population
 				2. New population fitness/function values
 				3. Additional arguments:
-					* A (): TODO
+					* a (): TODO
 		"""
 		a = 2 - task.Evals * (2 / task.nFES)
 		for i, w in enumerate(pop):
@@ -111,7 +111,7 @@ class GreyWolfOptimizer(Algorithm):
 			elif A_f < f < B_f: B, B_f = pop[i].copy(), f
 			elif B_f < f < D_f: D, D_f = pop[i].copy(), f
 		xb, fxb = self.get_best(A, A_f, xb, fxb)
-		return pop, fpop, xb, fxb, {'A': A, 'A_f': A_f, 'B': B, 'B_f': B_f, 'd': D, 'D_f': D_f}
+		return pop, fpop, xb, fxb, {'a': A, 'A_f': A_f, 'B': B, 'B_f': B_f, 'd': D, 'D_f': D_f}
 
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

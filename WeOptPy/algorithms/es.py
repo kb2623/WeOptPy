@@ -519,7 +519,7 @@ class CovarianceMatrixAdaptionEvolutionStrategy(Algorithm):
 		https://arxiv.org/abs/1604.00772
 
 	Reference paper:
-		Hansen, Nikolaus. "The CMA evolution strategy: A tutorial." arXiv preprint arXiv:1604.00772 (2016).
+		Hansen, Nikolaus. "The CMA evolution strategy: a tutorial." arXiv preprint arXiv:1604.00772 (2016).
 
 	Attributes:
 		Name (List[str]): List of names representing algorithm names

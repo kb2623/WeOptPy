@@ -25,7 +25,7 @@ class GravitationalSearchAlgorithm(Algorithm):
         https://doi.org/10.1016/j.ins.2009.03.004
 
     Reference paper:
-        Esmat Rashedi, Hossein Nezamabadi-pour, Saeid Saryazdi, GSA: A Gravitational Search Algorithm, Information Sciences, Volume 179, Issue 13, 2009, Pages 2232-2248, ISSN 0020-0255
+        Esmat Rashedi, Hossein Nezamabadi-pour, Saeid Saryazdi, GSA: a Gravitational Search Algorithm, Information Sciences, Volume 179, Issue 13, 2009, Pages 2232-2248, ISSN 0020-0255
 
     Attributes:
         Name (List[str]): List of strings representing algorithm name.
@@ -42,7 +42,7 @@ class GravitationalSearchAlgorithm(Algorithm):
         Returns:
             str: Algorithm information.
         """
-        return r"""Esmat Rashedi, Hossein Nezamabadi-pour, Saeid Saryazdi, GSA: A Gravitational Search Algorithm, Information Sciences, Volume 179, Issue 13, 2009, Pages 2232-2248, ISSN 0020-0255"""
+        return r"""Esmat Rashedi, Hossein Nezamabadi-pour, Saeid Saryazdi, GSA: a Gravitational Search Algorithm, Information Sciences, Volume 179, Issue 13, 2009, Pages 2232-2248, ISSN 0020-0255"""
 
     @staticmethod
     def type_parameters():

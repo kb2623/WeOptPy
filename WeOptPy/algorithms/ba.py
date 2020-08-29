@@ -23,7 +23,7 @@ class BatAlgorithm(Algorithm):
 		MIT
 
 	Reference paper:
-		Yang, Xin-She. "A new metahevristic bat-inspired algorithm." Nature inspired cooperative strategies for optimization (NICSO 2010). Springer, Berlin, Heidelberg, 2010. 65-74.
+		Yang, Xin-She. "a new metahevristic bat-inspired algorithm." Nature inspired cooperative strategies for optimization (NICSO 2010). Springer, Berlin, Heidelberg, 2010. 65-74.
 
 	Attributes:
 		Name (List[str]): List of strings representing algorithm name.
@@ -44,7 +44,7 @@ class BatAlgorithm(Algorithm):
 		Returns:
 			str: Algorithm information.
 		"""
-		return r'''Yang, Xin-She. "A new metaheuristic bat-inspired algorithm." Nature inspired cooperative strategies for optimization (NICSO 2010). Springer, Berlin, Heidelberg, 2010. 65-74.'''
+		return r'''Yang, Xin-She. "a new metaheuristic bat-inspired algorithm." Nature inspired cooperative strategies for optimization (NICSO 2010). Springer, Berlin, Heidelberg, 2010. 65-74.'''
 
 	@staticmethod
 	def type_parameters():
@@ -52,7 +52,7 @@ class BatAlgorithm(Algorithm):
 
 		Returns:
 			Dict[str, Callable]:
-				* A (Callable[[Union[float, int]], bool]): Loudness.
+				* a (Callable[[Union[float, int]], bool]): Loudness.
 				* r (Callable[[Union[float, int]], bool]): Pulse rate.
 				* Qmin (Callable[[Union[float, int]], bool]): Minimum frequency.
 				* Qmax (Callable[[Union[float, int]], bool]): Maximum frequency.
@@ -62,7 +62,7 @@ class BatAlgorithm(Algorithm):
 		"""
 		d = Algorithm.type_parameters()
 		d.update({
-			'A': lambda x: isinstance(x, (float, int)) and x > 0,
+			'a': lambda x: isinstance(x, (float, int)) and x > 0,
 			'r': lambda x: isinstance(x, (float, int)) and x > 0,
 			'Qmin': lambda x: isinstance(x, (float, int)),
 			'Qmax': lambda x: isinstance(x, (float, int))
@@ -92,7 +92,7 @@ class BatAlgorithm(Algorithm):
 		"""
 		d = Algorithm.get_parameters(self)
 		d.update({
-			'A': self.A,
+			'a': self.A,
 			'r': self.r,
 			'Qmin': self.Qmin,
 			'Qmax': self.Qmax
@@ -109,18 +109,19 @@ class BatAlgorithm(Algorithm):
 			Tuple[numpy.ndarray, numpy.ndarray[float], Dict[str, Any]]:
 				1. New population.
 				2. New population fitness/function values.
-				3. Additional arguments:
+				3. Additional arguments.
+				4. Additional keyword arguments:
 					* S (numpy.ndarray): TODO
-					* Q (numpy.ndarray[float]): 	TODO
-					* v (numpy.ndarray[float]): TODO
+					* Q (numpy.ndarray): 	TODO
+					* v (numpy.ndarray): TODO
 
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.initPopulation`
 		"""
-		Sol, Fitness, d = Algorithm.init_population(self, task)
+		Sol, Fitness, args, d = Algorithm.init_population(self, task)
 		S, Q, v = np.full([self.NP, task.D], 0.0), np.full(self.NP, 0.0), np.full([self.NP, task.D], 0.0)
 		d.update({'S': S, 'Q': Q, 'v': v})
-		return Sol, Fitness, d
+		return Sol, Fitness, args, d
 
 	def local_search(self, best, task, **kwargs):
 		r"""Improve the best solution according to the Yang (2010).
@@ -135,7 +136,7 @@ class BatAlgorithm(Algorithm):
 		"""
 		return task.repair(best + 0.001 * self.normal(0, 1, task.D))
 
-	def run_iteration(self, task, Sol, Fitness, xb, fxb, S, Q, v, **dparams):
+	def run_iteration(self, task, Sol, Fitness, xb, fxb, S, Q, v, *args, **dparams):
 		r"""Core function of Bat Algorithm.
 
 		Parameters:
@@ -149,15 +150,17 @@ class BatAlgorithm(Algorithm):
 			v (numpy.ndarray): TODO
 			best (numpy.ndarray): Global best used by the algorithm
 			f_min (float): Global best fitness value used by the algorithm
-			dparams (Dict[str, Any]): Additional algorithm arguments
+			args (list): Additional arguments.
+			dparams (dict): Additional keyword algorithm arguments
 
 		Returns:
-			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, Dict[str, Any]]:
+			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, list, dict]:
 				1. New population
 				2. New population fitness/function vlues
 				3. New global best solution
 				4. New global best fitness/objective value
-				5. Additional arguments:
+				5. Additional arguments.
+				6. Additional keyword arguments:
 					* S (numpy.ndarray): TODO
 					* Q (numpy.ndarray): TODO
 					* v (numpy.ndarray): TODO
@@ -172,7 +175,7 @@ class BatAlgorithm(Algorithm):
 			Fnew = task.eval(S[i])
 			if (Fnew <= Fitness[i]) and (self.rand() < self.A): Sol[i], Fitness[i] = S[i], Fnew
 			if Fnew <= fxb: xb, fxb = S[i].copy(), Fnew
-		return Sol, Fitness, xb, fxb, {'S': S, 'Q': Q, 'v': v}
+		return Sol, Fitness, xb, fxb, args, {'S': S, 'Q': Q, 'v': v}
 
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

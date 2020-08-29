@@ -54,7 +54,7 @@ class FishSchoolSearch(Algorithm):
 		MIT
 
 	Reference paper:
-		Bastos Filho, Lima Neto, Lins, d. O. Nascimento and P. Lima, “A novel search algorithm based on fish school behavior,” in 2008 IEEE International Conference on Systems, Man and Cybernetics, Oct 2008, pp. 2646–2651.
+		Bastos Filho, Lima Neto, Lins, d. O. Nascimento and P. Lima, “a novel search algorithm based on fish school behavior,” in 2008 IEEE International Conference on Systems, Man and Cybernetics, Oct 2008, pp. 2646–2651.
 
 	Attributes:
 		Name (List[str]): List of strings representing algorithm name.

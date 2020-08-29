@@ -33,7 +33,7 @@ class BareBonesFireworksAlgorithm(Algorithm):
 		https://www.sciencedirect.com/science/article/pii/S1568494617306609
 
 	Reference paper:
-		Junzhi Li, Ying Tan, The bare bones fireworks algorithm: A minimalist global optimizer, Applied Soft Computing, Volume 62, 2018, Pages 454-462, ISSN 1568-4946, https://doi.org/10.1016/j.asoc.2017.10.046.
+		Junzhi Li, Ying Tan, The bare bones fireworks algorithm: a minimalist global optimizer, Applied Soft Computing, Volume 62, 2018, Pages 454-462, ISSN 1568-4946, https://doi.org/10.1016/j.asoc.2017.10.046.
 
 	Attributes:
 		Name (lsit of str): List of strings representing algorithm names
@@ -53,7 +53,7 @@ class BareBonesFireworksAlgorithm(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.algorithmInfo`
 		"""
-		return r"""Junzhi Li, Ying Tan, The bare bones fireworks algorithm: A minimalist global optimizer, Applied Soft Computing, Volume 62, 2018, Pages 454-462, ISSN 1568-4946, https://doi.org/10.1016/j.asoc.2017.10.046."""
+		return r"""Junzhi Li, Ying Tan, The bare bones fireworks algorithm: a minimalist global optimizer, Applied Soft Computing, Volume 62, 2018, Pages 454-462, ISSN 1568-4946, https://doi.org/10.1016/j.asoc.2017.10.046."""
 
 	@staticmethod
 	def type_parameters(): return {
@@ -85,10 +85,10 @@ class BareBonesFireworksAlgorithm(Algorithm):
 				1. Initial solution.
 				2. Initial solution function/fitness value.
 				3. Additional arguments:
-					* A (numpy.ndarray): Starting aplitude or search range.
+					* a (numpy.ndarray): Starting aplitude or search range.
 		"""
 		x, x_fit, d = Algorithm.init_population(self, task)
-		d.update({'A': task.bRange})
+		d.update({'a': task.bRange})
 		return x, x_fit, d
 
 	def run_iteration(self, task, x, x_fit, xb, fxb, A, **dparams):
@@ -110,14 +110,14 @@ class BareBonesFireworksAlgorithm(Algorithm):
 				3. New global best solution.
 				4. New global best solutions fitness/objective value.
 				5. Additional arguments:
-					* A (numpy.ndarray): Serach range.
+					* a (numpy.ndarray): Serach range.
 		"""
 		S = np.apply_along_axis(task.repair, 1, self.uniform(x - A, x + A, [self.n, task.D]), self.Rand)
 		S_fit = np.apply_along_axis(task.eval, 1, S)
 		iS = np.argmin(S_fit)
 		if S_fit[iS] < x_fit: x, x_fit, A = S[iS], S_fit[iS], self.C_a * A
 		else: A = self.C_r * A
-		return x, x_fit, x.copy(), x_fit, {'A': A}
+		return x, x_fit, x.copy(), x_fit, {'a': A}
 
 
 class FireworksAlgorithm(Algorithm):
@@ -139,7 +139,7 @@ class FireworksAlgorithm(Algorithm):
 		https://www.springer.com/gp/book/9783662463529
 
 	Reference paper:
-		Tan, Ying. "Firework Algorithm: A Novel Swarm Intelligence Optimization Method." (2015).
+		Tan, Ying. "Firework Algorithm: a Novel Swarm Intelligence Optimization Method." (2015).
 
 	Attributes:
 		Name (List[str]): List of stirngs representing algorithm names.
@@ -156,7 +156,7 @@ class FireworksAlgorithm(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.algorithmInfo`
 		"""
-		return r"""Tan, Ying. "Firework Algorithm: A Novel Swarm Intelligence Optimization Method." (2015)."""
+		return r"""Tan, Ying. "Firework Algorithm: a Novel Swarm Intelligence Optimization Method." (2015)."""
 
 	@staticmethod
 	def type_parameters(): return {
@@ -388,7 +388,7 @@ class EnhancedFireworksAlgorithm(FireworksAlgorithm):
 		https://ieeexplore.ieee.org/document/6557813/
 
 	Reference paper:
-		S. Zheng, A. Janecek and Y. Tan, "Enhanced Fireworks Algorithm," 2013 IEEE Congress on Evolutionary Computation, Cancun, 2013, pp. 2069-2077. doi: 10.1109/CEC.2013.6557813
+		S. Zheng, a. Janecek and Y. Tan, "Enhanced Fireworks Algorithm," 2013 IEEE Congress on Evolutionary Computation, Cancun, 2013, pp. 2069-2077. doi: 10.1109/CEC.2013.6557813
 
 	Attributes:
 		Name (List[str]): List of strings representing algorithm names.
@@ -407,7 +407,7 @@ class EnhancedFireworksAlgorithm(FireworksAlgorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.algorithmInfo`
 		"""
-		return r"""S. Zheng, A. Janecek and Y. Tan, "Enhanced Fireworks Algorithm," 2013 IEEE Congress on Evolutionary Computation, Cancun, 2013, pp. 2069-2077. doi: 10.1109/CEC.2013.6557813"""
+		return r"""S. Zheng, a. Janecek and Y. Tan, "Enhanced Fireworks Algorithm," 2013 IEEE Congress on Evolutionary Computation, Cancun, 2013, pp. 2069-2077. doi: 10.1109/CEC.2013.6557813"""
 
 	@staticmethod
 	def type_parameters():
@@ -602,7 +602,7 @@ class DynamicFireworksAlgorithmGauss(EnhancedFireworksAlgorithm):
 		http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=6900485&isnumber=6900223
 
 	Reference paper:
-		S. Zheng, A. Janecek, J. Li and Y. Tan, "Dynamic search in fireworks algorithm," 2014 IEEE Congress on Evolutionary Computation (CEC), Beijing, 2014, pp. 3222-3229. doi: 10.1109/CEC.2014.6900485
+		S. Zheng, a. Janecek, J. Li and Y. Tan, "Dynamic search in fireworks algorithm," 2014 IEEE Congress on Evolutionary Computation (CEC), Beijing, 2014, pp. 3222-3229. doi: 10.1109/CEC.2014.6900485
 
 	Attributes:
 		Name (List[str]): List of strings representing algorithm names.
@@ -623,7 +623,7 @@ class DynamicFireworksAlgorithmGauss(EnhancedFireworksAlgorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.algorithmInfo`
 		"""
-		return r"""S. Zheng, A. Janecek, J. Li and Y. Tan, "Dynamic search in fireworks algorithm," 2014 IEEE Congress on Evolutionary Computation (CEC), Beijing, 2014, pp. 3222-3229. doi: 10.1109/CEC.2014.6900485"""
+		return r"""S. Zheng, a. Janecek, J. Li and Y. Tan, "Dynamic search in fireworks algorithm," 2014 IEEE Congress on Evolutionary Computation (CEC), Beijing, 2014, pp. 3222-3229. doi: 10.1109/CEC.2014.6900485"""
 
 	@staticmethod
 	def type_parameters():
@@ -824,7 +824,7 @@ class DynamicFireworksAlgorithm(DynamicFireworksAlgorithmGauss):
 		http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=6900485&isnumber=6900223
 
 	Reference paper:
-		S. Zheng, A. Janecek, J. Li and Y. Tan, "Dynamic search in fireworks algorithm," 2014 IEEE Congress on Evolutionary Computation (CEC), Beijing, 2014, pp. 3222-3229. doi: 10.1109/CEC.2014.6900485
+		S. Zheng, a. Janecek, J. Li and Y. Tan, "Dynamic search in fireworks algorithm," 2014 IEEE Congress on Evolutionary Computation (CEC), Beijing, 2014, pp. 3222-3229. doi: 10.1109/CEC.2014.6900485
 
 	Attributes:
 		Name (List[str]): List of strings representing algorithm name.
@@ -844,7 +844,7 @@ class DynamicFireworksAlgorithm(DynamicFireworksAlgorithmGauss):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.algorithmInfo`
 		"""
-		return r"""S. Zheng, A. Janecek, J. Li and Y. Tan, "Dynamic search in fireworks algorithm," 2014 IEEE Congress on Evolutionary Computation (CEC), Beijing, 2014, pp. 3222-3229. doi: 10.1109/CEC.2014.6900485"""
+		return r"""S. Zheng, a. Janecek, J. Li and Y. Tan, "Dynamic search in fireworks algorithm," 2014 IEEE Congress on Evolutionary Computation (CEC), Beijing, 2014, pp. 3222-3229. doi: 10.1109/CEC.2014.6900485"""
 
 	def run_iteration(self, task, FW, FW_f, xb, fxb, Ah, Ab, **dparams):
 		r"""Core function of Dynamic Fireworks Algorithm.

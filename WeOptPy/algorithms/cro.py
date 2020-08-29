@@ -83,7 +83,7 @@ class CoralReefsOptimization(Algorithm):
 		MIT
 
 	Reference Paper:
-		S. Salcedo-Sanz, J. Del Ser, I. Landa-Torres, S. Gil-López, and J. A. Portilla-Figueras, “The Coral Reefs Optimization Algorithm: A Novel Metaheuristic for Efficiently Solving Optimization Problems,” The Scientific World Journal, vol. 2014, Article ID 739768, 15 pages, 2014.
+		S. Salcedo-Sanz, J. Del Ser, I. Landa-Torres, S. Gil-López, and J. a. Portilla-Figueras, “The Coral Reefs Optimization Algorithm: a Novel Metaheuristic for Efficiently Solving Optimization Problems,” The Scientific World Journal, vol. 2014, Article ID 739768, 15 pages, 2014.
 
 	Reference URL:
 		https://doi.org/10.1155/2014/739768.

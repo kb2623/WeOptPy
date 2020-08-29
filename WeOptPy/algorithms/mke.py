@@ -88,7 +88,7 @@ class MonkeyKingEvolutionV1(Algorithm):
 		https://www.sciencedirect.com/science/article/pii/S0950705116000198
 
 	Reference paper:
-		Zhenyu Meng, Jeng-Shyang Pan, Monkey King Evolution: A new memetic evolutionary algorithm and its application in vehicle fuel consumption optimization, Knowledge-Based Systems, Volume 97, 2016, Pages 144-157, ISSN 0950-7051, https://doi.org/10.1016/j.knosys.2016.01.009.
+		Zhenyu Meng, Jeng-Shyang Pan, Monkey King Evolution: a new memetic evolutionary algorithm and its application in vehicle fuel consumption optimization, Knowledge-Based Systems, Volume 97, 2016, Pages 144-157, ISSN 0950-7051, https://doi.org/10.1016/j.knosys.2016.01.009.
 
 	Attributes:
 		Name (List[str]): List of strings representing algorithm names.
@@ -112,7 +112,7 @@ class MonkeyKingEvolutionV1(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.algorithmInfo`
 		"""
-		return r"""Zhenyu Meng, Jeng-Shyang Pan, Monkey King Evolution: A new memetic evolutionary algorithm and its application in vehicle fuel consumption optimization, Knowledge-Based Systems, Volume 97, 2016, Pages 144-157, ISSN 0950-7051, https://doi.org/10.1016/j.knosys.2016.01.009."""
+		return r"""Zhenyu Meng, Jeng-Shyang Pan, Monkey King Evolution: a new memetic evolutionary algorithm and its application in vehicle fuel consumption optimization, Knowledge-Based Systems, Volume 97, 2016, Pages 144-157, ISSN 0950-7051, https://doi.org/10.1016/j.knosys.2016.01.009."""
 
 	@staticmethod
 	def type_parameters():
@@ -306,7 +306,7 @@ class MonkeyKingEvolutionV2(MonkeyKingEvolutionV1):
 		https://www.sciencedirect.com/science/article/pii/S0950705116000198
 
 	Reference paper:
-		Zhenyu Meng, Jeng-Shyang Pan, Monkey King Evolution: A new memetic evolutionary algorithm and its application in vehicle fuel consumption optimization, Knowledge-Based Systems, Volume 97, 2016, Pages 144-157, ISSN 0950-7051, https://doi.org/10.1016/j.knosys.2016.01.009.
+		Zhenyu Meng, Jeng-Shyang Pan, Monkey King Evolution: a new memetic evolutionary algorithm and its application in vehicle fuel consumption optimization, Knowledge-Based Systems, Volume 97, 2016, Pages 144-157, ISSN 0950-7051, https://doi.org/10.1016/j.knosys.2016.01.009.
 
 	Attributes:
 		Name (List[str]): List of strings representing algorithm names.
@@ -326,7 +326,7 @@ class MonkeyKingEvolutionV2(MonkeyKingEvolutionV1):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.algorithmInfo`
 		"""
-		return r"""Zhenyu Meng, Jeng-Shyang Pan, Monkey King Evolution: A new memetic evolutionary algorithm and its application in vehicle fuel consumption optimization, Knowledge-Based Systems, Volume 97, 2016, Pages 144-157, ISSN 0950-7051, https://doi.org/10.1016/j.knosys.2016.01.009."""
+		return r"""Zhenyu Meng, Jeng-Shyang Pan, Monkey King Evolution: a new memetic evolutionary algorithm and its application in vehicle fuel consumption optimization, Knowledge-Based Systems, Volume 97, 2016, Pages 144-157, ISSN 0950-7051, https://doi.org/10.1016/j.knosys.2016.01.009."""
 
 	def move_mk(self, x, dx, task):
 		r"""Move Monkey King particle.
@@ -398,7 +398,7 @@ class MonkeyKingEvolutionV3(MonkeyKingEvolutionV1):
 		https://www.sciencedirect.com/science/article/pii/S0950705116000198
 
 	Reference paper:
-		Zhenyu Meng, Jeng-Shyang Pan, Monkey King Evolution: A new memetic evolutionary algorithm and its application in vehicle fuel consumption optimization, Knowledge-Based Systems, Volume 97, 2016, Pages 144-157, ISSN 0950-7051, https://doi.org/10.1016/j.knosys.2016.01.009.
+		Zhenyu Meng, Jeng-Shyang Pan, Monkey King Evolution: a new memetic evolutionary algorithm and its application in vehicle fuel consumption optimization, Knowledge-Based Systems, Volume 97, 2016, Pages 144-157, ISSN 0950-7051, https://doi.org/10.1016/j.knosys.2016.01.009.
 
 	Attributes:
 		Name (List[str]): List of strings that represent algorithm names.
@@ -418,7 +418,7 @@ class MonkeyKingEvolutionV3(MonkeyKingEvolutionV1):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.algorithmInfo`
 		"""
-		return r"""Zhenyu Meng, Jeng-Shyang Pan, Monkey King Evolution: A new memetic evolutionary algorithm and its application in vehicle fuel consumption optimization, Knowledge-Based Systems, Volume 97, 2016, Pages 144-157, ISSN 0950-7051, https://doi.org/10.1016/j.knosys.2016.01.009."""
+		return r"""Zhenyu Meng, Jeng-Shyang Pan, Monkey King Evolution: a new memetic evolutionary algorithm and its application in vehicle fuel consumption optimization, Knowledge-Based Systems, Volume 97, 2016, Pages 144-157, ISSN 0950-7051, https://doi.org/10.1016/j.knosys.2016.01.009."""
 
 	def set_parameters(self, **ukwargs):
 		r"""Set core parameters of MonkeyKingEvolutionV3 algorithm.

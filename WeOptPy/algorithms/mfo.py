@@ -23,7 +23,7 @@ class MothFlameOptimizer(Algorithm):
 		MIT
 
 	Reference paper:
-		Mirjalili, Seyedali. "Moth-flame optimization algorithm: A novel nature-inspired heuristic paradigm." Knowledge-Based Systems 89 (2015): 228-249.
+		Mirjalili, Seyedali. "Moth-flame optimization algorithm: a novel nature-inspired heuristic paradigm." Knowledge-Based Systems 89 (2015): 228-249.
 
 	Attributes:
 		Name (List[str]): List of strings representing algorithm name.
@@ -43,7 +43,7 @@ class MothFlameOptimizer(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.algorithmInfo`
 		"""
-		return r"""Mirjalili, Seyedali. "Moth-flame optimization algorithm: A novel nature-inspired heuristic paradigm." Knowledge-Based Systems 89 (2015): 228-249."""
+		return r"""Mirjalili, Seyedali. "Moth-flame optimization algorithm: a novel nature-inspired heuristic paradigm." Knowledge-Based Systems 89 (2015): 228-249."""
 
 	@staticmethod
 	def type_parameters():

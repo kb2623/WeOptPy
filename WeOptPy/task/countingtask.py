@@ -29,7 +29,7 @@ class CountingTask(Task):
 		self.Iters, self.Evals = 0, 0
 
 	def eval(self, a):
-		r"""Evaluate the solution A.
+		r"""Evaluate the solution a.
 
 		This function increments function evaluation counter `self.Evals`.
 

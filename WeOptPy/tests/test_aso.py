@@ -42,21 +42,29 @@ class ASOElitismTestCase(ASOTestCase):
 	def test_custom_works_fine_parallel(self):
 		aso_custom = self.algo(NP=40, Combination=elitism, seed=self.seed)
 		aso_customc = self.algo(NP=40, Combination=elitism, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, aso_custom, aso_customc, MyBenchmark())
+		AlgorithmTestCase.test_algorithm_run_parallel(self, aso_custom, aso_customc, MyBenchmark())
 
 
 class ASOSequentialTestCase(AlgorithmTestCase):
 	def test_custom_works_fine(self):
 		aso_custom = self.algo(NP=40, Combination=sequential, seed=self.seed)
+		AlgorithmTestCase.test_algorithm_run(self, aso_custom, MyBenchmark())
+
+	def test_custom_works_fine_parallel(self):
+		aso_custom = self.algo(NP=40, Combination=sequential, seed=self.seed)
 		aso_customc = self.algo(NP=40, Combination=sequential, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, aso_custom, aso_customc, MyBenchmark())
+		AlgorithmTestCase.test_algorithm_run_parallel(self, aso_custom, aso_customc, MyBenchmark())
 
 
 class ASOCrossoverTestCase(AlgorithmTestCase):
 	def test_custom_works_fine(self):
 		aso_custom = self.algo(NP=40, Combination=crossover, seed=self.seed)
+		AlgorithmTestCase.test_algorithm_run(self, aso_custom, MyBenchmark())
+
+	def test_custom_works_fine_parallel(self):
+		aso_custom = self.algo(NP=40, Combination=crossover, seed=self.seed)
 		aso_customc = self.algo(NP=40, Combination=crossover, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, aso_custom, aso_customc, MyBenchmark())
+		AlgorithmTestCase.test_algorithm_run_parallel(self, aso_custom, aso_customc, MyBenchmark())
 
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

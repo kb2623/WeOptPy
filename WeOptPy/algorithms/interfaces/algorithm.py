@@ -199,18 +199,19 @@ class Algorithm:
 			task (Task): Optimization task.
 
 		Returns:
-			Tuple[numpy.ndarray, numpy.ndarray, Dict[str, Any]]:
+			Tuple[numpy.ndarray, numpy.ndarray, list, dict]:
 				1. New population.
 				2. New population fitness values.
 				3. Additional arguments.
+				4. Additional keyword arguments.
 
 		See Also:
 			* :func:`WeOptPy.algorithms.Algorithm.setParameters`
 		"""
 		pop, fpop = self.InitPopFunc(task=task, n=self.NP, rnd=self.Rand, itype=self.itype)
-		return pop, fpop, {}
+		return pop, fpop, [], {}
 
-	def run_iteration(self, task, pop, fpop, xb, fxb, **dparams):
+	def run_iteration(self, task, pop, fpop, xb, fxb, *args, **dparams):
 		r"""Core functionality of algorithm.
 
 		This function is called on every algorithm iteration.
@@ -221,20 +222,22 @@ class Algorithm:
 			fpop (numpy.ndarray): Current population fitness value.
 			xb (numpy.ndarray): Current generation best individuals coordinates.
 			fxb (float): current generation best individuals fitness value.
-			dparams (Dict[str, Any]): Additional arguments for algorithms.
+			args (list): Additional arguments.
+			dparams (dict): Additional keyword arguments for algorithms.
 
 		Returns:
-			Tuple[n.ndarray, n.ndarray, n.ndarray, float, Dict[str, Any]]:
+			Tuple[n.ndarray, n.ndarray, n.ndarray, float, list, dict]:
 				1. New populations coordinates.
 				2. New populations fitness values.
-				3. New global best position/solution
-				4. New global best fitness/objective value
-				5. Additional arguments of the algorithm.
+				3. New global best position/solution.
+				4. New global best fitness/objective value.
+				5. Additional arguments.
+				6. Additional keyword arguments of the algorithm.
 
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.runYield`
 		"""
-		return pop, fpop, xb, fxb, dparams
+		return pop, fpop, xb, fxb, args, dparams
 
 	def run_yield(self, task):
 		r"""Run the algorithm for a single iteration and return the best solution.
@@ -254,11 +257,11 @@ class Algorithm:
 			* :func:`NiaPy.algorithms.Algorithm.initPopulation`
 			* :func:`NiaPy.algorithms.Algorithm.runIteration`
 		"""
-		pop, fpop, dparams = self.init_population(task)
+		pop, fpop, args, dparams = self.init_population(task)
 		xb, fxb = self.get_best(pop, fpop)
 		yield xb, fxb
 		while True:
-			pop, fpop, xb, fxb, dparams = self.run_iteration(task, pop, fpop, xb, fxb, **dparams)
+			pop, fpop, xb, fxb, args, dparams = self.run_iteration(task, pop, fpop, xb, fxb, *args, **dparams)
 			yield xb, fxb
 
 	def run_task(self, task):

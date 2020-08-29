@@ -22,7 +22,7 @@ class HybridBatAlgorithm(BatAlgorithm):
 		MIT
 
 	Reference paper:
-		Fister Jr., Iztok and Fister, Dusan and Yang, Xin-She. "A Hybrid Bat Algorithm". Elektrotehniski vestnik, 2013. 1-7.
+		Fister Jr., Iztok and Fister, Dusan and Yang, Xin-She. "a Hybrid Bat Algorithm". Elektrotehniski vestnik, 2013. 1-7.
 
 	Attributes:
 		Name (List[str]): List of strings representing algorithm name.
@@ -41,7 +41,7 @@ class HybridBatAlgorithm(BatAlgorithm):
 		Returns:
 			str: Basic information.
 		"""
-		return r"""Fister Jr., Iztok and Fister, Dusan and Yang, Xin-She. "A Hybrid Bat Algorithm". Elektrotehniski vestnik, 2013. 1-7."""
+		return r"""Fister Jr., Iztok and Fister, Dusan and Yang, Xin-She. "a Hybrid Bat Algorithm". Elektrotehniski vestnik, 2013. 1-7."""
 
 	@staticmethod
 	def type_parameters():

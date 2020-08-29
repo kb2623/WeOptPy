@@ -596,7 +596,7 @@ class MutatedParticleSwarmOptimization(ParticleSwarmAlgorithm):
 		MIT
 
 	Reference paper:
-		H. Wang, C. Li, Y. Liu, S. Zeng, A hybrid particle swarm algorithm with cauchy mutation, Proceedings of the 2007 IEEE Swarm Intelligence Symposium (2007) 356–360.
+		H. Wang, C. Li, Y. Liu, S. Zeng, a hybrid particle swarm algorithm with cauchy mutation, Proceedings of the 2007 IEEE Swarm Intelligence Symposium (2007) 356–360.
 
 	Attributes:
 		nmutt (int): Number of mutations of global best particle.
@@ -616,7 +616,7 @@ class MutatedParticleSwarmOptimization(ParticleSwarmAlgorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.algorithmInfo`
 		"""
-		return r"""H. Wang, C. Li, Y. Liu, S. Zeng, A hybrid particle swarm algorithm with cauchy mutation, Proceedings of the 2007 IEEE Swarm Intelligence Symposium (2007) 356–360."""
+		return r"""H. Wang, C. Li, Y. Liu, S. Zeng, a hybrid particle swarm algorithm with cauchy mutation, Proceedings of the 2007 IEEE Swarm Intelligence Symposium (2007) 356–360."""
 
 	def set_parameters(self, nmutt=10, **kwargs):
 		r"""Set core algorithm parameters.
@@ -864,7 +864,7 @@ class ComprehensiveLearningParticleSwarmOptimizer(ParticleSwarmAlgorithm):
 		MIT
 
 	Reference paper:
-		J. J. Liang, A. K. Qin, P. N. Suganthan and S. Baskar, "Comprehensive learning particle swarm optimizer for global optimization of multimodal functions," in IEEE Transactions on Evolutionary Computation, vol. 10, no. 3, pp. 281-295, June 2006. doi: 10.1109/TEVC.2005.857610
+		J. J. Liang, a. K. Qin, P. N. Suganthan and S. Baskar, "Comprehensive learning particle swarm optimizer for global optimization of multimodal functions," in IEEE Transactions on Evolutionary Computation, vol. 10, no. 3, pp. 281-295, June 2006. doi: 10.1109/TEVC.2005.857610
 
 	Reference URL:
 		http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=1637688&isnumber=34326
@@ -890,7 +890,7 @@ class ComprehensiveLearningParticleSwarmOptimizer(ParticleSwarmAlgorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.algorithmInfo`
 		"""
-		return r"""J. J. Liang, A. K. Qin, P. N. Suganthan and S. Baskar, "Comprehensive learning particle swarm optimizer for global optimization of multimodal functions," in IEEE Transactions on Evolutionary Computation, vol. 10, no. 3, pp. 281-295, June 2006. doi: 10.1109/TEVC.2005.857610	"""
+		return r"""J. J. Liang, a. K. Qin, P. N. Suganthan and S. Baskar, "Comprehensive learning particle swarm optimizer for global optimization of multimodal functions," in IEEE Transactions on Evolutionary Computation, vol. 10, no. 3, pp. 281-295, June 2006. doi: 10.1109/TEVC.2005.857610	"""
 
 	def set_parameters(self, m=10, w0=.9, w1=.4, c=1.49445, **ukwargs):
 		r"""Set Particle Swarm Algorithm main parameters.

@@ -33,7 +33,7 @@ class KrillHerd(Algorithm):
 		http://www.sciencedirect.com/science/article/pii/S1007570412002171
 
 	Reference paper:
-		Amir Hossein Gandomi, Amir Hossein Alavi, Krill herd: A new bio-inspired optimization algorithm, Communications in Nonlinear Science and Numerical Simulation, Volume 17, Issue 12, 2012, Pages 4831-4845, ISSN 1007-5704, https://doi.org/10.1016/j.cnsns.2012.05.010.
+		Amir Hossein Gandomi, Amir Hossein Alavi, Krill herd: a new bio-inspired optimization algorithm, Communications in Nonlinear Science and Numerical Simulation, Volume 17, Issue 12, 2012, Pages 4831-4845, ISSN 1007-5704, https://doi.org/10.1016/j.cnsns.2012.05.010.
 
 	Attributes:
 		Name (List[str]): List of strings representing algorithm names..
@@ -430,7 +430,7 @@ class KrillHerdV4(KrillHerd):
 		http://www.sciencedirect.com/science/article/pii/S1007570412002171
 
 	Reference paper:
-		Amir Hossein Gandomi, Amir Hossein Alavi, Krill herd: A new bio-inspired optimization algorithm, Communications in Nonlinear Science and Numerical Simulation, Volume 17, Issue 12, 2012, Pages 4831-4845, ISSN 1007-5704, https://doi.org/10.1016/j.cnsns.2012.05.010.
+		Amir Hossein Gandomi, Amir Hossein Alavi, Krill herd: a new bio-inspired optimization algorithm, Communications in Nonlinear Science and Numerical Simulation, Volume 17, Issue 12, 2012, Pages 4831-4845, ISSN 1007-5704, https://doi.org/10.1016/j.cnsns.2012.05.010.
 
 	Attributes:
 		Name (List[str]): List of strings representing algorithm name.
@@ -492,7 +492,7 @@ class KrillHerdV1(KrillHerd):
 		http://www.sciencedirect.com/science/article/pii/S1007570412002171
 
 	Reference paper:
-		Amir Hossein Gandomi, Amir Hossein Alavi, Krill herd: A new bio-inspired optimization algorithm, Communications in Nonlinear Science and Numerical Simulation, Volume 17, Issue 12, 2012, Pages 4831-4845, ISSN 1007-5704, https://doi.org/10.1016/j.cnsns.2012.05.010.
+		Amir Hossein Gandomi, Amir Hossein Alavi, Krill herd: a new bio-inspired optimization algorithm, Communications in Nonlinear Science and Numerical Simulation, Volume 17, Issue 12, 2012, Pages 4831-4845, ISSN 1007-5704, https://doi.org/10.1016/j.cnsns.2012.05.010.
 
 	Attributes:
 		Name (List[str]): List of strings representing algorithm name.
@@ -560,7 +560,7 @@ class KrillHerdV2(KrillHerd):
 		http://www.sciencedirect.com/science/article/pii/S1007570412002171
 
 	Reference paper:
-		Amir Hossein Gandomi, Amir Hossein Alavi, Krill herd: A new bio-inspired optimization algorithm, Communications in Nonlinear Science and Numerical Simulation, Volume 17, Issue 12, 2012, Pages 4831-4845, ISSN 1007-5704, https://doi.org/10.1016/j.cnsns.2012.05.010.
+		Amir Hossein Gandomi, Amir Hossein Alavi, Krill herd: a new bio-inspired optimization algorithm, Communications in Nonlinear Science and Numerical Simulation, Volume 17, Issue 12, 2012, Pages 4831-4845, ISSN 1007-5704, https://doi.org/10.1016/j.cnsns.2012.05.010.
 
 	Attributes:
 		Name (List[str]): List of strings representing algorithm name.
@@ -614,7 +614,7 @@ class KrillHerdV3(KrillHerd):
 		http://www.sciencedirect.com/science/article/pii/S1007570412002171
 
 	Reference paper:
-		Amir Hossein Gandomi, Amir Hossein Alavi, Krill herd: A new bio-inspired optimization algorithm, Communications in Nonlinear Science and Numerical Simulation, Volume 17, Issue 12, 2012, Pages 4831-4845, ISSN 1007-5704, https://doi.org/10.1016/j.cnsns.2012.05.010.
+		Amir Hossein Gandomi, Amir Hossein Alavi, Krill herd: a new bio-inspired optimization algorithm, Communications in Nonlinear Science and Numerical Simulation, Volume 17, Issue 12, 2012, Pages 4831-4845, ISSN 1007-5704, https://doi.org/10.1016/j.cnsns.2012.05.010.
 	"""
 	Name = ['KrillHerdV3', 'KHv3']
 

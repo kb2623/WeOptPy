@@ -41,8 +41,12 @@ class BEATestCase(AlgorithmTestCase):
 
 	def test_works_fine(self):
 		bea = self.algo(NP=20, m=15, e=4, nep=10, nsp=5, ngh=2, seed=self.seed)
+		AlgorithmTestCase.test_algorithm_run(self, bea, MyBenchmark())
+
+	def test_works_fine_parallel(self):
+		bea = self.algo(NP=20, m=15, e=4, nep=10, nsp=5, ngh=2, seed=self.seed)
 		beac = self.algo(NP=20, m=15, e=4, nep=10, nsp=5, ngh=2, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, bea, beac, MyBenchmark())
+		AlgorithmTestCase.test_algorithm_run_parallel(self, bea, beac, MyBenchmark())
 
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

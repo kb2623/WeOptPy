@@ -52,7 +52,7 @@ class ArtificialBeeColonyAlgorithm(Algorithm):
 		MIT
 
 	Reference paper:
-		Karaboga, d., and Bahriye B. "A powerful and efficient algorithm for numerical function optimization: artificial bee colony (ABC) algorithm." Journal of global optimization 39.3 (2007): 459-471.
+		Karaboga, d., and Bahriye B. "a powerful and efficient algorithm for numerical function optimization: artificial bee colony (ABC) algorithm." Journal of global optimization 39.3 (2007): 459-471.
 
 	Arguments
 		Name (List[str]): List containing strings that represent algorithm names.
@@ -113,40 +113,43 @@ class ArtificialBeeColonyAlgorithm(Algorithm):
 			task (Task): Optimization task
 
 		Returns:
-			Tuple[numpy.ndarray, numpy.ndarray[float], Dict[str, Any]]:
+			Tuple[numpy.ndarray, numpy.ndarray, list, dict]:
 				1. New population
 				2. New population fitness/function values
-				3. Additional arguments:
+				3. Additional arguments.
+				4. Additional keyword arguments:
 					* Probes (numpy.ndarray): TODO
 					* Trial (numpy.ndarray): TODO
 
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.initPopulation`
 		"""
-		foods, fpop, _ = Algorithm.init_population(self, task)
+		foods, fpop, args, _ = Algorithm.init_population(self, task)
 		probs, trial = np.full(self.FoodNumber, 0.0), np.full(self.FoodNumber, 0.0)
-		return foods, fpop, {'probs': probs, 'trial': trial}
+		return foods, fpop, args, {'probs': probs, 'trial': trial}
 
-	def run_iteration(self, task, foods, fpop, xb, fxb, probs, trial, **dparams):
+	def run_iteration(self, task, foods, fpop, xb, fxb, probs, trial, *args, **dparams):
 		r"""Core function of  the algorithm.
 
 		Parameters:
 			task (Task): Optimization task
 			foods (numpy.ndarray): Current population
-			fpop (numpy.ndarray[float]): Function/fitness values of current population
+			fpop (numpy.ndarray): Function/fitness values of current population
 			xb (numpy.ndarray): Current best individual
 			fxb (float): Current best individual fitness/function value
 			probs (numpy.ndarray): TODO
 			trial (numpy.ndarray): TODO
-			dparams (Dict[str, Any]): Additional parameters
+			args (list): Additional parameters.
+			dparams (dict): Additional keyword parameters.
 
 		Returns:
-			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, Dict[str, Any]]:
+			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, list, dict]:
 				1. New population
 				2. New population fitness/function values
 				3. New global best solution
 				4. New global best fitness/objective value
-				5. Additional arguments:
+				5. Additional arguments.
+				6. Additional keyword arguments:
 					* Probes (numpy.ndarray): TODO
 					* Trial (numpy.ndarray): TODO
 		"""
@@ -180,7 +183,7 @@ class ArtificialBeeColonyAlgorithm(Algorithm):
 		if trial[mi] >= self.Limit:
 			foods[mi], trial[mi] = SolutionABC(task=task, rnd=self.Rand), 0
 			if foods[mi].f < fxb: xb, fxb = foods[mi].x.copy(), foods[mi].f
-		return foods, np.asarray([f.f for f in foods]), xb, fxb, {'probs': probs, 'trial': trial}
+		return foods, np.asarray([f.f for f in foods]), xb, fxb, args, {'probs': probs, 'trial': trial}
 
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3
