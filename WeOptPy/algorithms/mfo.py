@@ -75,10 +75,11 @@ class MothFlameOptimizer(Algorithm):
 			task (Task): Optimization task
 
 		Returns:
-			Tuple[numpy.ndarray, numpy.ndarray[float], Dict[str, Any]]:
+			Tuple[numpy.ndarray, numpy.ndarray, list, dict]:
 				1. Initialized population
 				2. Initialized population function/fitness values
 				3. Additional arguments:
+				4. Additional keyword arguments:
 					* best_flames (numpy.ndarray): Best individuals
 					* best_flame_fitness (numpy.ndarray): Best individuals fitness/function values
 					* previous_population (numpy.ndarray): Previous population
@@ -87,16 +88,16 @@ class MothFlameOptimizer(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.algorithm.Algorithm.initPopulation`
 		"""
-		moth_pos, moth_fitness, d = Algorithm.init_population(self, task)
+		moth_pos, moth_fitness, args, d = Algorithm.init_population(self, task)
 		# Create best population
 		indexes = np.argsort(moth_fitness)
 		best_flames, best_flame_fitness = moth_pos[indexes], moth_fitness[indexes]
 		# Init previous population
 		previous_population, previous_fitness = np.zeros((self.NP, task.D)), np.zeros(self.NP)
 		d.update({'best_flames': best_flames, 'best_flame_fitness': best_flame_fitness, 'previous_population': previous_population, 'previous_fitness': previous_fitness})
-		return moth_pos, moth_fitness, d
+		return moth_pos, moth_fitness, args, d
 
-	def run_iteration(self, task, moth_pos, moth_fitness, xb, fxb, best_flames, best_flame_fitness, previous_population, previous_fitness, **dparams):
+	def run_iteration(self, task, moth_pos, moth_fitness, xb, fxb, best_flames, best_flame_fitness, previous_population, previous_fitness, *args, **dparams):
 		r"""Core function of MothFlameOptimizer algorithm.
 
 		Args:
@@ -104,20 +105,22 @@ class MothFlameOptimizer(Algorithm):
 			moth_pos (numpy.ndarray): Current population.
 			moth_fitness (numpy.ndarray): Current population fitness/function values.
 			xb (numpy.ndarray): Current population best individual.
-			fxb (float): Current best individual
-			best_flames (numpy.ndarray): Best found individuals
-			best_flame_fitness (numpy.ndarray): Best found individuals fitness/function values
-			previous_population (numpy.ndarray): Previous population
-			revious_fitness (numpy.ndarray): Previous population fitness/function values
-			**dparams (Dict[str, Any]): Additional parameters
+			fxb (float): Current best individual.
+			best_flames (numpy.ndarray): Best found individuals.
+			best_flame_fitness (numpy.ndarray): Best found individuals fitness/function values.
+			previous_population (numpy.ndarray): Previous population.
+			revious_fitness (numpy.ndarray): Previous population fitness/function values.
+			args (list): Additional parameters.
+			dparams (dict): Additional parameters.
 
 		Returns:
-			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, Dict[str, Any]]:
+			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, list, dict]:
 				1. New population.
 				2. New population fitness/function values.
 				3. New global best solution
 				4. New global best fitness/objective value
-				5. Additional arguments:
+				5. Additional arguments.
+				6. Additional keyword arguments:
 					* best_flames (numpy.ndarray): Best individuals.
 					* best_flame_fitness (numpy.ndarray): Best individuals fitness/function values.
 					* previous_population (numpy.ndarray): Previous population.
@@ -143,6 +146,7 @@ class MothFlameOptimizer(Algorithm):
 		double_sorted_fitness, double_sorted_population = double_fitness[indexes], double_population[indexes]
 		for newIdx in range(2 * self.NP): double_sorted_population[newIdx] = np.array(double_population[indexes[newIdx], :])
 		best_flame_fitness, best_flames = double_sorted_fitness[:self.NP], double_sorted_population[:self.NP]
-		return moth_pos, moth_fitness, xb, fxb, {'best_flames': best_flames, 'best_flame_fitness': best_flame_fitness, 'previous_population': previous_population, 'previous_fitness': previous_fitness}
+		return moth_pos, moth_fitness, xb, fxb, args, {'best_flames': best_flames, 'best_flame_fitness': best_flame_fitness, 'previous_population': previous_population, 'previous_fitness': previous_fitness}
+
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

@@ -67,16 +67,17 @@ class CatSwarmOptimization(Algorithm):
 				1. Initialized population.
 				2. Initialized populations fitness/function values.
 				3. Additional arguments:
+				4. Additional keyword arguments:
 					* Dictionary of modes (seek or trace) and velocities for each cat
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.initPopulation`
 		"""
-		pop, fpop, d = Algorithm.init_population(self, task)
-		d['modes'] = self.randomSeekTrace()
+		pop, fpop, args, d = Algorithm.init_population(self, task)
+		d['modes'] = self.random_seek_trace()
 		d['velocities'] = self.uniform(-self.vMax, self.vMax, [len(pop), task.D])
-		return pop, fpop, d
+		return pop, fpop, args, d
 
-	def randomSeekTrace(self):
+	def random_seek_trace(self):
 		r"""Set cats into seeking/tracing mode.
 
 		Returns:
@@ -88,7 +89,7 @@ class CatSwarmOptimization(Algorithm):
 		lista[indexes[:int(self.NP * self.MR)]] = 1
 		return lista
 
-	def weightedSelection(self, weights):
+	def weighted_selection(self, weights):
 		r"""Random selection considering the weights.
 
 		Args:
@@ -100,7 +101,7 @@ class CatSwarmOptimization(Algorithm):
 		cumulative_sum = np.cumsum(weights)
 		return np.argmax(cumulative_sum >= (self.rand() * cumulative_sum[-1]))
 
-	def seekingMode(self, task, cat, fcat, pop, fpop, fxb):
+	def seeking_mode(self, task, cat, fcat, pop, fpop, fxb):
 		r"""Seeking mode.
 
 		Args:
@@ -149,10 +150,10 @@ class CatSwarmOptimization(Algorithm):
 			ind = self.randint(self.NP, 1, 0)
 			pop[ind] = cat_copies[np.where(cat_copies_fs == fmin)[0][0]]
 			fpop[ind] = fmin
-		sel_index = self.weightedSelection(cat_copies_select_probs)
+		sel_index = self.weighted_selection(cat_copies_select_probs)
 		return cat_copies[sel_index], cat_copies_fs[sel_index], pop, fpop
 
-	def tracingMode(self, task, cat, velocity, xb):
+	def tracing_mode(self, task, cat, velocity, xb):
 		r"""Tracing mode.
 
 		Args:
@@ -171,7 +172,7 @@ class CatSwarmOptimization(Algorithm):
 		cat_new = task.repair(cat + Vnew)
 		return cat_new, task.eval(cat_new), Vnew
 
-	def run_iteration(self, task, pop, fpop, xb, fxb, velocities, modes, **dparams):
+	def run_iteration(self, task, pop, fpop, xb, fxb, velocities, modes, *args, **dparams):
 		r"""Core function of Cat Swarm Optimization algorithm.
 
 		Args:
@@ -182,25 +183,28 @@ class CatSwarmOptimization(Algorithm):
 			fxb (float): Current best cat fitness/function value.
 			velocities (numpy.ndarray): Velocities of individuals.
 			modes (numpy.ndarray): Flag of each individual.
-			dparams (Dict[str, Any]): Additional function arguments.
+			args (list): Additional arguments.
+			dparams (Dict[str, Any]): Additional function keyword arguments.
 
 		Returns:
-			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, Dict[str, Any]]:
+			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, list, dict]:
 				1. New population.
 				2. New population fitness/function values.
 				3. New global best solution.
 				4. New global best solutions fitness/objective value.
-				5. Additional arguments:
+				5. Additional arguments.
+				6. Additional keyword arguments:
 					* Dictionary of modes (seek or trace) and velocities for each cat.
 		"""
 		pop_copies = pop.copy()
 		for k in range(len(pop_copies)):
 			if modes[k] == 0:
-				pop_copies[k], fpop[k], pop_copies[:], fpop[:] = self.seekingMode(task, pop_copies[k], fpop[k], pop_copies, fpop, fxb)
+				pop_copies[k], fpop[k], pop_copies[:], fpop[:] = self.seeking_mode(task, pop_copies[k], fpop[k], pop_copies, fpop, fxb)
 			else:  # if cat in tracing mode
-				pop_copies[k], fpop[k], velocities[k] = self.tracingMode(task, pop_copies[k], velocities[k], xb)
+				pop_copies[k], fpop[k], velocities[k] = self.tracing_mode(task, pop_copies[k], velocities[k], xb)
 		ib = np.argmin(fpop)
 		if fpop[ib] < fxb: xb, fxb = pop_copies[ib].copy(), fpop[ib]
-		return pop_copies, fpop, xb, fxb, {'velocities': velocities, 'modes': self.randomSeekTrace()}
+		return pop_copies, fpop, xb, fxb, args, {'velocities': velocities, 'modes': self.random_seek_trace()}
+
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

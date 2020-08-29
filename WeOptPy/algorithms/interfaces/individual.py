@@ -137,14 +137,15 @@ class Individual:
 		return len(self.x)
 
 
-def default_numpy_init(task, n, rnd=rand, **kwargs):
+def default_numpy_init(task, n, rnd=rand, *args, **kwargs):
 	r"""Initialize starting population that is represented with `numpy.ndarray` with shape `{n, task.d}`.
 
 	Args:
 		task (Task): Optimization task.
 		n (int): Number of individuals in population.
 		rnd (Optional[rand.RandomState]): Random number generator.
-		kwargs (Dict[str, Any]): Additional arguments.
+		args (list): Additional arguments.
+		kwargs (dict): Additional Keyword arguments.
 
 	Returns:
 		Tuple[numpy.ndarray, numpy.ndarray]:
@@ -153,10 +154,10 @@ def default_numpy_init(task, n, rnd=rand, **kwargs):
 	"""
 	pop = task.Lower + rnd.rand(n, task.D) * task.bRange
 	fpop = np.apply_along_axis(task.eval, 1, pop)
-	return pop, fpop
+	return pop, fpop, args, kwargs
 
 
-def default_individual_init(task, n, rnd=rand, itype=None, **kwargs):
+def default_individual_init(task, n, rnd=rand, itype=None, *args, **kwargs):
 	r"""Initialize `n` individuals of type `itype`.
 
 	Args:
@@ -164,15 +165,18 @@ def default_individual_init(task, n, rnd=rand, itype=None, **kwargs):
 		n (int): Number of individuals in population.
 		rnd (Optional[rand.RandomState]): Random number generator.
 		itype (Optional[Individual]): Class of individual in population.
-		kwargs (Dict[str, Any]): Additional arguments.
+		args (list): Additional arguments.
+		kwargs (dict): Additional keyword arguments.
 
 	Returns:
 		Tuple[numpy.ndarray, numpy.ndarray]:
 			1. Initialized individuals.
 			2. Initialized individuals function/fitness values.
+			3. Additional arguments.
+			4. Additional keyword arguments.
 	"""
 	pop = objects2array([itype(task=task, rnd=rnd, e=True) for _ in range(n)])
-	return pop, np.asarray([x.f for x in pop])
+	return pop, np.asarray([x.f for x in pop]), args, kwargs
 
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

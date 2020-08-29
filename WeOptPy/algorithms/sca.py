@@ -104,7 +104,7 @@ class SineCosineAlgorithm(Algorithm):
 		})
 		return d
 
-	def nextPos(self, x, x_b, r1, r2, r3, r4, task):
+	def next_pos(self, x, x_b, r1, r2, r3, r4, task):
 		r"""Move individual to new position in search space.
 
 		Args:
@@ -128,14 +128,15 @@ class SineCosineAlgorithm(Algorithm):
 			task (Task): Optimization task
 
 		Returns:
-			Tuple[numpy.ndarray, numpy.ndarray, Dict[str, Any]]:
+			Tuple[numpy.ndarray, numpy.ndarray, list, dict]:
 				1. Initialized population of individuals
 				2. Function/fitness values for individuals
 				3. Additional arguments
+				4. Additional keyword arguments
 		"""
 		return Algorithm.init_population(self, task)
 
-	def run_iteration(self, task, P, P_f, xb, fxb, **dparams):
+	def run_iteration(self, task, P, P_f, xb, fxb, *args, **dparams):
 		r"""Core function of Sine Cosine Algorithm.
 
 		Args:
@@ -144,7 +145,8 @@ class SineCosineAlgorithm(Algorithm):
 			P_f (numpy.ndarray[float]): Current population individulas function/fitness values.
 			xb (numpy.ndarray): Current best solution to optimization task.
 			fxb (float): Current best function/fitness value.
-			dparams (Dict[str, Any]): Additional parameters.
+			args (list): Additional parameters.
+			dparams (dict): Additional keyword parameters.
 
 		Returns:
 			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, Dict[str, Any]]:
@@ -153,11 +155,12 @@ class SineCosineAlgorithm(Algorithm):
 				3. New global best solution
 				4. New global best fitness/objective value
 				5. Additional arguments.
+				6. Additional keyword arguments.
 		"""
 		r1, r2, r3, r4 = self.a - task.Iters * (self.a / task.Iters), self.uniform(0, 2 * np.pi), self.uniform(self.Rmin, self.Rmax), self.rand()
-		P = np.apply_along_axis(self.nextPos, 1, P, xb, r1, r2, r3, r4, task)
+		P = np.apply_along_axis(self.next_pos, 1, P, xb, r1, r2, r3, r4, task)
 		P_f = np.apply_along_axis(task.eval, 1, P)
 		xb, fxb = self.get_best(P, P_f, xb, fxb)
-		return P, P_f, xb, fxb, {}
+		return P, P_f, xb, fxb, args, dparams
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

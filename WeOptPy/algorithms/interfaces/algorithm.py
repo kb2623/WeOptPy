@@ -208,8 +208,8 @@ class Algorithm:
 		See Also:
 			* :func:`WeOptPy.algorithms.Algorithm.setParameters`
 		"""
-		pop, fpop = self.InitPopFunc(task=task, n=self.NP, rnd=self.Rand, itype=self.itype)
-		return pop, fpop, [], {}
+		pop, fpop, args, kwargs = self.InitPopFunc(task=task, n=self.NP, rnd=self.Rand, itype=self.itype)
+		return pop, fpop, args, kwargs
 
 	def run_iteration(self, task, pop, fpop, xb, fxb, *args, **dparams):
 		r"""Core functionality of algorithm.

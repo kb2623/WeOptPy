@@ -221,7 +221,7 @@ class DynNpDifferentialEvolutionMTS(DifferentialEvolutionMTS, DynNpDifferentialE
         DifferentialEvolutionMTS.setParameters(self, **ukwargs)
 
     def postSelection(self, X, task, xb, fxb, **kwargs):
-        nX, xb, fxb = DynNpDifferentialEvolution.postSelection(self, X, task, xb, fxb)
+        nX, xb, fxb = DynNpDifferentialEvolution.post_selection(self, X, task, xb, fxb)
         nX, xb, fxb = DifferentialEvolutionMTS.postSelection(self, nX, task, xb, fxb)
         return nX, xb, fxb
 

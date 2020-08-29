@@ -88,8 +88,8 @@ class CuckooSearch(Algorithm):
 		})
 		return d
 
-	def emptyNests(self, pop, fpop, pa_v, task):
-		r"""Empty ensts.
+	def empty_nests(self, pop, fpop, pa_v, task):
+		r"""Empty nests.
 
 		Args:
 			pop (numpy.ndarray): Current population
@@ -103,7 +103,7 @@ class CuckooSearch(Algorithm):
 				2. New population fitness/function values
 		"""
 		si = np.argsort(fpop)[:int(pa_v):-1]
-		pop[si] = task.lower + self.rand(task.D) * task.bRange
+		pop[si] = task.Lower + self.rand(task.D) * task.bRange
 		fpop[si] = np.apply_along_axis(task.eval, 1, pop[si])
 		return pop, fpop
 
@@ -114,20 +114,21 @@ class CuckooSearch(Algorithm):
 			task (Task): Optimization task.
 
 		Returns:
-			Tuple[numpy.ndarray, numpy.ndarray, Dict[str, Any]]:
+			Tuple[numpy.ndarray, numpy.ndarray, list, dict]:
 				1. Initialized population.
 				2. Initialized populations fitness/function values.
 				3. Additional arguments:
+				4. Additional keyword arguments:
 					* pa_v (float): TODO
 
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.initPopulation`
 		"""
-		N, N_f, d = Algorithm.init_population(self, task)
+		N, N_f, args, d = Algorithm.init_population(self, task)
 		d.update({'pa_v': self.NP * self.pa})
-		return N, N_f, d
+		return N, N_f, args, d
 
-	def run_iteration(self, task, pop, fpop, xb, fxb, pa_v, **dparams):
+	def run_iteration(self, task, pop, fpop, xb, fxb, pa_v, *args, **dparams):
 		r"""Core function of CuckooSearch algorithm.
 
 		Args:
@@ -137,15 +138,17 @@ class CuckooSearch(Algorithm):
 			xb (numpy.ndarray): Global best individual.
 			fxb (float): Global best individual function/fitness values.
 			pa_v (float): TODO
-			dparams (Dict[str, Any]): Additional arguments.
+			args (list): Additional arguments.
+			dparams (dict): Additional keyword arguments.
 
 		Returns:
-			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, Dict[str, Any]]:
+			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, list, dict]:
 				1. Initialized population.
 				2. Initialized populations fitness/function values.
 				3. New global best solution
 				4. New global best solutions fitness/objective value
 				5. Additional arguments:
+				6. Additional keyword arguments:
 					* pa_v (float): TODO
 		"""
 		i = self.randint(self.NP)
@@ -154,8 +157,8 @@ class CuckooSearch(Algorithm):
 		j = self.randint(self.NP)
 		while i == j: j = self.randint(self.NP)
 		if Nn_f <= fpop[j]: pop[j], fpop[j] = Nn, Nn_f
-		pop, fpop = self.emptyNests(pop, fpop, pa_v, task)
+		pop, fpop = self.empty_nests(pop, fpop, pa_v, task)
 		xb, fxb = self.get_best(pop, fpop, xb, fxb)
-		return pop, fpop, xb, fxb, {'pa_v': pa_v}
+		return pop, fpop, xb, fxb, args, {'pa_v': pa_v}
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

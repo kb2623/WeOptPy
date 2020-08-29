@@ -54,7 +54,7 @@ class SimulatedAnnealing(Algorithm):
 		Jan Popič and Klemen Berkovič
 
 	License:
-		 MIT
+		MIT
 
 	Reference URL:
 		TODO
@@ -144,17 +144,18 @@ class SimulatedAnnealing(Algorithm):
 			task (Task): Optimization task.
 
 		Returns:
-			Tuple[numpy.ndarray, float, dict]:
-				1. Initial solution
-				2. Initial solutions fitness/objective value
-				3. Additional arguments
+			Tuple[numpy.ndarray, float, list, dict]:
+				1. Initial solution.
+				2. Initial solutions fitness/objective value.
+				3. Additional arguments.
+				3. Additional keyword arguments.
 		"""
-		x = task.lower + task.range() * self.rand(task.D)
+		x = task.Lower + task.bRange * self.rand(task.D)
 		curT, xfit = self.T, task.eval(x)
-		return x, xfit, {'curT': curT}
+		return x, xfit, [], {'curT': curT}
 
-	def run_iteration(self, task, x, xfit, xb, fxb, curT, **dparams):
-		r"""Core funciton of the algorithm.
+	def run_iteration(self, task, x, xfit, xb, fxb, curT, *args, **dparams):
+		r"""Core function of the algorithm.
 
 		Args:
 			task (Task):
@@ -163,15 +164,17 @@ class SimulatedAnnealing(Algorithm):
 			xb (numpy.ndarray):
 			fxb (float):
 			curT (float):
-			dparams (dict): Additional arguments.
+			args (list): Additional arguments.
+			dparams (dict): Additional keyword arguments.
 
 		Returns:
-			Tuple[numpy.ndarray, float, numpy.ndarray, float, dict]:
-				1. New solution
-				2. New solutions fitness/objective value
-				3. New global best solution
-				4. New global best solutions fitness/objective value
-				5. Additional arguments
+			Tuple[numpy.ndarray, float, numpy.ndarray, float, list, dict]:
+				1. New solution.
+				2. New solutions fitness/objective value.
+				3. New global best solution.
+				4. New global best solutions fitness/objective value.
+				5. Additional arguments.
+				6. Additional keyword arguments.
 		"""
 		c = task.repair(x - self.delta / 2 + self.rand(task.D) * self.delta, rnd=self.Rand)
 		cfit = task.eval(c)
@@ -179,6 +182,6 @@ class SimulatedAnnealing(Algorithm):
 		if deltaFit < 0 or r < np.exp(deltaFit / curT): x, xfit = c, cfit
 		curT = self.cool(curT, self.T, deltaT=self.deltaT, nFES=task.nFES)
 		xb, fxb = self.get_best(x, xfit, xb, fxb)
-		return x, xfit, xb, fxb, {'curT': curT}
+		return x, xfit, xb, fxb, args, {'curT': curT}
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

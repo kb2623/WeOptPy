@@ -26,8 +26,12 @@ class FPATestCase(AlgorithmTestCase):
 
 	def test_custom_works_fine(self):
 		fpa_custom = self.algo(NP=10, p=0.5, seed=self.seed)
+		AlgorithmTestCase.test_algorithm_run(self, fpa_custom, MyBenchmark())
+
+	def test_Custom_works_fine_parallel(self):
+		fpa_custom = self.algo(NP=10, p=0.5, seed=self.seed)
 		fpa_customc = self.algo(NP=10, p=0.5, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, fpa_custom, fpa_customc, MyBenchmark())
+		AlgorithmTestCase.test_algorithm_run_parallel(self, fpa_custom, fpa_customc, MyBenchmark())
 
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

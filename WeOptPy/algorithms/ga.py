@@ -149,7 +149,7 @@ def uniform_mutation(pop, ic, mr, task, rnd=rand):
 		numpy.ndarray: New genotype.
 	"""
 	j = rnd.randint(task.D)
-	nx = [rnd.uniform(task.lower[i], task.upper[i]) if rnd.rand() < mr or i == j else pop[ic][i] for i in range(task.D)]
+	nx = [rnd.uniform(task.Lower[i], task.Upper[i]) if rnd.rand() < mr or i == j else pop[ic][i] for i in range(task.D)]
 	return np.asarray(nx)
 
 
@@ -166,7 +166,7 @@ def mutation_uros(pop, ic, mr, task, rnd=rand):
 	Returns:
 		numpy.ndarray: New genotype.
 	"""
-	return np.fmin(np.fmax(rnd.normal(pop[ic], mr * task.bRange), task.lower), task.upper)
+	return np.fmin(np.fmax(rnd.normal(pop[ic], mr * task.bRange), task.Lower), task.Upper)
 
 
 def creep_mutation(pop, ic, mr, task, rnd=rand):
@@ -277,7 +277,7 @@ class GeneticAlgorithm(Algorithm):
 		self.Ts, self.Mr, self.Cr = ts, mr, cr
 		self.Selection, self.Crossover, self.Mutation = selection, crossover, mutation
 
-	def run_iteration(self, task, pop, fpop, xb, fxb, **dparams):
+	def run_iteration(self, task, pop, fpop, xb, fxb, *args, **dparams):
 		r"""Core function of GeneticAlgorithm algorithm.
 
 		Args:
@@ -286,15 +286,17 @@ class GeneticAlgorithm(Algorithm):
 			fpop (numpy.ndarray): Current populations fitness/function values.
 			xb (numpy.ndarray): Global best individual.
 			fxb (float): Global best individuals function/fitness value.
-			dparams (Dict[str, Any]): Additional arguments.
+			args (lst): Additional argument.
+			dparams (dict): Additional keyword arguments.
 
 		Returns:
-			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, Dict[str, Any]]:
+			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, list, dict]:
 				1. New population.
 				2. New populations function/fitness values.\
 				3. New global best solution
 				4. New global best solutions fitness/objective value
 				5. Additional arguments.
+				6. Additional keyword arguments.
 		"""
 		npop = np.empty(self.NP, dtype=object)
 		for i in range(self.NP):
@@ -304,7 +306,7 @@ class GeneticAlgorithm(Algorithm):
 			ind.evaluate(task, rnd=self.Rand)
 			npop[i] = ind
 			if npop[i].f < fxb: xb, fxb = self.get_best(npop[i], npop[i].f, xb, fxb)
-		return npop, np.asarray([i.f for i in npop]), xb, fxb, {}
+		return npop, np.asarray([i.f for i in npop]), xb, fxb, args, dparams
 
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

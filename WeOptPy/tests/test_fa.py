@@ -26,8 +26,12 @@ class FATestCase(AlgorithmTestCase):
 
     def test_works_fine(self):
         fa = self.algo(NP=20, alpha=0.5, betamin=0.2, gamma=1.0, seed=self.seed)
+        AlgorithmTestCase.test_algorithm_run(self, fa, MyBenchmark())
+
+    def test_works_fine_parallel(self):
+        fa = self.algo(NP=20, alpha=0.5, betamin=0.2, gamma=1.0, seed=self.seed)
         fac = self.algo(NP=20, alpha=0.5, betamin=0.2, gamma=1.0, seed=self.seed)
-        AlgorithmTestCase.test_algorithm_run(self, fa, fac, MyBenchmark())
+        AlgorithmTestCase.test_algorithm_run_parallel(self, fa, fac, MyBenchmark())
 
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

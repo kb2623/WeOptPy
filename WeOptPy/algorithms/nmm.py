@@ -85,7 +85,7 @@ class NelderMeadMethod(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.setParameters`
 		"""
-		Algorithm.set_parameters(self, n=n, init_pop_func=ukwargs.pop('init_pop_func', self.initPop), **ukwargs)
+		Algorithm.set_parameters(self, n=n, init_pop_func=ukwargs.pop('init_pop_func', self.init_pop), **ukwargs)
 		self.alpha, self.gamma, self.rho, self.sigma = alpha, gamma, rho, sigma
 
 	def get_parameters(self):
@@ -98,23 +98,26 @@ class NelderMeadMethod(Algorithm):
 		})
 		return d
 
-	def initPop(self, task, NP, **kwargs):
+	def init_pop(self, task, n, *args, **kwargs):
 		r"""Init starting population.
 
 		Args:
-			NP (int): Number of individuals in population.
 			task (Task): Optimization task.
+			n (int): Number of individuals in population.
 			rnd (mtrand.RandomState): Random number generator.
-			kwargs (Dict[str, Any]): Additional arguments.
+			args (list): Additional arguments.
+			kwargs (dict): Additional keyword arguments.
 
 		Returns:
-			Tuple[numpy.ndarray, numpy.ndarray[float]]:
+			Tuple[numpy.ndarray, numpy.ndarray, list, dict]:
 				1. New initialized population.
 				2. New initialized population fitness/function values.
+				3. Additional arguments.
+				4. Additional keyword arguments.
 		"""
-		X = self.uniform(task.lower, task.upper, [task.D if NP is None or NP < task.D else NP, task.D])
+		X = self.uniform(task.Lower, task.Upper, [task.D if n is None or n < task.D else n, task.D])
 		X_f = np.apply_along_axis(task.eval, 1, X)
-		return X, X_f
+		return X, X_f, args, kwargs
 
 	def method(self, X, X_f, task):
 		r"""Run the main function.
@@ -151,7 +154,7 @@ class NelderMeadMethod(Algorithm):
 		X[1:], X_f[1:] = Xn, Xn_f
 		return X, X_f
 
-	def run_iteration(self, task, X, X_f, xb, fxb, **dparams):
+	def run_iteration(self, task, X, X_f, xb, fxb, *args, **dparams):
 		r"""Core iteration function of NelderMeadMethod algorithm.
 
 		Args:
@@ -160,20 +163,23 @@ class NelderMeadMethod(Algorithm):
 			X_f (numpy.ndarray): Current populations fitness/function values.
 			xb (numpy.ndarray): Global best individual.
 			fxb (float): Global best function/fitness value.
-			dparams (Dict[str, Any]): Additional arguments.
+			args (list): Additional arguments.
+			dparams (dict): Additional keyword arguments.
 
 		Returns:
-			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, Dict[str, Any]]:
+			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, list, dict]:
 				1. New population.
 				2. New population fitness/function values.
 				3. New global best solution
 				4. New global best solutions fitness/objective value
 				5. Additional arguments.
+				6. Additional keywrod arguments.
 		"""
 		inds = np.argsort(X_f)
 		X, X_f = X[inds], X_f[inds]
 		X, X_f = self.method(X, X_f, task)
 		xb, fxb = self.get_best(X, X_f, xb, fxb)
-		return X, X_f, xb, fxb, {}
+		return X, X_f, xb, fxb, args, dparams
+
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

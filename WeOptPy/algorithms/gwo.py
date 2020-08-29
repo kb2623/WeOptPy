@@ -57,23 +57,24 @@ class GreyWolfOptimizer(Algorithm):
 			task (Task): Optimization task.
 
 		Returns:
-			Tuple[numpy.ndarray, numpy.ndarray, Dict[str, Any]]:
+			Tuple[numpy.ndarray, numpy.ndarray, list, dict]:
 				1. Initialized population.
 				2. Initialized populations fitness/function values.
 				3. Additional arguments:
+				4. Additional keyword arguments:
 					* a (): TODO
 
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.initPopulation`
 		"""
-		pop, fpop, d = Algorithm.init_population(self, task)
+		pop, fpop, args, d = Algorithm.init_population(self, task)
 		si = np.argsort(fpop)
 		A, A_f, B, B_f, D, D_f = np.copy(pop[si[0]]), fpop[si[0]], np.copy(pop[si[1]]), fpop[si[1]], np.copy(pop[si[2]]), fpop[si[2]]
-		d.update({'a': A, 'A_f': A_f, 'B': B, 'B_f': B_f, 'd': D, 'D_f': D_f})
-		return pop, fpop, d
+		d.update({'A': A, 'A_f': A_f, 'B': B, 'B_f': B_f, 'D': D, 'D_f': D_f})
+		return pop, fpop, args, d
 
-	def run_iteration(self, task, pop, fpop, xb, fxb, A, A_f, B, B_f, D, D_f, **dparams):
-		r"""Core funciton of GreyWolfOptimizer algorithm.
+	def run_iteration(self, task, pop, fpop, xb, fxb, A, A_f, B, B_f, D, D_f, *args, **dparams):
+		r"""Core function of GreyWolfOptimizer algorithm.
 
 		Args:
 			task (Task): Optimization task.
@@ -87,13 +88,15 @@ class GreyWolfOptimizer(Algorithm):
 			B_f (float):
 			D (numpy.ndarray):
 			D_f (float):
-			**dparams (Dict[str, Any]): Additional arguments.
+			args (list): Additional arguments.
+			dparams (dict): Additional keyword arguments.
 
 		Returns:
-			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, Dict[str, Any]]:
+			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, list, dict]:
 				1. New population
 				2. New population fitness/function values
-				3. Additional arguments:
+				3. Additional arguments.
+				4. Additional keyword arguments:
 					* a (): TODO
 		"""
 		a = 2 - task.Evals * (2 / task.nFES)
@@ -111,7 +114,7 @@ class GreyWolfOptimizer(Algorithm):
 			elif A_f < f < B_f: B, B_f = pop[i].copy(), f
 			elif B_f < f < D_f: D, D_f = pop[i].copy(), f
 		xb, fxb = self.get_best(A, A_f, xb, fxb)
-		return pop, fpop, xb, fxb, {'a': A, 'A_f': A_f, 'B': B, 'B_f': B_f, 'd': D, 'D_f': D_f}
+		return pop, fpop, xb, fxb, args, {'A': A, 'A_f': A_f, 'B': B, 'B_f': B_f, 'D': D, 'D_f': D_f}
 
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

@@ -27,7 +27,7 @@ __all__ = [
 	'CrossBest2',
 	'CrossCurr2Rand1',
 	'CrossCurr2Best1',
-	'multiMutations'
+	'multi_mutations'
 ]
 
 
@@ -363,14 +363,14 @@ class DifferentialEvolution(Algorithm):
 		xb, fxb = self.get_best(arr, np.asarray([e.f for e in arr]), xb, fxb)
 		return arr, xb, fxb
 
-	def postSelection(self, pop, task, xb, fxb, **kwargs):
+	def post_selection(self, pop, task, xb, fxb, **kwargs):
 		r"""Apply additional operation after selection.
 
 		Args:
 			pop (numpy.ndarray): Current population.
 			task (Task): Optimization task.
 			xb (numpy.ndarray): Global best solution.
-			kwargs (Dict[str, Any]): Additional arguments.
+			kwargs (dict): Additional arguments.
 
 		Returns:
 			Tuple[numpy.ndarray, numpy.ndarray, float]:
@@ -380,7 +380,7 @@ class DifferentialEvolution(Algorithm):
 		"""
 		return pop, xb, fxb
 
-	def run_iteration(self, task, pop, fpop, xb, fxb, **dparams):
+	def run_iteration(self, task, pop, fpop, xb, fxb, *args, **dparams):
 		r"""Core function of Differential Evolution algorithm.
 
 		Args:
@@ -389,15 +389,17 @@ class DifferentialEvolution(Algorithm):
 			fpop (numpy.ndarray): Current populations fitness/function values.
 			xb (numpy.ndarray): Current best individual.
 			fxb (float): Current best individual function/fitness value.
-			dparams (dict): Additional arguments.
+			args (list): Additional arguments.
+			dparams (dict): Additional keyword arguments.
 
 		Returns:
-			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, Dict[str, Any]]:
+			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, list, dict]:
 				1. New population.
 				2. New population fitness/function values.
 				3. New global best solution.
 				4. New global best solutions fitness/objective value.
 				5. Additional arguments.
+				6. Additional keyword arguments.
 
 		See Also:
 			* :func:`NiaPy.algorithms.basic.DifferentialEvolution.evolve`
@@ -406,10 +408,10 @@ class DifferentialEvolution(Algorithm):
 		"""
 		npop = self.evolve(pop, xb, task)
 		pop, xb, fxb = self.selection(pop, npop, xb, fxb, task=task)
-		pop, xb, fxb = self.postSelection(pop, task, xb, fxb)
+		pop, xb, fxb = self.post_selection(pop, task, xb, fxb)
 		fpop = np.asarray([x.f for x in pop])
 		xb, fxb = self.get_best(pop, fpop, xb, fxb)
-		return pop, fpop, xb, fxb, {}
+		return pop, fpop, xb, fxb, args, {}
 
 
 class CrowdingDifferentialEvolution(DifferentialEvolution):
@@ -552,7 +554,7 @@ class DynNpDifferentialEvolution(DifferentialEvolution):
 		DifferentialEvolution.set_parameters(self, **ukwargs)
 		self.pmax, self.rp = pmax, rp
 
-	def postSelection(self, pop, task, xb, fxb, **kwargs):
+	def post_selection(self, pop, task, xb, fxb, **kwargs):
 		r"""Post selection operator.
 
 		In this algorithm the post selection operator decrements the population at specific iterations/generations.
@@ -830,7 +832,7 @@ class AgingNpDifferentialEvolution(DifferentialEvolution):
 		pop = self.aging(task, npop)
 		return pop, xb, fxb
 
-	def postSelection(self, pop, task, xb, fxb, **kwargs):
+	def post_selection(self, pop, task, xb, fxb, **kwargs):
 		r"""Post selection operator.
 
 		Args:
@@ -848,7 +850,7 @@ class AgingNpDifferentialEvolution(DifferentialEvolution):
 		return self.popDecrement(pop, task) if len(pop) > self.NP else pop, xb, fxb
 
 
-def multiMutations(pop, i, xb, F, CR, rnd, task, itype, strategies, **kwargs):
+def multi_mutations(pop, i, xb, F, CR, rnd, task, itype, strategies, **kwargs):
 	r"""Mutation strategy that takes more than one strategy and applys them to individual.
 
 	Args:
@@ -932,7 +934,7 @@ class MultiStrategyDifferentialEvolution(DifferentialEvolution):
 		See Also:
 			* :func:`NiaPy.algorithms.basic.DifferentialEvolution.setParameters`
 		"""
-		DifferentialEvolution.set_parameters(self, CrossMutt=multiMutations, **ukwargs)
+		DifferentialEvolution.set_parameters(self, CrossMutt=multi_mutations, **ukwargs)
 		self.strategies = strategies
 
 	def get_parameters(self):
@@ -1043,7 +1045,7 @@ class DynNpMultiStrategyDifferentialEvolution(MultiStrategyDifferentialEvolution
 		"""
 		return MultiStrategyDifferentialEvolution.evolve(self, pop, xb, task, **kwargs)
 
-	def postSelection(self, pop, task, xb, fxb, **kwargs):
+	def post_selection(self, pop, task, xb, fxb, **kwargs):
 		r"""Post selection operator.
 
 		Args:
@@ -1060,7 +1062,7 @@ class DynNpMultiStrategyDifferentialEvolution(MultiStrategyDifferentialEvolution
 		See Also:
 			* :func:`NiaPy.algorithms.basic.DynNpDifferentialEvolution.postSelection`
 		"""
-		return DynNpDifferentialEvolution.postSelection(self, pop, task, xb, fxb)
+		return DynNpDifferentialEvolution.post_selection(self, pop, task, xb, fxb)
 
 
 class AgingNpMultiMutationDifferentialEvolution(AgingNpDifferentialEvolution, MultiStrategyDifferentialEvolution):

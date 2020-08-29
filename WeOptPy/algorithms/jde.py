@@ -8,7 +8,7 @@ from WeOptPy.algorithms.de import (
 	CrossBest2,
 	CrossCurr2Rand1,
 	proportional,
-	multiMutations,
+	multi_mutations,
 	DynNpDifferentialEvolution
 )
 from WeOptPy.algorithms.interfaces import Individual
@@ -303,7 +303,7 @@ class DynNpSelfAdaptiveDifferentialEvolutionAlgorithm(SelfAdaptiveDifferentialEv
 		DynNpDifferentialEvolution.set_parameters(self, rp=rp, pmax=pmax, **ukwargs)
 		SelfAdaptiveDifferentialEvolution.set_parameters(self, **ukwargs)
 
-	def postSelection(self, pop, task, **kwargs):
+	def post_selection(self, pop, task, **kwargs):
 		r"""Post selection operator.
 
 		Args:
@@ -313,7 +313,7 @@ class DynNpSelfAdaptiveDifferentialEvolutionAlgorithm(SelfAdaptiveDifferentialEv
 		Returns:
 			numpy.ndarray[Individual]: New population.
 		"""
-		return DynNpDifferentialEvolution.postSelection(self, pop, task, **kwargs)
+		return DynNpDifferentialEvolution.post_selection(self, pop, task, **kwargs)
 
 
 class MultiStrategySelfAdaptiveDifferentialEvolution(SelfAdaptiveDifferentialEvolution):
@@ -349,7 +349,7 @@ class MultiStrategySelfAdaptiveDifferentialEvolution(SelfAdaptiveDifferentialEvo
 		See Also:
 			* :func:`NiaPy.algorithms.modified.SelfAdaptiveDifferentialEvolution.setParameters`
 		"""
-		SelfAdaptiveDifferentialEvolution.set_parameters(self, CrossMutt=kwargs.pop('CrossMutt', multiMutations), **kwargs)
+		SelfAdaptiveDifferentialEvolution.set_parameters(self, CrossMutt=kwargs.pop('CrossMutt', multi_mutations), **kwargs)
 		self.strategies = strategies
 
 	def evolve(self, pop, xb, task, **kwargs):
@@ -405,7 +405,7 @@ class DynNpMultiStrategySelfAdaptiveDifferentialEvolution(MultiStrategySelfAdapt
 		MultiStrategySelfAdaptiveDifferentialEvolution.set_parameters(self, **kwargs)
 		self.pmax, self.rp = pmax, rp
 
-	def postSelection(self, pop, task, **kwargs):
-		return DynNpSelfAdaptiveDifferentialEvolutionAlgorithm.postSelection(self, pop, task)
+	def post_selection(self, pop, task, **kwargs):
+		return DynNpSelfAdaptiveDifferentialEvolutionAlgorithm.post_selection(self, pop, task)
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

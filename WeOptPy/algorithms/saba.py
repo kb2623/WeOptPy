@@ -108,18 +108,18 @@ class AdaptiveBatAlgorithm(Algorithm):
 			task (Task): Optimization task
 
 		Returns:
-			Tuple[numpy.ndarray, numpy.ndarray[float], list, dict]:
+			Tuple[numpy.ndarray, numpy.ndarray, list, dict]:
 				1. New population.
 				2. New population fitness/function values.
 				3. Additional arguments.
 				4. Additional keyword arguments:
 					* a (float): Loudness.
 					* S (numpy.ndarray): TODO
-					* Q (numpy.ndarray[float]): 	TODO
-					* v (numpy.ndarray[float]): TODO
+					* Q (numpy.ndarray): 	TODO
+					* v (numpy.ndarray): TODO
 
 		See Also:
-			* :func:`NiaPy.algorithms.Algorithm.initPopulation`
+			* :func:`WeOptPy.algorithms.Algorithm.initPopulation`
 		"""
 		sol, fitness, args, d = Algorithm.init_population(self, task)
 		a, s, Q, v = np.full(self.NP, self.A), np.full([self.NP, task.D], 0.0), np.full(self.NP, 0.0), np.full([self.NP, task.D], 0.0)

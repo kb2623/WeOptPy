@@ -299,7 +299,7 @@ class AlgorithmTestCase(TestCase):
 		params = self.algo().get_parameters()
 		self.assertIsNotNone(params)
 
-	def __set_up_task(self, d=10, bech=MyBenchmark, nFES=5000, nGEN=5000, verbose=False):
+	def __set_up_task(self, d=10, bech=MyBenchmark, nFES=None, nGEN=None, verbose=False):
 		r"""Setup optimization tasks for testing.
 
 		Args:
@@ -323,15 +323,16 @@ class AlgorithmTestCase(TestCase):
 		"""
 		if a is None: return False
 		for D in self.D:
-			task = self.__set_up_task(D, benc, nFES=self.nFES, nGEN=self.nGEN)
+			no_fes, no_gen = D * 1000, D * 1000
+			task = self.__set_up_task(D, benc, nFES=no_fes, nGEN=no_gen)
 			x = a.run(task)
 			self.assertFalse(a.bad_run(), "Something went wrong at runtime of the algorithm --> %s" % a.exception)
 			self.assertIsNotNone(x)
 			logger.info('%s\n%s -> %s' % (task.names(), x[0], x[1]))
 			self.assertAlmostEqual(task.benchmark.function()(x[0].x if isinstance(x[0], Individual) else x[0]), x[1], msg='Best individual fitness values does not mach the given one')
 			self.assertAlmostEqual(task.x_f, x[1], msg='While running the algorithm, algorithm got better individual with fitness: %s' % task.x_f)
-			self.assertTrue(self.nFES >= task.Evals, msg='nfes: %d < evals: %d' % (self.nFES, task.Evals))
-			self.assertTrue(self.nGEN >= task.Iters, msg='ngen: %d < iters: %d' % (self.nGEN, task.Iters))
+			self.assertTrue(no_fes >= task.Evals, msg='nfes: %d < evals: %d' % (no_fes, task.Evals))
+			self.assertTrue(no_gen >= task.Iters, msg='ngen: %d < iters: %d' % (no_gen, task.Iters))
 		return True
 
 	def test_algorithm_run_parallel(self, a=None, b=None, benc=MyBenchmark):
@@ -341,12 +342,11 @@ class AlgorithmTestCase(TestCase):
 			a (Algorithm): First instance of algorithm.
 			b (Algorithm): Second instance of algorithm.
 			benc (UtilityFunction): Benchmark to use for testing.
-			nFES (int): Number of function evaluations.
-			nGEN (int): Number of algorithm generations/iterations.
 		"""
 		if a is None or b is None: return False
 		for D in self.D:
-			task1, task2 = self.__set_up_task(D, benc, nFES=self.nFES, nGEN=self.nGEN), self.__set_up_task(D, benc, nFES=self.nFES, nGEN=self.nGEN)
+			no_fes, no_gen = D * 1000, D * 1000
+			task1, task2 = self.__set_up_task(D, benc, nFES=no_fes, nGEN=no_gen), self.__set_up_task(D, benc, nFES=no_fes, nGEN=no_gen)
 			q = Queue(maxsize=2)
 			thread1, thread2 = Thread(target=lambda a, t, q: q.put(a.run(t)), args=(a, task1, q)), Thread(target=lambda a, t, q: q.put(a.run(t)), args=(b, task2, q))
 			thread1.start(), thread2.start()
@@ -359,8 +359,8 @@ class AlgorithmTestCase(TestCase):
 			self.assertAlmostEqual(task1.x_f, x[1], msg='While running the algorithm, algorithm got better individual with fitness: %s' % task1.x_f)
 			self.assertTrue(np.array_equal(x[0], y[0]), 'Results can not be reproduced, check usages of random number generator')
 			self.assertAlmostEqual(x[1], y[1], msg='Results can not be reproduced or bad function value')
-			self.assertTrue(self.nFES >= task1.Evals, msg='nfes: %s < evals: %s' % (self.nFES, task1.Evals)), self.assertEqual(task1.Evals, task2.Evals, msg='task1: %d != task2: %d' % (task1.Evals, task2.Evals))
-			self.assertTrue(self.nGEN >= task1.Iters, msg='ngen: %s < iters: %s' % (self.nGEN, task1.Iters)), self.assertEqual(task1.Iters, task2.Iters, msg='task1: %d != task2: %d' % (task1.Iters, task2.Iters))
+			self.assertTrue(no_fes >= task1.Evals, msg='nfes: %s < evals: %s' % (no_fes, task1.Evals)), self.assertEqual(task1.Evals, task2.Evals, msg='task1: %d != task2: %d' % (task1.Evals, task2.Evals))
+			self.assertTrue(no_gen >= task1.Iters, msg='ngen: %s < iters: %s' % (no_gen, task1.Iters)), self.assertEqual(task1.Iters, task2.Iters, msg='task1: %d != task2: %d' % (task1.Iters, task2.Iters))
 		return True
 
 

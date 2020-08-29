@@ -132,11 +132,11 @@ class GravitationalSearchAlgorithm(Algorithm):
         See Also:
             * :func:`NiaPy.algorithms.algorithm.Algorithm.initPopulation`
         """
-        X, X_f, _ = Algorithm.init_population(self, task)
+        X, X_f, args, _ = Algorithm.init_population(self, task)
         v = np.full([self.NP, task.D], 0.0)
-        return X, X_f, {'v': v}
+        return X, X_f, args, {'v': v}
 
-    def run_iteration(self, task, X, X_f, xb, fxb, v, **dparams):
+    def run_iteration(self, task, X, X_f, xb, fxb, v, *args, **dparams):
         r"""Core function of GravitationalSearchAlgorithm algorithm.
 
         Args:
@@ -146,15 +146,17 @@ class GravitationalSearchAlgorithm(Algorithm):
             xb (numpy.ndarray): Global best solution.
             fxb (float): Global best fitness/function value.
             v (numpy.ndarray): TODO
-            **dparams (Dict[str, Any]): Additional arguments.
+            args (list): Additional arguments.
+            dparams (dict): Additional keyword arguments.
 
         Returns:
-            Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, Dict[str, Any]]:
+            Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, list, dict]:
                 1. New population.
                 2. New populations fitness/function values.
                 3. New global best solution
                 4. New global best solutions fitness/objective value
-                5. Additional arguments:
+                5. Additional arguments.
+                6. Additional keyword arguments:
                     * v (numpy.ndarray): TODO
         """
         ib, iw = np.argmin(X_f), np.argmax(X_f)
@@ -167,4 +169,4 @@ class GravitationalSearchAlgorithm(Algorithm):
         X = np.apply_along_axis(task.repair, 1, X + v, self.Rand)
         X_f = np.apply_along_axis(task.eval, 1, X)
         xb, fxb = self.get_best(X, X_f, xb, fxb)
-        return X, X_f, xb, fxb, {'v': v}
+        return X, X_f, xb, fxb, args, {'v': v}

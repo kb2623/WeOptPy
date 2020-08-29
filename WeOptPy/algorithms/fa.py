@@ -128,19 +128,20 @@ class FireflyAlgorithm(Algorithm):
 			task (Task): Optimization task
 
 		Returns:
-			Tuple[numpy.ndarray, numpy.ndarray[float], Dict[str, Any]]:
+			Tuple[numpy.ndarray, numpy.ndarray[float], list, dict]:
 				1. New population.
 				2. New population fitness/function values.
-				3. Additional arguments:
+				3. Additional arguments.
+				3. Additional keyword arguments:
 					* alpha (float): TODO
 
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.initPopulation`
 		"""
-		Fireflies, Intensity, _ = Algorithm.init_population(self, task)
-		return Fireflies, Intensity, {'alpha': self.alpha}
+		Fireflies, Intensity, args, _ = Algorithm.init_population(self, task)
+		return Fireflies, Intensity, args, {'alpha': self.alpha}
 
-	def run_iteration(self, task, Fireflies, Intensity, xb, fxb, alpha, **dparams):
+	def run_iteration(self, task, Fireflies, Intensity, xb, fxb, alpha, *args, **dparams):
 		r"""Core function of Firefly Algorithm.
 
 		Args:
@@ -150,15 +151,17 @@ class FireflyAlgorithm(Algorithm):
 			xb (numpy.ndarray): Global best individual.
 			fxb (float): Global best individual fitness/function value.
 			alpha (float): TODO.
-			dparams (Dict[str, Any]): Additional arguments.
+			args (list): Additional arguments.
+			dparams (dict): Additional keyword arguments.
 
 		Returns:
-			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, Dict[str, Any]]:
+			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, list, dict]:
 				1. New population.
 				2. New population fitness/function values.
 				3. New global best solution
 				4. New global best solutions fitness/objective value
-				5. Additional arguments:
+				5. Additional arguments.
+				6. Additional keyword arguments:
 					* alpha (float): TODO
 
 		See Also:
@@ -170,6 +173,7 @@ class FireflyAlgorithm(Algorithm):
 		Fireflies, evalF = np.asarray([tmp[i][0] for i in range(len(tmp))]), np.asarray([tmp[i][1] for i in range(len(tmp))])
 		Intensity[np.where(evalF)] = np.apply_along_axis(task.eval, 1, Fireflies[np.where(evalF)])
 		xb, fxb = self.get_best(Fireflies, Intensity, xb, fxb)
-		return Fireflies, Intensity, xb, fxb, {'alpha': alpha}
+		return Fireflies, Intensity, xb, fxb, args, {'alpha': alpha}
+
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

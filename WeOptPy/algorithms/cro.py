@@ -9,7 +9,7 @@ from WeOptPy.algorithms.interfaces.algorithm import Algorithm
 __all__ = ['CoralReefsOptimization']
 
 
-def SexualCrossoverSimple(pop, p, task, rnd=rand, **kwargs):
+def sexual_crossover_simple(pop, p, task, rnd=rand, **kwargs):
 	r"""Sexual reproduction of corals.
 
 	Args:
@@ -17,7 +17,7 @@ def SexualCrossoverSimple(pop, p, task, rnd=rand, **kwargs):
 		p (float): Probability in range [0, 1].
 		task (Task): Optimization task.
 		rnd (mtrand.RandomState): Random generator.
-		kwargs (Dict[str, Any]): Additional arguments.
+		kwargs (dict): Additional keyword arguments.
 
 	Returns:
 		Tuple[numpy.ndarray, numpy.ndarray]:
@@ -28,7 +28,7 @@ def SexualCrossoverSimple(pop, p, task, rnd=rand, **kwargs):
 	return pop, np.apply_along_axis(task.eval, 1, pop)
 
 
-def BroodingSimple(pop, p, task, rnd=rand, **kwargs):
+def brooding_simple(pop, p, task, rnd=rand, **kwargs):
 	r"""Brooding or internal sexual reproduction of corals.
 
 	Args:
@@ -47,7 +47,7 @@ def BroodingSimple(pop, p, task, rnd=rand, **kwargs):
 	return pop, np.apply_along_axis(task.eval, 1, pop)
 
 
-def MoveCorals(pop, p, F, task, rnd=rand, **kwargs):
+def move_corals(pop, p, F, task, rnd=rand, **kwargs):
 	r"""Move corals.
 
 	Args:
@@ -129,7 +129,7 @@ class CoralReefsOptimization(Algorithm):
 			'k': False
 		}
 
-	def set_parameters(self, N=25, phi=0.4, Fa=0.5, Fb=0.5, Fd=0.3, k=25, P_Cr=0.5, P_F=0.36, SexualCrossover=SexualCrossoverSimple, Brooding=BroodingSimple, Distance=euclidean, **ukwargs):
+	def set_parameters(self, N=25, phi=0.4, Fa=0.5, Fb=0.5, Fd=0.3, k=25, P_Cr=0.5, P_F=0.36, SexualCrossover=sexual_crossover_simple, Brooding=brooding_simple, Distance=euclidean, **ukwargs):
 		r"""Set the parameters of the algorithm.
 
 		Arguments:
@@ -141,7 +141,7 @@ class CoralReefsOptimization(Algorithm):
 			k (int): Trys for larvae setting.
 			SexualCrossover (Callable[[numpy.ndarray, float, Task, mtrand.RandomState, Dict[str, Any]], Tuple[numpy.ndarray, numpy.ndarray]]): Crossover function.
 			P_Cr (float): Crossover rate $\in [0, 1]$.
-			Brooding (Callable[[numpy.ndarray, float, Task, mtrand.RandomState, Dict[str, Any]], Tuple[numpy.ndarray, numpy.ndarray]]): Brooding function.
+			Brooding (Callable[[numpy.ndarray, float, Task, mtrand.RandomState, dict], Tuple[numpy.ndarray, numpy.ndarray]]): Brooding function.
 			P_F (float): Crossover rate $\in [0, 1]$.
 			Distance (Callable[[numpy.ndarray, numpy.ndarray], float]): Funciton for calculating distance between corals.
 
@@ -172,7 +172,7 @@ class CoralReefsOptimization(Algorithm):
 		})
 		return d
 
-	def asexualReprodution(self, Reef, Reef_f, xb, fxb, task):
+	def asexual_reprodution(self, Reef, Reef_f, xb, fxb, task):
 		r"""Asexual reproduction of corals.
 
 		Args:
@@ -234,7 +234,7 @@ class CoralReefsOptimization(Algorithm):
 			D = np.asarray([np.sqrt(np.sum((A - e) ** 2, axis=1)) for e in Xn])
 			I = np.unique(np.where(D < phi)[0])
 			if I.any():
-				Xn[I], Xn_f[I] = MoveCorals(Xn[I], self.P_F, self.P_F, task, rnd=self.Rand)
+				Xn[I], Xn_f[I] = move_corals(Xn[I], self.P_F, self.P_F, task, rnd=self.Rand)
 				xb, fxb = self.get_best(Xn[I], Xn_f[I], xb, fxb)
 			return xb, fxb
 		for i in range(self.k):
@@ -244,7 +244,7 @@ class CoralReefsOptimization(Algorithm):
 		I = np.unique(np.where(D >= self.phi)[0])
 		return np.append(X, Xn[I], 0), np.append(X_f, Xn_f[I], 0), xb, fxb
 
-	def run_iteration(self, task, Reef, Reef_f, xb, fxb, **dparams):
+	def run_iteration(self, task, Reef, Reef_f, xb, fxb, *args, **dparams):
 		r"""Core function of Coral Reefs Optimization algorithm.
 
 		Args:
@@ -253,28 +253,32 @@ class CoralReefsOptimization(Algorithm):
 			Reef_f (numpy.ndarray): Current population fitness/function value.
 			xb (numpy.ndarray): Global best solution.
 			fxb (float): Global best solution fitness/function value.
-			dparams: Additional arguments
+			args (list): Additional arguments.
+			dparams (dict): Additional keyword arguments.
 
 		Returns:
-			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, Dict[str, Any]]:
+			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, list, dict]:
 				1. New population.
 				2. New population fitness/function values.
 				3. New global bset solution
 				4. New global best solutions fitness/objective value
-				5. Additional arguments:
+				5. Additional arguments.
+				6. Additional keyword arguments.
 
 		See Also:
-			* :func:`NiaPy.algorithms.basic.CoralReefsOptimization.SexualCrossover`
-			* :func:`NiaPy.algorithms.basic.CoralReefsOptimization.Brooding`
+			* :func:`WeOptPy.algorithms.basic.CoralReefsOptimization.SexualCrossover`
+			* :func:`WeOptPy.algorithms.basic.CoralReefsOptimization.Brooding`
 		"""
 		I = self.Rand.choice(len(Reef), size=self.Fb, replace=False)
 		Reefn_s, Reefn_s_f = self.SexualCrossover(Reef[I], self.P_Cr, task, rnd=self.Rand)
 		xb, fxb = self.get_best(Reefn_s, Reefn_s_f, xb, fxb)
+		# FIXME Soemthing wrong
 		Reefn_b, Reffn_b_f = self.Brooding(np.delete(Reef, I, 0), self.P_F, task, rnd=self.Rand)
 		xb, fxb = self.get_best(Reefn_s, Reefn_s_f, xb, fxb)
 		Reefn, Reefn_f, xb, fxb = self.setting(Reef, Reef_f, np.append(Reefn_s, Reefn_b, 0), np.append(Reefn_s_f, Reffn_b_f, 0), xb, fxb, task)
-		Reef, Reef_f, xb, fxb = self.asexualReprodution(Reefn, Reefn_f, xb, fxb, task)
+		Reef, Reef_f, xb, fxb = self.asexual_reprodution(Reefn, Reefn_f, xb, fxb, task)
 		if task.Iters % self.k == 0: Reef, Reef_f = self.depredation(Reef, Reef_f)
-		return Reef, Reef_f, xb, fxb, {}
+		return Reef, Reef_f, xb, fxb, args, {}
+
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3
