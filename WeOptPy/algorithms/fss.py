@@ -17,7 +17,7 @@ class Fish(Individual):
 		has_improved (bool): If the fish has improved.
 
 	See Also:
-		* :class:`NiaPy.algorithms.algorithm.Individual`
+		* :class:`Weight.algorithms.algorithm.Individual`
 	"""
 	def __init__(self, weight, **kwargs):
 		r"""Initialize fish individual.
@@ -27,7 +27,7 @@ class Fish(Individual):
 			kwargs (Dict[str, Any]): Additional arguments.
 
 		See Also:
-			* :func:`NiaPy.algorithms.algorithm.Individual`
+			* :func:`WeOptPy.algorithms.algorithm.Individual`
 		"""
 		Individual.__init__(self, **kwargs)
 		self.weight = weight
@@ -47,8 +47,8 @@ class FishSchoolSearch(Algorithm):
 
 	Authors:
 		Clodomir Santana Jr, Elliackin Figueredo, Mariana Maceds, Pedro Santos.
-		Ported to NiaPy with small changes by Kristian Järvenpää (2018).
-		Ported to the NiaPy 2.0 by Klemen Berkovič (2019).
+		Ported to WeOptPy with small changes by Kristian Järvenpää (2018).
+		Ported to the WeOptPy 2.0 by Klemen Berkovič (2019).
 
 	License:
 		MIT
@@ -66,7 +66,7 @@ class FishSchoolSearch(Algorithm):
 		w_scale (float): Maximum weight of a fish.
 
 	See Also:
-		* :class:`NiaPy.algorithms.algorithm.Algorithm`
+		* :class:`WeOptPy.algorithms.algorithm.Algorithm`
 	"""
 	Name = ['FSS', 'FishSchoolSearch']
 
@@ -88,7 +88,7 @@ class FishSchoolSearch(Algorithm):
 			w_scale (Optional[float]): Maximum weight of a fish.
 
 		See Also:
-			* :func:`NiaPy.algorithms.Algorithm.setParameters`
+			* :func:`WeOptPy.algorithms.Algorithm.setParameters`
 		"""
 		Algorithm.set_parameters(self, n=n, **ukwargs)
 		self.step_individual_init = SI_init
@@ -105,7 +105,7 @@ class FishSchoolSearch(Algorithm):
 			Dict[str, Any]: TODO.
 
 		See Also:
-			* :func:`NiaPy.algorithms.Algorithm.setParameters`
+			* :func:`WeOptPy.algorithms.Algorithm.setParameters`
 		"""
 		d = Algorithm.get_parameters(self)
 		d.update({

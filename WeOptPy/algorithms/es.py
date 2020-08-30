@@ -33,7 +33,7 @@ class IndividualES(Individual):
 	r"""Individual for Evolution Strategies.
 
 	See Also:
-		* :class:`NiaPy.algorithms.Individual`
+		* :class:`WeOptPy.algorithms.Individual`
 	"""
 	def __init__(self, **kwargs):
 		r"""Initialize individual.
@@ -42,7 +42,7 @@ class IndividualES(Individual):
 			kwargs (Dict[str, Any]): Additional arguments.
 
 		See Also:
-			* :func:`NiaPy.algorithms.Individual.__init__`
+			* :func:`WeOptPy.algorithms.Individual.__init__`
 		"""
 		Individual.__init__(self, **kwargs)
 		self.rho = kwargs.get('rho', 1)
@@ -75,7 +75,7 @@ class EvolutionStrategy1p1(Algorithm):
 		c_r (float): Search range reduction factor.
 
 	See Also:
-		* :class:`NiaPy.algorithms.Algorithm`
+		* :class:`WeOptPy.algorithms.Algorithm`
 	"""
 	Name = ['EvolutionStrategy1p1', 'EvolutionStrategy(1+1)', 'ES(1+1)']
 
@@ -109,7 +109,7 @@ class EvolutionStrategy1p1(Algorithm):
 			c_r (Optional[float]): Search range reduction factor
 
 		See Also:
-			* :func:`NiaPy.algorithms.Algorithm.setParameters`
+			* :func:`WeOptPy.algorithms.Algorithm.setParameters`
 		"""
 		Algorithm.set_parameters(self, n=mu, itype=ukwargs.pop('itype', IndividualES), **ukwargs)
 		self.mu, self.k, self.c_a, self.c_r, self.epsilon = mu, k, c_a, c_r, epsilon
@@ -214,7 +214,7 @@ class EvolutionStrategyMp1(EvolutionStrategy1p1):
 		Name (List[str]): List of strings representing algorithm names.
 
 	See Also:
-		* :class:`NiaPy.algorithms.basic.EvolutionStrategy1p1`
+		* :class:`WeOptPy.algorithms.EvolutionStrategy1p1`
 	"""
 	Name = ['EvolutionStrategyMp1', 'EvolutionStrategy(mu+1)', 'ES(m+1)']
 
@@ -225,7 +225,7 @@ class EvolutionStrategyMp1(EvolutionStrategy1p1):
 			kwargs (Dict[str, Any]):
 
 		See Also:
-			* :func:`NiaPy.algorithms.basic.EvolutionStrategy1p1.setParameters`
+			* :func:`WeOptPy.algorithms.EvolutionStrategy1p1.setParameters`
 		"""
 		mu = kwargs.pop('mu', 40)
 		EvolutionStrategy1p1.set_parameters(self, mu=mu, **kwargs)
@@ -255,7 +255,7 @@ class EvolutionStrategyMpL(EvolutionStrategy1p1):
 		lam (int): TODO
 
 	See Also:
-		* :class:`NiaPy.algorithms.basic.EvolutionStrategy1p1`
+		* :class:`WeOptPy.algorithms.EvolutionStrategy1p1`
 	"""
 	Name = ['EvolutionStrategyMpL', 'EvolutionStrategy(mu+lambda)', 'ES(m+l)']
 
@@ -268,7 +268,7 @@ class EvolutionStrategyMpL(EvolutionStrategy1p1):
 				* lam (Callable[[int], bool]): TODO.
 
 		See Also:
-			* :func:`NiaPy.algorithms.basic.EvolutionStrategy1p1`
+			* :func:`WeOptPy.algorithms.EvolutionStrategy1p1`
 		"""
 		d = EvolutionStrategy1p1.type_parameters()
 		d['lam'] = lambda x: isinstance(x, int) and x > 0
@@ -342,7 +342,7 @@ class EvolutionStrategyMpL(EvolutionStrategy1p1):
 					* ki (int): Number of successful mutations.
 
 		See Also:
-			* :func:`NiaPy.algorithms.algorithm.Algorithm.initPopulation`
+			* :func:`WeOptPy.algorithms.Algorithm.initPopulation`
 		"""
 		c, fc, args, d = Algorithm.init_population(self, task)
 		d.update({'ki': 0})
@@ -404,11 +404,11 @@ class EvolutionStrategyML(EvolutionStrategyMpL):
 		Name (List[str]): List of strings representing algorithm names
 
 	See Also:
-		* :class:`NiaPy.algorithm.basic.es.EvolutionStrategyMpL`
+		* :class:`WeOptPy.algorithm.EvolutionStrategyMpL`
 	"""
 	Name = ['EvolutionStrategyML', 'EvolutionStrategy(mu,lambda)', 'ES(m,l)']
 
-	def newPop(self, pop):
+	def new_pop(self, pop):
 		r"""Return new population.
 
 		Args:
@@ -437,7 +437,7 @@ class EvolutionStrategyML(EvolutionStrategyMpL):
 				4. Additional keyword arguments.
 
 		See Also:
-			* :func:`NiaPy.algorithm.basic.es.EvolutionStrategyMpL.initPopulation`
+			* :func:`WeOptPy.algorithm.EvolutionStrategyMpL.initPopulation`
 		"""
 		return EvolutionStrategyMpL.init_population(self, task)
 
@@ -463,7 +463,7 @@ class EvolutionStrategyML(EvolutionStrategyMpL):
 				6. Additional keyword arguments.
 		"""
 		cn = objects2array([IndividualES(x=self.mutate_rand(c, task), task=task, rand=self.Rand) for _ in range(self.lam)])
-		c = self.newPop(cn)
+		c = self.new_pop(cn)
 		fc = np.asarray([x.f for x in c])
 		xb, fxb = self.get_best(c, fc, xb, fxb)
 		return c, fc, xb, fxb, args, dparams

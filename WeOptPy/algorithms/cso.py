@@ -51,7 +51,7 @@ class CatSwarmOptimization(Algorithm):
 			vMax (float): Maximal velocity
 
 			See Also:
-				* :func:`NiaPy.algorithms.Algorithm.setParameters`
+				* :func:`WeOptPy.algorithms.Algorithm.setParameters`
 		"""
 		Algorithm.set_parameters(self, n=n, **ukwargs)
 		self.MR, self.C1, self.SMP, self.SPC, self.CDC, self.SRD, self.vMax = MR, C1, SMP, SPC, CDC, SRD, vMax
@@ -70,7 +70,7 @@ class CatSwarmOptimization(Algorithm):
 				4. Additional keyword arguments:
 					* Dictionary of modes (seek or trace) and velocities for each cat
 		See Also:
-			* :func:`NiaPy.algorithms.Algorithm.initPopulation`
+			* :func:`WeOptPy.algorithms.Algorithm.initPopulation`
 		"""
 		pop, fpop, args, d = Algorithm.init_population(self, task)
 		d['modes'] = self.random_seek_trace()

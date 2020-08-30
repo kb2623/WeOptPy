@@ -190,7 +190,7 @@ class AnarchicSocietyOptimization(Algorithm):
 		Combination (Callable[[numpy.ndarray, numpy.ndarray, numpy.ndarray, numpy.ndarray, float, float, float, float, float, float, Task, mtrand.RandomState], Tuple[numpy.ndarray, float]]): Function for combining individuals to get new position/individual.
 
 	See Also:
-		* :class:`NiaPy.algorithms.Algorithm`
+		* :class:`WeOptPy.algorithms.Algorithm`
 	"""
 	Name = ['AnarchicSocietyOptimization', 'ASO']
 
@@ -208,7 +208,7 @@ class AnarchicSocietyOptimization(Algorithm):
 				* CR (Callable[[Union[float, int]], bool]): TODO.
 
 		See Also:
-			* :func:`NiaPy.algorithms.Algorithm.typeParameters`
+			* :func:`WeOptPy.algorithms.Algorithm.typeParameters`
 		"""
 		d = Algorithm.type_parameters()
 		d.update({
@@ -237,11 +237,11 @@ class AnarchicSocietyOptimization(Algorithm):
 			Combination (Optional[Callable[[numpy.ndarray, numpy.ndarray, numpy.ndarray, numpy.ndarray, float, float, float, float, float, float, Task, mtrand.RandomState], Tuple[numpy.ndarray, float]]]): Function for combining individuals to get new position/individual.
 
 		See Also:
-			* :func:`NiaPy.algorithms.Algorithm.setParameters`
+			* :func:`WeOptPy.algorithms.Algorithm.setParameters`
 			* Combination methods:
-				* :func:`NiaPy.algorithms.other.Elitism`
-				* :func:`NiaPy.algorithms.other.Crossover`
-				* :func:`NiaPy.algorithms.other.Sequential`
+				* :func:`WeOptPy.algorithms.other.Elitism`
+				* :func:`WeOptPy.algorithms.other.Crossover`
+				* :func:`WeOptPy.algorithms.other.Sequential`
 		"""
 		Algorithm.set_parameters(self, n=n, **ukwargs)
 		self.alpha, self.gamma, self.theta, self.d, self.dn, self.nl, self.F, self.CR, self.Combination = alpha, gamma, theta, d, dn, nl, F, CR, Combination
@@ -358,8 +358,8 @@ class AnarchicSocietyOptimization(Algorithm):
 					* rs (float): Distance of search space.
 
 		See Also:
-			* :func:`NiaPy.algorithms.algorithm.Algorithm.initPopulation`
-			* :func:`NiaPy.algorithms.other.aso.AnarchicSocietyOptimization.init`
+			* :func:`WeOptPy.algorithms.Algorithm.initPopulation`
+			* :func:`WeOptPy.algorithms.AnarchicSocietyOptimization.init`
 		"""
 		X, X_f, args, d = Algorithm.init_population(self, task)
 		alpha, gamma, theta = self.init(task)

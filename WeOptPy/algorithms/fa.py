@@ -32,7 +32,7 @@ class FireflyAlgorithm(Algorithm):
 		gamma (flaot): Gamma parameter.
 
 	See Also:
-		* :class:`NiaPy.algorithms.Algorithm`
+		* :class:`WeOptPy.algorithms.Algorithm`
 	"""
 	Name = ['FireflyAlgorithm', 'FA']
 
@@ -56,7 +56,7 @@ class FireflyAlgorithm(Algorithm):
 				* gamma (Callable[[Union[float, int]], bool]): TODO.
 
 		See Also:
-			* :func:`NiaPy.algorithms.Algorithm.typeParameters`
+			* :func:`WeOptPy.algorithms.Algorithm.typeParameters`
 		"""
 		d = Algorithm.type_parameters()
 		d.update({
@@ -77,7 +77,7 @@ class FireflyAlgorithm(Algorithm):
 			ukwargs (Dict[str, Any]): Additional arguments.
 
 		See Also:
-			* :func:`NiaPy.algorithms.Algorithm.setParameters`
+			* :func:`WeOptPy.algorithms.Algorithm.setParameters`
 		"""
 		Algorithm.set_parameters(self, n=n, **ukwargs)
 		self.alpha, self.betamin, self.gamma = alpha, betamin, gamma
@@ -136,7 +136,7 @@ class FireflyAlgorithm(Algorithm):
 					* alpha (float): TODO
 
 		See Also:
-			* :func:`NiaPy.algorithms.Algorithm.initPopulation`
+			* :func:`WeOptPy.algorithms.Algorithm.initPopulation`
 		"""
 		Fireflies, Intensity, args, _ = Algorithm.init_population(self, task)
 		return Fireflies, Intensity, args, {'alpha': self.alpha}
@@ -165,7 +165,7 @@ class FireflyAlgorithm(Algorithm):
 					* alpha (float): TODO
 
 		See Also:
-			* :func:`NiaPy.algorithms.basic.FireflyAlgorithm.move_ffa`
+			* :func:`WeOptPy.algorithms.FireflyAlgorithm.move_ffa`
 		"""
 		alpha = self.alpha_new(task.nFES / self.NP, alpha)
 		Index = np.argsort(Intensity)

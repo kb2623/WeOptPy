@@ -36,7 +36,7 @@ class BeesAlgorithm(Algorithm):
 		ukwargs (Dict[str, Any]): Additional arguments.
 
 	See Also:
-		* :func:`NiaPy.algorithms.Algorithm.setParameters`
+		* :func:`WeOptPy.algorithms.Algorithm.setParameters`
 
 	"""
 	Name = ['BeesAlgorithm', 'BEA']
@@ -63,7 +63,7 @@ class BeesAlgorithm(Algorithm):
 				* ngh (Callable[[float], bool]): Checks if size of patches parameter has a proper value.
 
 		See Also:
-			* :func:`NiaPy.algorithms.algorithm.Algorithm.typeParameters`
+			* :func:`WeOptPy.algorithms.algorithm.Algorithm.typeParameters`
 		"""
 		d = Algorithm.type_parameters()
 		d.update({
@@ -89,7 +89,7 @@ class BeesAlgorithm(Algorithm):
 			ukwargs (Dict[str, Any]): Additional arguments.
 
 		See Also:
-			* :func:`NiaPy.algorithms.Algorithm.setParameters`
+			* :func:`WeOptPy.algorithms.Algorithm.setParameters`
 		"""
 		Algorithm.set_parameters(self, n=n, **ukwargs)
 		self.n, self.m, self.e, self.nep, self.nsp, self.ngh = n, m, e, nep, nsp, ngh
@@ -124,7 +124,7 @@ class BeesAlgorithm(Algorithm):
 				2. New population fitness/function values.
 
 		See Also:
-			* :func:`NiaPy.algorithms.Algorithm.initPopulation`
+			* :func:`WeOptPy.algorithms.Algorithm.initPopulation`
 		"""
 		ind = self.randint(task.D)
 		y = np.array(x, copy=True)
@@ -147,7 +147,7 @@ class BeesAlgorithm(Algorithm):
 				4. Additional keyword arguments.
 
 		See Also:
-			* :func:`NiaPy.algorithms.Algorithm.initPopulation`
+			* :func:`WeOptPy.algorithms.Algorithm.initPopulation`
 		"""
 		BeesPosition, BeesCost, args, _ = Algorithm.init_population(self, task)
 		idxs = np.argsort(BeesCost)

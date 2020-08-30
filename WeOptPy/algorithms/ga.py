@@ -212,7 +212,7 @@ class GeneticAlgorithm(Algorithm):
 		Mutation (Callable[[numpy.ndarray[Individual], int, float, Task, mtrand.RandomState], Individual]): Mutation operator.
 
 	See Also:
-		* :class:`NiaPy.algorithms.Algorithm`
+		* :class:`WeOptPy.algorithms.Algorithm`
 	"""
 	Name = ['GeneticAlgorithm', 'GA']
 
@@ -221,7 +221,7 @@ class GeneticAlgorithm(Algorithm):
 		r"""Get basic information of algorithm.
 
 		Returns:
-			 str: Basic information of algorithm.
+			str: Basic information of algorithm.
 		"""
 		return r"""On info"""
 
@@ -236,7 +236,7 @@ class GeneticAlgorithm(Algorithm):
 				* Cr (Callable[[float], bool]): Probability of crossover.
 
 		See Also:
-			* :func:`NiaPy.algorithms.Algorithm.typeParameters`
+			* :func:`WeOptPy.algorithms.Algorithm.typeParameters`
 		"""
 		d = Algorithm.type_parameters()
 		d.update({
@@ -259,19 +259,19 @@ class GeneticAlgorithm(Algorithm):
 			mutation (Optional[Callable[[numpy.ndarray[Individual], int, float, Task, mtrand.RandomState], Individual]]): Mutation operator.
 
 		See Also:
-			* :func:`NiaPy.algorithms.Algorithm.setParameters`
+			* :func:`WeOptPy.algorithms.Algorithm.setParameters`
 			* Selection:
-				* :func:`NiaPy.algorithms.basic.TournamentSelection`
-				* :func:`NiaPy.algorithms.basic.RouletteSelection`
+				* :func:`WeOptPy.algorithms.TournamentSelection`
+				* :func:`WeOptPy.algorithms.RouletteSelection`
 			* Crossover:
-				* :func:`NiaPy.algorithms.basic.UniformCrossover`
-				* :func:`NiaPy.algorithms.basic.TwoPointCrossover`
-				* :func:`NiaPy.algorithms.basic.MultiPointCrossover`
-				* :func:`NiaPy.algorithms.basic.CrossoverUros`
+				* :func:`WeOptPy.algorithms.UniformCrossover`
+				* :func:`WeOptPy.algorithms.TwoPointCrossover`
+				* :func:`WeOptPy.algorithms.MultiPointCrossover`
+				* :func:`WeOptPy.algorithms.CrossoverUros`
 			* Mutations:
-				* :func:`NiaPy.algorithms.basic.UniformMutation`
-				* :func:`NiaPy.algorithms.basic.CreepMutation`
-				* :func:`NiaPy.algorithms.basic.MutationUros`
+				* :func:`WeOptPy.algorithms.UniformMutation`
+				* :func:`WeOptPy.algorithms.CreepMutation`
+				* :func:`WeOptPy.algorithms.MutationUros`
 		"""
 		Algorithm.set_parameters(self, n=n, itype=ukwargs.pop('itype', Individual), init_pop_func=ukwargs.pop('init_pop_func', default_individual_init), **ukwargs)
 		self.Ts, self.Mr, self.Cr = ts, mr, cr

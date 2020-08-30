@@ -33,7 +33,7 @@ class BatAlgorithm(Algorithm):
 		Qmax (float): Maximum frequency.
 
 	See Also:
-		* :class:`NiaPy.algorithms.Algorithm`
+		* :class:`WeOptPy.algorithms.Algorithm`
 	"""
 	Name = ['BatAlgorithm', 'BA']
 
@@ -116,7 +116,7 @@ class BatAlgorithm(Algorithm):
 					* v (numpy.ndarray): TODO
 
 		See Also:
-			* :func:`NiaPy.algorithms.Algorithm.initPopulation`
+			* :func:`WeOptPy.algorithms.Algorithm.initPopulation`
 		"""
 		Sol, Fitness, args, d = Algorithm.init_population(self, task)
 		S, Q, v = np.full([self.NP, task.D], 0.0), np.full(self.NP, 0.0), np.full([self.NP, task.D], 0.0)

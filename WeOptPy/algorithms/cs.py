@@ -33,7 +33,7 @@ class CuckooSearch(Algorithm):
 		alpha (float): Scale factor for levy flight.
 
 	See Also:
-		* :class:`NiaPy.algorithms.Algorithm`
+		* :class:`WeOptPy.algorithms.Algorithm`
 	"""
 	Name = ['CuckooSearch', 'CS']
 
@@ -72,7 +72,7 @@ class CuckooSearch(Algorithm):
 			ukwargs (Dict[str, Any]): Additional arguments
 
 		See Also:
-			* :func:`NiaPy.algorithms.Algorithm.setParameters`
+			* :func:`WeOptPy.algorithms.Algorithm.setParameters`
 		"""
 		ukwargs.pop('n', None)
 		Algorithm.set_parameters(self, n=N, **ukwargs)
@@ -122,7 +122,7 @@ class CuckooSearch(Algorithm):
 					* pa_v (float): TODO
 
 		See Also:
-			* :func:`NiaPy.algorithms.Algorithm.initPopulation`
+			* :func:`WeOptPy.algorithms.Algorithm.initPopulation`
 		"""
 		N, N_f, args, d = Algorithm.init_population(self, task)
 		d.update({'pa_v': self.NP * self.pa})

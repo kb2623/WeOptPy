@@ -260,7 +260,7 @@ class DifferentialEvolution(Algorithm):
 		CrossMutt (Callable[numpy.ndarray, int, numpy.ndarray, float, float, mtrand.RandomState, Dict[str, Any]]): crossover and mutation strategy.
 
 	See Also:
-		* :class:`NiaPy.algorithms.Algorithm`
+		* :class:`WeOptPy.algorithms.Algorithm`
 	"""
 	Name = ['DifferentialEvolution', 'DE']
 
@@ -272,7 +272,7 @@ class DifferentialEvolution(Algorithm):
 			str: Basic information of algorithm.
 
 		See Also:
-			* :func:`NiaPy.algorithms.Algorithm.algorithmInfo`
+			* :func:`WeOptPy.algorithms.Algorithm.algorithmInfo`
 		"""
 		return r"""Storn, Rainer, and Kenneth Price. "Differential evolution - a simple and efficient heuristic for global optimization over continuous spaces." Journal of global optimization 11.4 (1997): 341-359."""
 
@@ -520,7 +520,7 @@ class DynNpDifferentialEvolution(DifferentialEvolution):
 			str: Basic information of algorithm.
 
 		See Also:
-			* :func:`NiaPy.algorithms.Algorithm.algorithmInfo`
+			* :func:`WeOptPy.algorithms.Algorithm.algorithmInfo`
 		"""
 		return r"""No info"""
 
@@ -639,7 +639,7 @@ class AgingIndividual(Individual):
 		age (int): Age of individual.
 
 	See Also:
-		* :class:`NiaPy.algorithms.Individual`
+		* :class:`WeOptPy.algorithms.Individual`
 	"""
 	age = 0
 
@@ -650,7 +650,7 @@ class AgingIndividual(Individual):
 			kwargs (Dict[str, Any]): Additional arguments sent to parent.
 
 		See Also:
-			* :func:`NiaPy.algorithms.Individual.__init__`
+			* :func:`WeOptPy.algorithms.Individual.__init__`
 		"""
 		Individual.__init__(self, **kwargs)
 		self.age = 0
@@ -681,7 +681,7 @@ class AgingNpDifferentialEvolution(DifferentialEvolution):
 		age (Callable[[int, int, float, float, float, float, float], int]): Function for calculation of age for individual.
 
 	See Also:
-		* :class:`NiaPy.algorithms.basic.DifferentialEvolution`
+		* :class:`WeOptPy.algorithms.basic.DifferentialEvolution`
 	"""
 	Name = ['AgingNpDifferentialEvolution', 'ANpDE']
 
@@ -693,7 +693,7 @@ class AgingNpDifferentialEvolution(DifferentialEvolution):
 			str: Basic information of algorithm.
 
 		See Also:
-			* :func:`NiaPy.algorithms.Algorithm.algorithmInfo`
+			* :func:`WeOptPy.algorithms.Algorithm.algorithmInfo`
 		"""
 		return r"""No info"""
 
@@ -893,7 +893,7 @@ class MultiStrategyDifferentialEvolution(DifferentialEvolution):
 		CrossMutt (Callable[[numpy.ndarray[Individual], int, Individual, float, float, Task, Individual, Iterable[Callable[[numpy.ndarray, int, numpy.ndarray, float, float, mtrand.RandomState, Dict[str, Any]], Individual]]], Individual]): Multi crossover and mutation combiner function.
 
 	See Also:
-		* :class:`NiaPy.algorithms.basic.DifferentialEvolution`
+		* :class:`WeOptPy.algorithms.DifferentialEvolution`
 	"""
 	Name = ['MultiStrategyDifferentialEvolution', 'MsDE']
 
@@ -997,7 +997,7 @@ class DynNpMultiStrategyDifferentialEvolution(MultiStrategyDifferentialEvolution
 			str: Basic information of algorithm.
 
 		See Also:
-			* :func:`NiaPy.algorithms.Algorithm.algorithmInfo`
+			* :func:`WeOptPy.algorithms.Algorithm.algorithmInfo`
 		"""
 		return r"""No info"""
 

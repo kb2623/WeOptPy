@@ -102,7 +102,7 @@ class CoralReefsOptimization(Algorithm):
 		Brooding (Callable[[numpy.ndarray, float, Task, mtrand.RandomState, Dict[str, Any]], Tuple[numpy.ndarray, numpy.ndarray]]): Brooding function.
 
 	See Also:
-		* :class:`NiaPy.algorithms.Algorithm`
+		* :class:`WeOptPy.algorithms.Algorithm`
 	"""
 	Name = ['CoralReefsOptimization', 'CRO']
 
@@ -146,7 +146,7 @@ class CoralReefsOptimization(Algorithm):
 			Distance (Callable[[numpy.ndarray, numpy.ndarray], float]): Funciton for calculating distance between corals.
 
 		See Also:
-			* :func:`NiaPy.algorithms.Algorithm.setParameters`
+			* :func:`WeOptPy.algorithms.Algorithm.setParameters`
 		"""
 		ukwargs.pop('n', None)
 		Algorithm.set_parameters(self, n=N, **ukwargs)
@@ -186,8 +186,8 @@ class CoralReefsOptimization(Algorithm):
 				2. New population fitness/funciton values.
 
 		See Also:
-			* :func:`NiaPy.algorithms.basic.CoralReefsOptimization.setting`
-			* :func:`NiaPy.algorithms.basic.BroodingSimple`
+			* :func:`WeOptPy.algorithms.CoralReefsOptimization.setting`
+			* :func:`WeOptPy.algorithms.BroodingSimple`
 		"""
 		I = np.argsort(Reef_f)[:self.Fa]
 		Reefn, Reefn_f = self.Brooding(Reef[I], self.P_F, task, rnd=self.Rand)

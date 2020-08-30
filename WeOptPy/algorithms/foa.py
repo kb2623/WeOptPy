@@ -38,7 +38,7 @@ class ForestOptimizationAlgorithm(Algorithm):
 		tr (float): Transfer rate parameter.
 
 	See Also:
-		* :class:`NiaPy.algorithms.Algorithm`
+		* :class:`WeOptPy.algorithms.Algorithm`
 	"""
 	Name = ['ForestOptimizationAlgorithm', 'FOA']
 
@@ -69,7 +69,7 @@ class ForestOptimizationAlgorithm(Algorithm):
 				* tr (Callable[[float], bool]): Checks if transfer rate parameter has a proper value.
 
 		See Also:
-			* :func:`NiaPy.algorithms.algorithm.Algorithm.typeParameters`
+			* :func:`WeOptPy.algorithms.Algorithm.typeParameters`
 		"""
 		d = Algorithm.type_parameters()
 		d.update({
@@ -94,7 +94,7 @@ class ForestOptimizationAlgorithm(Algorithm):
 			ukwargs (Dict[str, Any]): Additional arguments.
 
 		See Also:
-			* :func:`NiaPy.algorithms.Algorithm.setParameters`
+			* :func:`WeOptPy.algorithms.Algorithm.setParameters`
 		"""
 		Algorithm.set_parameters(self, n=n, **ukwargs)
 		self.lt, self.al, self.lsc, self.gsc, self.tr = lt, al, lsc, gsc, tr
@@ -215,7 +215,7 @@ class ForestOptimizationAlgorithm(Algorithm):
 					* age (numpy.ndarray): Age of trees.
 
 		See Also:
-			* :func:`NiaPy.algorithms.Algorithm.initPopulation`
+			* :func:`WeOptPy.algorithms.Algorithm.initPopulation`
 		"""
 		Trees, Evaluations, args, _ = Algorithm.init_population(self, task)
 		age = np.zeros(self.NP, dtype=np.int32)

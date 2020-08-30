@@ -33,7 +33,7 @@ class Camel(Individual):
 		steps (int): Age of camel.
 
 	See Also:
-		* :class:`NiaPy.algorithms.Individual`
+		* :class:`WeOptPy.algorithms.Individual`
 	"""
 	def __init__(self, E_init=None, S_init=None, **kwargs):
 		r"""Initialize the Camel.
@@ -44,7 +44,7 @@ class Camel(Individual):
 			kwargs (Dict[str, Any]): Additional arguments.
 
 		See Also:
-			* :func:`NiaPy.algorithms.Individual.__init__`
+			* :func:`WeOptPy.algorithms.Individual.__init__`
 		"""
 		Individual.__init__(self, **kwargs)
 		self.E, self.E_past = E_init, E_init
@@ -142,7 +142,7 @@ class CamelAlgorithm(Algorithm):
 		S_init (float): Starting value of supplys.
 
 	See Also:
-		* :class:`NiaPy.algorithms.Algorithm`
+		* :class:`WeOptPy.algorithms.Algorithm`
 	"""
 	Name = ['CamelAlgorithm', 'CA']
 
@@ -170,7 +170,7 @@ class CamelAlgorithm(Algorithm):
 				* T_max (Callable[[Union[float, int], bool])
 
 		See Also:
-			* :func:`NiaPy.algorithms.Algorithm.typeParameters`
+			* :func:`WeOptPy.algorithms.Algorithm.typeParameters`
 		"""
 		d = Algorithm.type_parameters()
 		d.update({
@@ -197,7 +197,7 @@ class CamelAlgorithm(Algorithm):
 			E_init (Optional[float]): Initial endurance :math:`\in (0, \infty)`.
 
 		See Also:
-			* :func:`NiaPy.algorithms.Algorithm.setParameters`
+			* :func:`WeOptPy.algorithms.Algorithm.setParameters`
 		"""
 		Algorithm.set_parameters(self, n=n, itype=Camel, init_pop_func=ukwargs.pop('init_pop_func', self.init_pop), **ukwargs)
 		self.omega, self.mu, self.alpha, self.S_init, self.E_init, self.T_min, self.T_max = omega, mu, alpha, S_init, E_init, T_min, T_max
@@ -300,7 +300,7 @@ class CamelAlgorithm(Algorithm):
 				4. Additional keyword arguments.
 
 		See Also:
-			* :func:`NiaPy.algorithms.Algorithm.initPopulation`
+			* :func:`WeOptPy.algorithms.Algorithm.initPopulation`
 		"""
 		caravan, fcaravan, args, kwargs = Algorithm.init_population(self, task)
 		return caravan, fcaravan, args, kwargs

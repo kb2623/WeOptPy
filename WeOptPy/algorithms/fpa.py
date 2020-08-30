@@ -36,7 +36,7 @@ class FlowerPollinationAlgorithm(Algorithm):
 		beta (float): Shape of the gamma distribution (should be greater than zero).
 
 	See Also:
-		* :class:`NiaPy.algorithms.Algorithm`
+		* :class:`WeOptPy.algorithms.Algorithm`
 	"""
 	Name = ['FlowerPollinationAlgorithm', 'FPA']
 
@@ -50,7 +50,7 @@ class FlowerPollinationAlgorithm(Algorithm):
 				* beta (function): TODO
 
 		See Also:
-			* :func:`NiaPy.algorithms.Algorithm.typeParameters`
+			* :func:`WeOptPy.algorithms.Algorithm.typeParameters`
 		"""
 		d = Algorithm.type_parameters()
 		d.update({
@@ -68,7 +68,7 @@ class FlowerPollinationAlgorithm(Algorithm):
 			beta (float): Shape of the gamma distribution (should be greater than zero).
 
 		See Also:
-			* :func:`NiaPy.algorithms.Algorithm.setParameters`
+			* :func:`WeOptPy.algorithms.Algorithm.setParameters`
 		"""
 		Algorithm.set_parameters(self, n=n, **ukwargs)
 		self.p, self.beta = p, beta

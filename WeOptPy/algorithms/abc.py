@@ -31,7 +31,7 @@ class SolutionABC(Individual):
 			kargs (dict): Additional arguments.
 
 		See Also:
-			* :func:`NiaPy.algorithms.Individual.__init__`
+			* :func:`WeOptPy.algorithms.Individual.__init__`
 		"""
 		Individual.__init__(self, **kargs)
 
@@ -59,7 +59,7 @@ class ArtificialBeeColonyAlgorithm(Algorithm):
 		Limit (Union[float, numpy.ndarray[float]]): Limit.
 
 	See Also:
-		* :class:`NiaPy.algorithms.Algorithm`
+		* :class:`WeOptPy.algorithms.Algorithm`
 	"""
 	Name = ['ArtificialBeeColonyAlgorithm', 'ABC']
 
@@ -72,7 +72,7 @@ class ArtificialBeeColonyAlgorithm(Algorithm):
 				* Limit (Callable[Union[float, numpy.ndarray[float]]]): TODO
 
 		See Also:
-			* :func:`NiaPy.algorithms.Algorithm.typeParameters`
+			* :func:`WeOptPy.algorithms.Algorithm.typeParameters`
 		"""
 		d = Algorithm.type_parameters()
 		d.update({'Limit': lambda x: isinstance(x, int) and x > 0})
@@ -122,7 +122,7 @@ class ArtificialBeeColonyAlgorithm(Algorithm):
 					* Trial (numpy.ndarray): TODO
 
 		See Also:
-			* :func:`NiaPy.algorithms.Algorithm.initPopulation`
+			* :func:`WeOptPy.algorithms.Algorithm.initPopulation`
 		"""
 		foods, fpop, args, _ = Algorithm.init_population(self, task)
 		probs, trial = np.full(self.FoodNumber, 0.0), np.full(self.FoodNumber, 0.0)
