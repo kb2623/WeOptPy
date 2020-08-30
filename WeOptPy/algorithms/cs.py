@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Cuckoo search algorithm module."""
+
 import numpy as np
 from scipy.stats import levy
 

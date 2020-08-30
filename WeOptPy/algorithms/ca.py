@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Camel algorithm module."""
+
 import numpy as np
 from numpy import random as rand
 

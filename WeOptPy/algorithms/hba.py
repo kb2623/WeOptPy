@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Hybrid bat algorithm module."""
+
 from WeOptPy.algorithms.ba import BatAlgorithm
 from WeOptPy.algorithms.de import cross_best1
 

@@ -8,13 +8,6 @@ import os
 import logging
 
 import xlsxwriter
-from numpy import (
-	amin,
-	median,
-	amax,
-	mean,
-	std
-)
 
 from WeOptPy.task import (
 	StoppingTask,

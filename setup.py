@@ -17,21 +17,7 @@ import sys
 import logging
 
 import setuptools
-from Cython.Build import cythonize
 import numpy
-
-
-def build_extensions():
-	e = list()
-	e.append(setuptools.Extension(
-		name='WeOptPy.benchmarks.functions',
-		sources=['functions/benchmark_functions.pyx', 'functions/bfuncs.c'],
-		include_dirs=[numpy.get_include(), 'functions'],
-		language='c',
-		extra_compile_args=['-std=c11', '-O3', '-shared'],
-		extra_link_args=['-lm', '-O3', '-shared']
-	))
-	return cythonize(e)
 
 
 def check_python_version(min_python_version):
@@ -77,7 +63,6 @@ setuptools.setup(
 	license=read_package_variable('__license__'),
 	packages=setuptools.find_packages(),
 	long_description=build_description(),
-	ext_modules=build_extensions(),
 	python_requires=make_python_requires(MINIMUM_PYTHON_VERSION),
 	classifiers=[
 		'Development Status :: 5 - Production/Stable',

@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Self adaptive differential evolution module."""
+
 from WeOptPy.algorithms.de import (
 	DifferentialEvolution,
 	cross_best1,

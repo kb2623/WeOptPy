@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Adaptive archive differential evolution algorithm module."""
+
 import numpy as np
 from numpy import random as rand
 

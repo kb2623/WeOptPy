@@ -1,10 +1,13 @@
 # encoding=utf8
 
+"""Gravitational search algorithm module."""
+
 import numpy as np
 
 from WeOptPy.algorithms.interfaces.algorithm import Algorithm
 
 __all__ = ['GravitationalSearchAlgorithm']
+
 
 class GravitationalSearchAlgorithm(Algorithm):
     r"""Implementation of gravitational search algorithm.

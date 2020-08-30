@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Coral reef optimization algorithm module."""
+
 import numpy as np
 from numpy import random as rand
 from scipy.spatial.distance import euclidean

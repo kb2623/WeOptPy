@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Moth flame optimizer algorithm module."""
+
 import numpy as np
 
 from WeOptPy.algorithms.interfaces.algorithm import Algorithm

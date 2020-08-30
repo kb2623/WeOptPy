@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Sinus cousins algorithm module."""
+
 import numpy as np
 
 from WeOptPy.algorithms.interfaces import Algorithm

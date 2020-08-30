@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Cat swarm algorithms module."""
+
 import math
 
 import numpy as np
@@ -26,16 +28,23 @@ class CatSwarmOptimization(Algorithm):
 	Name = ['CatSwarmOptimization', 'CSO']
 
 	@staticmethod
-	def type_parameters(): return {
-		'n': lambda x: isinstance(x, int) and x > 0,
-		'MR': lambda x: isinstance(x, (int, float)) and 0 <= x <= 1,
-		'C1': lambda x: isinstance(x, (int, float)) and x >= 0,
-		'SMP': lambda x: isinstance(x, int) and x > 0,
-		'SPC': lambda x: isinstance(x, bool),
-		'CDC': lambda x: isinstance(x, (int, float)) and 0 <= x <= 1,
-		'SRD': lambda x: isinstance(x, (int, float)) and 0 <= x <= 1,
-		'vMax': lambda x: isinstance(x, (int, float)) and x > 0
-	}
+	def type_parameters():
+		r"""Get type of algorithm parameters.
+
+		Returns:
+			Dict[str, Callable[[Union[int, float]], bool]]:
+				* n: Number of cats in cat swarm
+		"""
+		return {
+			'n': lambda x: isinstance(x, int) and x > 0,
+			'MR': lambda x: isinstance(x, (int, float)) and 0 <= x <= 1,
+			'C1': lambda x: isinstance(x, (int, float)) and x >= 0,
+			'SMP': lambda x: isinstance(x, int) and x > 0,
+			'SPC': lambda x: isinstance(x, bool),
+			'CDC': lambda x: isinstance(x, (int, float)) and 0 <= x <= 1,
+			'SRD': lambda x: isinstance(x, (int, float)) and 0 <= x <= 1,
+			'max_velocity': lambda x: isinstance(x, (int, float)) and x > 0
+		}
 
 	def set_parameters(self, n=30, MR=0.1, C1=2.05, SMP=3, SPC=True, CDC=0.85, SRD=0.2, vMax=1.9, **ukwargs):
 		r"""Set the algorithm parameters.

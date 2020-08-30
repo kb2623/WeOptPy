@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Firefly algorithm module."""
+
 import numpy as np
 
 from WeOptPy.algorithms.interfaces import Algorithm
@@ -38,6 +40,11 @@ class FireflyAlgorithm(Algorithm):
 
 	@staticmethod
 	def algorithm_info():
+		r"""Get algorithm info.
+
+		Returns:
+			str: Algorithm info.
+		"""
 		return r"""
 			Description: Firefly algorithm is inspired by the flashing behavior of fireflies.
 			Author: Xin-She Yang
@@ -132,7 +139,7 @@ class FireflyAlgorithm(Algorithm):
 				1. New population.
 				2. New population fitness/function values.
 				3. Additional arguments.
-				3. Additional keyword arguments:
+				4. Additional keyword arguments:
 					* alpha (float): TODO
 
 		See Also:

@@ -1,5 +1,7 @@
 # coding=utf-8
 
+"""Bees algorithm module."""
+
 import numpy as np
 
 from WeOptPy.algorithms.interfaces import Algorithm

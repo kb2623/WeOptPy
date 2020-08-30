@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Differential evolution module."""
+
 import numpy as np
 from numpy import random as rand
 from scipy.spatial.distance import euclidean
@@ -209,7 +211,7 @@ def cross_curr2best1(pop, ic, x_b, f, cr, rnd=rand, **kwargs):
 		Name: de/curr-to-best/1
 
 		:math:`\mathbf{v}_{i, G} = \mathbf{x}_{i, G} + F \cdot (\mathbf{x}_{r_1, G} - \mathbf{x}_{r_2, G}) + F \cdot (\mathbf{x}_{r_3, G} - \mathbf{x}_{r_4, G})`
-		 where :math:`r_1, r_2, r_3, r_4` are random indexes representing current population individuals
+		where :math:`r_1, r_2, r_3, r_4` are random indexes representing current population individuals
 
 	Crossover:
 		Name: Binomial crossover
