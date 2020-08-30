@@ -281,7 +281,7 @@ class AlgorithmTestCase(TestCase):
 	"""
 	def setUp(self):
 		r"""Setup basic parameters of the algorithm run."""
-		self.D, self.nGEN, self.nFES, self.seed = [10, 40], 1000, 1000, 1
+		self.D, self.nGEN, self.nFES, self.seed = [10, 25], 1000, 1000, 1
 		self.algo = Algorithm
 
 	def test_algorithm_type_parameters(self):

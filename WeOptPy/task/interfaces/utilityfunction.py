@@ -24,8 +24,8 @@ class UtilityFunction:
 
 	Attributes:
 		Name (List[str]): List of names representing benchmark names.
-		lower (Union[int, float, list, numpy.ndarray]): Lower bounds.
-		upper (Union[int, float, list, numpy.ndarray]): Upper bounds.
+		lower (Union[int, float, list, numpy.ndarray]): lower bounds.
+		upper (Union[int, float, list, numpy.ndarray]): upper bounds.
 	"""
 	Name = ['UtilityFunction']
 
@@ -33,8 +33,8 @@ class UtilityFunction:
 		r"""Initialize benchmark.
 
 		Args:
-			lower (Union[int, float, list, numpy.ndarray]): Lower bounds.
-			upper (Union[int, float, list, numpy.ndarray]): Upper bounds.
+			lower (Union[int, float, list, numpy.ndarray]): lower bounds.
+			upper (Union[int, float, list, numpy.ndarray]): upper bounds.
 			kwargs (Dict[str, Any]): Additional arguments.
 		"""
 		self.Lower, self.Upper = lower, upper

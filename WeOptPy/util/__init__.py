@@ -1,17 +1,14 @@
 """Module with implementation of utility classess and functions."""
 
 from WeOptPy.util.utility import (
-	fullArray,
+	full_array,
 	objects2array,
 	limit_repair,
-	limitInversRepair,
-	wangRepair,
-	randRepair,
-	reflectRepair,
-	explore_package_for_classes,
-	groupdatabylabel,
-	clusters2labels,
-	classifie
+	limit_invers_repair,
+	wang_repair,
+	rand_repair,
+	reflect_repair,
+	explore_package_for_classes
 )
 from WeOptPy.util.argparser import (
 	make_arg_parser,
@@ -26,13 +23,13 @@ from WeOptPy.util.exception import (
 )
 
 __all__ = [
-	'fullArray',
+	'full_array',
 	'objects2array',
 	'limit_repair',
-	'limitInversRepair',
-	'wangRepair',
-	'randRepair',
-	'reflectRepair',
+	'limit_invers_repair',
+	'wang_repair',
+	'rand_repair',
+	'reflect_repair',
 	'make_arg_parser',
 	'get_args',
 	'get_dict_args',
@@ -40,10 +37,7 @@ __all__ = [
 	'GenException',
 	'TimeException',
 	'RefException',
-	'explore_package_for_classes',
-	'groupdatabylabel',
-	'clusters2labels',
-	'classifie'
+	'explore_package_for_classes'
 ]
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

@@ -5,7 +5,7 @@ from numpy import random as rand
 from scipy.spatial.distance import euclidean
 
 from WeOptPy.algorithms.interfaces import Algorithm
-from WeOptPy.util import fullArray
+from WeOptPy.util import full_array
 
 __all__ = [
 	'AnarchicSocietyOptimization',
@@ -258,7 +258,7 @@ class AnarchicSocietyOptimization(Algorithm):
 				2. Array of `self.gamma` propagated values
 				3. Array of `self.theta` propagated values
 		"""
-		return fullArray(self.alpha, self.NP), fullArray(self.gamma, self.NP), fullArray(self.theta, self.NP)
+		return full_array(self.alpha, self.NP), full_array(self.gamma, self.NP), full_array(self.theta, self.NP)
 
 	def fi(self, x_f, xpb_f, xb_f, alpha):
 		r"""Get fickleness index.

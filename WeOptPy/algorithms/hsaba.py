@@ -1,6 +1,6 @@
 # encoding=utf8
 
-from WeOptPy.algorithms.de import CrossBest1
+from WeOptPy.algorithms.de import cross_best1
 from WeOptPy.algorithms.saba import SelfAdaptiveBatAlgorithm
 
 __all__ = ['HybridSelfAdaptiveBatAlgorithm']
@@ -64,7 +64,7 @@ class HybridSelfAdaptiveBatAlgorithm(SelfAdaptiveBatAlgorithm):
 		})
 		return d
 
-	def set_parameters(self, F=0.9, CR=0.85, CrossMutt=CrossBest1, **ukwargs):
+	def set_parameters(self, F=0.9, CR=0.85, CrossMutt=cross_best1, **ukwargs):
 		r"""Set core parameters of HybridBatAlgorithm algorithm.
 
 		Arguments:
@@ -95,15 +95,16 @@ class HybridSelfAdaptiveBatAlgorithm(SelfAdaptiveBatAlgorithm):
 		})
 		return d
 
-	def local_search(self, best, A, i, Sol, Fitness, task, **kwargs):
+	def local_search(self, best, a, task, i, Sol, Fitness, **kwargs):
 		r"""Improve the best solution.
 
 		Args:
 			best (numpy.ndarray): Global best individual.
+			a (numpy.ndarray): TODO
 			task (Task): Optimization task.
 			i (int): Index of current individual.
 			Sol (numpy.ndarray): Current population.
-			Fitness (numpy.ndarray): Current populations fitness/objecive values.
+			Fitness (numpy.ndarray): Current populations fitness/objective values.
 			kwargs (Dict[str, Any]):
 
 		Returns:

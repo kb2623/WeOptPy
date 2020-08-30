@@ -7,7 +7,7 @@ from numpy import random as rand
 
 from WeOptPy.util.utility import (
 	limit_repair,
-	fullArray
+	full_array
 )
 from WeOptPy.task.optimizationtype import OptimizationType
 from WeOptPy.factory import Factory
@@ -61,13 +61,13 @@ class Task:
 		self.benchmark = benchmark
 		if self.benchmark is not None: self.Fun = self.benchmark.function() if self.benchmark is not None else None
 		# set lower limits
-		if lower is not None: self.Lower = fullArray(lower, self.D)
-		elif lower is None and benchmark is not None: self.Lower = fullArray(self.benchmark.Lower, self.D)
-		else: self.Lower = fullArray(0, self.D)
+		if lower is not None: self.Lower = full_array(lower, self.D)
+		elif lower is None and benchmark is not None: self.Lower = full_array(self.benchmark.Lower, self.D)
+		else: self.Lower = full_array(0, self.D)
 		# set upper limits
-		if upper is not None: self.Upper = fullArray(upper, self.D)
-		elif upper is None and benchmark is not None: self.Upper = fullArray(self.benchmark.Upper, self.D)
-		else: self.Upper = fullArray(0, self.D)
+		if upper is not None: self.Upper = full_array(upper, self.D)
+		elif upper is None and benchmark is not None: self.Upper = full_array(self.benchmark.Upper, self.D)
+		else: self.Upper = full_array(0, self.D)
 		# set range
 		self.bRange = self.Upper - self.Lower
 		# set repair function

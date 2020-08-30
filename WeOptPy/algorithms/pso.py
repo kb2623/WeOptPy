@@ -3,8 +3,8 @@
 import numpy as np
 
 from WeOptPy.algorithms.interfaces.algorithm import Algorithm
-from WeOptPy.util import fullArray
-from WeOptPy.util.utility import reflectRepair
+from WeOptPy.util import full_array
+from WeOptPy.util.utility import reflect_repair
 
 __all__ = [
 	'ParticleSwarmAlgorithm',
@@ -80,12 +80,12 @@ class ParticleSwarmAlgorithm(Algorithm):
 			'C1': lambda x: isinstance(x, (int, float)) and x >= 0,
 			'C2': lambda x: isinstance(x, (int, float)) and x >= 0,
 			'w': lambda x: isinstance(x, float) and x >= 0,
-			'vMin': lambda x: isinstance(x, (int, float)),
-			'vMax': lambda x: isinstance(x, (int, float))
+			'min_velocity': lambda x: isinstance(x, (int, float)),
+			'max_velocity': lambda x: isinstance(x, (int, float))
 		})
 		return d
 
-	def set_parameters(self, n=25, c1=2.0, c2=2.0, w=0.7, min_velocity=-1.5, max_velocity=1.5, repair=reflectRepair, **ukwargs):
+	def set_parameters(self, n=25, c1=2.0, c2=2.0, w=0.7, min_velocity=-1.5, max_velocity=1.5, repair=reflect_repair, **ukwargs):
 		r"""Set Particle Swarm Algorithm main parameters.
 
 		Args:
@@ -115,11 +115,11 @@ class ParticleSwarmAlgorithm(Algorithm):
 		"""
 		d = Algorithm.get_parameters(self)
 		d.update({
-			'C1': self.C1,
-			'C2': self.C2,
+			'c1': self.C1,
+			'c2': self.C2,
 			'w': self.w,
-			'vMin': self.vMin,
-			'vMax': self.vMax
+			'min_velocity': self.vMin,
+			'max_velocity': self.vMax
 		})
 		return d
 
@@ -132,15 +132,15 @@ class ParticleSwarmAlgorithm(Algorithm):
 		Returns:
 			Dict[str, Union[float, numpy.ndarray]]:
 				* w (numpy.ndarray): Inertial weight.
-				* vMin (numpy.ndarray): Mininal velocity.
+				* vMin (numpy.ndarray): Minimal velocity.
 				* vMax (numpy.ndarray): Maximal velocity.
 				* V (numpy.ndarray): Initial velocity of particle.
 		"""
 		return {
-			'w': fullArray(self.w, task.D),
-			'vMin': fullArray(self.vMin, task.D),
-			'vMax': fullArray(self.vMax, task.D),
-			'V': np.full([self.NP, task.D], 0.0)
+			'w': full_array(self.w, task.D),
+			'min_velocity': full_array(self.vMin, task.D),
+			'max_velocity': full_array(self.vMax, task.D),
+			'v': np.full([self.NP, task.D], 0.0)
 		}
 
 	def init_population(self, task):
@@ -150,24 +150,25 @@ class ParticleSwarmAlgorithm(Algorithm):
 			task: Optimization task.
 
 		Returns:
-			Tuple[numpy.ndarray, numpy.ndarray, dict]:
+			Tuple[numpy.ndarray, numpy.ndarray, list, dict]:
 				1. Initial population.
 				2. Initial population fitness/function values.
-				3. Additional arguments:
+				3. Additional arguments.
+				4. Additional keyword arguments:
 					* popb (numpy.ndarray): particles best population.
 					* fpopb (numpy.ndarray[float]): particles best positions function/fitness value.
 					* w (numpy.ndarray): Inertial weight.
-					* vMin (numpy.ndarray): Minimal velocity.
-					* vMax (numpy.ndarray): Maximal velocity.
+					* min_velocity (numpy.ndarray): Minimal velocity.
+					* max_velocity (numpy.ndarray): Maximal velocity.
 					* V (numpy.ndarray): Initial velocity of particle.
 
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.initPopulation`
 		"""
-		pop, fpop, d = Algorithm.init_population(self, task)
+		pop, fpop, args, d = Algorithm.init_population(self, task)
 		d.update(self.init(task))
 		d.update({'popb': pop.copy(), 'fpopb': fpop.copy()})
-		return pop, fpop, d
+		return pop, fpop, args, d
 
 	def update_velocity(self, v, p, pb, gb, w, min_velocity, max_velocity, task, **kwargs):
 		r"""Update particle velocity.
@@ -188,7 +189,7 @@ class ParticleSwarmAlgorithm(Algorithm):
 		"""
 		return self.Repair(w * v + self.C1 * self.rand(task.D) * (pb - p) + self.C2 * self.rand(task.D) * (gb - p), min_velocity, max_velocity)
 
-	def run_iteration(self, task, pop, fpop, xb, fxb, popb, fpopb, w, min_velocity, max_velocity, v, **dparams):
+	def run_iteration(self, task, pop, fpop, xb, fxb, popb, fpopb, w, min_velocity, max_velocity, v, *args, **dparams):
 		r"""Core function of Particle Swarm Optimization algorithm.
 
 		Args:
@@ -203,7 +204,8 @@ class ParticleSwarmAlgorithm(Algorithm):
 			min_velocity (numpy.ndarray): Minimal velocity.
 			max_velocity (numpy.ndarray): Maximal velocity.
 			v (numpy.ndarray): Velocity of particles.
-			**dparams: Additional function arguments.
+			args (list): Additional function arguments.
+			dparams (dict): Additional function keyword arguments.
 
 		Returns:
 			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, dict]:
@@ -211,7 +213,8 @@ class ParticleSwarmAlgorithm(Algorithm):
 				2. New population fitness/function values.
 				3. New global best position.
 				4. New global best positions function/fitness value.
-				5. Additional arguments:
+				5. Additional arguments.
+				6. Additional keyword arguments:
 					* popb (numpy.ndarray): Particles best population.
 					* fpopb (numpy.ndarray[float]): Particles best positions function/fitness value.
 					* w (numpy.ndarray): Inertial weight.
@@ -228,7 +231,7 @@ class ParticleSwarmAlgorithm(Algorithm):
 			fpop[i] = task.eval(pop[i])
 			if fpop[i] < fpopb[i]: popb[i], fpopb[i] = pop[i].copy(), fpop[i]
 			if fpop[i] < fxb: xb, fxb = pop[i].copy(), fpop[i]
-		return pop, fpop, xb, fxb, {'popb': popb, 'fpopb': fpopb, 'w': w, 'vMin': min_velocity, 'vMax': max_velocity, 'V': v}
+		return pop, fpop, xb, fxb, args, {'popb': popb, 'fpopb': fpopb, 'w': w, 'min_velocity': min_velocity, 'max_velocity': max_velocity, 'v': v}
 
 
 class ParticleSwarmOptimization(ParticleSwarmAlgorithm):
@@ -392,8 +395,8 @@ class OppositionVelocityClampingParticleSwarmOptimization(ParticleSwarmAlgorithm
 		r"""Run opposite learning phase.
 
 		Args:
-			s_l (numpy.ndarray): Lower limit of opposite particles.
-			s_h (numpy.ndarray): Upper limit of opposite particles.
+			s_l (numpy.ndarray): lower limit of opposite particles.
+			s_h (numpy.ndarray): upper limit of opposite particles.
 			pop (numpy.ndarray): Current populations positions.
 			fpop (numpy.ndarray): Current populations functions/fitness values.
 			task (Task): Optimization task.
@@ -419,10 +422,11 @@ class OppositionVelocityClampingParticleSwarmOptimization(ParticleSwarmAlgorithm
 			task (Task): Optimization task.
 
 		Returns:
-			Tuple[numpy.ndarray, numpy.ndarray, dict]:
+			Tuple[numpy.ndarray, numpy.ndarray, list, dict]:
 				1. Initialized population.
 				2. Initialized populations function/fitness values.
-				3. Additional arguments:
+				3. Additional arguments.
+				4. Additional keyword arguments:
 					* popb (numpy.ndarray): particles best population.
 					* fpopb (numpy.ndarray[float]): particles best positions function/fitness value.
 					* vMin (numpy.ndarray): Minimal velocity.
@@ -431,16 +435,16 @@ class OppositionVelocityClampingParticleSwarmOptimization(ParticleSwarmAlgorithm
 					* S_u (numpy.ndarray): upper bound for opposite learning.
 					* S_l (numpy.ndarray): lower bound for opposite learning.
 		"""
-		pop, fpop, d = ParticleSwarmAlgorithm.init_population(self, task)
+		pop, fpop, args, d = ParticleSwarmAlgorithm.init_population(self, task)
 		s_l, s_h = task.lower, task.upper
 		pop, fpop, _, _ = self.opposite_learning(s_l, s_h, pop, fpop, task)
 		pb_inds = np.where(fpop < d['fpopb'])
 		d['popb'][pb_inds], d['fpopb'][pb_inds] = pop[pb_inds], fpop[pb_inds]
-		d['vMin'], d['vMax'] = self.sigma * (task.upper - task.lower), self.sigma * (task.lower - task.upper)
+		d['vMin'], d['vMax'] = self.sigma * (task.Upper - task.Lower), self.sigma * (task.Lower - task.Upper)
 		d.update({'S_l': s_l, 'S_h': s_h})
-		return pop, fpop, d
+		return pop, fpop, args, d
 
-	def run_iteration(self, task, pop, fpop, xb, fxb, popb, fpopb, min_velocity, max_velocity, v, s_l, s_h, **dparams):
+	def run_iteration(self, task, pop, fpop, xb, fxb, popb, fpopb, min_velocity, max_velocity, v, s_l, s_h, *args, **dparams):
 		r"""Core function of Opposite-based Particle Swarm Optimization with velocity clamping algorithm.
 
 		Args:
@@ -456,15 +460,17 @@ class OppositionVelocityClampingParticleSwarmOptimization(ParticleSwarmAlgorithm
 			v (numpy.ndarray): Populations velocity.
 			s_l (numpy.ndarray): lower bound of opposite learning.
 			s_h (numpy.ndarray): upper bound of opposite learning.
-			**dparams: Additional arguments.
+			args (list): Additional arguments.
+			dparams (dict): Additional keyword arguments.
 
 		Returns:
-			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, dict]:
+			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, list, dict]:
 				1. New population.
 				2. New populations function/fitness values.
 				3. New global best position.
 				4. New global best positions function/fitness value.
-				5. Additional arguments:
+				5. Additional arguments.
+				6. Additional keyword arguments:
 					* popb: particles best population.
 					* fpopb: particles best positions function/fitness value.
 					* min_velocity: Minimal velocity.
@@ -488,7 +494,7 @@ class OppositionVelocityClampingParticleSwarmOptimization(ParticleSwarmAlgorithm
 					popb[i], fpopb[i] = pop[i].copy(), fpop[i]
 					if fpop[i] < fxb: xb, fxb = pop[i].copy(), fpop[i]
 			min_velocity, max_velocity = self.sigma * np.min(pop, axis=0), self.sigma * np.max(pop, axis=0)
-		return pop, fpop, xb, fxb, {'popb': popb, 'fpopb': fpopb, 'min_velocity': min_velocity, 'max_velocity': max_velocity, 'v': v, 's_l': s_l, 's_h': s_h}
+		return pop, fpop, xb, fxb, args, {'popb': popb, 'fpopb': fpopb, 'min_velocity': min_velocity, 'max_velocity': max_velocity, 'v': v, 's_l': s_l, 's_h': s_h}
 
 
 class CenterParticleSwarmOptimization(ParticleSwarmAlgorithm):
@@ -551,7 +557,7 @@ class CenterParticleSwarmOptimization(ParticleSwarmAlgorithm):
 		d.pop('vMin', None), d.pop('vMax', None)
 		return d
 
-	def run_iteration(self, task, pop, fpop, xb, fxb, **dparams):
+	def run_iteration(self, task, pop, fpop, xb, fxb, *args, **dparams):
 		r"""Core function of algorithm.
 
 		Args:
@@ -560,7 +566,8 @@ class CenterParticleSwarmOptimization(ParticleSwarmAlgorithm):
 			fpop (numpy.ndarray): Current particles function/fitness values.
 			xb (numpy.ndarray): Current global best particle.
 			fxb (numpy.ndarray): Current global best particles function/fitness value.
-			**dparams: Additional arguments.
+			args (list): Additional arguments.
+			dparams (dict): Additional keyword arguments.
 
 		Returns:
 			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, dict]:
@@ -569,15 +576,16 @@ class CenterParticleSwarmOptimization(ParticleSwarmAlgorithm):
 				3. New global best particle.
 				4. New global best particle function/fitness value.
 				5. Additional arguments.
+				6. Additional keyword arguments.
 
 		See Also:
 			* :func:`NiaPy.algorithm.basic.WeightedVelocityClampingParticleSwarmAlgorithm.runIteration`
 		"""
-		pop, fpop, xb, fxb, d = ParticleSwarmAlgorithm.run_iteration(self, task, pop, fpop, xb, fxb, **dparams)
+		pop, fpop, xb, fxb, args, d = ParticleSwarmAlgorithm.run_iteration(self, task, pop, fpop, xb, fxb, *args, **dparams)
 		c = np.sum(pop, axis=0) / len(pop)
 		fc = task.eval(c)
 		if fc <= fxb: xb, fxb = c, fc
-		return pop, fpop, xb, fxb, d
+		return pop, fpop, xb, fxb, args, d
 
 
 class MutatedParticleSwarmOptimization(ParticleSwarmAlgorithm):
@@ -646,7 +654,7 @@ class MutatedParticleSwarmOptimization(ParticleSwarmAlgorithm):
 		d.update({'nmutt': self.nmutt})
 		return d
 
-	def run_iteration(self, task, pop, fpop, xb, fxb, **dparams):
+	def run_iteration(self, task, pop, fpop, xb, fxb, *args, **dparams):
 		r"""Core function of algorithm.
 
 		Args:
@@ -655,28 +663,30 @@ class MutatedParticleSwarmOptimization(ParticleSwarmAlgorithm):
 			fpop (numpy.ndarray): Current particles function/fitness values.
 			xb (numpy.ndarray): Current global best particle.
 			fxb (float): Current global best particles function/fitness value.
-			**dparams: Additional arguments.
+			args (list): Additional arguments.
+			dparams (dict): Additional keyword arguments.
 
 		Returns:
-			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, dict]:
+			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, list, dict]:
 				1. New population of particles.
 				2. New populations function/fitness values.
 				3. New global best particle.
 				4. New global best particle function/fitness value.
 				5. Additional arguments.
+				6. Additional keyword arguments.
 
 		See Also:
 			* :func:`NiaPy.algorithm.basic.WeightedVelocityClampingParticleSwarmAlgorithm.runIteration`
 		"""
-		pop, fpop, xb, fxb, d = ParticleSwarmAlgorithm.run_iteration(self, task, pop, fpop, xb, fxb, **dparams)
+		pop, fpop, xb, fxb, args, d = ParticleSwarmAlgorithm.run_iteration(self, task, pop, fpop, xb, fxb, *args, **dparams)
 		v = d['V']
 		v_a = (np.sum(v, axis=0) / len(v))
 		v_a = v_a / np.max(np.abs(v_a))
 		for _ in range(self.nmutt):
-			g = task.repair(xb + v_a * self.uniform(task.lower, task.upper), self.Rand)
+			g = task.repair(xb + v_a * self.uniform(task.Lower, task.Upper), self.Rand)
 			fg = task.eval(g)
 			if fg <= fxb: xb, fxb = g, fg
-		return pop, fpop, xb, fxb, d
+		return pop, fpop, xb, fxb, args, d
 
 
 class MutatedCenterParticleSwarmOptimization(CenterParticleSwarmOptimization):
@@ -744,7 +754,7 @@ class MutatedCenterParticleSwarmOptimization(CenterParticleSwarmOptimization):
 		d.update({'nmutt': self.nmutt})
 		return d
 
-	def run_iteration(self, task, pop, fpop, xb, fxb, **dparams):
+	def run_iteration(self, task, pop, fpop, xb, fxb, *args, **dparams):
 		r"""Core function of algorithm.
 
 		Args:
@@ -753,28 +763,30 @@ class MutatedCenterParticleSwarmOptimization(CenterParticleSwarmOptimization):
 			fpop (numpy.ndarray): Current particles function/fitness values.
 			xb (numpy.ndarray): Current global best particle.
 			fxb (float: Current global best particles function/fitness value.
-			**dparams: Additional arguments.
+			args (list): Additional arguments.
+			dparams (dict): Additional keyword arguments.
 
 		Returns:
-			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, dict]:
+			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, list, dict]:
 				1. New population of particles.
 				2. New populations function/fitness values.
 				3. New global best particle.
 				4. New global best particle function/fitness value.
 				5. Additional arguments.
+				6. Additional keyword arguments.
 
 		See Also:
 			* :func:`NiaPy.algorithm.basic.WeightedVelocityClampingParticleSwarmAlgorithm.runIteration`
 		"""
-		pop, fpop, xb, fxb, d = CenterParticleSwarmOptimization.run_iteration(self, task, pop, fpop, xb, fxb, **dparams)
+		pop, fpop, xb, fxb, args, d = CenterParticleSwarmOptimization.run_iteration(self, task, pop, fpop, xb, fxb, **dparams)
 		v = d['v']
 		v_a = (np.sum(v, axis=0) / len(v))
 		v_a = v_a / np.max(np.abs(v_a))
 		for _ in range(self.nmutt):
-			g = task.repair(xb + v_a * self.uniform(task.lower, task.upper), self.Rand)
+			g = task.repair(xb + v_a * self.uniform(task.Lower, task.Upper), self.Rand)
 			fg = task.eval(g)
 			if fg <= fxb: xb, fxb = g, fg
-		return pop, fpop, xb, fxb, d
+		return pop, fpop, xb, fxb, args, d
 
 
 class MutatedCenterUnifiedParticleSwarmOptimization(MutatedCenterParticleSwarmOptimization):
@@ -939,7 +951,7 @@ class ComprehensiveLearningParticleSwarmOptimizer(ParticleSwarmAlgorithm):
 				* V: Initial velocity of particle.
 				* flag: Refresh gap counter.
 		"""
-		return {'min_velocity': fullArray(self.vMin, task.D), 'max_velocity': fullArray(self.vMax, task.D), 'v': np.full([self.NP, task.D], 0.0), 'flag': np.full(self.NP, 0), 'pc': np.asarray([.05 + .45 * (np.exp(10 * (i - 1) / (self.NP - 1)) - 1) / (np.exp(10) - 1) for i in range(self.NP)])}
+		return {'min_velocity': full_array(self.vMin, task.D), 'max_velocity': full_array(self.vMax, task.D), 'v': np.full([self.NP, task.D], 0.0), 'flag': np.full(self.NP, 0), 'pc': np.asarray([.05 + .45 * (np.exp(10 * (i - 1) / (self.NP - 1)) - 1) / (np.exp(10) - 1) for i in range(self.NP)])}
 
 	def generate_personal_best_cl(self, i, pc, pbs, fpbs):
 		r"""Generate new personal best position for learning.
@@ -980,7 +992,7 @@ class ComprehensiveLearningParticleSwarmOptimizer(ParticleSwarmAlgorithm):
 		"""
 		return self.Repair(w * v + self.C * self.rand(task.D) * (pb - p), min_velocity, max_velocity)
 
-	def run_iteration(self, task, pop, fpop, xb, fxb, popb, fpopb, min_velocity, max_velocity, v, flag, pc, **dparams):
+	def run_iteration(self, task, pop, fpop, xb, fxb, popb, fpopb, min_velocity, max_velocity, v, flag, pc, *args, **dparams):
 		r"""Core function of algorithm.
 
 		Args:
@@ -996,15 +1008,17 @@ class ComprehensiveLearningParticleSwarmOptimizer(ParticleSwarmAlgorithm):
 			v (numpy.ndarray): Velocity of particles.
 			flag (numpy.ndarray): Refresh rate counter.
 			pc (numpy.ndarray): Learning rate.
-			dparams (dict): Additional function arguments.
+			args (list): Additional function arguments.
+			dparams (dict): Additional function keyword arguments.
 
 		Returns:
-			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, dict]:
+			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, list, dict]:
 				1. New population.
 				2. New population fitness/function values.
 				3. New global best position.
 				4. New global best positions function/fitness value.
-				5. Additional arguments:
+				5. Additional arguments.
+				6. Additional keyword arguments:
 					* popb: Particles best population.
 					* fpopb: Particles best positions function/fitness value.
 					* min_velocity: Minimal velocity.
@@ -1029,12 +1043,12 @@ class ComprehensiveLearningParticleSwarmOptimizer(ParticleSwarmAlgorithm):
 			pbest = self.generate_personal_best_cl(i, pc[i], popb, fpopb)
 			v[i] = self.update_velocity_cl(v[i], pop[i], pbest, w, min_velocity, max_velocity, task)
 			pop[i] = pop[i] + v[i]
-			if not ((pop[i] < task.lower).any() or (pop[i] > task.upper).any()):
+			if not ((pop[i] < task.Lower).any() or (pop[i] > task.Upper).any()):
 				fpop[i] = task.eval(pop[i])
 				if fpop[i] < fpopb[i]:
 					popb[i], fpopb[i] = pop[i].copy(), fpop[i]
 					if fpop[i] < fxb: xb, fxb = pop[i].copy(), fpop[i]
-		return pop, fpop, xb, fxb, {'popb': popb, 'fpopb': fpopb, 'min_velocity': min_velocity, 'max_velocity': max_velocity, 'v': v, 'flag': flag, 'pc': pc}
+		return pop, fpop, xb, fxb, args, {'popb': popb, 'fpopb': fpopb, 'min_velocity': min_velocity, 'max_velocity': max_velocity, 'v': v, 'flag': flag, 'pc': pc}
 
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

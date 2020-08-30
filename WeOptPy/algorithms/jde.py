@@ -2,11 +2,11 @@
 
 from WeOptPy.algorithms.de import (
 	DifferentialEvolution,
-	CrossBest1,
-	CrossRand1,
-	CrossCurr2Best1,
-	CrossBest2,
-	CrossCurr2Rand1,
+	cross_best1,
+	cross_rand1,
+	cross_curr2best1,
+	cross_best2,
+	cross_curr2rand1,
 	proportional,
 	multi_mutations,
 	DynNpDifferentialEvolution
@@ -339,7 +339,7 @@ class MultiStrategySelfAdaptiveDifferentialEvolution(SelfAdaptiveDifferentialEvo
 	"""
 	Name = ['MultiStrategySelfAdaptiveDifferentialEvolution', 'MsjDE']
 
-	def set_parameters(self, strategies=(CrossCurr2Rand1, CrossCurr2Best1, CrossRand1, CrossBest1, CrossBest2), **kwargs):
+	def set_parameters(self, strategies=(cross_curr2rand1, cross_curr2best1, cross_rand1, cross_best1, cross_best2), **kwargs):
 		r"""Set core parameters of MultiStrategySelfAdaptiveDifferentialEvolution algorithm.
 
 		Args:

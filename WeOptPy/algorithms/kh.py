@@ -3,7 +3,7 @@
 import numpy as np
 from scipy.spatial.distance import euclidean as ed
 
-from WeOptPy.util.utility import fullArray
+from WeOptPy.util.utility import full_array
 from WeOptPy.algorithms.interfaces.algorithm import Algorithm
 
 __all__ = [
@@ -148,7 +148,7 @@ class KrillHerd(Algorithm):
 				1. Weights for neighborhood.
 				2. Weights for foraging.
 		"""
-		return fullArray(self.W_n, task.D), fullArray(self.W_f, task.D)
+		return full_array(self.W_n, task.D), full_array(self.W_f, task.D)
 
 	def sensRange(self, ki, KH):
 		r"""Calculate sense range for selected individual.

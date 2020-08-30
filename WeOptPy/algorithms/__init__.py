@@ -29,6 +29,7 @@ from WeOptPy.algorithms.es import (
 )
 from WeOptPy.algorithms.fa import FireflyAlgorithm
 from WeOptPy.algorithms.foa import ForestOptimizationAlgorithm
+from WeOptPy.algorithms.fpa import FlowerPollinationAlgorithm
 from WeOptPy.algorithms.fss import FishSchoolSearch
 from WeOptPy.algorithms.fwa import (
 	BareBonesFireworksAlgorithm,
@@ -124,6 +125,7 @@ __all__ = [
 	'CovarianceMatrixAdaptionEvolutionStrategy',
 	'FireflyAlgorithm',
 	'ForestOptimizationAlgorithm',
+	'FlowerPollinationAlgorithm',
 	'FishSchoolSearch',
 	'BareBonesFireworksAlgorithm',
 	'DynamicFireworksAlgorithm',

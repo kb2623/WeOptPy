@@ -9,12 +9,12 @@ from WeOptPy.algorithms import (
 	AgingNpMultiMutationDifferentialEvolution
 )
 from WeOptPy.algorithms.de import (
-	CrossRand1,
-	CrossRand2,
-	CrossBest1,
-	CrossBest2,
-	CrossCurr2Rand1,
-	CrossCurr2Best1
+	cross_rand1,
+	cross_rand2,
+	cross_best1,
+	cross_best2,
+	cross_curr2rand1,
+	cross_curr2best1
 )
 from WeOptPy.tests.test_algorithm import (
 	AlgorithmTestCase,
@@ -37,57 +37,57 @@ class DETestCase(AlgorithmTestCase):
 		AlgorithmTestCase.test_algorithm_run_parallel(self, de_custom, de_customc, MyBenchmark())
 
 	def test_CrossRand1(self):
-		de_rand1 = self.algo(CrossMutt=CrossRand1, seed=self.seed)
+		de_rand1 = self.algo(CrossMutt=cross_rand1, seed=self.seed)
 		AlgorithmTestCase.test_algorithm_run(self, de_rand1, MyBenchmark())
 
 	def test_CrossRand1_parallel(self):
-		de_rand1 = self.algo(CrossMutt=CrossRand1, seed=self.seed)
-		de_rand1c = self.algo(CrossMutt=CrossRand1, seed=self.seed)
+		de_rand1 = self.algo(CrossMutt=cross_rand1, seed=self.seed)
+		de_rand1c = self.algo(CrossMutt=cross_rand1, seed=self.seed)
 		AlgorithmTestCase.test_algorithm_run_parallel(self, de_rand1, de_rand1c, MyBenchmark())
 
 	def test_CrossBest1(self):
-		de_best1 = self.algo(CrossMutt=CrossBest1, seed=self.seed)
+		de_best1 = self.algo(CrossMutt=cross_best1, seed=self.seed)
 		AlgorithmTestCase.test_algorithm_run(self, de_best1, MyBenchmark())
 
 	def test_CrossBest1_parallel(self):
-		de_best1 = self.algo(CrossMutt=CrossBest1, seed=self.seed)
-		de_best1c = self.algo(CrossMutt=CrossBest1, seed=self.seed)
+		de_best1 = self.algo(CrossMutt=cross_best1, seed=self.seed)
+		de_best1c = self.algo(CrossMutt=cross_best1, seed=self.seed)
 		AlgorithmTestCase.test_algorithm_run_parallel(self, de_best1, de_best1c, MyBenchmark())
 
 	def test_CrossRand2(self):
-		de_rand2 = self.algo(CrossMutt=CrossRand2, seed=self.seed)
+		de_rand2 = self.algo(CrossMutt=cross_rand2, seed=self.seed)
 		AlgorithmTestCase.test_algorithm_run(self, de_rand2, MyBenchmark())
 
 	def test_CrossRand2_parallel(self):
-		de_rand2 = self.algo(CrossMutt=CrossRand2, seed=self.seed)
-		de_rand2c = self.algo(CrossMutt=CrossRand2, seed=self.seed)
+		de_rand2 = self.algo(CrossMutt=cross_rand2, seed=self.seed)
+		de_rand2c = self.algo(CrossMutt=cross_rand2, seed=self.seed)
 		AlgorithmTestCase.test_algorithm_run_parallel(self, de_rand2, de_rand2c, MyBenchmark())
 
 	def test_CrossBest2(self):
-		de_best2 = self.algo(CrossMutt=CrossBest2, seed=self.seed)
+		de_best2 = self.algo(CrossMutt=cross_best2, seed=self.seed)
 		AlgorithmTestCase.test_algorithm_run(self, de_best2, MyBenchmark())
 
 	def test_CrossBest2_parallel(self):
-		de_best2 = self.algo(CrossMutt=CrossBest2, seed=self.seed)
-		de_best2c = self.algo(CrossMutt=CrossBest2, seed=self.seed)
+		de_best2 = self.algo(CrossMutt=cross_best2, seed=self.seed)
+		de_best2c = self.algo(CrossMutt=cross_best2, seed=self.seed)
 		AlgorithmTestCase.test_algorithm_run_parallel(self, de_best2, de_best2c, MyBenchmark())
 
 	def test_CrossCurr2Rand1(self):
-		de_curr2rand1 = self.algo(CrossMutt=CrossCurr2Rand1, seed=self.seed)
+		de_curr2rand1 = self.algo(CrossMutt=cross_curr2rand1, seed=self.seed)
 		AlgorithmTestCase.test_algorithm_run(self, de_curr2rand1, MyBenchmark())
 
 	def test_CrossCurr2Rand1_parallel(self):
-		de_curr2rand1 = self.algo(CrossMutt=CrossCurr2Rand1, seed=self.seed)
-		de_curr2rand1c = self.algo(CrossMutt=CrossCurr2Rand1, seed=self.seed)
+		de_curr2rand1 = self.algo(CrossMutt=cross_curr2rand1, seed=self.seed)
+		de_curr2rand1c = self.algo(CrossMutt=cross_curr2rand1, seed=self.seed)
 		AlgorithmTestCase.test_algorithm_run_parallel(self, de_curr2rand1, de_curr2rand1c, MyBenchmark())
 
 	def test_CrossCurr2Best1(self):
-		de_curr2best1 = self.algo(CrossMutt=CrossCurr2Best1, seed=self.seed)
+		de_curr2best1 = self.algo(CrossMutt=cross_curr2best1, seed=self.seed)
 		AlgorithmTestCase.test_algorithm_run(self, de_curr2best1, MyBenchmark())
 
 	def test_CrossCurr2Best1_parallel(self):
-		de_curr2best1 = self.algo(CrossMutt=CrossCurr2Best1, seed=self.seed)
-		de_curr2best1c = self.algo(CrossMutt=CrossCurr2Best1, seed=self.seed)
+		de_curr2best1 = self.algo(CrossMutt=cross_curr2best1, seed=self.seed)
+		de_curr2best1c = self.algo(CrossMutt=cross_curr2best1, seed=self.seed)
 		AlgorithmTestCase.test_algorithm_run_parallel(self, de_curr2best1, de_curr2best1c, MyBenchmark())
 
 
@@ -165,12 +165,12 @@ class DynNpMsDeTestCase(AlgorithmTestCase):
 		self.assertFalse(d['pmax'](10.12))
 
 	def test_Custom_works_fine(self):
-		de_custom = self.algo(NP=40, F=0.5, CR=0.9, seed=self.seed)
+		de_custom = self.algo(n=40, F=0.5, CR=0.9, seed=self.seed)
 		AlgorithmTestCase.test_algorithm_run(self, de_custom, MyBenchmark())
 
 	def test_Custom_works_fine_parallel(self):
-		de_custom = self.algo(NP=40, F=0.5, CR=0.9, seed=self.seed)
-		de_customc = self.algo(NP=40, F=0.5, CR=0.9, seed=self.seed)
+		de_custom = self.algo(n=40, F=0.5, CR=0.9, seed=self.seed)
+		de_customc = self.algo(n=40, F=0.5, CR=0.9, seed=self.seed)
 		AlgorithmTestCase.test_algorithm_run_parallel(self, de_custom, de_customc, MyBenchmark())
 
 
@@ -180,12 +180,12 @@ class ANpMsDETestCase(AlgorithmTestCase):
 		self.algo = AgingNpMultiMutationDifferentialEvolution
 
 	def test_Custom_works_fine(self):
-		de_custom = self.algo(NP=40, F=0.5, CR=0.9, seed=self.seed)
+		de_custom = self.algo(n=40, F=0.5, CR=0.9, seed=self.seed)
 		AlgorithmTestCase.test_algorithm_run(self, de_custom, MyBenchmark())
 
 	def test_Custom_works_fine_parallel(self):
-		de_custom = self.algo(NP=40, F=0.5, CR=0.9, seed=self.seed)
-		de_customc = self.algo(NP=40, F=0.5, CR=0.9, seed=self.seed)
+		de_custom = self.algo(n=40, F=0.5, CR=0.9, seed=self.seed)
+		de_customc = self.algo(n=40, F=0.5, CR=0.9, seed=self.seed)
 		AlgorithmTestCase.test_algorithm_run_parallel(self, de_custom, de_customc, MyBenchmark())
 
 

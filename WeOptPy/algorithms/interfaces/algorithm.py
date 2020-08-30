@@ -117,15 +117,15 @@ class Algorithm:
 		else: return self.Rand.rand()
 
 	def uniform(self, lower, upper, d=None):
-		r"""Get uniform random distribution of shape d in range from "Lower" to "Upper".
+		r"""Get uniform random distribution of shape d in range from "lower" to "upper".
 
 		Args:
-			lower (Union[float, numpy.ndarray]): Lower bound.
-			upper (Union[float, numpy.ndarray]): Upper bound.
+			lower (Union[float, numpy.ndarray]): lower bound.
+			upper (Union[float, numpy.ndarray]): upper bound.
 			d (Optional[Union[int, Iterable[int]]]): Shape of returned uniform random distribution.
 
 		Returns:
-			Union[float, numpy.ndarray]: Array of numbers :math:`\in [\mathit{Lower}, \mathit{Upper}]`.
+			Union[float, numpy.ndarray]: Array of numbers :math:`\in [\mathit{lower}, \mathit{upper}]`.
 		"""
 		return self.Rand.uniform(lower, upper, d) if d is not None else self.Rand.uniform(lower, upper)
 

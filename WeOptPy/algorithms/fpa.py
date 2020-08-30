@@ -4,7 +4,7 @@ import numpy as np
 from scipy.special import gamma as Gamma
 
 from WeOptPy.algorithms.interfaces import Algorithm
-from WeOptPy.util import reflectRepair
+from WeOptPy.util import reflect_repair
 
 __all__ = ['FlowerPollinationAlgorithm']
 
@@ -72,7 +72,7 @@ class FlowerPollinationAlgorithm(Algorithm):
 		"""
 		Algorithm.set_parameters(self, n=n, **ukwargs)
 		self.p, self.beta = p, beta
-		self.S = n.zeros((n, 10))
+		self.S = np.zeros((n, 10))
 
 	def levy(self, D):
 		r"""Levy function.
@@ -84,11 +84,23 @@ class FlowerPollinationAlgorithm(Algorithm):
 		return 0.01 * (self.normal(0, 1, D) * sigma / np.fabs(self.normal(0, 1, D)) ** (1 / self.beta))
 
 	def init_population(self, task):
-		pop, fpop, d = Algorithm.init_population(self, task)
-		d.update({'S': np.zeros((self.NP, task.D))})
-		return pop, fpop, d
+		r"""Initialize the initial population.
 
-	def run_iteration(self, task, Sol, Sol_f, xb, fxb, S, **dparams):
+		Args:
+			task (Task): Optimization task.
+
+		Returns:
+			Tuple[numpy.ndarray, numpy.ndarray, list, dict]:
+				1. Initial population.
+				2. Initials population fitness/utility function values.
+				3. Additional arguments.
+				4. Additional keyword arguments.
+		"""
+		pop, fpop, args, d = Algorithm.init_population(self, task)
+		d.update({'S': np.zeros((self.NP, task.D))})
+		return pop, fpop, args, d
+
+	def run_iteration(self, task, Sol, Sol_f, xb, fxb, S, *args, **dparams):
 		r"""Core function of FlowerPollinationAlgorithm algorithm.
 
 		Args:
@@ -97,25 +109,28 @@ class FlowerPollinationAlgorithm(Algorithm):
 			Sol_f (numpy.ndarray): Current population fitness/function values.
 			xb (numpy.ndarray): Global best solution.
 			fxb (float): Global best solution function/fitness value.
-			dparams (Dict[str, Any]): Additional arguments.
+			args (list): Additional arguments.
+			dparams (dict): Additional keyword arguments.
 
 		Returns:
-			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, Dict[str, Any]]:
+			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, list, dict]:
 				1. New population.
 				2. New populations fitness/function values.
 				3. New global best solution
 				4. New global best solution fitness/objective value
 				5. Additional arguments.
+				6. Additional keyword arguments.
 		"""
 		for i in range(self.NP):
 			if self.uniform(0, 1) > self.p: S[i] += self.levy(task.D) * (Sol[i] - xb)
 			else:
 				JK = self.Rand.permutation(self.NP)
 				S[i] += self.uniform(0, 1) * (Sol[JK[0]] - Sol[JK[1]])
-			S[i] = reflectRepair(S[i], task)
+			S[i] = reflect_repair(S[i], task.Lower, task.Upper)
 			f_i = task.eval(S[i])
 			if f_i <= Sol_f[i]: Sol[i], Sol_f[i] = S[i], f_i
 			if f_i <= fxb: xb, fxb = S[i].copy(), f_i
-		return Sol, Sol_f, xb, fxb, {'S': S}
+		return Sol, Sol_f, xb, fxb, args, {'S': S}
+
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

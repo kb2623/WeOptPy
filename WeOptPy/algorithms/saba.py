@@ -324,7 +324,7 @@ class SelfAdaptiveBatAlgorithm(AdaptiveBatAlgorithm):
 		"""
 		return self.A_l + self.rand() * (self.A_u - self.A_l) if self.rand() < self.tao_1 else a, self.r_l + self.rand() * (self.r_u - self.r_l) if self.rand() < self.tao_2 else r
 
-	def run_iteration(self, task, Sol, Fitness, xb, fxb, A, r, S, Q, v, *args, **dparams):
+	def run_iteration(self, task, Sol, Fitness, xb, fxb, a, r, S, Q, v, *args, **dparams):
 		r"""Core function of Bat Algorithm.
 
 		Parameters:
@@ -333,7 +333,7 @@ class SelfAdaptiveBatAlgorithm(AdaptiveBatAlgorithm):
 			Fitness (numpy.ndarray[float]): Current population fitness/function values
 			xb (numpy.ndarray): Current best individual
 			fxb (float): Current best individual function/fitness value
-			A (numpy.ndarray): Loudness of individuals.
+			a (numpy.ndarray): Loudness of individuals.
 			r (numpy.ndarray): Pulse rate of individuals.
 			S (numpy.ndarray): TODO
 			Q (numpy.ndarray): TODO
@@ -354,15 +354,15 @@ class SelfAdaptiveBatAlgorithm(AdaptiveBatAlgorithm):
 					* v (numpy.ndarray): TODO
 		"""
 		for i in range(self.NP):
-			A[i], r[i] = self.self_adaptation(A[i], r[i])
+			a[i], r[i] = self.self_adaptation(a[i], r[i])
 			Q[i] = self.Qmin + (self.Qmax - self.Qmin) * self.uniform(0, 1)
 			v[i] += (Sol[i] - xb) * Q[i]
-			if self.rand() > r[i]: S[i] = self.local_search(best=xb, A=A[i], task=task, i=i, Sol=Sol, Fitness=Fitness)
+			if self.rand() > r[i]: S[i] = self.local_search(best=xb, A=a[i], task=task, i=i, Sol=Sol, Fitness=Fitness)
 			else: S[i] = task.repair(Sol[i] + v[i], rnd=self.Rand)
 			Fnew = task.eval(S[i])
-			if (Fnew <= Fitness[i]) and (self.rand() < (self.A_l - A[i]) / self.A): Sol[i], Fitness[i] = S[i], Fnew
+			if (Fnew <= Fitness[i]) and (self.rand() < (self.A_l - a[i]) / self.A): Sol[i], Fitness[i] = S[i], Fnew
 			if Fnew <= fxb: xb, fxb = S[i].copy(), Fnew
-		return Sol, Fitness, xb, fxb, args, {'a': A, 'r': r, 'S': S, 'Q': Q, 'v': v}
+		return Sol, Fitness, xb, fxb, args, {'a': a, 'r': r, 'S': S, 'Q': Q, 'v': v}
 
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

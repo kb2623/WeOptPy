@@ -6,12 +6,12 @@ import numpy as np
 from numpy import random as rnd
 
 from WeOptPy.util import (
-	fullArray,
+	full_array,
 	limit_repair,
-	limitInversRepair,
-	wangRepair,
-	randRepair,
-	reflectRepair,
+	limit_invers_repair,
+	wang_repair,
+	rand_repair,
+	reflect_repair,
 	FesException,
 	GenException
 	# TimeException,
@@ -25,102 +25,102 @@ from WeOptPy.task import (
 
 class FullArrayTestCase(TestCase):
 	def test_a_float_fine(self):
-		A = fullArray(25.25, 10)
+		A = full_array(25.25, 10)
 		self.assertTrue(np.array_equal(A, np.full(10, 25.25)))
 
 	def test_a_int_fine(self):
-		A = fullArray(25, 10)
+		A = full_array(25, 10)
 		self.assertTrue(np.array_equal(A, np.full(10, 25)))
 
 	def test_a_float_list_fine(self):
 		a = [25.25 for i in range(10)]
-		A = fullArray(a, 10)
+		A = full_array(a, 10)
 		self.assertTrue(np.array_equal(A, np.full(10, 25.25)))
 
 	def test_a_int_list_fine(self):
 		a = [25 for i in range(10)]
-		A = fullArray(a, 10)
+		A = full_array(a, 10)
 		self.assertTrue(np.array_equal(A, np.full(10, 25)))
 
 	def test_a_float_array_fine(self):
 		a = np.asarray([25.25 for i in range(10)])
-		A = fullArray(a, 10)
+		A = full_array(a, 10)
 		self.assertTrue(np.array_equal(A, np.full(10, 25.25)))
 
 	def test_a_int_array_fine(self):
 		a = np.asarray([25 for i in range(10)])
-		A = fullArray(a, 10)
+		A = full_array(a, 10)
 		self.assertTrue(np.array_equal(A, np.full(10, 25)))
 
 	def test_a_float_list1_fine(self):
 		a = [25.25 + i for i in range(10)]
-		A = fullArray(a, 15)
+		A = full_array(a, 15)
 		a.extend([25.25 + i for i in range(5)])
 		self.assertTrue(np.array_equal(A, np.asarray(a)))
 
 	def test_a_int_list1_fine(self):
 		a = [25 + i for i in range(10)]
-		A = fullArray(a, 15)
+		A = full_array(a, 15)
 		a.extend([25 + i for i in range(5)])
 		self.assertTrue(np.array_equal(A, np.asarray(a)))
 
 	def test_a_float_array1_fine(self):
 		a = [25.25 + i for i in range(10)]
-		A = fullArray(np.asarray(a), 15)
+		A = full_array(np.asarray(a), 15)
 		a.extend([25.25 + i for i in range(5)])
 		self.assertTrue(np.array_equal(A, np.asarray(a)))
 
 	def test_a_int_array1_fine(self):
 		a = [25 + i for i in range(10)]
-		A = fullArray(np.asarray(a), 15)
+		A = full_array(np.asarray(a), 15)
 		a.extend([25 + i for i in range(5)])
 		self.assertTrue(np.array_equal(A, np.asarray(a)))
 
 	def test_a_float_list2_fine(self):
 		a = [25.25 + i for i in range(10)]
-		A = fullArray(a, 13)
+		A = full_array(a, 13)
 		a.extend([25.25 + i for i in range(3)])
 		self.assertTrue(np.array_equal(A, np.asarray(a)))
 
 	def test_a_int_list2_fine(self):
 		a = [25 + i for i in range(10)]
-		A = fullArray(a, 13)
+		A = full_array(a, 13)
 		a.extend([25 + i for i in range(3)])
 		self.assertTrue(np.array_equal(A, np.asarray(a)))
 
 	def test_a_float_array2_fine(self):
 		a = [25.25 + i for i in range(10)]
-		A = fullArray(np.asarray(a), 13)
+		A = full_array(np.asarray(a), 13)
 		a.extend([25.25 + i for i in range(3)])
 		self.assertTrue(np.array_equal(A, np.asarray(a)))
 
 	def test_a_int_array2_fine(self):
 		a = [25 + i for i in range(10)]
-		A = fullArray(np.asarray(a), 13)
+		A = full_array(np.asarray(a), 13)
 		a.extend([25 + i for i in range(3)])
 		self.assertTrue(np.array_equal(A, np.asarray(a)))
 
 	def test_a_float_list3_fine(self):
 		a = [25.25 + i for i in range(10)]
-		A = fullArray(a, 9)
+		A = full_array(a, 9)
 		a.remove(34.25)
 		self.assertTrue(np.array_equal(A, np.asarray(a)))
 
 	def test_a_int_list3_fine(self):
 		a = [25 + i for i in range(10)]
-		A = fullArray(a, 9)
+		A = full_array(a, 9)
 		a.remove(34)
 		self.assertTrue(np.array_equal(A, np.asarray(a)))
 
 	def test_a_float_array3_fine(self):
 		a = [25.25 + i for i in range(10)]
-		A = fullArray(np.asarray(a), 9)
+		A = full_array(np.asarray(a), 9)
 		a.remove(34.25)
 		self.assertTrue(np.array_equal(A, np.asarray(a)))
 
 	def test_a_int_array3_fine(self):
 		a = [25 + i for i in range(10)]
-		A = fullArray(np.asarray(a), 9)
+		A = full_array(np.asarray(a), 9)
 		a.remove(34)
 		self.assertTrue(np.array_equal(A, np.asarray(a)))
 
@@ -136,16 +136,16 @@ class StoppingTaskBaseTestCase(TestCase):
 		self.assertEqual(self.D, self.task.dim())
 
 	def test_lower(self):
-		self.assertTrue(np.array_equal(fullArray(self.Lower, self.D), self.task.Lower))
-		self.assertTrue(np.array_equal(fullArray(self.Lower, self.D), self.task.lower()))
+		self.assertTrue(np.array_equal(full_array(self.Lower, self.D), self.task.Lower))
+		self.assertTrue(np.array_equal(full_array(self.Lower, self.D), self.task.lower()))
 
 	def test_upper(self):
-		self.assertTrue(np.array_equal(fullArray(self.Upper, self.D), self.task.Upper))
-		self.assertTrue(np.array_equal(fullArray(self.Upper, self.D), self.task.upper()))
+		self.assertTrue(np.array_equal(full_array(self.Upper, self.D), self.task.Upper))
+		self.assertTrue(np.array_equal(full_array(self.Upper, self.D), self.task.upper()))
 
 	def test_range(self):
-		self.assertTrue(np.array_equal(fullArray(self.Upper, self.D) - fullArray(self.Lower, self.D), self.task.bRange))
-		self.assertTrue(np.array_equal(fullArray(self.Upper, self.D) - fullArray(self.Lower, self.D), self.task.range()))
+		self.assertTrue(np.array_equal(full_array(self.Upper, self.D) - full_array(self.Lower, self.D), self.task.bRange))
+		self.assertTrue(np.array_equal(full_array(self.Upper, self.D) - full_array(self.Lower, self.D), self.task.range()))
 
 	def test_ngens(self):
 		self.assertEqual(np.inf, self.task.nGEN)
@@ -172,7 +172,7 @@ class StoppingTaskBaseTestCase(TestCase):
 		self.assertEqual(None, self.task.next_iteration())
 
 	def test_is_feasible(self):
-		self.assertFalse(self.task.is_feasible(fullArray([1, 2, 3], self.D)))
+		self.assertFalse(self.task.is_feasible(full_array([1, 2, 3], self.D)))
 
 
 class MyBenchmark(Benchmark):
@@ -332,11 +332,11 @@ class ThrowingTaskTestCase(TestCase):
 class LimitRepairTestCase(TestCase):
 	def setUp(self):
 		self.D = 10
-		self.Upper, self.Lower = fullArray(10, self.D), fullArray(-10, self.D)
+		self.Upper, self.Lower = full_array(10, self.D), full_array(-10, self.D)
 		self.met = limit_repair
 
 	def generateIndividual(self, D, upper, lower):
-		u, l = fullArray(upper, D), fullArray(lower, D)
+		u, l = full_array(upper, D), full_array(lower, D)
 		return l + rnd.rand(D) * (u - l)
 
 	def test_limit_repair_good_solution_fine(self):
@@ -367,25 +367,25 @@ class LimitRepairTestCase(TestCase):
 class LimitInverseRepairTestCase(LimitRepairTestCase):
 	def setUp(self):
 		LimitRepairTestCase.setUp(self)
-		self.met = limitInversRepair
+		self.met = limit_invers_repair
 
 
 class WangRepairTestCase(LimitRepairTestCase):
 	def setUp(self):
 		LimitRepairTestCase.setUp(self)
-		self.met = wangRepair
+		self.met = wang_repair
 
 
 class RandRepairTestCase(LimitRepairTestCase):
 	def setUp(self):
 		LimitRepairTestCase.setUp(self)
-		self.met = randRepair
+		self.met = rand_repair
 
 
 class ReflectRepairTestCase(LimitRepairTestCase):
 	def setUp(self):
 		LimitRepairTestCase.setUp(self)
-		self.met = reflectRepair
+		self.met = reflect_repair
 
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

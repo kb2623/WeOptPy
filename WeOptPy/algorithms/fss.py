@@ -274,10 +274,10 @@ class FishSchoolSearch(Algorithm):
 
 		Args:
 			school (numpy.ndarray): Current population.
-			task (Task): Optmization task.
+			task (Task): Optimization task.
 
 		Returns:
-			numpy.ndarray: New populaiton
+			numpy.ndarray: New population.
 		"""
 		cost_eval_enhanced = np.zeros((task.D,), dtype=np.float)
 		density = sum([f.delta_cost for f in school])
@@ -320,9 +320,9 @@ class FishSchoolSearch(Algorithm):
 			Tuple[numpy.ndarray, numpy.ndarray, dict]: TODO.
 		"""
 		curr_step_individual, curr_step_volitive, curr_weight_school, prev_weight_school, school = self.init_school(task)
-		return school, np.asarray([f.f for f in school]), {'curr_step_individual': curr_step_individual, 'curr_step_volitive': curr_step_volitive, 'curr_weight_school': curr_weight_school, 'prev_weight_school': prev_weight_school}
+		return school, np.asarray([f.f for f in school]), [], {'curr_step_individual': curr_step_individual, 'curr_step_volitive': curr_step_volitive, 'curr_weight_school': curr_weight_school, 'prev_weight_school': prev_weight_school}
 
-	def run_iteration(self, task, school, fschool, xb, fxb, curr_step_individual, curr_step_volitive, curr_weight_school, prev_weight_school, **dparams):
+	def run_iteration(self, task, school, fschool, xb, fxb, curr_step_individual, curr_step_volitive, curr_weight_school, prev_weight_school, *args, **dparams):
 		r"""Core function of algorithm.
 
 		Args:
@@ -335,16 +335,17 @@ class FishSchoolSearch(Algorithm):
 			curr_step_volitive:
 			curr_weight_school:
 			prev_weight_school:
-			dparams:
+			args (list): Additional arguments.
+			dparams (dict): Additional keyword arguments.
 
 		Returns:
-			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, dict]: TODO.
+			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, list, dict]: TODO.
 		"""
 		school, xb, fxb = self.individual_movement(school, curr_step_individual, xb, fxb, task)
 		school = self.feeding(school)
 		school = self.collective_instinctive_movement(school, task)
 		school, xb, fxb = self.collective_volitive_movement(school=school, curr_step_volitive=curr_step_volitive, prev_weight_school=prev_weight_school, curr_weight_school=curr_weight_school, xb=xb, fxb=fxb, task=task)
 		curr_step_individual, curr_step_volitive = self.update_steps(task)
-		return school, np.asarray([f.f for f in school]), xb, fxb, {'curr_step_individual': curr_step_individual, 'curr_step_volitive': curr_step_volitive, 'curr_weight_school': curr_weight_school, 'prev_weight_school': prev_weight_school}
+		return school, np.asarray([f.f for f in school]), xb, fxb, args, {'curr_step_individual': curr_step_individual, 'curr_step_volitive': curr_step_volitive, 'curr_weight_school': curr_weight_school, 'prev_weight_school': prev_weight_school}
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

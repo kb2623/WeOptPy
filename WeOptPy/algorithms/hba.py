@@ -1,7 +1,7 @@
 # encoding=utf8
 
 from WeOptPy.algorithms.ba import BatAlgorithm
-from WeOptPy.algorithms.de import CrossBest1
+from WeOptPy.algorithms.de import cross_best1
 
 __all__ = ['HybridBatAlgorithm']
 
@@ -62,7 +62,7 @@ class HybridBatAlgorithm(BatAlgorithm):
 		})
 		return d
 
-	def set_parameters(self, F=0.50, CR=0.90, CrossMutt=CrossBest1, **ukwargs):
+	def set_parameters(self, F=0.50, CR=0.90, CrossMutt=cross_best1, **ukwargs):
 		r"""Set core parameters of HybridBatAlgorithm algorithm.
 
 		Arguments:

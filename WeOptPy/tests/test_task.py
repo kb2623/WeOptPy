@@ -5,7 +5,7 @@ from unittest import TestCase
 import numpy as np
 from numpy import random as rnd
 
-from WeOptPy.util import fullArray, FesException, GenException, RefException
+from WeOptPy.util import full_array, FesException, GenException, RefException
 from WeOptPy.task import StoppingTask, ThrowingTask
 
 
@@ -43,16 +43,16 @@ class StoppingTaskBaseTestCase(TestCase):
 		self.assertEqual(self.D, self.task.dim())
 
 	def test_lower(self):
-		self.assertTrue(np.array_equal(fullArray(self.Lower, self.D), self.task.Lower))
-		self.assertTrue(np.array_equal(fullArray(self.Lower, self.D), self.task.lower()))
+		self.assertTrue(np.array_equal(full_array(self.Lower, self.D), self.task.Lower))
+		self.assertTrue(np.array_equal(full_array(self.Lower, self.D), self.task.lower()))
 
 	def test_upper(self):
-		self.assertTrue(np.array_equal(fullArray(self.Upper, self.D), self.task.Upper))
-		self.assertTrue(np.array_equal(fullArray(self.Upper, self.D), self.task.upper()))
+		self.assertTrue(np.array_equal(full_array(self.Upper, self.D), self.task.Upper))
+		self.assertTrue(np.array_equal(full_array(self.Upper, self.D), self.task.upper()))
 
 	def test_range(self):
-		self.assertTrue(np.array_equal(fullArray(self.Upper, self.D) - fullArray(self.Lower, self.D), self.task.bRange))
-		self.assertTrue(np.array_equal(fullArray(self.Upper, self.D) - fullArray(self.Lower, self.D), self.task.range()))
+		self.assertTrue(np.array_equal(full_array(self.Upper, self.D) - full_array(self.Lower, self.D), self.task.bRange))
+		self.assertTrue(np.array_equal(full_array(self.Upper, self.D) - full_array(self.Lower, self.D), self.task.range()))
 
 	def test_ngens(self):
 		self.assertEqual(np.inf, self.task.nGEN)
@@ -79,7 +79,7 @@ class StoppingTaskBaseTestCase(TestCase):
 		self.assertEqual(None, self.task.next_iteration())
 
 	def test_is_feasible(self):
-		self.assertFalse(self.task.is_feasible(fullArray([1, 2, 3], self.D)))
+		self.assertFalse(self.task.is_feasible(full_array([1, 2, 3], self.D)))
 
 
 class StoppingTaskTestCase(TestCase):

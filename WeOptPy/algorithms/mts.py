@@ -385,7 +385,7 @@ class MultipleTrajectorySearch(Algorithm):
 		})
 		return d
 
-	def GradingRun(self, x, x_f, xb, fxb, improve, SR, task):
+	def grading_run(self, x, x_f, xb, fxb, improve, SR, task):
 		r"""Run local search for getting scores of local searches.
 
 		Args:
@@ -412,7 +412,7 @@ class MultipleTrajectorySearch(Algorithm):
 		xn, xn_f = min(Xn, key=lambda x: x[1])
 		return xn, xn_f, xb, fxb, k
 
-	def LsRun(self, k, x, x_f, xb, fxb, improve, SR, g, task):
+	def local_search(self, k, x, x_f, xb, fxb, improve, SR, g, task):
 		r"""Run a selected local search.
 
 		Args:
@@ -447,16 +447,17 @@ class MultipleTrajectorySearch(Algorithm):
 			task (Task): Optimization task.
 
 		Returns:
-			Tuple[numpy.ndarray, numpy.ndarray, Dict[str, Any]]:
+			Tuple[numpy.ndarray, numpy.ndarray, list, dict]:
 				1. Initialized population.
 				2. Initialized populations function/fitness value.
 				3. Additional arguments:
+				4. Additional keyword arguments:
 					* enable (numpy.ndarray): If solution/individual is enabled.
 					* improve (numpy.ndarray): If solution/individual is improved.
 					* SR (numpy.ndarray): Search range.
 					* grades (numpy.ndarray): Grade of solution/individual.
 		"""
-		X, X_f, d = Algorithm.init_population(self, task)
+		X, X_f, args, d = Algorithm.init_population(self, task)
 		enable, improve, SR, grades = np.full(self.NP, True), np.full(self.NP, True), np.full([self.NP, task.D], task.bRange / 2), np.full(self.NP, 0.0)
 		d.update({
 			'enable': enable,
@@ -464,9 +465,9 @@ class MultipleTrajectorySearch(Algorithm):
 			'SR': SR,
 			'grades': grades
 		})
-		return X, X_f, d
+		return X, X_f, args, d
 
-	def run_iteration(self, task, X, X_f, xb, xb_f, enable, improve, SR, grades, **dparams):
+	def run_iteration(self, task, X, X_f, xb, xb_f, enable, improve, SR, grades, *args, **dparams):
 		r"""Core function of MultipleTrajectorySearch algorithm.
 
 		Args:
@@ -479,7 +480,8 @@ class MultipleTrajectorySearch(Algorithm):
 			improve (numpy.ndarray): Improved status of individuals.
 			SR (numpy.ndarray): Search ranges of individuals.
 			grades (numpy.ndarray): Grades of individuals.
-			dparams (Dict[str, Any]): Additional arguments.
+			args (list): Additional arguments.
+			dparams (dict): Additional keyword arguments.
 
 		Returns:
 			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, Dict[str, Any]]:
@@ -488,6 +490,7 @@ class MultipleTrajectorySearch(Algorithm):
 				3. New global best solution.
 				4. New global best solutions fitness/objective value.
 				5. Additional arguments:
+				6. Additional keyword arguments:
 					* enable (numpy.ndarray): If solution/individual is enabled.
 					* improve (numpy.ndarray): If solution/individual is improved.
 					* SR (numpy.ndarray): Search range.
@@ -496,11 +499,11 @@ class MultipleTrajectorySearch(Algorithm):
 		for i in range(len(X)):
 			if not enable[i]: continue
 			enable[i], grades[i] = False, 0
-			X[i], X_f[i], xb, xb_f, k = self.GradingRun(X[i], X_f[i], xb, xb_f, improve[i], SR[i], task)
-			X[i], X_f[i], xb, xb_f, improve[i], SR[i], grades[i] = self.LsRun(k, X[i], X_f[i], xb, xb_f, improve[i], SR[i], grades[i], task)
+			X[i], X_f[i], xb, xb_f, k = self.grading_run(X[i], X_f[i], xb, xb_f, improve[i], SR[i], task)
+			X[i], X_f[i], xb, xb_f, improve[i], SR[i], grades[i] = self.local_search(k, X[i], X_f[i], xb, xb_f, improve[i], SR[i], grades[i], task)
 		for _ in range(self.NoLsBest): _, _, xb, xb_f, _, _, _ = MTS_LS1(xb, xb_f, xb, xb_f, False, task.bRange.copy() / 10, task, rnd=self.Rand)
 		enable[np.argsort(grades)[:self.NoEnabled]] = True
-		return X, X_f, xb, xb_f, {'enable': enable, 'improve': improve, 'SR': SR, 'grades': grades}
+		return X, X_f, xb, xb_f, args, {'enable': enable, 'improve': improve, 'SR': SR, 'grades': grades}
 
 
 class MultipleTrajectorySearchV1(MultipleTrajectorySearch):
@@ -555,5 +558,6 @@ class MultipleTrajectorySearchV1(MultipleTrajectorySearch):
 		"""
 		kwargs.pop('NoLsBest', None)
 		MultipleTrajectorySearch.set_parameters(self, NoLsBest=0, LSs=(MTS_LS1v1, MTS_LS2), **kwargs)
+
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

@@ -3,14 +3,14 @@
 """Implementation of benchmarks utility function."""
 
 from WeOptPy import algorithms
-from WeOptPy.util.utility import explore_package_for_classes
+from WeOptPy.util import explore_package_for_classes
 
 
 class Factory:
 	r"""Base class with string mappings to benchmarks and algorithms.
 
 	Author:
-		Klemen Berkovic
+		Klemen Berkovič
 
 	Date:
 		2020
