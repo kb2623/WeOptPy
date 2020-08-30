@@ -33,8 +33,12 @@ class ES1p1TestCase(AlgorithmTestCase):
 
 	def test_custom_works_fine(self):
 		es_custom = self.algo(k=10, c_a=1.5, c_r=0.42, seed=self.seed)
+		AlgorithmTestCase.test_algorithm_run(self, es_custom, MyBenchmark())
+
+	def test_Custom_works_fine_parallel(self):
+		es_custom = self.algo(k=10, c_a=1.5, c_r=0.42, seed=self.seed)
 		es_customc = self.algo(k=10, c_a=1.5, c_r=0.42, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, es_custom, es_customc, MyBenchmark())
+		AlgorithmTestCase.test_algorithm_run_parallel(self, es_custom, es_customc, MyBenchmark())
 
 
 class ESMp1TestCase(AlgorithmTestCase):
@@ -44,8 +48,12 @@ class ESMp1TestCase(AlgorithmTestCase):
 
 	def test_custom_works_fine(self):
 		es_custom = self.algo(mu=45, k=50, c_a=1.1, c_r=0.5, seed=self.seed)
+		AlgorithmTestCase.test_algorithm_run(self, es_custom, MyBenchmark())
+
+	def test_Custom_works_fine_parallel(self):
+		es_custom = self.algo(mu=45, k=50, c_a=1.1, c_r=0.5, seed=self.seed)
 		es_customc = self.algo(mu=45, k=50, c_a=1.1, c_r=0.5, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, es_custom, es_customc, MyBenchmark())
+		AlgorithmTestCase.test_algorithm_run_parallel(self, es_custom, es_customc, MyBenchmark())
 
 
 class ESMpLTestCase(AlgorithmTestCase):
@@ -62,13 +70,21 @@ class ESMpLTestCase(AlgorithmTestCase):
 
 	def test_custom_works_fine(self):
 		es_custom = self.algo(mu=45, lam=55, k=50, c_a=1.1, c_r=0.5, seed=self.seed)
+		AlgorithmTestCase.test_algorithm_run(self, es_custom, MyBenchmark())
+
+	def test_Custom_works_fine_parallel(self):
+		es_custom = self.algo(mu=45, lam=55, k=50, c_a=1.1, c_r=0.5, seed=self.seed)
 		es_customc = self.algo(mu=45, lam=55, k=50, c_a=1.1, c_r=0.5, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, es_custom, es_customc, MyBenchmark())
+		AlgorithmTestCase.test_algorithm_run_parallel(self, es_custom, es_customc, MyBenchmark())
 
 	def test_custom1_works_fine(self):
 		es1_custom = self.algo(mu=55, lam=45, k=50, c_a=1.1, c_r=0.5, seed=self.seed)
+		AlgorithmTestCase.test_algorithm_run(self, es1_custom, MyBenchmark())
+
+	def test_custom1_works_fine_parallel(self):
+		es1_custom = self.algo(mu=55, lam=45, k=50, c_a=1.1, c_r=0.5, seed=self.seed)
 		es1_customc = self.algo(mu=55, lam=45, k=50, c_a=1.1, c_r=0.5, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, es1_custom, es1_customc, MyBenchmark())
+		AlgorithmTestCase.test_algorithm_run_parallel(self, es1_custom, es1_customc, MyBenchmark())
 
 
 class ESMLTestCase(AlgorithmTestCase):
@@ -78,13 +94,21 @@ class ESMLTestCase(AlgorithmTestCase):
 
 	def test_custom_works_fine(self):
 		es_custom = self.algo(mu=45, k=50, c_a=1.1, c_r=0.5, seed=self.seed)
+		AlgorithmTestCase.test_algorithm_run(self, es_custom, MyBenchmark())
+
+	def test_custom1_works_fine_parallel(self):
+		es_custom = self.algo(mu=45, k=50, c_a=1.1, c_r=0.5, seed=self.seed)
 		es_customc = self.algo(mu=45, k=50, c_a=1.1, c_r=0.5, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, es_custom, es_customc, MyBenchmark())
+		AlgorithmTestCase.test_algorithm_run_parallel(self, es_custom, es_customc, MyBenchmark())
 
 	def test_custom1_works_fine(self):
 		es1_custom = self.algo(mu=45, lam=35, k=50, c_a=1.1, c_r=0.5, seed=self.seed)
+		AlgorithmTestCase.test_algorithm_run(self, es1_custom, MyBenchmark())
+
+	def test_custom1_works_fine_parallel(self):
+		es1_custom = self.algo(mu=45, lam=35, k=50, c_a=1.1, c_r=0.5, seed=self.seed)
 		es1_customc = self.algo(mu=45, lam=35, k=50, c_a=1.1, c_r=0.5, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, es1_custom, es1_customc, MyBenchmark())
+		AlgorithmTestCase.test_algorithm_run_parallel(self, es1_custom, es1_customc, MyBenchmark())
 
 
 class CMAESTestCase(AlgorithmTestCase):

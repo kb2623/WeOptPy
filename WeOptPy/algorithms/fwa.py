@@ -86,7 +86,7 @@ class BareBonesFireworksAlgorithm(Algorithm):
 				2. Initial solution function/fitness value.
 				3. Additional arguments.
 				4. Additional keyword arguments:
-					* a (numpy.ndarray): Starting aplitude or search range.
+					* a (numpy.ndarray): Starting amplitude or search range.
 		"""
 		x, x_fit, args, d = Algorithm.init_population(self, task)
 		d.update({'a': task.bRange})

@@ -38,8 +38,12 @@ class HSTestCase(AlgorithmTestCase):
 
 	def test_custom_works_fine(self):
 		hs_costom = self.algo(seed=self.seed)
+		AlgorithmTestCase.test_algorithm_run(self, hs_costom, MyBenchmark())
+
+	def test_Custom_works_fine_parallel(self):
+		hs_costom = self.algo(seed=self.seed)
 		hs_costomc = self.algo(seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, hs_costom, hs_costomc, MyBenchmark())
+		AlgorithmTestCase.test_algorithm_run_parallel(self, hs_costom, hs_costomc, MyBenchmark())
 
 
 class HSv1TestCase(AlgorithmTestCase):
@@ -59,8 +63,12 @@ class HSv1TestCase(AlgorithmTestCase):
 
 	def test_custom_works_fine(self):
 		hs_costom = self.algo(seed=self.seed)
+		AlgorithmTestCase.test_algorithm_run(self, hs_costom, MyBenchmark())
+
+	def test_Custom_works_fine_parallel(self):
+		hs_costom = self.algo(seed=self.seed)
 		hs_costomc = self.algo(seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, hs_costom, hs_costomc, MyBenchmark())
+		AlgorithmTestCase.test_algorithm_run_parallel(self, hs_costom, hs_costomc, MyBenchmark())
 
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

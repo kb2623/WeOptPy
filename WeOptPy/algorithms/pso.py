@@ -436,12 +436,12 @@ class OppositionVelocityClampingParticleSwarmOptimization(ParticleSwarmAlgorithm
 					* S_l (numpy.ndarray): lower bound for opposite learning.
 		"""
 		pop, fpop, args, d = ParticleSwarmAlgorithm.init_population(self, task)
-		s_l, s_h = task.lower, task.upper
+		s_l, s_h = task.Lower, task.Upper
 		pop, fpop, _, _ = self.opposite_learning(s_l, s_h, pop, fpop, task)
 		pb_inds = np.where(fpop < d['fpopb'])
 		d['popb'][pb_inds], d['fpopb'][pb_inds] = pop[pb_inds], fpop[pb_inds]
-		d['vMin'], d['vMax'] = self.sigma * (task.Upper - task.Lower), self.sigma * (task.Lower - task.Upper)
-		d.update({'S_l': s_l, 'S_h': s_h})
+		d['min_velocity'], d['max_velocity'] = self.sigma * (task.Upper - task.Lower), self.sigma * (task.Lower - task.Upper)
+		d.update({'s_l': s_l, 's_h': s_h})
 		return pop, fpop, args, d
 
 	def run_iteration(self, task, pop, fpop, xb, fxb, popb, fpopb, min_velocity, max_velocity, v, s_l, s_h, *args, **dparams):
