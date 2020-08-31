@@ -17,11 +17,17 @@ import sys
 import logging
 
 import setuptools
-import numpy
 
 
 def check_python_version(min_python_version):
-	"""Exit when the Python version is too low."""
+	r"""Exit when the Python version is too low.
+
+	Args:
+		min_python_version (float): Minimum python version.
+
+	Returns:
+		bool: Get minimum version for python.
+	"""
 	if sys.version < min_python_version: sys.exit("Python {0}+ is required." % min_python_version)
 
 
@@ -37,13 +43,25 @@ def read_package_variable(key, package_name='WeOptPy', filename='__init__.py'):
 
 
 def build_description():
-	"""Build a description for the project from documentation files."""
+	r"""Build a description for the project from documentation files.
+
+	Returns:
+		str: Description.
+	"""
 	try: readme = open("README.rst").read()
 	except IOError: return "<placeholder>"
 	return readme  # return readme + '\n' + changelog
 
 
 def make_python_requires(min_version):
+	r"""Get minimum required python version.
+
+	Args:
+		min_version (float): Minimal supported version.
+
+	Returns:
+		str: Formatted minimal version.
+	"""
 	return '>=%s' % min_version
 
 

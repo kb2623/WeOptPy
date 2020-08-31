@@ -23,15 +23,15 @@ class StoppingTaskBaseTestCase(TestCase):
 	r"""Test case for testing `Task`, `StoppingTask` and `CountingTask` classes.
 
 	Date:
-		 April 2019
+		April 2019
 
 	Author:
-		 Klemen Berkovič
+		Klemen Berkovič
 
 	See Also:
-		 * :class:`NiaPy.util.Task`
-		 * :class:`NiaPy.util.CountingTask`
-		 * :class:`NiaPy.util.StoppingTask`
+		* :class:`WeOptPy.util.Task`
+		* :class:`WeOptPy.util.CountingTask`
+		* :class:`WeOptPy.util.StoppingTask`
 	"""
 	def setUp(self):
 		self.D = 6
@@ -146,7 +146,6 @@ class StoppingTaskTestCase(TestCase):
 			self.assertEqual(self.t.Evals, i + 1, 'Error at %s. evaluation' % (i + 1))
 
 	def test_nGEN_count_fine(self):
-		x = np.full(self.D, 1.0)
 		for i in range(self.nGEN):
 			self.t.next_iteration()
 			self.assertEqual(self.t.Iters, i + 1, 'Error at %s. iteration' % (i + 1))
@@ -160,7 +159,6 @@ class StoppingTaskTestCase(TestCase):
 		self.assertTrue(self.t.stop_cond())
 
 	def test_stopCond_iters_fine(self):
-		x = np.full(self.D, 1.0)
 		for i in range(self.nGEN - 1):
 			self.t.next_iteration()
 			self.assertFalse(self.t.stop_cond())
@@ -258,7 +256,6 @@ class ThrowingTaskTestCase(TestCase):
 			self.assertEqual(self.t.Evals, i + 1, 'Error at %s. evaluation' % (i + 1))
 
 	def test_nGEN_count_fine(self):
-		x = np.full(self.D, 1.0)
 		for i in range(self.nGEN):
 			self.t.next_iteration()
 			self.assertEqual(self.t.Iters, i + 1, 'Error at %s. iteration' % (i + 1))
@@ -272,7 +269,6 @@ class ThrowingTaskTestCase(TestCase):
 		self.assertTrue(self.t.stop_cond())
 
 	def test_stopCond_iters_fine(self):
-		x = np.full(self.D, 1.0)
 		for i in range(self.nGEN - 1):
 			self.t.next_iteration()
 			self.assertFalse(self.t.stop_cond())

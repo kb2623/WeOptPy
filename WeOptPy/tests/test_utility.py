@@ -21,6 +21,7 @@ from WeOptPy.task import (
 	StoppingTask,
 	ThrowingTask
 )
+from WeOptPy.task.interfaces import UtilityFunction
 
 
 class FullArrayTestCase(TestCase):
@@ -175,9 +176,9 @@ class StoppingTaskBaseTestCase(TestCase):
 		self.assertFalse(self.task.is_feasible(full_array([1, 2, 3], self.D)))
 
 
-class MyBenchmark(Benchmark):
+class MyBenchmark(UtilityFunction):
 	def __init__(self):
-		Benchmark.__init__(self, -10, 10)
+		UtilityFunction.__init__(self, -10, 10)
 
 	def function(self):
 		def evaluate(D, x): return np.sum(x ** 2)
@@ -235,7 +236,6 @@ class StoppingTaskTestCase(TestCase):
 			self.assertEqual(self.t.Evals, i + 1, 'Error at %s. evaluation' % (i + 1))
 
 	def test_nGEN_count_fine(self):
-		x = np.full(self.D, 0.0)
 		for i in range(self.nGEN):
 			self.t.next_iteration()
 			self.assertEqual(self.t.Iters, i + 1, 'Error at %s. iteration' % (i + 1))
@@ -249,7 +249,6 @@ class StoppingTaskTestCase(TestCase):
 		self.assertTrue(self.t.stop_cond())
 
 	def test_stopCond_iters_fine(self):
-		x = np.full(self.D, 0.0)
 		for i in range(self.nGEN - 1):
 			self.t.next_iteration()
 			self.assertFalse(self.t.stop_cond())
@@ -307,7 +306,6 @@ class ThrowingTaskTestCase(TestCase):
 			self.assertEqual(self.t.Evals, i + 1, 'Error at %s. evaluation' % (i + 1))
 
 	def test_nGEN_count_fine(self):
-		x = np.full(self.D, 0.0)
 		for i in range(self.nGEN):
 			self.t.next_iteration()
 			self.assertEqual(self.t.Iters, i + 1, 'Error at %s. iteration' % (i + 1))
@@ -321,7 +319,6 @@ class ThrowingTaskTestCase(TestCase):
 		self.assertTrue(self.t.stop_cond())
 
 	def test_stopCond_iters_fine(self):
-		x = np.full(self.D, 0.0)
 		for i in range(self.nGEN - 1):
 			self.t.next_iteration()
 			self.assertFalse(self.t.stop_cond())
@@ -335,30 +332,30 @@ class LimitRepairTestCase(TestCase):
 		self.Upper, self.Lower = full_array(10, self.D), full_array(-10, self.D)
 		self.met = limit_repair
 
-	def generateIndividual(self, D, upper, lower):
-		u, l = full_array(upper, D), full_array(lower, D)
-		return l + rnd.rand(D) * (u - l)
+	def generate_individual(self, D, upper, lower):
+		arr_upper, arr_lower = full_array(upper, D), full_array(lower, D)
+		return arr_lower + rnd.rand(D) * (arr_upper - arr_lower)
 
 	def test_limit_repair_good_solution_fine(self):
-		x = self.generateIndividual(self.D, self.Upper, self.Lower)
+		x = self.generate_individual(self.D, self.Upper, self.Lower)
 		x = self.met(x, self.Lower, self.Upper)
 		self.assertFalse((x > self.Upper).any())
 		self.assertFalse((x < self.Lower).any())
 
 	def test_limit_repair_bad_upper_solution_fine(self):
-		x = self.generateIndividual(self.D, 12, 11)
+		x = self.generate_individual(self.D, 12, 11)
 		x = self.met(x, self.Lower, self.Upper)
 		self.assertFalse((x > self.Upper).any())
 		self.assertFalse((x < self.Lower).any())
 
 	def test_limit_repair_bad_lower_soluiton_fine(self):
-		x = self.generateIndividual(self.D, -11, -12)
+		x = self.generate_individual(self.D, -11, -12)
 		x = self.met(x, self.Lower, self.Upper)
 		self.assertFalse((x > self.Upper).any())
 		self.assertFalse((x < self.Lower).any())
 
 	def test_limit_repair_bad_upper_lower_soluiton_fine(self):
-		x = self.generateIndividual(self.D, 100, -100)
+		x = self.generate_individual(self.D, 100, -100)
 		x = self.met(x, self.Lower, self.Upper)
 		self.assertFalse((x > self.Upper).any())
 		self.assertFalse((x < self.Lower).any())

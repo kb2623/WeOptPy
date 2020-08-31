@@ -48,6 +48,7 @@ from WeOptPy.algorithms.gso import (
 from WeOptPy.algorithms.gsa import GravitationalSearchAlgorithm
 from WeOptPy.algorithms.gwo import GreyWolfOptimizer
 from WeOptPy.algorithms.hba import HybridBatAlgorithm
+from WeOptPy.algorithms.hc import HillClimbAlgorithm
 from WeOptPy.algorithms.hs import (
 	HarmonySearch,
 	HarmonySearchV1
@@ -140,6 +141,7 @@ __all__ = [
 	'GravitationalSearchAlgorithm',
 	'GreyWolfOptimizer',
 	'HybridBatAlgorithm',
+	'HillClimbAlgorithm',
 	'HarmonySearch',
 	'HarmonySearchV1',
 	'HybridSelfAdaptiveBatAlgorithm',

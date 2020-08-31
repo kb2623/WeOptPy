@@ -45,29 +45,27 @@ def make_arg_parser():
 
 	Parser:
 		* `-a` or `--algorithm` (str):
-			Name of algorithm to use. Default value is `jDE`.
-		* `-b` or `--bech` (str):
-			Name of benchmark to use. Default values is `Benchmark`.
+			* Name of algorithm to use. Default value is `jDE`.
 		* `-d` (int):
-			Number of dimensions/components usd by benchmark. Default values is `10`.
+			* Number of dimensions/components usd by benchmark. Default values is `10`.
 		* `-no_fes` (int):
-			Number of maximum function evaluations. Default values is `inf`.
+			* Number of maximum function evaluations. Default values is `inf`.
 		* `-nGEN` (int):
-			Number of maximum algorithm iterations/generations. Default values is `inf`.
+			* * * * * * * * * Number of maximum algorithm iterations/generations. Default values is `inf`.
 		* `-n` (int):
-			Number of individuals in population. Default values is `43`.
+			* Number of individuals in population. Default values is `43`.
 		* `-r` or `--runType` (str): Run type of run. Value can be:
 			* '': No output during the run. Output is shown only at the end of algorithm run.
 			* `log`: Output is shown every time new global best solution is found
 			* `plot`: Output is shown only at the end of run. Output is shown as graph ploted in matplotlib. Graph represents convegance of algorithm over run time of algorithm.
-			Default value is `''`.
+			* Default value is `''`.
 		* `-seed` (list of int or int):
-			Set the starting seed of algorithm run. If multiple runs, user can provide list of ints, where each int usd use at new run. Default values is `None`.
+			* Set the starting seed of algorithm run. If multiple runs, user can provide list of ints, where each int usd use at new run. Default values is `None`.
 		* `-optType` (str):
-			Optimization type of the run. Values can be:
+			* Optimization type of the run. Values can be:
 				* `min`: For minimization problems
 				* `max`: For maximization problems
-			Default value is `min`.
+			* Default value is `min`.
 
 	Returns:
 		ArgumentParser: Parser for parsing arguments from string.
@@ -80,11 +78,11 @@ def make_arg_parser():
 	parser.add_argument('-a', '--algorithm', dest='algo', default='jDE', type=str)
 	parser.add_argument('-d', dest='d', default=10, type=int)
 	parser.add_argument('-no_fes', dest='no_fes', default=np.inf, type=int)
-	parser.add_argument('-nGEN', dest='nGEN', default=np.inf, type=int)
+	parser.add_argument('-no_gen', dest='no_gen', default=np.inf, type=int)
 	parser.add_argument('-n', dest='n', default=43, type=int)
-	parser.add_argument('-r', '--runType', dest='runType', choices=['', 'log', 'plot'], default='', type=str)
+	parser.add_argument('-r', '--run_type', dest='run_type', choices=['', 'log', 'plot'], default='', type=str)
 	parser.add_argument('-seed', dest='seed', nargs='+', default=[None], type=int)
-	parser.add_argument('-optType', dest='optType', default=optimization_type('min'), type=optimization_type)
+	parser.add_argument('-opt_type', dest='opt_type', default=optimization_type('min'), type=optimization_type)
 	return parser
 
 
@@ -98,7 +96,7 @@ def get_args(av):
 		Dict[str, Union[float, int, str, OptimizationType]]: Where key represents argument name and values it's value.
 
 	See Also:
-		* :func:`NiaPy.util.argparser.MakeArgParser`.
+		* :func:`WeOptPy.util.argparser.MakeArgParser`.
 		* :func:`ArgumentParser.parse_args`
 	"""
 	parser = make_arg_parser()
@@ -110,13 +108,13 @@ def get_dict_args(argv):
 	r"""Parse input string.
 
 	Args:
-		argv (str): Input string to parse for argumets
+		argv (str): Input string to parse for arguments.
 
 	Returns:
 		dict: Parsed input string
 
 	See Also:
-		* :func:`NiaPy.utils.getArgs`
+		* :func:`WeOptPy.utils.getArgs`
 	"""
 	return vars(get_args(argv))
 
@@ -126,5 +124,5 @@ if __name__ == '__main__':
 	args = get_args(sys.argv[1:])
 	logger.info(str(args))
 
-	
+
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

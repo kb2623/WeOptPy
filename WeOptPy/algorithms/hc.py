@@ -2,11 +2,12 @@
 
 from numpy import random as rand
 
-from NiaPy.algorithms.algorithm import Algorithm
+from WeOptPy.algorithms.interfaces import Algorithm
 
 __all__ = ['HillClimbAlgorithm']
 
-def Neighborhood(x, delta, task, rnd=rand):
+
+def neighborhood(x, delta, task, rnd=rand):
     r"""Get neighbours of point.
 
     Args:
@@ -24,6 +25,7 @@ def Neighborhood(x, delta, task, rnd=rand):
     X = task.repair(X, rnd)
     Xfit = task.eval(X)
     return X, Xfit
+
 
 class HillClimbAlgorithm(Algorithm):
     r"""Implementation of iterative hill climbing algorithm.
@@ -45,7 +47,7 @@ class HillClimbAlgorithm(Algorithm):
     Reference paper:
 
     See Also:
-        * :class:`NiaPy.algorithms.Algorithm`
+        * :class:`WeOptPy.algorithms.interfaces.Algorithm`
 
     Attributes:
         delta (float): Change for searching in neighborhood.
@@ -63,7 +65,7 @@ class HillClimbAlgorithm(Algorithm):
         return r"""TODO"""
 
     @staticmethod
-    def typeParameters():
+    def type_parameters():
         r"""TODO.
 
         Returns:
@@ -72,7 +74,7 @@ class HillClimbAlgorithm(Algorithm):
         """
         return {'delta': lambda x: isinstance(x, (int, float)) and x > 0}
 
-    def setParameters(self, delta=0.5, Neighborhood=Neighborhood, **ukwargs):
+    def set_parameters(self, delta=0.5, Neighborhood=neighborhood, **ukwargs):
         r"""Set the algorithm parameters/arguments.
 
         Args:
@@ -82,7 +84,7 @@ class HillClimbAlgorithm(Algorithm):
         Algorithm.set_parameters(self, n=1, **ukwargs)
         self.delta, self.Neighborhood = delta, Neighborhood
 
-    def getParameters(self):
+    def get_parameters(self):
         d = Algorithm.get_parameters(self)
         d.update({
             'delta': self.delta,
@@ -90,22 +92,23 @@ class HillClimbAlgorithm(Algorithm):
         })
         return d
 
-    def initPopulation(self, task):
+    def init_population(self, task):
         r"""Initialize stating point.
 
         Args:
             task (Task): Optimization task.
 
         Returns:
-            Tuple[numpy.ndarray, float, Dict[str, Any]]:
+            Tuple[numpy.ndarray, float, list, dict]:
                 1. New individual.
                 2. New individual function/fitness value.
                 3. Additional arguments.
+                4. Additional keyword arguments.
         """
-        x = task.lower + self.rand(task.D) * task.bRange
-        return x, task.eval(x), {}
+        x = task.Lower + self.rand(task.D) * task.bRange
+        return x, task.eval(x), [], {}
 
-    def runIteration(self, task, x, fx, xb, fxb, **dparams):
+    def run_iteration(self, task, x, fx, xb, fxb, *args, **dparams):
         r"""Core function of HillClimbAlgorithm algorithm.
 
         Args:
@@ -114,19 +117,23 @@ class HillClimbAlgorithm(Algorithm):
             fx (float): Current solutions fitness/function value.
             xb (numpy.ndarray): Global best solution.
             fxb (float): Global best solutions function/fitness value.
-            **dparams (Dict[str, Any]): Additional arguments.
+            args (list): Additional arguments.
+            dparams (dict): Additional keyword arguments.
 
         Returns:
-            Tuple[numpy.ndarray, float, numpy.ndarray, float, Dict[str, Any]]:
+            Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, list, dict]:
                 1. New solution.
                 2. New solutions function/fitness value.
-                3. Additional arguments.
+                3. Global best solution.
+                4. Global best solution fitness.
+                5. Additional arguments.
+                6. Additional keyword arguments.
         """
-        lo, xn = False, task.lower() + task.range() * self.rand(task.D)
+        lo, xn = False, task.Lower + task.bRange * self.rand(task.D)
         xn_f = task.eval(xn)
         while not lo:
             yn, yn_f = self.Neighborhood(x, self.delta, task, rnd=self.Rand)
             if yn_f < xn_f: xn, xn_f = yn, yn_f
             else: lo = True or task.stop_cond()
-        xb, fxb = self.getBest(xn, xn_f, xb, fxb)
-        return xn, xn_f, xb, fxb, {}
+        xb, fxb = self.get_best(xn, xn_f, xb, fxb)
+        return xn, xn_f, xb, fxb, args, {}

@@ -56,7 +56,7 @@ class ArtificialBeeColonyAlgorithm(Algorithm):
 
 	Arguments
 		Name (List[str]): List containing strings that represent algorithm names.
-		Limit (Union[float, numpy.ndarray[float]]): Limit.
+		Limit (Union[float, int, list, numpy.ndarray]): Limit.
 
 	See Also:
 		* :class:`WeOptPy.algorithms.Algorithm`
@@ -87,7 +87,7 @@ class ArtificialBeeColonyAlgorithm(Algorithm):
 			ukwargs (dict): Additional arguments.
 
 		See Also:
-			* :func:`NiaPy.algorithms.Algorithm.setParameters`
+			* :func:`WeOptPy.algorithms.Algorithm.setParameters`
 		"""
 		Algorithm.set_parameters(self, n=n, init_pop_func=default_individual_init, itype=SolutionABC, **ukwargs)
 		self.FoodNumber, self.Limit = int(self.NP / 2), limit
@@ -152,6 +152,9 @@ class ArtificialBeeColonyAlgorithm(Algorithm):
 				6. Additional keyword arguments:
 					* Probes (numpy.ndarray): TODO
 					* Trial (numpy.ndarray): TODO
+
+		See Also:
+			* :func:`WeOptPy.algorithm.Algorithm.run_iteration`
 		"""
 		for i in range(self.FoodNumber):
 			new_solution = copy.deepcopy(foods[i])
