@@ -14,14 +14,16 @@ from WeOptPy.task import (
 
 
 class DETestCase(TestCase):
-
 	r"""Test cases for evaluating different stopping conditions.
 
-		**Date:** November 2018
+	Date:
+		November 2018
 
-		**Author:** Iztok Fister
+	Author:
+		Iztok Fister
 
-		**Author:** This is a very important test!
+	Author:
+		This is a very important test!
 	"""
 
 	def test_DE_evals_fine(self):
@@ -48,16 +50,17 @@ class DETestCase(TestCase):
 
 
 class BATestCase(TestCase):
-
 	r"""Test cases for evaluating different stopping conditions.
 
-		**Date:** November 2018
+	Date:
+		November 2018
 
-		**Author:** Iztok Fister
+	Author:
+		Iztok Fister
 
-		**Author:** This is a very important test!
+	Author:
+		This is a very important test!
 	"""
-
 	def test_BA_evals_fine(self):
 		task = StoppingTask(
 			D=10,
@@ -94,7 +97,6 @@ class BATestCase(TestCase):
 
 
 class FATestCase(TestCase):
-
 	def test_FA_evals_fine(self):
 		task = StoppingTask(
 			D=10,

@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Individual interface module."""
+
 import numpy as np
 from numpy import random as rand
 

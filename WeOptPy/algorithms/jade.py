@@ -88,24 +88,62 @@ class AdaptiveArchiveDifferentialEvolution(DifferentialEvolution):
 		r"""Get algorithm information.
 
 		Returns:
-			str: Alogrithm information.
+			str: Algorithm information.
 
 		See Also:
-			:func:`NiaPy.algorithms.algorithm.Algorithm.algorithmInfo`
+			* :func:`WeOptPy.algorithms.interfaces.Algorithm.algorithm_info`
 		"""
 		return r"""Zhang, Jingqiao, and Arthur C. Sanderson. "JADE: adaptive differential evolution with optional external archive." IEEE Transactions on evolutionary computation 13.5 (2009): 945-958."""
 
 	def set_parameters(self, **kwargs):
+		r"""Set the algorithm parameters.
+
+		Args:
+			kwargs (dict): Additional keyword arguments.
+
+		See Also:
+			* :func:`WeOptPy.algorithms.interfaces.Algorithm.set_parameters`
+		"""
 		DifferentialEvolution.set_parameters(self, **kwargs)
-	# TODO add parameters of the algorithm
+		# TODO add parameters of the algorithm
 
 	def get_parameters(self):
+		r"""Get parameter values of the algorithm.
+
+		Returns:
+			Dict[str, Any]: TODO
+		"""
 		d = DifferentialEvolution.get_parameters(self)
 		# TODO add paramters values
 		return d
 
-	def run_iteration(self, task, pop, fpop, xb, fxb, **dparams):
+	def run_iteration(self, task, pop, fpop, xb, fxb, *args, **kwargs):
+		r"""Core function of Differential Evolution algorithm.
+
+		Args:
+			task (Task): Optimization task
+			pop (numpy.ndarray): Current population.
+			fpop (numpy.ndarray): Current's population fitness values.
+			xb (numpy.ndarray): Current best individual.
+			fxb (float): Current best individual fitness value.
+			args (list): Additional arguments.
+			kwargs (dict): Additional keyword arguments.
+
+		Returns:
+			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, list, dict]:
+				1. New population.
+				2. New population fitness/function values.
+				3. New global best solution.
+				4. New global best solutions fitness/objective value.
+				5. Additional arguments.
+				6. Additional keyword arguments.
+
+		See Also:
+			* :func:`WeOptPy.algorithms.DifferentialEvolution.evolve`
+			* :func:`WeOptPy.algorithms.DifferentialEvolution.selection`
+			* :func:`WeOptPy.algorithms.DifferentialEvolution.postSelection`
+		"""
 		# TODO Implement algorithm
-		return pop, fpop, xb, fxb, dparams
+		return pop, fpop, xb, fxb, args, kwargs
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

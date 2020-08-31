@@ -221,6 +221,11 @@ class AgingSelfAdaptiveDifferentialEvolution(SelfAdaptiveDifferentialEvolution):
 
 	@staticmethod
 	def type_parameters():
+		r"""Get parameter values for the algorithm.
+
+		Returns:
+			Dict[str, Any]: TODO
+		"""
 		d = SelfAdaptiveDifferentialEvolution.type_parameters()
 		# TODO
 		return d
@@ -269,7 +274,7 @@ class DynNpSelfAdaptiveDifferentialEvolutionAlgorithm(SelfAdaptiveDifferentialEv
 		pmax (int): Number of population reductions.
 
 	See Also:
-		* :class:`NiaPy.algorithms.modified.SelfAdaptiveDifferentialEvolution`
+		* :class:`WeOptPy.algorithms.SelfAdaptiveDifferentialEvolution`
 	"""
 	Name = ['DynNpSelfAdaptiveDifferentialEvolutionAlgorithm', 'dynNPjDE']
 

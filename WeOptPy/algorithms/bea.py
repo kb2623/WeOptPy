@@ -38,12 +38,18 @@ class BeesAlgorithm(Algorithm):
 		ukwargs (Dict[str, Any]): Additional arguments.
 
 	See Also:
-		* :func:`WeOptPy.algorithms.Algorithm.setParameters`
+		* :func:`WeOptPy.algorithms.interfaces.Algorithm.setParameters`
 
 	"""
 	Name = ['BeesAlgorithm', 'BEA']
+
 	@staticmethod
 	def algorithm_info():
+		r"""Get algorithm information.
+
+		Returns:
+			str: Bit item.
+		"""
 		return r"""
 			Description: a new population-based search algorithm called the Bees Algorithm (BA) is presented. The algorithm mimics the food foraging behaviour of swarms of honey bees.
 			Authors: d.T. Pham, a. Ghanbarzadeh,  E. Koç, S. Otri,  S. Rahim, M. Zaidi
@@ -155,7 +161,6 @@ class BeesAlgorithm(Algorithm):
 		idxs = np.argsort(BeesCost)
 		BeesCost = BeesCost[idxs]
 		BeesPosition = BeesPosition[idxs, :]
-
 		return BeesPosition, BeesCost, args, {'ngh': self.ngh}
 
 	def run_iteration(self, task, BeesPosition, BeesCost, xb, fxb, ngh, *args, **dparams):

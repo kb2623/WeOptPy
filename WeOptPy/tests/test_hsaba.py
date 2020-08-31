@@ -3,7 +3,7 @@
 from WeOptPy.algorithms import HybridSelfAdaptiveBatAlgorithm
 from WeOptPy.tests.test_algorithm import (
 	AlgorithmTestCase,
-	MyBenchmark
+	Sphere
 )
 
 
@@ -49,13 +49,13 @@ class HSABATestCase(AlgorithmTestCase):
 	def test_custom_works_fine(self):
 		"""Test case for running algorithm on costume benchmarks."""
 		hsaba_custom = self.algo(NP=10, Limit=2, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, hsaba_custom, MyBenchmark())
+		AlgorithmTestCase.test_algorithm_run(self, hsaba_custom, Sphere())
 
 	def test_Custom_works_fine_parallel(self):
 		"""Test case for running algorithm on costume benchmarks."""
 		hsaba_custom = self.algo(NP=10, Limit=2, seed=self.seed)
 		hsaba_customc = self.algo(NP=10, Limit=2, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run_parallel(self, hsaba_custom, hsaba_customc, MyBenchmark())
+		AlgorithmTestCase.test_algorithm_run_parallel(self, hsaba_custom, hsaba_customc, Sphere())
 
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

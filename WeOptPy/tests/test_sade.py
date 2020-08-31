@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Adaptive strategy differential evolution test case module."""
+
 from unittest import skip
 
 from WeOptPy.algorithms import (
@@ -8,7 +10,7 @@ from WeOptPy.algorithms import (
 )
 from WeOptPy.tests.test_algorithm import (
 	AlgorithmTestCase,
-	MyBenchmark
+	Sphere
 )
 
 
@@ -21,7 +23,7 @@ class SADETestCase(AlgorithmTestCase):
 	def test_custom_works_fine(self):
 		sade_custom = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
 		sade_customc = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, sade_custom, sade_customc, MyBenchmark())
+		AlgorithmTestCase.test_algorithm_run(self, sade_custom, sade_customc, Sphere())
 
 
 class SADEv1TestCase(AlgorithmTestCase):
@@ -33,7 +35,7 @@ class SADEv1TestCase(AlgorithmTestCase):
 	def test_custom_works_fine(self):
 		sadev1_custom = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
 		sadev1_customc = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, sadev1_custom, sadev1_customc, MyBenchmark())
+		AlgorithmTestCase.test_algorithm_run(self, sadev1_custom, sadev1_customc, Sphere())
 
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

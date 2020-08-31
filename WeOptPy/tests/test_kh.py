@@ -9,7 +9,7 @@ from WeOptPy.algorithms import (
 )
 from WeOptPy.tests.test_algorithm import (
 	AlgorithmTestCase,
-	MyBenchmark
+	Sphere
 )
 
 
@@ -46,7 +46,7 @@ class KHV1TestCase(AlgorithmTestCase):
 	def test_custom_works_fine(self):
 		kh_custom = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
 		kh_customc = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, kh_custom, kh_customc, MyBenchmark())
+		AlgorithmTestCase.test_algorithm_run(self, kh_custom, kh_customc, Sphere())
 
 
 class KHV2TestCase(AlgorithmTestCase):
@@ -82,7 +82,7 @@ class KHV2TestCase(AlgorithmTestCase):
 	def test_custom_works_fine(self):
 		kh_custom = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
 		kh_customc = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, kh_custom, kh_customc, MyBenchmark())
+		AlgorithmTestCase.test_algorithm_run(self, kh_custom, kh_customc, Sphere())
 
 
 class KHV3TestCase(AlgorithmTestCase):
@@ -118,7 +118,7 @@ class KHV3TestCase(AlgorithmTestCase):
 	def test_custom_works_fine(self):
 		kh_custom = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
 		kh_customc = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, kh_custom, kh_customc, MyBenchmark())
+		AlgorithmTestCase.test_algorithm_run(self, kh_custom, kh_customc, Sphere())
 
 
 class KHV4TestCase(AlgorithmTestCase):
@@ -154,7 +154,7 @@ class KHV4TestCase(AlgorithmTestCase):
 	def test_custom_works_fine(self):
 		kh_custom = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
 		kh_customc = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, kh_custom, kh_customc, MyBenchmark())
+		AlgorithmTestCase.test_algorithm_run(self, kh_custom, kh_customc, Sphere())
 
 
 class KHV11TestCase(AlgorithmTestCase):
@@ -190,7 +190,7 @@ class KHV11TestCase(AlgorithmTestCase):
 	def test_custom_works_fine(self):
 		kh_custom = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
 		kh_customc = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, kh_custom, kh_customc, MyBenchmark())
+		AlgorithmTestCase.test_algorithm_run(self, kh_custom, kh_customc, Sphere())
 
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

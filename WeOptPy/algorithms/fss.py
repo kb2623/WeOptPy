@@ -72,6 +72,12 @@ class FishSchoolSearch(Algorithm):
 
 	@staticmethod
 	def type_parameters():
+		r"""Return functions for checking values of parameters.
+
+		Return:
+			Dict[str, Callable[[Any], bool]]:
+				* n: Check if number of individuals is :math:`\in [0, \infty]`.
+		"""
 		# TODO
 		return {'school_size': lambda x: False, 'SI_final': lambda x: False}
 

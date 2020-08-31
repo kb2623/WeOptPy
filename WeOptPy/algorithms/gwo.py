@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Grey wolf optimizer module."""
+
 import numpy as np
 
 from WeOptPy.algorithms.interfaces.algorithm import Algorithm
@@ -35,9 +37,16 @@ class GreyWolfOptimizer(Algorithm):
 	Name = ['GreyWolfOptimizer', 'GWO']
 
 	@staticmethod
-	def type_parameters(): return {
-		'n': lambda x: isinstance(x, int) and x > 0
-	}
+	def type_parameters():
+		r"""Return functions for checking values of parameters.
+
+		Return:
+			Dict[str, Callable[[Any], bool]]:
+				* n: Check if number of individuals is :math:`\in [0, \infty]`.
+		"""
+		return {
+			'n': lambda x: isinstance(x, int) and x > 0
+		}
 
 	def set_parameters(self, n=25, **ukwargs):
 		r"""Set the algorithm parameters.

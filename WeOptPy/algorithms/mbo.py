@@ -1,9 +1,12 @@
 # encoding=utf8
 
+"""Monarch butterfly optimization algorithm module."""
+
 import numpy as np
 from numpy.random import exponential
 
 from WeOptPy.algorithms.interfaces.algorithm import Algorithm
+from WeOptPy.util import limit_repair
 
 __all__ = ['MonarchButterflyOptimization']
 
@@ -104,23 +107,6 @@ class MonarchButterflyOptimization(Algorithm):
 		})
 		return d
 
-	def repair(self, x, lower, upper):
-		r"""Truncate exceeded dimensions to the limits.
-
-		Args:
-			x (numpy.ndarray): Individual to repair.
-			lower (numpy.ndarray): lower limits for dimensions.
-			upper (numpy.ndarray): upper limits for dimensions.
-
-		Returns:
-			numpy.ndarray: Repaired individual.
-		"""
-		ir = np.where(x < lower)
-		x[ir] = lower[ir]
-		ir = np.where(x > upper)
-		x[ir] = upper[ir]
-		return x
-
 	def levy(self, step_size, D):
 		r"""Calculate levy flight.
 
@@ -134,7 +120,7 @@ class MonarchButterflyOptimization(Algorithm):
 		delataX = np.array([np.sum(np.tan(np.pi * self.uniform(0.0, 1.0, 10))) for _ in range(0, D)])
 		return delataX
 
-	def migrationOperator(self, D, NP1, NP2, Butterflies):
+	def migration_operator(self, D, NP1, NP2, Butterflies):
 		r"""Apply the migration operator.
 
 		Args:
@@ -159,7 +145,7 @@ class MonarchButterflyOptimization(Algorithm):
 					Butterflies[k1, parnum1] = pop2[r3, parnum1]
 		return Butterflies
 
-	def adjustingOperator(self, t, max_t, D, NP1, NP2, Butterflies, best):
+	def adjusting_operator(self, t, max_t, D, NP1, NP2, Butterflies, best):
 		r"""Apply the adjusting operator.
 
 		Args:
@@ -189,7 +175,7 @@ class MonarchButterflyOptimization(Algorithm):
 						Butterflies[k2, parnum2] += scale * (delataX[parnum2] - 0.5)
 		return Butterflies
 
-	def evaluateAndSort(self, task, Butterflies):
+	def evaluate_sort(self, task, Butterflies):
 		r"""Evaluate and sort the butterfly population.
 
 		Args:
@@ -197,16 +183,14 @@ class MonarchButterflyOptimization(Algorithm):
 			Butterflies (numpy.ndarray): Current butterfly population.
 
 		Returns:
-			numpy.ndarray: Tuple[numpy.ndarray, float, numpy.ndarray]:
+			numpy.ndarray: Tuple[numpy.ndarray, numpy.ndarray]:
 				1. Best butterfly according to the evaluation.
-				2. The best fitness value.
-				3. Butterfly population.
+				2. Butterfly population.
 		"""
 		Fitness = np.apply_along_axis(task.eval, 1, Butterflies)
 		indices = np.argsort(Fitness)
 		Butterflies = Butterflies[indices]
 		Fitness = Fitness[indices]
-
 		return Fitness, Butterflies
 
 	def init_population(self, task):
@@ -216,49 +200,52 @@ class MonarchButterflyOptimization(Algorithm):
 			task (Task): Optimization task
 
 		Returns:
-			Tuple[numpy.ndarray, numpy.ndarray[float], Dict[str, Any]]:
+			Tuple[numpy.ndarray, numpy.ndarray, dict]:
 				1. New population.
 				2. New population fitness/function values.
 				3. Additional arguments:
 					* tmp_best (numpy.ndarray): TODO
 
 		See Also:
-			 * :func:`NiaPy.algorithms.Algorithm.initPopulation`
+			* :func:`NiaPy.algorithms.Algorithm.initPopulation`
 		"""
-		Butterflies = self.uniform(task.lower, task.upper, [self.NP, task.D])
-		Fitness, Butterflies = self.evaluateAndSort(task, Butterflies)
-		return Butterflies, Fitness, {'tmp_best': Butterflies[0]}
+		Butterflies = self.uniform(task.Lower, task.Upper, [self.NP, task.D])
+		Fitness, Butterflies = self.evaluate_sort(task, Butterflies)
+		return Butterflies, Fitness, [], {'tmp_best': Butterflies[0]}
 
-	def run_iteration(self, task, Butterflies, Evaluations, xb, fxb, tmp_best, **dparams):
+	def run_iteration(self, task, Butterflies, Evaluations, xb, fxb, tmp_best, *args, **kwargs):
 		r"""Core function of Forest Optimization Algorithm.
 
 		Args:
 			task (Task): Optimization task.
 			Butterflies (numpy.ndarray): Current population.
-			Evaluations (numpy.ndarray[float]): Current population function/fitness values.
+			Evaluations (numpy.ndarray): Current population function/fitness values.
 			xb (numpy.ndarray): Global best individual.
 			fxb (float): Global best individual fitness/function value.
 			tmp_best (numpy.ndarray): Best individual currently.
-			dparams (Dict[str, Any]): Additional arguments.
+			args (list): Additional arguments.
+			kwargs (dict): Additional keyword arguments.
 
 		Returns:
-			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, Dict[str, Any]]:
+			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, list, dict]:
 				1. New population.
 				2. New population fitness/function values.
 				3. New global best solution
 				4. New global best solutions fitness/objective value
-				5. Additional arguments:
+				5. Additional arguments.
+				6. Additional keyword arguments:
 					* tmp_best (numpy.ndarray): TODO
 		"""
 		tmpElite = np.copy(Butterflies[:self.keep])
 		max_t = task.nGEN if np.isinf(task.nGEN) is False else task.nFES / self.NP
-		Butterflies = np.apply_along_axis(self.repair, 1, self.migrationOperator(task.D, self.NP1, self.NP2, Butterflies), task.lower, task.upper)
-		Butterflies = np.apply_along_axis(self.repair, 1, self.adjustingOperator(task.Iters, max_t, task.D, self.NP1, self.NP2, Butterflies, tmp_best), task.lower, task.upper)
-		Fitness, Butterflies = self.evaluateAndSort(task, Butterflies)
+		Butterflies = np.apply_along_axis(limit_repair, 1, self.migration_operator(task.D, self.NP1, self.NP2, Butterflies), task.Lower, task.Upper)
+		Butterflies = np.apply_along_axis(limit_repair, 1, self.adjusting_operator(task.Iters, max_t, task.D, self.NP1, self.NP2, Butterflies, tmp_best), task.Lower, task.Upper)
+		Fitness, Butterflies = self.evaluate_sort(task, Butterflies)
 		tmp_best = Butterflies[0]
 		Butterflies[-self.keep:] = tmpElite
-		Fitness, Butterflies = self.evaluateAndSort(task, Butterflies)
+		Fitness, Butterflies = self.evaluate_sort(task, Butterflies)
 		xb, fxb = self.get_best(Butterflies, Fitness, xb, fxb)
-		return Butterflies, Fitness, xb, fxb, {'tmp_best': tmp_best}
+		return Butterflies, Fitness, xb, fxb, args, {'tmp_best': tmp_best}
+
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

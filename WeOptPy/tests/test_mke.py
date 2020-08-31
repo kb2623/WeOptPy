@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Monkey king evolution algorithm test case module."""
+
 from unittest import TestCase
 
 import numpy as np
@@ -14,14 +16,14 @@ from WeOptPy.algorithms import (
 from WeOptPy.algorithms.mke import MkeSolution
 from WeOptPy.tests.test_algorithm import (
 	AlgorithmTestCase,
-	MyBenchmark
+	Sphere
 )
 
 
 class MkeSolutionTestCase(TestCase):
 	def setUp(self):
 		self.D = 20
-		self.x, self.task = rnd.uniform(-2, 2, self.D), Task(self.D, nGEN=230, nFES=np.inf, benchmark=MyBenchmark())
+		self.x, self.task = rnd.uniform(-2, 2, self.D), Task(self.D, nGEN=230, nFES=np.inf, benchmark=Sphere())
 		self.sol1, self.sol2, self.sol3 = MkeSolution(x=self.x, e=False), MkeSolution(task=self.task), MkeSolution(x=self.x, e=False)
 
 	def test_uPersonalBest_fine(self):
@@ -44,7 +46,7 @@ class MKEv1TestCase(AlgorithmTestCase):
 	def test_custom_works_fine(self):
 		mke_custom = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
 		mke_customc = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, mke_custom, mke_customc, MyBenchmark())
+		AlgorithmTestCase.test_algorithm_run(self, mke_custom, mke_customc, Sphere())
 
 	def test_griewank_works_fine(self):
 		mke_griewank = self.algo(n=10, C_a=5, C_r=0.5, seed=self.seed)
@@ -60,7 +62,7 @@ class MKEv2TestCase(AlgorithmTestCase):
 	def test_custom_works_fine(self):
 		mke_custom = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
 		mke_customc = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, mke_custom, mke_customc, MyBenchmark())
+		AlgorithmTestCase.test_algorithm_run(self, mke_custom, mke_customc, Sphere())
 
 	def test_griewank_works_fine(self):
 		mke_griewank = self.algo(n=10, C_a=5, C_r=0.5, seed=self.seed)
@@ -76,7 +78,7 @@ class MKEv3TestCase(AlgorithmTestCase):
 	def test_custom_works_fine(self):
 		mke_custom = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
 		mke_customc = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, mke_custom, mke_customc, MyBenchmark())
+		AlgorithmTestCase.test_algorithm_run(self, mke_custom, mke_customc, Sphere())
 
 	def test_griewank_works_fine(self):
 		mke_griewank = self.algo(n=10, C_a=5, C_r=0.5, seed=self.seed)

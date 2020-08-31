@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Task test case module."""
+
 from unittest import TestCase
 
 import numpy as np
@@ -7,9 +9,10 @@ from numpy import random as rnd
 
 from WeOptPy.util import full_array, FesException, GenException, RefException
 from WeOptPy.task import StoppingTask, ThrowingTask
+from WeOptPy.task.interfaces import UtilityFunction
 
 
-class MyBenchmark(Benchmark):
+class MyBenchmark(UtilityFunction):
 	def __init__(self):
 		self.Lower = -10.0
 		self.Upper = 10
@@ -86,15 +89,15 @@ class StoppingTaskTestCase(TestCase):
 	r"""Test case for testing `Task`, `StoppingTask` and `CountingTask` classes.
 
 	Date:
-		 April 2019
+		April 2019
 
 	Author:
-		 Klemen Berkovič
+		Klemen Berkovič
 
 	See Also:
-		 * :class:`NiaPy.util.Task`
-		 * :class:`NiaPy.util.CountingTask`
-		 * :class:`NiaPy.util.StoppingTask`
+		* :class:`WeOptPy.util.Task`
+		* :class:`WeOptPy.util.CountingTask`
+		* :class:`WeOptPy.util.StoppingTask`
 	"""
 	def setUp(self):
 		self.D, self.nFES, self.nGEN = 10, 10, 10
@@ -199,13 +202,13 @@ class ThrowingTaskTestCase(TestCase):
 	r"""Test case for testing `ThrowingTask` class.
 
 	Date:
-		 April 2019
+		April 2019
 
 	Author:
-		 Klemen Berkovič
+		Klemen Berkovič
 
 	See Also:
-		 * :class:`NiaPy.util.ThrowingTask`
+		* :class:`NiaPy.util.ThrowingTask`
 	"""
 	def setUp(self):
 		self.D, self.nFES, self.nGEN = 10, 10, 10

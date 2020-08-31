@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Harmony search algorithm module."""
+
 import numpy as np
 
 from WeOptPy.algorithms.interfaces.algorithm import Algorithm
@@ -86,6 +88,13 @@ class HarmonySearch(Algorithm):
 		self.r_accept, self.r_pa, self.b_range = r_accept, r_pa, b_range
 
 	def get_parameters(self):
+		r"""Get parameters of the algorithm.
+
+		Returns:
+			Dict[str, Any]:
+				* Parameter name: Represents a parameter name
+				* Value of parameter: Represents the value of the parameter
+		"""
 		d = Algorithm.get_parameters(self)
 		d.pop('n', None)
 		d.update({
@@ -255,6 +264,13 @@ class HarmonySearchV1(HarmonySearch):
 		self.bw_min, self.bw_max = bw_min, bw_max
 
 	def get_parameters(self):
+		r"""Get parameters of the algorithm.
+
+		Returns:
+			Dict[str, Any]:
+				* Parameter name: Represents a parameter name
+				* Value of parameter: Represents the value of the parameter
+		"""
 		d = HarmonySearch.get_parameters(self)
 		d.update({
 			'bw_min': self.bw_min,

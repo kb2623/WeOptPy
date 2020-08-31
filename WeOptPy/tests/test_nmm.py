@@ -3,7 +3,7 @@
 from WeOptPy.algorithms import NelderMeadMethod
 from WeOptPy.tests.test_algorithm import (
 	AlgorithmTestCase,
-	MyBenchmark
+	Sphere
 )
 
 
@@ -25,12 +25,12 @@ class NMMTestCase(AlgorithmTestCase):
 
 	def test_custom_works_fine(self):
 		nmm_custom = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, nmm_custom, MyBenchmark())
+		AlgorithmTestCase.test_algorithm_run(self, nmm_custom, Sphere())
 
 	def test_custom_works_fine_parallel(self):
 		nmm_custom = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
 		nmm_customc = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run_parallel(self, nmm_custom, nmm_customc, MyBenchmark())
+		AlgorithmTestCase.test_algorithm_run_parallel(self, nmm_custom, nmm_customc, Sphere())
 
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

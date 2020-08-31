@@ -5,6 +5,7 @@ from unittest import TestCase
 import numpy as np
 
 from WeOptPy import Factory
+from WeOptPy.task.interfaces import UtilityFunction
 
 
 class NoLimits:
@@ -14,9 +15,9 @@ class NoLimits:
 		return evaluate
 
 
-class MyBenchmark(Benchmark):
+class MyBenchmark(UtilityFunction):
 	def __init__(self):
-		Benchmark.__init__(self, -10, 10)
+		UtilityFunction.__init__(self, -10, 10)
 
 	def function(self):
 		return lambda D, x, **kwargs: np.sum(x ** 2)

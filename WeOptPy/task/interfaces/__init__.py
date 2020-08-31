@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Interfaces for tasks."""
+
 from WeOptPy.task.interfaces.task import Task
 from WeOptPy.task.interfaces.utilityfunction import UtilityFunction
 

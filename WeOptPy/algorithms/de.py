@@ -320,7 +320,7 @@ class DifferentialEvolution(Algorithm):
 			Dict[str, Any]: TODO
 
 		See Also:
-			* :func:`WeOptPy.algorithms.Algorithm.getParameters`
+			* :func:`WeOptPy.algorithms.interfaces.Algorithm.getParameters`
 		"""
 		d = Algorithm.get_parameters(self)
 		d.update({

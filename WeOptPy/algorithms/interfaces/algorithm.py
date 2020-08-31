@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Algorithm interface module."""
+
 import numpy as np
 from numpy import random as rand
 

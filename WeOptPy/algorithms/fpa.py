@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Flower pollination algorithm module."""
+
 import numpy as np
 from scipy.special import gamma as Gamma
 

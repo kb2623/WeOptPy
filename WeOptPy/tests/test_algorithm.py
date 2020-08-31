@@ -24,7 +24,7 @@ logger = logging.getLogger('NiaPy.test')
 logger.setLevel('INFO')
 
 
-class MyBenchmark(UtilityFunction):
+class Sphere(UtilityFunction):
 	r"""Testing benchmark class.
 
 	Date:
@@ -34,7 +34,7 @@ class MyBenchmark(UtilityFunction):
 		Klemen Berkovič
 
 	See Also:
-		* :class:`NiaPy.benchmarks.Benchmark`
+		* :class:`WeOptPy.task.interfaces.UtilityFunction`
 	"""
 	def __init__(self):
 		UtilityFunction.__init__(self, -5.12, 5.12)
@@ -53,11 +53,11 @@ class IndividualTestCase(TestCase):
 		Klemen Berkovič
 
 	See Also:
-		* :class:`NiaPy.algorithms.Individual`
+		* :class:`WeOptPy.algorithms.interfaces.Individual`
 	"""
 	def setUp(self):
 		self.D = 20
-		self.x, self.task = rnd.uniform(-100, 100, self.D), StoppingTask(d=self.D, no_fes=230, no_gen=np.inf, benchmark=MyBenchmark())
+		self.x, self.task = rnd.uniform(-100, 100, self.D), StoppingTask(d=self.D, no_fes=230, no_gen=np.inf, benchmark=Sphere())
 		self.s1, self.s2, self.s3 = Individual(x=self.x, e=False), Individual(task=self.task, rand=rnd), Individual(task=self.task)
 
 	def test_generate_solution_fine(self):
@@ -94,10 +94,10 @@ def init_pop_numpy(task, NP, **kwargs):
 	Args:
 		task (Task): Optimization task.
 		np (int): Population size.
-		kwargs (Dict[str, Any]): Additional arguments.
+		kwargs (dict): Additional arguments.
 
 	Returns:
-		Tuple[numpy.ndarray, numpy.ndarray[float]):
+		Tuple[numpy.ndarray, numpy.ndarray):
 			1. Initialized population.
 			2. Initialized populations fitness/function values.
 	"""
@@ -164,13 +164,13 @@ class AlgorithmBaseTestCase(TestCase):
 	def test_init_population_numpy_fine(self):
 		r"""Test if custome generation initialization works ok."""
 		a = Algorithm(n=10, InitPopFunc=init_pop_numpy)
-		t = Task(d=20, benchmark=MyBenchmark())
+		t = Task(d=20, benchmark=Sphere())
 		self.assertTrue(np.array_equal(np.full((10, t.D), 0.0), a.init_population(t)[0]))
 
 	def test_init_population_individual_fine(self):
 		r"""Test if custome generation initialization works ok."""
 		a = Algorithm(n=10, InitPopFunc=init_pop_individual, itype=Individual)
-		t = Task(d=20, benchmark=MyBenchmark())
+		t = Task(d=20, benchmark=Sphere())
 		i = Individual(x=np.full(t.D, 0.0), task=t)
 		pop, fpop, d = a.init_population(t)
 		for e in pop: self.assertEqual(i, e)
@@ -299,7 +299,7 @@ class AlgorithmTestCase(TestCase):
 		params = self.algo().get_parameters()
 		self.assertIsNotNone(params)
 
-	def __set_up_task(self, d=10, bech=MyBenchmark, nFES=None, nGEN=None, verbose=False):
+	def __set_up_task(self, d=10, bech=Sphere, nFES=None, nGEN=None, verbose=False):
 		r"""Setup optimization tasks for testing.
 
 		Args:
@@ -314,7 +314,7 @@ class AlgorithmTestCase(TestCase):
 		"""
 		return TestingTask(d=d, no_fes=self.nFES if nFES is None else nFES, no_gen=self.nGEN if nGEN is None else nGEN, benchmark=bech, verbose=verbose)
 
-	def test_algorithm_run(self, a=None, benc=MyBenchmark):
+	def test_algorithm_run(self, a=None, benc=Sphere):
 		r"""Run main testing of algorithm.
 
 		Args:
@@ -335,7 +335,7 @@ class AlgorithmTestCase(TestCase):
 			self.assertTrue(no_gen >= task.Iters, msg='ngen: %d < iters: %d' % (no_gen, task.Iters))
 		return True
 
-	def test_algorithm_run_parallel(self, a=None, b=None, benc=MyBenchmark):
+	def test_algorithm_run_parallel(self, a=None, b=None, benc=Sphere):
 		r"""Run main testing of algorithm in parallel.
 
 		Args:

@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Krill heard algorithm module."""
+
 import numpy as np
 from scipy.spatial.distance import euclidean as ed
 
@@ -13,6 +15,7 @@ __all__ = [
 	'KrillHerdV4',
 	'KrillHerdV11'
 ]
+
 
 class KrillHerd(Algorithm):
 	r"""Implementation of krill herd algorithm.
@@ -119,7 +122,7 @@ class KrillHerd(Algorithm):
 		r"""Get parameter values for the algorithm.
 
 		Returns:
-			 Dict[str, Any]: TODO.
+			Dict[str, Any]: TODO.
 		"""
 		d = Algorithm.get_parameters(self)
 		d.update({
@@ -137,7 +140,7 @@ class KrillHerd(Algorithm):
 		})
 		return d
 
-	def initWeights(self, task):
+	def init_weights(self, task):
 		r"""Initialize weights.
 
 		Args:
@@ -150,7 +153,7 @@ class KrillHerd(Algorithm):
 		"""
 		return full_array(self.W_n, task.D), full_array(self.W_f, task.D)
 
-	def sensRange(self, ki, KH):
+	def sens_range(self, ki, KH):
 		r"""Calculate sense range for selected individual.
 
 		Args:
@@ -162,7 +165,7 @@ class KrillHerd(Algorithm):
 		"""
 		return np.sum([ed(KH[ki], KH[i]) for i in range(self.NP)]) / (self.nn * self.NP)
 
-	def getNeighbours(self, i, ids, KH):
+	def get_neighbours(self, i, ids, KH):
 		r"""Get neighbours.
 
 		Args:
@@ -205,7 +208,7 @@ class KrillHerd(Algorithm):
 		"""
 		return ((x - y) + self.epsilon) / ((w - b) + self.epsilon)
 
-	def induceNeighborsMotion(self, i, n, W, KH, KH_f, ikh_b, ikh_w, task):
+	def induce_neighbors_motion(self, i, n, W, KH, KH_f, ikh_b, ikh_w, task):
 		r"""Induced neighbours motion operator.
 
 		Args:
@@ -221,7 +224,7 @@ class KrillHerd(Algorithm):
 		Returns:
 			numpy.ndarray: Moved krill.
 		"""
-		Ni = self.getNeighbours(i, self.sensRange(i, KH), KH)
+		Ni = self.get_neighbours(i, self.sens_range(i, KH), KH)
 		Nx, Nf, f_b, f_w = KH[Ni], KH_f[Ni], KH_f[ikh_b], KH_f[ikh_w]
 		alpha_l = np.sum(np.asarray([self.funK(KH_f[i], j, f_b, f_w) for j in Nf]) * np.asarray([self.funX(KH[i], j) for j in Nx]).T)
 		alpha_t = 2 * (1 + self.rand() * task.Iters / task.nGEN)
@@ -249,7 +252,7 @@ class KrillHerd(Algorithm):
 		beta_b = self.funK(KH_f[i], KH_f[ikh_b], KH_f[ikh_b], KH_f[ikh_w]) * self.funX(KH[i], KH[ikh_b])
 		return self.V_f * (beta_f + beta_b) + W * f
 
-	def inducePhysicalDiffusion(self, task):
+	def induce_physical_diffusion(self, task):
 		r"""Induced physical diffusion operator.
 
 		Args:
@@ -297,7 +300,7 @@ class KrillHerd(Algorithm):
 		"""
 		return [x[i] if self.rand() < Mu else (x_b[i] + self.rand()) for i in range(len(x))]
 
-	def getFoodLocation(self, KH, KH_f, task):
+	def get_food_location(self, KH, KH_f, task):
 		r"""Get food location for krill heard.
 
 		Args:
@@ -362,12 +365,12 @@ class KrillHerd(Algorithm):
 			* :func:`NiaPy.algorithms.algorithm.Algorithm.initPopulation`
 		"""
 		KH, KH_f, d = Algorithm.init_population(self, task)
-		W_n, W_f = self.initWeights(task)
+		W_n, W_f = self.init_weights(task)
 		N, F = np.full(self.NP, .0), np.full(self.NP, .0)
 		d.update({'W_n': W_n, 'W_f': W_f, 'N': N, 'F': F})
 		return KH, KH_f, d
 
-	def run_iteration(self, task, KH, KH_f, xb, fxb, W_n, W_f, N, F, **dparams):
+	def run_iteration(self, task, KH, KH_f, xb, fxb, W_n, W_f, N, F, *args, **kwargs):
 		r"""Core function of KrillHerd algorithm.
 
 		Args:
@@ -380,26 +383,28 @@ class KrillHerd(Algorithm):
 			W_f (numpy.ndarray): TODO
 			N (numpy.ndarray): TODO
 			F (numpy.ndarray): TODO
-			dparams (Dict[str, Any]): Additional arguments.
+			args (list): Additional arguments.
+			kwargs (dict): Additional keyword arguments.
 
 		Returns:
-			Tuple [numpy.ndarray, numpy.ndarray, numpy.ndarray, float, Dict[str, Any]]:
+			Tuple [numpy.ndarray, numpy.ndarray, numpy.ndarray, float, list, dict]:
 				1. New herd/population
 				2. New herd/populations function/fitness values.
 				3. New global best solution.
 				4. New global best solutoins fitness/objective value.
-				5. Additional arguments:
+				5. Additional arguments.
+				6. Additional keyword arguments:
 					* W_n (numpy.ndarray): TODO
 					* W_f (numpy.ndarray): TODO
 					* N (numpy.ndarray): TODO
 					* F (numpy.ndarray): TODO
 		"""
 		ikh_b, ikh_w = np.argmin(KH_f), np.argmax(KH_f)
-		x_food, x_food_f = self.getFoodLocation(KH, KH_f, task)
+		x_food, x_food_f = self.get_food_location(KH, KH_f, task)
 		if x_food_f < fxb: xb, fxb = x_food, x_food_f  # noqa: F841
-		N = np.asarray([self.induceNeighborsMotion(i, N[i], W_n, KH, KH_f, ikh_b, ikh_w, task) for i in range(self.NP)])
+		N = np.asarray([self.induce_neighbors_motion(i, N[i], W_n, KH, KH_f, ikh_b, ikh_w, task) for i in range(self.NP)])
 		F = np.asarray([self.induceForagingMotion(i, x_food, x_food_f, F[i], W_f, KH, KH_f, ikh_b, ikh_w, task) for i in range(self.NP)])
-		D = np.asarray([self.inducePhysicalDiffusion(task) for i in range(self.NP)])
+		D = np.asarray([self.induce_physical_diffusion(task) for i in range(self.NP)])
 		KH_n = KH + (self.deltaT(task) * (N + F + D))
 		Cr = np.asarray([self.Cr(KH_f[i], KH_f[ikh_b], KH_f[ikh_b], KH_f[ikh_w]) for i in range(self.NP)])
 		KH_n = np.asarray([self.crossover(KH_n[i], KH[i], Cr[i]) for i in range(self.NP)])
@@ -408,7 +413,7 @@ class KrillHerd(Algorithm):
 		KH = np.apply_along_axis(task.repair, 1, KH_n, rnd=self.Rand)
 		KH_f = np.apply_along_axis(task.eval, 1, KH)
 		xb, fxb = self.get_best(KH, KH_f, xb, fxb)
-		return KH, KH_f, xb, fxb, {'W_n': W_n, 'W_f': W_f, 'N': N, 'F': F}
+		return KH, KH_f, xb, fxb, args, {'W_n': W_n, 'W_f': W_f, 'N': N, 'F': F}
 
 
 class KrillHerdV4(KrillHerd):
@@ -667,7 +672,7 @@ class KrillHerdV11(KrillHerd):
 	"""
 	Name = ['KrillHerdV11', 'KHv11']
 
-	def ElitistSelection(self, KH, KH_f, KHo, KHo_f):
+	def elitist_selection(self, KH, KH_f, KHo, KHo_f):
 		r"""Select krills/individuals that are better than odl krills.
 
 		Args:
@@ -685,7 +690,7 @@ class KrillHerdV11(KrillHerd):
 		KHo[ipb], KHo_f[ipb] = KH[ipb], KH_f[ipb]
 		return KHo, KHo_f
 
-	def Neighbors(self, i, KH, KH_f, iw, ib, N, W_n, task):
+	def neighbors(self, i, KH, KH_f, iw, ib, N, W_n, task):
 		r"""Neighbors operator.
 
 		Args:
@@ -711,7 +716,7 @@ class KrillHerdV11(KrillHerd):
 				if nn <= 4 and KH_f[i] != KH[n]: alpah_n -= (KH(n) - KH[i]) / Kw_Kgb / R[n] * RR[n]
 		return W_n * N * self.N_max * (alpha_b + alpah_n)
 
-	def Foraging(self, KH, KH_f, KHo, KHo_f, W_f, F, KH_wf, KH_bf, x_food, x_food_f, task):
+	def foraging(self, KH, KH_f, KHo, KHo_f, W_f, F, KH_wf, KH_bf, x_food, x_food_f, task):
 		r"""Foraging operator.
 
 		Args:
@@ -769,13 +774,13 @@ class KrillHerdV11(KrillHerd):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.initPopulation`
 		"""
-		KH, KH_f, d = Algorithm.init_population(self, task)
+		KH, KH_f, args, d = Algorithm.init_population(self, task)
 		KHo, KHo_f = np.full([self.NP, task.D], task.optType.value * np.inf), np.full(self.NP, task.optType.value * np.inf)
 		N, F, Dt = np.full(self.NP, .0), np.full(self.NP, .0), np.mean(task.range()) / 2
 		d.update({'KHo': KHo, 'KHo_f': KHo_f, 'N': N, 'F': F, 'Dt': Dt})
-		return KH, KH_f, d
+		return KH, KH_f, args, d
 
-	def run_iteration(self, task, KH, KH_f, xb, fxb, KHo, KHo_f, N, F, Dt, **dparams):
+	def run_iteration(self, task, KH, KH_f, xb, fxb, KHo, KHo_f, N, F, Dt, *args, **kwargs):
 		r"""Core function of KrillHerdV11 algorithm.
 
 		Args:
@@ -789,27 +794,30 @@ class KrillHerdV11(KrillHerd):
 			N (numpy.ndarray): TODO
 			F (numpy.ndarray): TODO
 			Dt (numpy.ndarray): TODO
-			dparams (Dict[str, Any]): Additional arguments.
+			args (list): Additional arguments.
+			kwargs (dict): Additional arguments.
 
 		Returns:
-			Tuple[numpy.ndarray, numpy.ndarray, Dict[str, Any]]:
+			Tuple[numpy.ndarray, numpy.ndarray, list, dict]:
 				1. New herd/population.
 				2. New herd/populations function/fitness values.
-				3. Additional arguments:
+				3. Additional arguments.
+				4. Additional keyword arguments.
 		"""
 		w = np.full(task.D, 0.1 + 0.8 * (1 - task.Iters / task.nGEN))
 		ib, iw = np.argmin(KH_f), np.argmax(KH_f)
-		x_food, x_food_f = self.getFoodLocation(KH, KH_f, task)
+		x_food, x_food_f = self.get_food_location(KH, KH_f, task)
 		xb, fxb = self.get_best(x_food, x_food_f, xb, fxb)
-		N = np.asarray([self.Neighbors(i, KH, KH_f, iw, ib, N[i], w, task) for i in range(self.NP)])
-		F = np.asarray([self.Foraging(KH[i], KH_f[i], KHo[i], KHo_f[i], w, F[i], KH_f[iw], KH_f[ib], x_food, x_food_f, task) for i in range(self.NP)])
+		N = np.asarray([self.neighbors(i, KH, KH_f, iw, ib, N[i], w, task) for i in range(self.NP)])
+		F = np.asarray([self.foraging(KH[i], KH_f[i], KHo[i], KHo_f[i], w, F[i], KH_f[iw], KH_f[ib], x_food, x_food_f, task) for i in range(self.NP)])
 		Cr = np.asarray([self.Cr(KH_f[i], KH_f[ib], KH_f[iw]) for i in range(self.NP)])
 		KH_n = np.asarray([self.crossover(KH[self.randint(self.NP)], KH[i], Cr[i]) for i in range(self.NP)])
 		KH_n = KH + Dt * (F + N)
 		KH = np.apply_along_axis(task.repair, 1, KH_n, self.Rand)
 		KH_f = np.apply_along_axis(task.eval, 1, KH)
-		KHo, KHo_f = self.ElitistSelection(KH, KH_f, KHo, KHo_f)
+		KHo, KHo_f = self.elitist_selection(KH, KH_f, KHo, KHo_f)
 		xb, fxb = self.get_best(KH, KH_f, xb, fxb)
-		return KH, KH_f, xb, fxb, {'KHo': KHo, 'KHo_f': KHo_f, 'N': N, 'F': F, 'Dt': Dt}
+		return KH, KH_f, xb, fxb, args, {'KHo': KHo, 'KHo_f': KHo_f, 'N': N, 'F': F, 'Dt': Dt}
+
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Glow warm swarm optimization algorithm module."""
+
 import numpy as np
 from scipy.spatial.distance import euclidean
 
@@ -226,7 +228,7 @@ class GlowwormSwarmOptimization(Algorithm):
 			L (numpy.ndarray):
 			R (numpy.ndarray):
 			rs (numpy.ndarray):
-			**dparams Dict[str, Any]: Additional arguments.
+			**kwargs Dict[str, Any]: Additional arguments.
 
 		Returns:
 			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, Dict[str, Any]]:

@@ -10,7 +10,6 @@ from WeOptPy.util.utility import (
 	full_array
 )
 from WeOptPy.task.optimizationtype import OptimizationType
-from WeOptPy.factory import Factory
 
 
 class Task:

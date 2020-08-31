@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Evolution strategy algorithm module."""
+
 from math import ceil
 
 import numpy as np

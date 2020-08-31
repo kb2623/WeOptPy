@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Hybrid self adaptive bat algorithm module."""
+
 from WeOptPy.algorithms.de import cross_best1
 from WeOptPy.algorithms.saba import SelfAdaptiveBatAlgorithm
 

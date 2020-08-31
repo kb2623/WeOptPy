@@ -1,17 +1,19 @@
 # encoding=utf8
 
+"""Adaptive archive different evolution test case module."""
+
 from unittest import TestCase, skip
 
 import numpy as np
 
-from WeOptPy.util.utility import full_array
-from WeOptPy.algorithms import (
+from WeOptPy.util import full_array
+from WeOptPy.algorithms.jade import (
 	AdaptiveArchiveDifferentialEvolution,
 	CrossRandCurr2Pbest
 )
 from WeOptPy.tests.test_algorithm import (
 	AlgorithmTestCase,
-	MyBenchmark
+	Sphere
 )
 
 
@@ -19,7 +21,7 @@ class CrossRandCurr2pbestTestCase(TestCase):
 	def setUp(self):
 		self.D, self.NP, self.F, self.CR, self.p = 10, 100, 0.5, 0.5, 0.25
 		self.Upper, self.Lower = full_array(100, self.D), full_array(-100, self.D)
-		self.evalFun = MyBenchmark().function()
+		self.evalFun = Sphere().function()
 
 	def init_pop(self):
 		pop = self.Lower + np.random.rand(self.NP, self.D) * (self.Upper - self.Lower)
@@ -45,7 +47,7 @@ class JADETestCase(AlgorithmTestCase):
 	def test_custom_works_fine(self):
 		jade_custom = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
 		jade_customc = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, jade_custom, jade_customc, MyBenchmark())
+		AlgorithmTestCase.test_algorithm_run(self, jade_custom, jade_customc, Sphere())
 
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

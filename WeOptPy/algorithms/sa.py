@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Simulated annealing algorithm module."""
+
 import numpy as np
 
 from WeOptPy.algorithms.interfaces import Algorithm
@@ -148,7 +150,7 @@ class SimulatedAnnealing(Algorithm):
 				1. Initial solution.
 				2. Initial solutions fitness/objective value.
 				3. Additional arguments.
-				3. Additional keyword arguments.
+				4. Additional keyword arguments.
 		"""
 		x = task.Lower + task.bRange * self.rand(task.D)
 		curT, xfit = self.T, task.eval(x)

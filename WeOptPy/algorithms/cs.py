@@ -11,7 +11,7 @@ __all__ = ['CuckooSearch']
 
 
 class CuckooSearch(Algorithm):
-	r"""Implementation of Cuckoo behaviour and levy flights.
+	r"""Implementation of Cuckoo behaviour and lévy flights.
 
 	Algorithm:
 		Cuckoo Search
@@ -81,6 +81,13 @@ class CuckooSearch(Algorithm):
 		self.pa, self.alpha = pa, alpha
 
 	def get_parameters(self):
+		r"""Get parameters of the algorithm.
+
+		Returns:
+			Dict[str, Any]:
+				* Parameter name: Represents a parameter name
+				* Value of parameter: Represents the value of the parameter
+		"""
 		d = Algorithm.get_parameters(self)
 		d.pop('n', None)
 		d.update({
@@ -162,5 +169,6 @@ class CuckooSearch(Algorithm):
 		pop, fpop = self.empty_nests(pop, fpop, pa_v, task)
 		xb, fxb = self.get_best(pop, fpop, xb, fxb)
 		return pop, fpop, xb, fxb, args, {'pa_v': pa_v}
+
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

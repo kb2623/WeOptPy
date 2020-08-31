@@ -1,9 +1,11 @@
 # encoding=utf8
 
+"""Sinus cousins algorithm test case module."""
+
 from WeOptPy.algorithms import SineCosineAlgorithm
 from WeOptPy.tests.test_algorithm import (
 	AlgorithmTestCase,
-	MyBenchmark
+	Sphere
 )
 
 
@@ -24,12 +26,12 @@ class SCATestCase(AlgorithmTestCase):
 
 	def test_custom_works_fine(self):
 		sca_custom = self.algo(NP=35, a=7, Rmin=0.1, Rmax=3, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, sca_custom, MyBenchmark())
+		AlgorithmTestCase.test_algorithm_run(self, sca_custom, Sphere())
 
 	def test_Custom_works_fine_parallel(self):
 		sca_custom = self.algo(NP=35, a=7, Rmin=0.1, Rmax=3, seed=self.seed)
 		sca_customc = self.algo(NP=35, a=7, Rmin=0.1, Rmax=3, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run_parallel(self, sca_custom, sca_customc, MyBenchmark())
+		AlgorithmTestCase.test_algorithm_run_parallel(self, sca_custom, sca_customc, Sphere())
 
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

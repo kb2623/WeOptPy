@@ -3,7 +3,7 @@
 from WeOptPy.algorithms import AdaptiveBatAlgorithm
 from WeOptPy.tests.test_algorithm import (
 	AlgorithmTestCase,
-	MyBenchmark
+	Sphere
 )
 
 
@@ -56,12 +56,12 @@ class ABATestCase(AlgorithmTestCase):
 
 	def test_custom_works_fine(self):
 		aba_custom = AdaptiveBatAlgorithm(n=40, A=.75, epsilon=2, alpha=0.65, r=0.7, Qmin=0.0, Qmax=2.0, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, aba_custom, MyBenchmark())
+		AlgorithmTestCase.test_algorithm_run(self, aba_custom, Sphere())
 
 	def test_custom_works_fine_parallel(self):
 		aba_custom = AdaptiveBatAlgorithm(n=40, A=.75, epsilon=2, alpha=0.65, r=0.7, Qmin=0.0, Qmax=2.0, seed=self.seed)
 		aba_customc = AdaptiveBatAlgorithm(n=40, A=.75, epsilon=2, alpha=0.65, r=0.7, Qmin=0.0, Qmax=2.0, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run_parallel(self, aba_custom, aba_customc, MyBenchmark())
+		AlgorithmTestCase.test_algorithm_run_parallel(self, aba_custom, aba_customc, Sphere())
 
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

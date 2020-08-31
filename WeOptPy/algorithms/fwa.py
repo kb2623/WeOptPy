@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Fireworks algorithm module."""
+
 import numpy as np
 
 from WeOptPy.algorithms.interfaces.algorithm import Algorithm
@@ -118,7 +120,7 @@ class BareBonesFireworksAlgorithm(Algorithm):
 		S = np.apply_along_axis(task.repair, 1, self.uniform(x - a, x + a, [self.n, task.D]), self.Rand)
 		S_fit = np.apply_along_axis(task.eval, 1, S)
 		iS = np.argmin(S_fit)
-		if S_fit[iS] < x_fit:x, x_fit, a = S[iS], S_fit[iS], self.C_a * a
+		if S_fit[iS] < x_fit: x, x_fit, a = S[iS], S_fit[iS], self.C_a * a
 		else: a = self.C_r * a
 		return x, x_fit, x.copy(), x_fit, args, {'a': a}
 
@@ -801,7 +803,7 @@ class DynamicFireworksAlgorithmGauss(EnhancedFireworksAlgorithm):
 				3. New global best solution.
 				4. New global best solutions fitness/objective value.
 				5. Additional arguments.
-				5. Additional keyword arguments:
+				6. Additional keyword arguments:
 					* Ah (Union[numpy.ndarray, float]): TODO
 					* Ab (Union[numpy.ndarray, float]): TODO
 		"""

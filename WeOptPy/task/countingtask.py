@@ -68,5 +68,6 @@ class CountingTask(Task):
 		This function increments number of algorithm iterations/generations counter `self.Iters`.
 		"""
 		self.Iters += 1
-		
+
+
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

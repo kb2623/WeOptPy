@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Forest optimization algorithm module."""
+
 import numpy as np
 
 from WeOptPy.util.utility import limit_repair
@@ -236,11 +238,13 @@ class ForestOptimizationAlgorithm(Algorithm):
 			dparams (dict): Additional keyword arguments.
 
 		Returns:
-			Tuple[numpy.ndarray, numpy.ndarray[float], list, dict]:
+			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, list, dict]:
 				1. New population.
 				2. New population fitness/function values.
-				3. Additional arguments.
-				3. Additional keyword arguments:
+				3. Global best individual.
+				4. Global best individual's fitness value.
+				5. Additional arguments.
+				6. Additional keyword arguments:
 					* age (numpy.ndarray): Age of trees.
 		"""
 		candidatePopulation = np.ndarray((0, task.D + 1))

@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Utility test module."""
+
 from unittest import TestCase
 
 import numpy as np

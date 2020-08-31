@@ -1,4 +1,7 @@
 # encoding=utf8
+
+"""Argument parser test case module."""
+
 from unittest import TestCase
 
 from WeOptPy.util.argparser import (

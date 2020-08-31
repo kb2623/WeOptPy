@@ -1,11 +1,13 @@
 # encoding=utf8
 
+"""Tabu search algorithm test case."""
+
 from unittest import skip
 
 from WeOptPy.algorithms import TabuSearch
 from WeOptPy.tests.test_algorithm import (
 	AlgorithmTestCase,
-	MyBenchmark
+	Sphere
 )
 
 # TODO algorithm in development stage
@@ -20,7 +22,7 @@ class TSTestCase(AlgorithmTestCase):
 	def test_custom_works_fine(self):
 		ts_custom = self.algo(NP=10, D=self.D, nFES=self.nFES, nGEN=self.nGEN, seed=self.seed)
 		ts_customc = self.algo(NP=10, D=self.D, nFES=self.nFES, nGEN=self.nGEN, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, ts_custom, ts_customc, benc=MyBenchmark)
+		AlgorithmTestCase.test_algorithm_run(self, ts_custom, ts_customc, benc=Sphere)
 
 	@skip('Not implemented jet!!!')
 	def test_griewank_works_fine(self):

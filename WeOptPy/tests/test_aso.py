@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Anarchic society optimization algorithm test case module."""
+
 from WeOptPy.algorithms import AnarchicSocietyOptimization
 from WeOptPy.algorithms.aso import (
 	elitism,
@@ -9,7 +11,7 @@ from WeOptPy.algorithms.aso import (
 
 from WeOptPy.tests.test_algorithm import (
 	AlgorithmTestCase,
-	MyBenchmark
+	Sphere
 )
 
 
@@ -37,34 +39,34 @@ class ASOTestCase(AlgorithmTestCase):
 class ASOElitismTestCase(ASOTestCase):
 	def test_custom_works_fine(self):
 		aso_custom = self.algo(NP=40, Combination=elitism, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, aso_custom, MyBenchmark())
+		AlgorithmTestCase.test_algorithm_run(self, aso_custom, Sphere())
 
 	def test_custom_works_fine_parallel(self):
 		aso_custom = self.algo(NP=40, Combination=elitism, seed=self.seed)
 		aso_customc = self.algo(NP=40, Combination=elitism, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run_parallel(self, aso_custom, aso_customc, MyBenchmark())
+		AlgorithmTestCase.test_algorithm_run_parallel(self, aso_custom, aso_customc, Sphere())
 
 
 class ASOSequentialTestCase(AlgorithmTestCase):
 	def test_custom_works_fine(self):
 		aso_custom = self.algo(NP=40, Combination=sequential, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, aso_custom, MyBenchmark())
+		AlgorithmTestCase.test_algorithm_run(self, aso_custom, Sphere())
 
 	def test_custom_works_fine_parallel(self):
 		aso_custom = self.algo(NP=40, Combination=sequential, seed=self.seed)
 		aso_customc = self.algo(NP=40, Combination=sequential, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run_parallel(self, aso_custom, aso_customc, MyBenchmark())
+		AlgorithmTestCase.test_algorithm_run_parallel(self, aso_custom, aso_customc, Sphere())
 
 
 class ASOCrossoverTestCase(AlgorithmTestCase):
 	def test_custom_works_fine(self):
 		aso_custom = self.algo(NP=40, Combination=crossover, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, aso_custom, MyBenchmark())
+		AlgorithmTestCase.test_algorithm_run(self, aso_custom, Sphere())
 
 	def test_custom_works_fine_parallel(self):
 		aso_custom = self.algo(NP=40, Combination=crossover, seed=self.seed)
 		aso_customc = self.algo(NP=40, Combination=crossover, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run_parallel(self, aso_custom, aso_customc, MyBenchmark())
+		AlgorithmTestCase.test_algorithm_run_parallel(self, aso_custom, aso_customc, Sphere())
 
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

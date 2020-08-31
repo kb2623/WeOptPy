@@ -3,7 +3,7 @@
 from WeOptPy.algorithms import CamelAlgorithm
 from WeOptPy.tests.test_algorithm import (
 	AlgorithmTestCase,
-	MyBenchmark
+	Sphere
 )
 
 
@@ -37,12 +37,12 @@ class CATestCase(AlgorithmTestCase):
 
 	def test_custom_works_fine(self):
 		ca_custom = self.algo(NP=40, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, ca_custom, MyBenchmark())
+		AlgorithmTestCase.test_algorithm_run(self, ca_custom, Sphere())
 
 	def test_custom_works_fine_parallel(self):
 		ca_custom = self.algo(NP=40, seed=self.seed)
 		ca_customc = self.algo(NP=40, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run_parallel(self, ca_custom, ca_customc, MyBenchmark())
+		AlgorithmTestCase.test_algorithm_run_parallel(self, ca_custom, ca_customc, Sphere())
 
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

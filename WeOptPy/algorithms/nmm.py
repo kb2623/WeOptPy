@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Nelder mead method algorithm module."""
+
 import numpy as np
 
 from WeOptPy.algorithms.interfaces import Algorithm

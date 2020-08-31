@@ -3,7 +3,7 @@
 from WeOptPy.algorithms import ForestOptimizationAlgorithm
 from WeOptPy.tests.test_algorithm import (
 	AlgorithmTestCase,
-	MyBenchmark
+	Sphere
 )
 
 
@@ -42,12 +42,12 @@ class FOATestCase(AlgorithmTestCase):
 
 	def test_works_fine(self):
 		foa = self.algo(NP=20, lt=5, lsc=1, gsc=1, al=20, tr=0.35, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, foa, MyBenchmark())
+		AlgorithmTestCase.test_algorithm_run(self, foa, Sphere())
 
 	def test_works_fine_parallel(self):
 		foa = self.algo(NP=20, lt=5, lsc=1, gsc=1, al=20, tr=0.35, seed=self.seed)
 		foac = self.algo(NP=20, lt=5, lsc=1, gsc=1, al=20, tr=0.35, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run_parallel(self, foa, foac, MyBenchmark())
+		AlgorithmTestCase.test_algorithm_run_parallel(self, foa, foac, Sphere())
 
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3
