@@ -280,6 +280,11 @@ class DynNpSelfAdaptiveDifferentialEvolutionAlgorithm(SelfAdaptiveDifferentialEv
 
 	@staticmethod
 	def algorithm_info():
+		r"""Get algorithm information.
+
+		Returns:
+			str: Algorithm information.
+		"""
 		return r"""Brest, Janez, and Mirjam Sepesy Maučec. Population size reduction for the differential evolution algorithm. Applied Intelligence 29.3 (2008): 228-247."""
 
 	@staticmethod
@@ -316,6 +321,7 @@ class DynNpSelfAdaptiveDifferentialEvolutionAlgorithm(SelfAdaptiveDifferentialEv
 		Args:
 			pop (numpy.ndarray[Individual]): Current population.
 			task (Task): Optimization task.
+			kwargs (dict): Additional keyword arguments.
 
 		Returns:
 			numpy.ndarray[Individual]: New population.
@@ -413,6 +419,16 @@ class DynNpMultiStrategySelfAdaptiveDifferentialEvolution(MultiStrategySelfAdapt
 		self.pmax, self.rp = pmax, rp
 
 	def post_selection(self, pop, task, **kwargs):
+		r"""Post selection operator.
+
+		Args:
+			pop (numpy.ndarray[Individual]): Current population.
+			task (Task): Optimization task.
+			kwargs (dict): Additional keyword arguments.
+
+		Returns:
+			numpy.ndarray[Individual]: New population.
+		"""
 		return DynNpSelfAdaptiveDifferentialEvolutionAlgorithm.post_selection(self, pop, task)
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

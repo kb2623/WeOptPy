@@ -16,6 +16,7 @@ ignore =
 	D414,
 	RST210,
 	RST299,
+	RST301,
 	RST304,
 	RST305,
 	RST399,

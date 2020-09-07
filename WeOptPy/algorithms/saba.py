@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Adaptive bat algorithm module."""
+
 import numpy as np
 
 from WeOptPy.algorithms.interfaces import Algorithm
@@ -88,7 +90,7 @@ class AdaptiveBatAlgorithm(Algorithm):
 			Dict[str, Any]: Arguments values.
 
 		See Also:
-			* :func:`NiaPy.algorithms.algorithm.Algorithm.getParameters`
+			* :func:`WeOptPy.algorithms.interfaces.Algorithm.getParameters`
 		"""
 		d = Algorithm.get_parameters(self)
 		d.update({

@@ -90,8 +90,8 @@ class StrategyAdaptationDifferentialEvolution(DifferentialEvolution):
 			fpop (numpy.ndarray): Current population's fitness values.
 			xb (numpy.ndarray): Current global best individual.
 			fxb (float): Current global best individual's best fitness value.
-			*args (list): Additional arguments.
-			**kwargs (dict): Additional keyword arguments.
+			args (list): Additional arguments.
+			kwargs (dict): Additional keyword arguments.
 
 		Returns:
 			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, list, dict]:

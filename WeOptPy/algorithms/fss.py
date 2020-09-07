@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Fish school search algorithm module."""
+
 import numpy as np
 
 from WeOptPy.util.utility import objects2array

@@ -539,9 +539,16 @@ class CovarianceMatrixAdaptionEvolutionStrategy(Algorithm):
 	epsilon = 1e-20
 
 	@staticmethod
-	def type_parameters(): return {
-		'epsilon': lambda x: isinstance(x, (float, int)) and 0 < x < 1
-	}
+	def type_parameters():
+		r"""Return functions for checking values of parameters.
+
+		Return:
+			Dict[str, Callable[[Any], bool]]:
+				* n: Check if number of individuals is :math:`\in [0, \infty]`.
+		"""
+		return {
+			'epsilon': lambda x: isinstance(x, (float, int)) and 0 < x < 1
+		}
 
 	def set_parameters(self, epsilon=1e-20, **ukwargs):
 		r"""Set core parameters of CovarianceMatrixAdaptionEvolutionStrategy algorithm.

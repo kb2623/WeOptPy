@@ -91,6 +91,13 @@ class NelderMeadMethod(Algorithm):
 		self.alpha, self.gamma, self.rho, self.sigma = alpha, gamma, rho, sigma
 
 	def get_parameters(self):
+		r"""Get parameters of the algorithm.
+
+		Returns:
+			Dict[str, Any]:
+				* Parameter name: Represents a parameter name
+				* Value of parameter: Represents the value of the parameter
+		"""
 		d = Algorithm.get_parameters(self)
 		d.update({
 			'alpha': self.alpha,

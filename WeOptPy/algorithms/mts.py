@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Multiple trajectory search algorithm module."""
+
 import operator as oper
 
 import numpy as np

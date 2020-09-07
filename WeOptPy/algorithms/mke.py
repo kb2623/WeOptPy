@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Monkey king evolution algorithm module."""
+
 from math import ceil
 
 import numpy as np

@@ -58,11 +58,18 @@ class BareBonesFireworksAlgorithm(Algorithm):
 		return r"""Junzhi Li, Ying Tan, The bare bones fireworks algorithm: a minimalist global optimizer, Applied Soft Computing, Volume 62, 2018, Pages 454-462, ISSN 1568-4946, https://doi.org/10.1016/j.asoc.2017.10.046."""
 
 	@staticmethod
-	def type_parameters(): return {
-		'n': lambda x: isinstance(x, int) and x > 0,
-		'C_a': lambda x: isinstance(x, (float, int)) and x > 1,
-		'C_r': lambda x: isinstance(x, (float, int)) and 0 < x < 1
-	}
+	def type_parameters():
+		r"""Return functions for checking values of parameters.
+
+		Return:
+			Dict[str, Callable[[Any], bool]]:
+				* n: Check if number of individuals is :math:`\in [0, \infty]`.
+		"""
+		return {
+			'n': lambda x: isinstance(x, int) and x > 0,
+			'C_a': lambda x: isinstance(x, (float, int)) and x > 1,
+			'C_r': lambda x: isinstance(x, (float, int)) and 0 < x < 1
+		}
 
 	def set_parameters(self, n=10, C_a=1.5, C_r=0.5, **ukwargs):
 		r"""Set the arguments of an algorithm.
@@ -164,13 +171,20 @@ class FireworksAlgorithm(Algorithm):
 		return r"""Tan, Ying. "Firework Algorithm: a Novel Swarm Intelligence Optimization Method." (2015)."""
 
 	@staticmethod
-	def type_parameters(): return {
-		'N': lambda x: isinstance(x, int) and x > 0,
-		'm': lambda x: isinstance(x, int) and x > 0,
-		'a': lambda x: isinstance(x, (int, float)) and x > 0,
-		'b': lambda x: isinstance(x, (int, float)) and x > 0,
-		'epsilon': lambda x: isinstance(x, float) and 0 < x < 1
-	}
+	def type_parameters():
+		r"""Return functions for checking values of parameters.
+
+		Return:
+			Dict[str, Callable[[Any], bool]]:
+				* n: Check if number of individuals is :math:`\in [0, \infty]`.
+		"""
+		return {
+			'N': lambda x: isinstance(x, int) and x > 0,
+			'm': lambda x: isinstance(x, int) and x > 0,
+			'a': lambda x: isinstance(x, (int, float)) and x > 0,
+			'b': lambda x: isinstance(x, (int, float)) and x > 0,
+			'epsilon': lambda x: isinstance(x, float) and 0 < x < 1
+		}
 
 	def set_parameters(self, N=40, m=40, a=1, b=2, A=40, epsilon=1e-31, **ukwargs):
 		r"""Set the arguments of an algorithm.
@@ -761,6 +775,18 @@ class DynamicFireworksAlgorithmGauss(EnhancedFireworksAlgorithm):
 		return xb, xb_f, Acf
 
 	def explosion_amplitude(self, x_f, xb_f, Ah, As, A_min=None):
+		r"""Calculate new amplitudes of sparks.
+
+		Args:
+			x_f (float): TODO.
+			xb_f (float): TODO.
+			Ah (float): TODO.
+			As (float): TODO.
+			A_min (float): TODO.
+
+		Returns:
+			numpy.ndarray: TODO.
+		"""
 		return FireworksAlgorithm.explosion_amplitude(self, x_f, xb_f, Ah, As)
 
 	def init_population(self, task):

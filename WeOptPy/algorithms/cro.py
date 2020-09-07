@@ -191,8 +191,8 @@ class CoralReefsOptimization(Algorithm):
 			* :func:`WeOptPy.algorithms.CoralReefsOptimization.setting`
 			* :func:`WeOptPy.algorithms.BroodingSimple`
 		"""
-		I = np.argsort(Reef_f)[:self.Fa]
-		Reefn, Reefn_f = self.Brooding(Reef[I], self.P_F, task, rnd=self.Rand)
+		indexes = np.argsort(Reef_f)[:self.Fa]
+		Reefn, Reefn_f = self.Brooding(Reef[indexes], self.P_F, task, rnd=self.Rand)
 		xb, fxb = self.get_best(Reefn, Reefn_f, xb, fxb)
 		Reef, Reef_f, xb, fxb = self.setting(Reef, Reef_f, Reefn, Reefn_f, xb, fxb, task)
 		return Reef, Reef_f, xb, fxb
@@ -209,8 +209,8 @@ class CoralReefsOptimization(Algorithm):
 				1. Best individual
 				2. Best individual fitness/function value
 		"""
-		I = np.argsort(Reef_f)[::-1][:self.Fd]
-		return np.delete(Reef, I), np.delete(Reef_f, I)
+		indexes = np.argsort(Reef_f)[::-1][:self.Fd]
+		return np.delete(Reef, indexes), np.delete(Reef_f, indexes)
 
 	def setting(self, X, X_f, Xn, Xn_f, xb, fxb, task):
 		r"""Operator for setting reefs.
@@ -234,17 +234,17 @@ class CoralReefsOptimization(Algorithm):
 		"""
 		def update(A, phi, xb, fxb):
 			D = np.asarray([np.sqrt(np.sum((A - e) ** 2, axis=1)) for e in Xn])
-			I = np.unique(np.where(D < phi)[0])
-			if I.any():
-				Xn[I], Xn_f[I] = move_corals(Xn[I], self.P_F, self.P_F, task, rnd=self.Rand)
-				xb, fxb = self.get_best(Xn[I], Xn_f[I], xb, fxb)
+			indexes = np.unique(np.where(D < phi)[0])
+			if indexes.any():
+				Xn[indexes], Xn_f[indexes] = move_corals(Xn[indexes], self.P_F, self.P_F, task, rnd=self.Rand)
+				xb, fxb = self.get_best(Xn[indexes], Xn_f[indexes], xb, fxb)
 			return xb, fxb
 		for i in range(self.k):
 			xb, fxb = update(X, self.phi, xb, fxb)
 			xb, fxb = update(Xn, self.phi, xb, fxb)
 		D = np.asarray([np.sqrt(np.sum((X - e) ** 2, axis=1)) for e in Xn])
-		I = np.unique(np.where(D >= self.phi)[0])
-		return np.append(X, Xn[I], 0), np.append(X_f, Xn_f[I], 0), xb, fxb
+		indexes = np.unique(np.where(D >= self.phi)[0])
+		return np.append(X, Xn[indexes], 0), np.append(X_f, Xn_f[indexes], 0), xb, fxb
 
 	def run_iteration(self, task, Reef, Reef_f, xb, fxb, *args, **dparams):
 		r"""Core function of Coral Reefs Optimization algorithm.
@@ -271,11 +271,11 @@ class CoralReefsOptimization(Algorithm):
 			* :func:`WeOptPy.algorithms.basic.CoralReefsOptimization.SexualCrossover`
 			* :func:`WeOptPy.algorithms.basic.CoralReefsOptimization.Brooding`
 		"""
-		I = self.Rand.choice(len(Reef), size=self.Fb, replace=False)
-		Reefn_s, Reefn_s_f = self.SexualCrossover(Reef[I], self.P_Cr, task, rnd=self.Rand)
+		indexes = self.Rand.choice(len(Reef), size=self.Fb, replace=False)
+		Reefn_s, Reefn_s_f = self.SexualCrossover(Reef[indexes], self.P_Cr, task, rnd=self.Rand)
 		xb, fxb = self.get_best(Reefn_s, Reefn_s_f, xb, fxb)
 		# FIXME Soemthing wrong
-		Reefn_b, Reffn_b_f = self.Brooding(np.delete(Reef, I, 0), self.P_F, task, rnd=self.Rand)
+		Reefn_b, Reffn_b_f = self.Brooding(np.delete(Reef, indexes, 0), self.P_F, task, rnd=self.Rand)
 		xb, fxb = self.get_best(Reefn_s, Reefn_s_f, xb, fxb)
 		Reefn, Reefn_f, xb, fxb = self.setting(Reef, Reef_f, np.append(Reefn_s, Reefn_b, 0), np.append(Reefn_s_f, Reffn_b_f, 0), xb, fxb, task)
 		Reef, Reef_f, xb, fxb = self.asexual_reprodution(Reefn, Reefn_f, xb, fxb, task)

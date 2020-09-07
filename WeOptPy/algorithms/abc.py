@@ -1,4 +1,7 @@
 # encoding=utf8
+
+"""Artificial Bee Colony Algorithm module."""
+
 import copy
 
 import numpy as np
