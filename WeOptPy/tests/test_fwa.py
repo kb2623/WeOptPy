@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Fireworks algorithm test case modlue."""
+
 from WeOptPy.algorithms import (
 	FireworksAlgorithm,
 	DynamicFireworksAlgorithm,

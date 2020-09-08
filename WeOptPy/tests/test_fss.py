@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Fish school search algorithm test case module."""
+
 from WeOptPy.algorithms import FishSchoolSearch
 from WeOptPy.tests.test_algorithm import (
 	AlgorithmTestCase,

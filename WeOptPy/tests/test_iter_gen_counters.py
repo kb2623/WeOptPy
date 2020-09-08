@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Additional test cases module."""
+
 from unittest import TestCase
 
 from WeOptPy.algorithms import (
@@ -11,6 +13,8 @@ from WeOptPy.task import (
 	StoppingTask,
 	OptimizationType
 )
+
+from WeOptPy.tests.test_algorithm import Sphere
 
 
 class DETestCase(TestCase):

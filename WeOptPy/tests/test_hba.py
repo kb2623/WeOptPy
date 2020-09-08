@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Hybrid bat algorithm test case module."""
+
 from WeOptPy.algorithms import HybridBatAlgorithm
 from WeOptPy.tests.test_algorithm import (
 	AlgorithmTestCase,

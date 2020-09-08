@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Hybrid differential evolution algorithm test case module."""
+
 from WeOptPy.algorithms import (
 	DifferentialEvolutionMTS,
 	DifferentialEvolutionMTSv1,

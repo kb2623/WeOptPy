@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Cuckoo search algorithm test case module."""
+
 from WeOptPy.algorithms import CuckooSearch
 from WeOptPy.tests.test_algorithm import (
 	AlgorithmTestCase,

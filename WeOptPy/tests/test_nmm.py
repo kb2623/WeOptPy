@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Nelder mead method algorithm test case module."""
+
 from WeOptPy.algorithms import NelderMeadMethod
 from WeOptPy.tests.test_algorithm import (
 	AlgorithmTestCase,

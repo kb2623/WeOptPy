@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Gray wolf optimizer algorithm test case module."""
+
 from WeOptPy.algorithms import GreyWolfOptimizer
 from WeOptPy.tests.test_algorithm import (
 	AlgorithmTestCase,

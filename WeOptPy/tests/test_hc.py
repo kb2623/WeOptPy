@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Hill climb algorithm test case module."""
+
 from WeOptPy.algorithms import HillClimbAlgorithm
 from WeOptPy.tests.test_algorithm import (
 	AlgorithmTestCase,

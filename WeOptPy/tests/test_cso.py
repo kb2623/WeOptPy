@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Cat swarm optimization algorithm test case module."""
+
 from WeOptPy.algorithms import CatSwarmOptimization
 from WeOptPy.tests.test_algorithm import (
 	AlgorithmTestCase,

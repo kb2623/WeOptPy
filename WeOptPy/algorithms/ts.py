@@ -4,8 +4,6 @@
 
 # TODO implement algorithm
 
-from numpy import random as rand
-
 from WeOptPy.algorithms.interfaces import Algorithm
 
 __all__ = ['TabuSearch']
@@ -49,7 +47,11 @@ class TabuSearch(Algorithm):
 		}
 
 	def set_parameters(self, **ukwargs):
-		r"""Set the algorithm parameters/arguments."""
+		r"""Set the algorithm parameters/arguments.
+
+		Args:
+			ukwargs (dict): Additional keyword arguments.
+		"""
 		Algorithm.set_parameters(self, **ukwargs)
 
 	def move(self):
@@ -73,5 +75,5 @@ class TabuSearch(Algorithm):
 		"""
 		return pop, fpop, xb, fxb, args, kwargs
 
-	
+
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Camel algorithm test case module."""
+
 from WeOptPy.algorithms import CamelAlgorithm
 from WeOptPy.tests.test_algorithm import (
 	AlgorithmTestCase,

@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Krill herd algorithm test case module."""
+
 from WeOptPy.algorithms import (
 	KrillHerdV1,
 	KrillHerdV2,

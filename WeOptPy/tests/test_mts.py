@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Multiple trajectory search algorithm test case module."""
+
 from WeOptPy.algorithms import (
 	MultipleTrajectorySearch,
 	MultipleTrajectorySearchV1

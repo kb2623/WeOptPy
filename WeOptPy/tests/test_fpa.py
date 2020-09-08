@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Flower pollination algorithm test case module."""
+
 from WeOptPy.algorithms import FlowerPollinationAlgorithm
 from WeOptPy.tests.test_algorithm import (
 	AlgorithmTestCase,

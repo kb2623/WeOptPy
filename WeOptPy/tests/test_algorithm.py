@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Algorithm test case module."""
+
 import logging
 from queue import Queue
 from threading import Thread
@@ -22,6 +24,11 @@ from WeOptPy.algorithms.interfaces import (
 logging.basicConfig()
 logger = logging.getLogger('NiaPy.test')
 logger.setLevel('INFO')
+
+__all__ = [
+	'Sphere',
+	'AlgorithmTestCase'
+]
 
 
 class Sphere(UtilityFunction):

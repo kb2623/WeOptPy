@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Coral Reefs optimization algorithm test case module."""
+
 from WeOptPy.algorithms import CoralReefsOptimization
 from WeOptPy.tests.test_algorithm import (
 	AlgorithmTestCase,

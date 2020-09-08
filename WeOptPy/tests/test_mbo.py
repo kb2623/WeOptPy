@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Monarch butterfly optimization algorithm test case module."""
+
 from WeOptPy.algorithms import MonarchButterflyOptimization
 from WeOptPy.tests.test_algorithm import (
 	AlgorithmTestCase,

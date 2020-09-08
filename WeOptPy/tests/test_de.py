@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Differential algorithm test case module."""
+
 from WeOptPy.algorithms import (
 	DifferentialEvolution,
 	DynNpDifferentialEvolution,

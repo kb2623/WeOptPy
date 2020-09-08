@@ -32,7 +32,7 @@ class CrossRandCurr2pbestTestCase(TestCase):
 		pop, fpop = self.init_pop()
 		apop, _ = self.init_pop()
 		ib = np.argmin(fpop)
-		xb, fxb = pop[ib].copy(), fpop[ib]
+		xb = pop[ib].copy()
 		for i, x in enumerate(pop):
 			xn = CrossRandCurr2Pbest(pop, i, xb, self.F, self.CR, self.p, apop)
 			self.assertFalse(np.array_equal(x, xn))

@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Bat algorithm test case module."""
+
 from WeOptPy.algorithms import BatAlgorithm
 from WeOptPy.tests.test_algorithm import (
 	AlgorithmTestCase,

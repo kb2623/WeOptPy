@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Gravitational search algorithm test case module."""
+
 from WeOptPy.algorithms import GravitationalSearchAlgorithm
 from WeOptPy.tests.test_algorithm import (
 	AlgorithmTestCase,

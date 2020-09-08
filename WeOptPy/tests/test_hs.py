@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Harmony search algorithm test case module."""
+
 from WeOptPy.algorithms import (
 	HarmonySearch,
 	HarmonySearchV1

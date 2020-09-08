@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Self adaptive differential evolution test case module."""
+
 from unittest import TestCase, skip
 
 from numpy import random as rnd

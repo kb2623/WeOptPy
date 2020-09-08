@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Bees algorithm test case module."""
+
 from WeOptPy.algorithms import BeesAlgorithm
 from WeOptPy.tests.test_algorithm import (
 	AlgorithmTestCase,

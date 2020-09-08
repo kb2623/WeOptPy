@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Evolution strategy test case module."""
+
 from unittest import TestCase
 
 from WeOptPy.algorithms.es import IndividualES

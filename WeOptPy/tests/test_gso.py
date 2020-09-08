@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Glowworm swarm optimization test case module."""
+
 from WeOptPy.algorithms import (
 	GlowwormSwarmOptimization,
 	GlowwormSwarmOptimizationV1,

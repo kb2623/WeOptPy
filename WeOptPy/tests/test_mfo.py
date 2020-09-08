@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Moth flame optimizer algorithm test case module."""
+
 from WeOptPy.algorithms import MothFlameOptimizer
 from WeOptPy.tests.test_algorithm import (
 	AlgorithmTestCase,

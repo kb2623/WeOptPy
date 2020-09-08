@@ -1,5 +1,7 @@
 # encoding=utf8
 
+"""Forest optimization algorithm test case module."""
+
 from WeOptPy.algorithms import ForestOptimizationAlgorithm
 from WeOptPy.tests.test_algorithm import (
 	AlgorithmTestCase,
