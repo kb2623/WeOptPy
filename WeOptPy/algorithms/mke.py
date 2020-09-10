@@ -155,7 +155,7 @@ class MonkeyKingEvolutionV1(Algorithm):
 		self.F, self.R, self.C, self.FC = f, r, c, fc
 
 	def get_parameters(self):
-		r"""Get algorithms parametes values.
+		r"""Get algorithms parameters values.
 
 		Returns:
 			Dict[str, Any]: Dictionary of parameters name and value.
@@ -256,16 +256,17 @@ class MonkeyKingEvolutionV1(Algorithm):
 			task (Task): Optimization task
 
 		Returns:
-			Tuple(numpy.ndarray[MkeSolution], numpy.ndarray[float], Dict[str, Any]]:
+			Tuple(numpy.ndarray[MkeSolution], numpy.ndarray, list, dict]:
 				1. Initialized solutions
 				2. Fitness/function values of solution
 				3. Additional arguments
+				4. Additional keyword arguments
 		"""
-		pop, fpop, _ = Algorithm.init_population(self, task)
+		pop, fpop, args, kwargs = Algorithm.init_population(self, task)
 		for i in self.Rand.choice(self.NP, int(self.R * len(pop)), replace=False): pop[i].MonkeyKing = True
-		return pop, fpop, {}
+		return pop, fpop, args, kwargs
 
-	def run_iteration(self, task, pop, fpop, xb, fxb, **dparams):
+	def run_iteration(self, task, pop, fpop, xb, fxb, *args, **dparams):
 		r"""Core function of Monkey King Evolution v1 algorithm.
 
 		Args:
@@ -274,7 +275,8 @@ class MonkeyKingEvolutionV1(Algorithm):
 			fpop (numpy.ndarray[float]): Current population fitness/function values
 			xb (MkeSolution): Current best solution.
 			fxb (float): Current best solutions function/fitness value.
-			**dparams (Dict[str, Any]): Additional arguments.
+			args (list): Additional arguments.
+			dparams (dict): Additional keyword arguments.
 
 		Returns:
 			Tuple(numpy.ndarray[MkeSolution], numpy.ndarray[float], Dict[str, Any]]:
@@ -286,7 +288,7 @@ class MonkeyKingEvolutionV1(Algorithm):
 		for i in self.Rand.choice(self.NP, int(self.R * len(pop)), replace=False): pop[i].MonkeyKing = True
 		fpop = np.asarray([m.f for m in pop])
 		xb, fxb = self.get_best(pop, fpop, xb, fxb)
-		return pop, fpop, xb, fxb, {}
+		return pop, fpop, xb, fxb, args, {}
 
 
 class MonkeyKingEvolutionV2(MonkeyKingEvolutionV1):
@@ -440,39 +442,42 @@ class MonkeyKingEvolutionV3(MonkeyKingEvolutionV1):
 			task (Task): Optimization task.
 
 		Returns:
-			Tuple[numpy.ndarray, numpy.ndarray[float], Dict[str, Any]]:
+			Tuple[numpy.ndarray, numpy.ndarray, list, dict]:
 				1. Initialized population.
 				2. Initialized population function/fitness values.
-				3. Additional arguments:
+				3. Additional arguments.
+				4. Additional keyword arguments:
 					* k (int): TODO.
 					* c (int): TODO.
 
 		See Also:
 			* :func:`NiaPy.algorithms.algorithm.Algorithm.initPopulation`
 		"""
-		x, x_f, d = Algorithm.init_population(self, task)
+		x, x_f, args, d = Algorithm.init_population(self, task)
 		k, c = int(ceil(self.NP / task.D)), int(ceil(self.C * task.D))
 		d.update({'k': k, 'c': c})
-		return x, x_f, d
+		return x, x_f, args, d
 
-	def run_iteration(self, task, x, x_f, xb, fxb, k, c, **dparams):
+	def run_iteration(self, task, x, x_f, xb, fxb, k, c, *args, **dparams):
 		r"""Core function of Monkey King Evolution v3 algorithm.
 
 		Args:
 			task (Task): Optimization task
 			x (numpy.ndarray): Current population
-			x_f (numpy.ndarray[float]): Current population fitness/function values
+			x_f (numpy.ndarray): Current population fitness/function values
 			xb (numpy.ndarray): Current best individual
 			fxb (float): Current best individual function/fitness value
 			k (int): TODO
-			c (int: TODO
-			**dparams: Additional arguments
+			c (int): TODO
+			args (list): Additional arguments.
+			dparams (dict): Additional keyword arguments.
 
 		Returns:
-			Tuple[numpy.ndarray, numpy.ndarray[float], Dict[str, Any]]:
+			Tuple[numpy.ndarray, numpy.ndarray, list, dict]:
 				1. Initialized population.
 				2. Initialized population function/fitness values.
-				3. Additional arguments:
+				3. Additional arguments.
+				4. Additional keyword arguments:
 					* k (int): TODO.
 					* c (int): TODO.
 		"""
@@ -487,7 +492,7 @@ class MonkeyKingEvolutionV3(MonkeyKingEvolutionV1):
 		xb, fxb = self.get_best(x, x_f, xb, fxb)
 		iw, ib_gb = np.argmax(x_f), np.argmin(x_gb_f)
 		if x_gb_f[ib_gb] <= x_f[iw]: x[iw], x_f[iw] = x_gb[ib_gb], x_gb_f[ib_gb]
-		return x, x_f, xb, fxb, {'k': k, 'c': c}
+		return x, x_f, xb, fxb, args, {'k': k, 'c': c}
 
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

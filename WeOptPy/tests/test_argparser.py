@@ -21,8 +21,8 @@ class ArgParserTestCase(TestCase):
 	def test_getArgs_fine(self):
 		args = get_args(['-d', '10', '-no_fes', '100000000', '-a', 'SCA'])
 		self.assertTrue(args)
-		self.assertEqual(args.D, 10)
-		self.assertEqual(args.nFES, 100000000)
+		self.assertEqual(args.d, 10)
+		self.assertEqual(args.no_fes, 100000000)
 		self.assertEqual(args.algo, 'SCA')
 
 	def test_getDictArgs_fine(self):

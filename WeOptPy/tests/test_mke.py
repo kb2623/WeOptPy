@@ -45,13 +45,12 @@ class MKEv1TestCase(AlgorithmTestCase):
 
 	def test_custom_works_fine(self):
 		mke_custom = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
-		mke_customc = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, mke_custom, mke_customc, Sphere())
+		AlgorithmTestCase.test_algorithm_run(self, mke_custom, Sphere())
 
-	def test_griewank_works_fine(self):
-		mke_griewank = self.algo(n=10, C_a=5, C_r=0.5, seed=self.seed)
-		mke_griewankc = self.algo(n=10, C_a=5, C_r=0.5, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, mke_griewank, mke_griewankc)
+	def test_custom_works_fine_parallel(self):
+		mke_custom = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
+		mke_customc = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
+		AlgorithmTestCase.test_algorithm_run_parallel(self, mke_custom, mke_customc, Sphere())
 
 
 class MKEv2TestCase(AlgorithmTestCase):
@@ -61,13 +60,12 @@ class MKEv2TestCase(AlgorithmTestCase):
 
 	def test_custom_works_fine(self):
 		mke_custom = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
-		mke_customc = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, mke_custom, mke_customc, Sphere())
+		AlgorithmTestCase.test_algorithm_run(self, mke_custom, Sphere())
 
-	def test_griewank_works_fine(self):
-		mke_griewank = self.algo(n=10, C_a=5, C_r=0.5, seed=self.seed)
-		mke_griewankc = self.algo(n=10, C_a=5, C_r=0.5, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, mke_griewank, mke_griewankc)
+	def test_custom_works_fine_parallel(self):
+		mke_custom = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
+		mke_customc = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
+		AlgorithmTestCase.test_algorithm_run_parallel(self, mke_custom, mke_customc, Sphere())
 
 
 class MKEv3TestCase(AlgorithmTestCase):
@@ -77,13 +75,12 @@ class MKEv3TestCase(AlgorithmTestCase):
 
 	def test_custom_works_fine(self):
 		mke_custom = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
-		mke_customc = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, mke_custom, mke_customc, Sphere())
+		AlgorithmTestCase.test_algorithm_run(self, mke_custom, Sphere())
 
-	def test_griewank_works_fine(self):
-		mke_griewank = self.algo(n=10, C_a=5, C_r=0.5, seed=self.seed)
-		mke_griewankc = self.algo(n=10, C_a=5, C_r=0.5, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, mke_griewank, mke_griewankc)
+	def test_custom_works_fine_parallel(self):
+		mke_custom = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
+		mke_customc = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
+		AlgorithmTestCase.test_algorithm_run_parallel(self, mke_custom, mke_customc, Sphere())
 
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

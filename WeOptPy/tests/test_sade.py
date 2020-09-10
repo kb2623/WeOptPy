@@ -22,8 +22,13 @@ class SADETestCase(AlgorithmTestCase):
 	@skip('Not implementd jet!!!')
 	def test_custom_works_fine(self):
 		sade_custom = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
-		sade_customc = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, sade_custom, sade_customc, Sphere())
+		AlgorithmTestCase.test_algorithm_run(self, sade_custom, Sphere())
+
+	@skip('Not implementd jet!!!')
+	def test_custom_works_fine_parallel(self):
+		sade_custom = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
+		sade_custom_c = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
+		AlgorithmTestCase.test_algorithm_run(self, sade_custom, sade_custom_c, Sphere())
 
 
 class SADEv1TestCase(AlgorithmTestCase):
@@ -34,8 +39,13 @@ class SADEv1TestCase(AlgorithmTestCase):
 	@skip('Not implementd jet!!!')
 	def test_custom_works_fine(self):
 		sadev1_custom = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
-		sadev1_customc = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, sadev1_custom, sadev1_customc, Sphere())
+		AlgorithmTestCase.test_algorithm_run(self, sadev1_custom, Sphere())
+
+	@skip('Not implementd jet!!!')
+	def test_custom_works_fine_parallel(self):
+		sadev1_custom = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
+		sadev1_custom_c = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
+		AlgorithmTestCase.test_algorithm_run_parallel(self, sadev1_custom, sadev1_custom_c, Sphere())
 
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

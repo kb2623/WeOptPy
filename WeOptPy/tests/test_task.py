@@ -18,7 +18,7 @@ class MyBenchmark(UtilityFunction):
 		self.Upper = 10
 
 	def function(self):
-		def evaluate(D, x): return sum(x ** 2)
+		def evaluate(x): return sum(x ** 2)
 		return evaluate
 
 
@@ -39,7 +39,7 @@ class StoppingTaskBaseTestCase(TestCase):
 	def setUp(self):
 		self.D = 6
 		self.Lower, self.Upper = [2, 1, 1], [10, 10, 2]
-		self.task = StoppingTask(Lower=self.Lower, Upper=self.Upper, D=self.D)
+		self.task = StoppingTask(lower=self.Lower, upper=self.Upper, d=self.D)
 
 	def test_dim_ok(self):
 		self.assertEqual(self.D, self.task.D)
@@ -101,7 +101,7 @@ class StoppingTaskTestCase(TestCase):
 	"""
 	def setUp(self):
 		self.D, self.nFES, self.nGEN = 10, 10, 10
-		self.t = StoppingTask(D=self.D, no_fes=self.nFES, no_gen=self.nGEN, rvalue=1, benchmark=MyBenchmark())
+		self.t = StoppingTask(d=self.D, no_fes=self.nFES, no_gen=self.nGEN, rvalue=1, benchmark=MyBenchmark())
 
 	def test_isFeasible_fine(self):
 		x = np.full(self.D, 10)
@@ -212,7 +212,7 @@ class ThrowingTaskTestCase(TestCase):
 	"""
 	def setUp(self):
 		self.D, self.nFES, self.nGEN = 10, 10, 10
-		self.t = ThrowingTask(D=self.D, nFES=self.nFES, nGEN=self.nGEN, refValue=0, benchmark=MyBenchmark())
+		self.t = ThrowingTask(d=self.D, no_fes=self.nFES, no_gen=self.nGEN, rvalue=0, benchmark=MyBenchmark())
 
 	def test_isFeasible_fine(self):
 		x = np.full(self.D, 10)

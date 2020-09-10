@@ -10,8 +10,8 @@ import logging
 import xlsxwriter
 
 from WeOptPy.task import (
-	StoppingTask,
-	OptimizationType
+	OptimizationType,
+	StoppingTask
 )
 from WeOptPy.factory import Factory
 
@@ -66,11 +66,11 @@ class Runner:
 		Returns:
 			Task: Optimization task to use.
 		"""
-		return StoppingTask(D=self.D, no_fes=self.nFES, optType=OptimizationType.MINIMIZATION, benchmark=name)
+		return StoppingTask(d=self.D, no_fes=self.nFES, opt_type=OptimizationType.MINIMIZATION, benchmark=name)
 
 	@classmethod
 	def __create_export_dir(cls):
-		r"""Create export directory if not already createed."""
+		r"""Create export directory if not already created."""
 		if not os.path.exists("export"):
 			os.makedirs("export")
 
@@ -125,11 +125,12 @@ class Runner:
 		workbook.close()
 		logger.info("Export to XLSX completed!")
 
-	def run(self, export="log", verbose=False):
+	def run(self, benchmarks, export="log", verbose=False):
 		"""Execute runner.
 
 		Args:
-			export (str): Takes export type (e.g. log, json, xlsx, latex) (default: "log")
+			benchmarks (List[UtilityFunction]): List of utility functions.
+			export (str): Takes export type (e.g. log, json, xlsx) (default: "log")
 			verbose (bool): Switch for verbose logging (default: {False})
 
 		Raises:
@@ -144,42 +145,24 @@ class Runner:
 			* :func:`NiaPy.Runner.__algorithmFactory`
 		"""
 		for alg in self.useAlgorithms:
-			if not isinstance(alg, "".__class__):
-				alg_name = str(type(alg).__name__)
-			else:
-				alg_name = alg
-
+			if not isinstance(alg, "".__class__): alg_name = str(type(alg).__name__)
+			else: alg_name = alg
 			self.results[alg_name] = {}
-
-			if verbose:
-				logger.info("Running %s...", alg_name)
-
-			for bench in self.useBenchmarks:
-				if not isinstance(bench, "".__class__):
-					bench_name = str(type(bench).__name__)
-				else:
-					bench_name = bench
-
-				if verbose:
-					logger.info("Running %s algorithm on %s benchmark...", alg_name, bench_name)
-
+			if verbose: logger.info("Running %s...", alg_name)
+			for bench in benchmarks:
+				if not isinstance(bench, "".__class__): bench_name = str(type(bench).__name__)
+				else: bench_name = bench
+				if verbose: logger.info("Running %s algorithm on %s benchmark...", alg_name, bench_name)
 				self.results[alg_name][bench_name] = []
 				for _ in range(self.nRuns):
 					algorithm = self.factory.get_algorithm(alg)
 					benchmark_stopping_task = self.benchmark_factory(bench)
 					self.results[alg_name][bench_name].append(algorithm.run(benchmark_stopping_task))
-			if verbose:
-				logger.info("---------------------------------------------------")
-		if export == "log":
-			self.__export_to_log()
-		elif export == "json":
-			self.__export_to_json()
-		elif export == "xlsx":
-			self.__export_to_xlsx()
-		elif export == "latex":
-			self.__export_to_latex()
-		else:
-			raise TypeError("Passed export type is not supported!")
+			if verbose: logger.info("---------------------------------------------------")
+		if export == "log": self.__export_to_log()
+		elif export == "json": self.__export_to_json()
+		elif export == "xlsx": self.__export_to_xlsx()
+		else: raise TypeError("Passed export type is not supported!")
 		return self.results
 
 

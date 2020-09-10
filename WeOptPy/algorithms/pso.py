@@ -543,7 +543,7 @@ class CenterParticleSwarmOptimization(ParticleSwarmAlgorithm):
 		See Also:
 			:func:`NiaPy.algorithm.basic.WeightedVelocityClampingParticleSwarmAlgorithm.setParameters`
 		"""
-		kwargs.pop('vMin', None), kwargs.pop('vMax', None)
+		kwargs.pop('min_velocity', None), kwargs.pop('max_velocity', None)
 		ParticleSwarmAlgorithm.set_parameters(self, min_velocity=-np.inf, max_velocity=np.inf, **kwargs)
 
 	def get_parameters(self):
@@ -556,7 +556,7 @@ class CenterParticleSwarmOptimization(ParticleSwarmAlgorithm):
 			* :func:`NiaPy.algorithms.basic.ParticleSwarmAlgorithm.getParameters`
 		"""
 		d = ParticleSwarmAlgorithm.get_parameters(self)
-		d.pop('vMin', None), d.pop('vMax', None)
+		d.pop('min_velocity', None), d.pop('max_velocity', None)
 		return d
 
 	def run_iteration(self, task, pop, fpop, xb, fxb, *args, **dparams):

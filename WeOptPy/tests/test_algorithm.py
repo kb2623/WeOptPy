@@ -95,40 +95,44 @@ class IndividualTestCase(TestCase):
 		self.assertEqual(len(self.s1), len(self.x))
 
 
-def init_pop_numpy(task, NP, **kwargs):
+def init_pop_numpy(task, n, **kwargs):
 	r"""Custom population initialization function for numpy individual type.
 
 	Args:
 		task (Task): Optimization task.
-		np (int): Population size.
+		n (int): Population size.
 		kwargs (dict): Additional arguments.
 
 	Returns:
-		Tuple[numpy.ndarray, numpy.ndarray):
+		Tuple[numpy.ndarray, numpy.ndarray, list, dict):
 			1. Initialized population.
 			2. Initialized populations fitness/function values.
+			3. Additional arguments.
+			4. Additional keyword arguments.
 	"""
-	pop = np.full((NP, task.D), 0.0)
+	pop = np.full((n, task.D), 0.0)
 	fpop = np.apply_along_axis(task.eval, 1, pop)
-	return pop, fpop
+	return pop, fpop, [], {}
 
 
-def init_pop_individual(task, NP, itype, **kwargs):
+def init_pop_individual(task, n, itype, **kwargs):
 	r"""Custom population initialization function for numpy individual type.
 
 	Args:
 		task (Task): Optimization task.
-		np (int): Population size.
+		n (int): Population size.
 		itype (Individual): Type of individual in population.
 		kwargs (Dict[str, Any]): Additional arguments.
 
 	Returns:
-		Tuple[numpy.ndarray, numpy.ndarray[float]):
+		Tuple[numpy.ndarray, numpy.ndarray, list, dict):
 			1. Initialized population.
 			2. Initialized populations fitness/function values.
+			3. Additional arguments.
+			4. Additional keyword arguments.
 	"""
-	pop = objects2array([itype(x=np.full(task.D, 0.0), task=task) for _ in range(NP)])
-	return pop, np.asarray([x.f for x in pop])
+	pop = objects2array([itype(x=np.full(task.D, 0.0), task=task) for _ in range(n)])
+	return pop, np.asarray([x.f for x in pop]), [], {}
 
 
 class AlgorithmBaseTestCase(TestCase):
@@ -170,16 +174,16 @@ class AlgorithmBaseTestCase(TestCase):
 
 	def test_init_population_numpy_fine(self):
 		r"""Test if custome generation initialization works ok."""
-		a = Algorithm(n=10, InitPopFunc=init_pop_numpy)
+		a = Algorithm(n=10, init_pop_func=init_pop_numpy)
 		t = Task(d=20, benchmark=Sphere())
 		self.assertTrue(np.array_equal(np.full((10, t.D), 0.0), a.init_population(t)[0]))
 
 	def test_init_population_individual_fine(self):
-		r"""Test if custome generation initialization works ok."""
-		a = Algorithm(n=10, InitPopFunc=init_pop_individual, itype=Individual)
+		r"""Test if custom generation initialization works ok."""
+		a = Algorithm(n=10, init_pop_func=init_pop_individual, itype=Individual)
 		t = Task(d=20, benchmark=Sphere())
 		i = Individual(x=np.full(t.D, 0.0), task=t)
-		pop, fpop, d = a.init_population(t)
+		pop, fpop, args, kwargs = a.init_population(t)
 		for e in pop: self.assertEqual(i, e)
 
 	def test_set_parameters(self):
