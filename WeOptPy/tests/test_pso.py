@@ -66,13 +66,13 @@ class PSATestCase(AlgorithmTestCase):
 		self.assertTrue(d['C2'](0))
 		self.assertFalse(d['C1'](-10))
 		self.assertFalse(d['C2'](-10))
-		self.assertTrue(d['vMax'](10))
-		self.assertTrue(d['vMin'](10))
+		self.assertTrue(d['max_velocity'](10))
+		self.assertTrue(d['min_velocity'](10))
 		self.assertTrue(d['n'](10))
 		self.assertFalse(d['n'](-10))
 		self.assertFalse(d['n'](0))
-		self.assertFalse(d['vMin'](None))
-		self.assertFalse(d['vMax'](None))
+		self.assertFalse(d['min_velocity'](None))
+		self.assertFalse(d['max_velocity'](None))
 		self.assertFalse(d['w'](None))
 		self.assertFalse(d['w'](-.1))
 		self.assertFalse(d['w'](-10))
@@ -80,12 +80,12 @@ class PSATestCase(AlgorithmTestCase):
 		self.assertTrue(d['w'](10.01))
 
 	def test_custom_works_fine(self):
-		wvcpso_custom = ParticleSwarmAlgorithm(NP=40, C1=2.0, C2=2.0, w=0.7, vMin=-4, vMax=4, seed=self.seed)
+		wvcpso_custom = self.algo(n=40, C1=2.0, C2=2.0, w=0.7, min_velocity=-4, max_velocity=4, seed=self.seed)
 		AlgorithmTestCase.test_algorithm_run(self, wvcpso_custom, Sphere())
 
 	def test_custom_works_fine_parallel(self):
-		wvcpso_custom = ParticleSwarmAlgorithm(NP=40, C1=2.0, C2=2.0, w=0.7, vMin=-4, vMax=4, seed=self.seed)
-		wvcpso_customc = ParticleSwarmAlgorithm(NP=40, C1=2.0, C2=2.0, w=0.7, vMin=-4, vMax=4, seed=self.seed)
+		wvcpso_custom = ParticleSwarmAlgorithm(n=40, C1=2.0, C2=2.0, w=0.7, min_velocity=-4, max_velocity=4, seed=self.seed)
+		wvcpso_customc = ParticleSwarmAlgorithm(n=40, C1=2.0, C2=2.0, w=0.7, min_velocity=-4, max_velocity=4, seed=self.seed)
 		AlgorithmTestCase.test_algorithm_run_parallel(self, wvcpso_custom, wvcpso_customc, Sphere())
 
 
@@ -120,12 +120,12 @@ class OVCPSOTestCase(AlgorithmTestCase):
 		self.assertTrue(d['w'](10.01))
 
 	def test_custom_works_fine(self):
-		wvcpso_custom = self.algo(NP=40, C1=2.0, C2=2.0, w=0.7, vMin=-4, vMax=4, seed=self.seed)
+		wvcpso_custom = self.algo(NP=40, C1=2.0, C2=2.0, w=0.7, min_velocity=-4, max_velocity=4, seed=self.seed)
 		AlgorithmTestCase.test_algorithm_run(self, wvcpso_custom, Sphere())
 
 	def test_custom_works_fine_parallel(self):
-		wvcpso_custom = self.algo(NP=40, C1=2.0, C2=2.0, w=0.7, vMin=-4, vMax=4, seed=self.seed)
-		wvcpso_customc = self.algo(NP=40, C1=2.0, C2=2.0, w=0.7, vMin=-4, vMax=4, seed=self.seed)
+		wvcpso_custom = self.algo(NP=40, C1=2.0, C2=2.0, w=0.7, min_velocity=-4, max_velocity=4, seed=self.seed)
+		wvcpso_customc = self.algo(NP=40, C1=2.0, C2=2.0, w=0.7, min_velocity=-4, max_velocity=4, seed=self.seed)
 		AlgorithmTestCase.test_algorithm_run_parallel(self, wvcpso_custom, wvcpso_customc, Sphere())
 
 
@@ -160,12 +160,12 @@ class CPSOTestCase(AlgorithmTestCase):
 		self.assertTrue(d['w'](10.01))
 
 	def test_custom_works_fine(self):
-		cpso_custom = self.algo(NP=40, C1=2.0, C2=2.0, w=0.7, vMin=-4, vMax=4, seed=self.seed)
+		cpso_custom = self.algo(NP=40, C1=2.0, C2=2.0, w=0.7, min_velocity=-4, max_velocity=4, seed=self.seed)
 		AlgorithmTestCase.test_algorithm_run(self, cpso_custom, Sphere())
 
 	def test_custom_works_fine_parallel(self):
-		cpso_custom = self.algo(NP=40, C1=2.0, C2=2.0, w=0.7, vMin=-4, vMax=4, seed=self.seed)
-		cpso_customc = self.algo(NP=40, C1=2.0, C2=2.0, w=0.7, vMin=-4, vMax=4, seed=self.seed)
+		cpso_custom = self.algo(NP=40, C1=2.0, C2=2.0, w=0.7, min_velocity=-4, max_velocity=4, seed=self.seed)
+		cpso_customc = self.algo(NP=40, C1=2.0, C2=2.0, w=0.7, min_velocity=-4, max_velocity=4, seed=self.seed)
 		AlgorithmTestCase.test_algorithm_run_parallel(self, cpso_custom, cpso_customc, Sphere())
 
 
@@ -200,12 +200,12 @@ class MPSOTestCase(AlgorithmTestCase):
 		self.assertTrue(d['w'](10.01))
 
 	def test_custom_works_fine(self):
-		mpso_custom = MutatedParticleSwarmOptimization(NP=40, C1=2.0, C2=2.0, w=0.7, vMin=-4, vMax=4, seed=self.seed)
+		mpso_custom = self.algo(n=40, C1=2.0, C2=2.0, w=0.7, min_velocity=-4, max_velocity=4, seed=self.seed)
 		AlgorithmTestCase.test_algorithm_run(self, mpso_custom, Sphere())
 
 	def test_custom_works_fine_parallel(self):
-		mpso_custom = MutatedParticleSwarmOptimization(NP=40, C1=2.0, C2=2.0, w=0.7, vMin=-4, vMax=4, seed=self.seed)
-		mpso_customc = MutatedParticleSwarmOptimization(NP=40, C1=2.0, C2=2.0, w=0.7, vMin=-4, vMax=4, seed=self.seed)
+		mpso_custom = self.algo(n=40, C1=2.0, C2=2.0, w=0.7, min_velocity=-4, max_velocity=4, seed=self.seed)
+		mpso_customc = self.algo(n=40, C1=2.0, C2=2.0, w=0.7, min_velocity=-4, max_velocity=4, seed=self.seed)
 		AlgorithmTestCase.test_algorithm_run_parallel(self, mpso_custom, mpso_customc, Sphere())
 
 
@@ -240,12 +240,12 @@ class MCPSOTestCase(AlgorithmTestCase):
 		self.assertTrue(d['w'](10.01))
 
 	def test_custom_works_fine(self):
-		mcpso_custom = self.algo(NP=40, C1=2.0, C2=2.0, w=0.7, vMin=-4, vMax=4, seed=self.seed)
+		mcpso_custom = self.algo(NP=40, C1=2.0, C2=2.0, w=0.7, min_velocity=-4, max_velocity=4, seed=self.seed)
 		AlgorithmTestCase.test_algorithm_run(self, mcpso_custom, Sphere())
 
 	def test_custom_works_fine_parallel(self):
-		mcpso_custom = self.algo(NP=40, C1=2.0, C2=2.0, w=0.7, vMin=-4, vMax=4, seed=self.seed)
-		mcpso_customc = self.algo(NP=40, C1=2.0, C2=2.0, w=0.7, vMin=-4, vMax=4, seed=self.seed)
+		mcpso_custom = self.algo(NP=40, C1=2.0, C2=2.0, w=0.7, min_velocity=-4, max_velocity=4, seed=self.seed)
+		mcpso_customc = self.algo(NP=40, C1=2.0, C2=2.0, w=0.7, min_velocity=-4, max_velocity=4, seed=self.seed)
 		AlgorithmTestCase.test_algorithm_run_parallel(self, mcpso_custom, mcpso_customc, Sphere())
 
 
@@ -280,12 +280,12 @@ class MCUPSOTestCase(AlgorithmTestCase):
 		self.assertTrue(d['w'](10.01))
 
 	def test_custom_works_fine(self):
-		mcupso_custom = self.algo(NP=40, C1=2.0, C2=2.0, w=0.7, vMin=-4, vMax=4, seed=self.seed)
+		mcupso_custom = self.algo(NP=40, C1=2.0, C2=2.0, w=0.7, min_velocity=-4, max_velocity=4, seed=self.seed)
 		AlgorithmTestCase.test_algorithm_run(self, mcupso_custom, Sphere())
 
 	def test_custom_works_fine_parallel(self):
-		mcupso_custom = self.algo(NP=40, C1=2.0, C2=2.0, w=0.7, vMin=-4, vMax=4, seed=self.seed)
-		mcupso_customc = self.algo(NP=40, C1=2.0, C2=2.0, w=0.7, vMin=-4, vMax=4, seed=self.seed)
+		mcupso_custom = self.algo(NP=40, C1=2.0, C2=2.0, w=0.7, min_velocity=-4, max_velocity=4, seed=self.seed)
+		mcupso_customc = self.algo(NP=40, C1=2.0, C2=2.0, w=0.7, min_velocity=-4, max_velocity=4, seed=self.seed)
 		AlgorithmTestCase.test_algorithm_run_parallel(self, mcupso_custom, mcupso_customc, Sphere())
 
 
@@ -313,12 +313,12 @@ class CLPSOTestCase(AlgorithmTestCase):
 		self.assertFalse(d['n'](0))
 
 	def test_custom_works_fine(self):
-		clpso_custom = self.algo(n=40, C1=2.0, C2=2.0, w=0.7, vMin=-4, vMax=4, seed=self.seed)
+		clpso_custom = self.algo(n=40, C1=2.0, C2=2.0, w=0.7, min_velocity=-4, max_velocity=4, seed=self.seed)
 		AlgorithmTestCase.test_algorithm_run(self, clpso_custom, Sphere())
 
 	def test_custom_works_fine_parallel(self):
-		clpso_custom = self.algo(n=40, C1=2.0, C2=2.0, w=0.7, vMin=-4, vMax=4, seed=self.seed)
-		clpso_customc = self.algo(n=40, C1=2.0, C2=2.0, w=0.7, vMin=-4, vMax=4, seed=self.seed)
+		clpso_custom = self.algo(n=40, C1=2.0, C2=2.0, w=0.7, min_velocity=-4, max_velocity=4, seed=self.seed)
+		clpso_customc = self.algo(n=40, C1=2.0, C2=2.0, w=0.7, min_velocity=-4, max_velocity=4, seed=self.seed)
 		AlgorithmTestCase.test_algorithm_run_parallel(self, clpso_custom, clpso_customc, Sphere())
 
 

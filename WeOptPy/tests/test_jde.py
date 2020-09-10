@@ -6,14 +6,14 @@ from unittest import TestCase, skip
 
 from numpy import random as rnd
 
-from WeOptPy.task import Task
+from WeOptPy.task.interfaces import Task
 from WeOptPy.algorithms import (
 	SelfAdaptiveDifferentialEvolution,
-	DynNpSelfAdaptiveDifferentialEvolutionAlgorithm,
 	MultiStrategySelfAdaptiveDifferentialEvolution,
-	DynNpMultiStrategySelfAdaptiveDifferentialEvolution,
-	SolutionjDE
+	DynNpSelfAdaptiveDifferentialEvolutionAlgorithm,
+	DynNpMultiStrategySelfAdaptiveDifferentialEvolution
 )
+from WeOptPy.algorithms.jde import SolutionjDE
 from WeOptPy.tests.test_algorithm import (
 	AlgorithmTestCase,
 	Sphere

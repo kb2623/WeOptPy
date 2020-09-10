@@ -49,6 +49,16 @@ from WeOptPy.algorithms.gsa import GravitationalSearchAlgorithm
 from WeOptPy.algorithms.gwo import GreyWolfOptimizer
 from WeOptPy.algorithms.hba import HybridBatAlgorithm
 from WeOptPy.algorithms.hc import HillClimbAlgorithm
+from WeOptPy.algorithms.hde import (
+	DifferentialEvolutionMTS,
+	DifferentialEvolutionMTSv1,
+	DynNpDifferentialEvolutionMTS,
+	DynNpDifferentialEvolutionMTSv1,
+	MultiStrategyDifferentialEvolutionMTS,
+	MultiStrategyDifferentialEvolutionMTSv1,
+	DynNpMultiStrategyDifferentialEvolutionMTS,
+	DynNpMultiStrategyDifferentialEvolutionMTSv1
+)
 from WeOptPy.algorithms.hs import (
 	HarmonySearch,
 	HarmonySearchV1
@@ -177,7 +187,15 @@ __all__ = [
 	'StrategyAdaptationDifferentialEvolution',
 	'StrategyAdaptationDifferentialEvolutionV1',
 	'SineCosineAlgorithm',
-	'TabuSearch'
+	'TabuSearch',
+	'DifferentialEvolutionMTS',
+	'DifferentialEvolutionMTSv1',
+	'DynNpDifferentialEvolutionMTS',
+	'DynNpDifferentialEvolutionMTSv1',
+	'MultiStrategyDifferentialEvolutionMTS',
+	'MultiStrategyDifferentialEvolutionMTSv1',
+	'DynNpMultiStrategyDifferentialEvolutionMTS',
+	'DynNpMultiStrategyDifferentialEvolutionMTSv1'
 ]
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

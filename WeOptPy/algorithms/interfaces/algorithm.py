@@ -34,7 +34,7 @@ class Algorithm:
 	Attributes:
 		Name (List[str]): List of names for algorithm.
 		Rand (rand.RandomState): Random generator.
-		NP (int): Number of inidividuals in populatin.
+		NP (int): Number of individuals in population.
 		InitPopFunc (Callable[[Task, int, Optional[rand.RandomState], Dict[str, Any]], Tuple[numpy.ndarray, numpy.ndarray]]): Idividual initialization function.
 		itype (Individual): Type of individuals used in population, default value is None for Numpy arrays.
 	"""
@@ -228,7 +228,7 @@ class Algorithm:
 			dparams (dict): Additional keyword arguments for algorithms.
 
 		Returns:
-			Tuple[n.ndarray, n.ndarray, n.ndarray, float, list, dict]:
+			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, list, dict]:
 				1. New populations coordinates.
 				2. New populations fitness values.
 				3. New global best position/solution.
