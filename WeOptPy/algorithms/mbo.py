@@ -87,7 +87,7 @@ class MonarchButterflyOptimization(Algorithm):
 			* :func:`NiaPy.algorithms.Algorithm.setParameters`
 		"""
 		Algorithm.set_parameters(self, n=n, **ukwargs)
-		self.NP, self.PAR, self.PER, self.keep, self.BAR, self.NP1 = n, PAR, PER, 2, PAR, int(n.ceil(PAR * n))
+		self.NP, self.PAR, self.PER, self.keep, self.BAR, self.NP1 = n, PAR, PER, 2, PAR, int(np.ceil(PAR * n))
 		self.NP2 = int(n - self.NP1)
 
 	def get_parameters(self):
@@ -200,10 +200,11 @@ class MonarchButterflyOptimization(Algorithm):
 			task (Task): Optimization task
 
 		Returns:
-			Tuple[numpy.ndarray, numpy.ndarray, dict]:
+			Tuple[numpy.ndarray, numpy.ndarray, list, dict]:
 				1. New population.
 				2. New population fitness/function values.
-				3. Additional arguments:
+				3. Additional arguments.
+				4. Additional keyword arguments:
 					* tmp_best (numpy.ndarray): TODO
 
 		See Also:

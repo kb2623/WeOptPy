@@ -118,7 +118,7 @@ class CMAESTestCase(AlgorithmTestCase):
 		AlgorithmTestCase.setUp(self)
 		self.algo = CovarianceMatrixAdaptionEvolutionStrategy
 
-	def test_typeParametes(self):
+	def test_type_parameters(self):
 		d = self.algo.type_parameters()
 		self.assertTrue(d['epsilon'](0.234))
 		self.assertFalse(d['epsilon'](-0.234))
@@ -127,13 +127,12 @@ class CMAESTestCase(AlgorithmTestCase):
 
 	def test_custom_works_fine(self):
 		es_custom = self.algo(seed=self.seed)
-		es_customc = self.algo(seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, es_custom, es_customc, Sphere())
+		AlgorithmTestCase.test_algorithm_run(self, es_custom, Sphere())
 
 	def test_custom1_works_fine(self):
 		es1_custom = self.algo(seed=self.seed)
 		es1_customc = self.algo(seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, es1_custom, es1_customc, Sphere())
+		AlgorithmTestCase.test_algorithm_run_parallel(self, es1_custom, es1_customc, Sphere())
 
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

@@ -681,7 +681,7 @@ class MutatedParticleSwarmOptimization(ParticleSwarmAlgorithm):
 			* :func:`NiaPy.algorithm.basic.WeightedVelocityClampingParticleSwarmAlgorithm.runIteration`
 		"""
 		pop, fpop, xb, fxb, args, d = ParticleSwarmAlgorithm.run_iteration(self, task, pop, fpop, xb, fxb, *args, **dparams)
-		v = d['V']
+		v = d['v']
 		v_a = (np.sum(v, axis=0) / len(v))
 		v_a = v_a / np.max(np.abs(v_a))
 		for _ in range(self.nmutt):

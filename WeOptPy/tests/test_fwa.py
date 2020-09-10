@@ -52,8 +52,12 @@ class EFWATestCase(AlgorithmTestCase):
 
 	def test_custom_works_fine(self):
 		fwa_custom = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
+		AlgorithmTestCase.test_algorithm_run(self, fwa_custom, Sphere())
+
+	def test_custom_works_fine_parallel(self):
+		fwa_custom = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
 		fwa_customc = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, fwa_custom, fwa_customc, Sphere())
+		AlgorithmTestCase.test_algorithm_run_parallel(self, fwa_custom, fwa_customc, Sphere())
 
 
 class DFWATestCase(AlgorithmTestCase):
@@ -63,8 +67,12 @@ class DFWATestCase(AlgorithmTestCase):
 
 	def test_custom_works_fine(self):
 		fwa_custom = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
+		AlgorithmTestCase.test_algorithm_run(self, fwa_custom, Sphere())
+
+	def test_custom_works_fine_parallel(self):
+		fwa_custom = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
 		fwa_customc = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, fwa_custom, fwa_customc, Sphere())
+		AlgorithmTestCase.test_algorithm_run_parallel(self, fwa_custom, fwa_customc, Sphere())
 
 
 class DFWAGTestCase(AlgorithmTestCase):
@@ -74,8 +82,12 @@ class DFWAGTestCase(AlgorithmTestCase):
 
 	def test_custom_works_fine(self):
 		fwa_custom = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
+		AlgorithmTestCase.test_algorithm_run(self, fwa_custom, Sphere())
+
+	def test_custom_works_fine_parallel(self):
+		fwa_custom = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
 		fwa_customc = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, fwa_custom, fwa_customc, Sphere())
+		AlgorithmTestCase.test_algorithm_run_parallel(self, fwa_custom, fwa_customc, Sphere())
 
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

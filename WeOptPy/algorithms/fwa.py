@@ -275,10 +275,10 @@ class FireworksAlgorithm(Algorithm):
 		Returns:
 			numpy.ndarray: Individual in search range.
 		"""
-		ir = np.where(x > task.upper)
-		x[ir] = task.lower[ir] + x[ir] % task.bRange[ir]
-		ir = np.where(x < task.lower)
-		x[ir] = task.lower[ir] + x[ir] % task.bRange[ir]
+		ir = np.where(x > task.Upper)
+		x[ir] = task.Lower[ir] + x[ir] % task.bRange[ir]
+		ir = np.where(x < task.Lower)
+		x[ir] = task.Lower[ir] + x[ir] % task.bRange[ir]
 		return x
 
 	def R(self, x, FW):
@@ -707,10 +707,10 @@ class DynamicFireworksAlgorithmGauss(EnhancedFireworksAlgorithm):
 		Returns:
 			numpy.ndarray: Fixed individual.
 		"""
-		ir = np.where(x > task.upper)
-		x[ir] = self.uniform(task.lower[ir], task.upper[ir])
-		ir = np.where(x < task.lower)
-		x[ir] = self.uniform(task.lower[ir], task.upper[ir])
+		ir = np.where(x > task.Upper)
+		x[ir] = self.uniform(task.Lower[ir], task.Upper[ir])
+		ir = np.where(x < task.Lower)
+		x[ir] = self.uniform(task.Lower[ir], task.Upper[ir])
 		return x
 
 	def repair(self, x, d, epsilon):

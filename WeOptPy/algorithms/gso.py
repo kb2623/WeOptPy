@@ -202,21 +202,22 @@ class GlowwormSwarmOptimization(Algorithm):
 			task (Task): Optimization task.
 
 		Returns:
-			Tuple[numpy.ndarray, numpy.ndarray[float], Dict[str, Any]]:
+			Tuple[numpy.ndarray, numpy.ndarray[float], list, dict]:
 				1. Initialized population of glowwarms.
 				2. Initialized populations function/fitness values.
-				3. Additional arguments:
+				3. Additional arguments.
+				4. Additional keyword arguments:
 					* L (numpy.ndarray): TODO.
 					* R (numpy.ndarray): TODO.
 					* rs (numpy.ndarray): TODO.
 		"""
-		GS, GS_f, d = Algorithm.init_population(self, task)
+		GS, GS_f, args, kwargs = Algorithm.init_population(self, task)
 		rs = euclidean(np.full(task.D, 0), task.bRange)
 		L, R = np.full(self.NP, self.l0), np.full(self.NP, rs)
-		d.update({'L': L, 'R': R, 'rs': rs})
-		return GS, GS_f, d
+		kwargs.update({'L': L, 'R': R, 'rs': rs})
+		return GS, GS_f, args, kwargs
 
-	def run_iteration(self, task, GS, GS_f, xb, fxb, L, R, rs, **dparams):
+	def run_iteration(self, task, GS, GS_f, xb, fxb, L, R, rs, *args, **kwargs):
 		r"""Core function of GlowwormSwarmOptimization algorithm.
 
 		Args:
@@ -228,7 +229,8 @@ class GlowwormSwarmOptimization(Algorithm):
 			L (numpy.ndarray):
 			R (numpy.ndarray):
 			rs (numpy.ndarray):
-			**kwargs Dict[str, Any]: Additional arguments.
+			args (list): Additional arguments.
+			kwargs (dict): Additional keyword arguments.
 
 		Returns:
 			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, Dict[str, Any]]:
@@ -250,7 +252,7 @@ class GlowwormSwarmOptimization(Algorithm):
 		for i in range(self.NP): R[i] = max(0, min(rs, self.range_update(Ro[i], N[i], rs)))
 		GS_f = np.apply_along_axis(task.eval, 1, GS)
 		xb, fxb = self.get_best(GS, GS_f, xb, fxb)
-		return GS, GS_f, xb, fxb, {'L': L, 'R': R, 'rs': rs}
+		return GS, GS_f, xb, fxb, args, {'L': L, 'R': R, 'rs': rs}
 
 
 class GlowwormSwarmOptimizationV1(GlowwormSwarmOptimization):

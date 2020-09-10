@@ -300,12 +300,12 @@ class CLPSOTestCase(AlgorithmTestCase):
 
 	def test_parameter_type(self):
 		d = self.algo.type_parameters()
-		self.assertTrue(d['c1'](10))
-		self.assertTrue(d['c2'](10))
-		self.assertTrue(d['c1'](0))
-		self.assertTrue(d['c2'](0))
-		self.assertFalse(d['c1'](-10))
-		self.assertFalse(d['c2'](-10))
+		self.assertTrue(d['C1'](10))
+		self.assertTrue(d['C2'](10))
+		self.assertTrue(d['C1'](0))
+		self.assertTrue(d['C2'](0))
+		self.assertFalse(d['C1'](-10))
+		self.assertFalse(d['C2'](-10))
 		self.assertTrue(d['max_velocity'](10))
 		self.assertTrue(d['min_velocity'](10))
 		self.assertTrue(d['n'](10))

@@ -29,8 +29,13 @@ class MBOTestCase(AlgorithmTestCase):
 
 	def test_works_fine(self):
 		mbo = self.algo(NP=20, PAR=5.0 / 12.0, PER=1.2, seed=self.seed)
+		AlgorithmTestCase.test_algorithm_run(self, mbo, Sphere())
+
+	def test_works_fine_parallel(self):
+		mbo = self.algo(NP=20, PAR=5.0 / 12.0, PER=1.2, seed=self.seed)
 		mboc = self.algo(NP=20, PAR=5.0 / 12.0, PER=1.2, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, mbo, mboc, Sphere())
+		AlgorithmTestCase.test_algorithm_run_parallel(self, mbo, mboc, Sphere())
+
 
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

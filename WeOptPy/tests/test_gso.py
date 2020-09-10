@@ -21,8 +21,12 @@ class GSOTestCase(AlgorithmTestCase):
 
 	def test_custom_works_fine(self):
 		gso_custom = self.algo(NP=35, a=7, Rmin=0.1, Rmax=3, seed=self.seed)
+		AlgorithmTestCase.test_algorithm_run(self, gso_custom, Sphere())
+
+	def test_custom_works_fine_parallel(self):
+		gso_custom = self.algo(NP=35, a=7, Rmin=0.1, Rmax=3, seed=self.seed)
 		gso_customc = self.algo(NP=35, a=7, Rmin=0.1, Rmax=3, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, gso_custom, gso_customc, Sphere())
+		AlgorithmTestCase.test_algorithm_run_parallel(self, gso_custom, gso_customc, Sphere())
 
 
 class GSOv1TestCase(AlgorithmTestCase):
@@ -32,8 +36,12 @@ class GSOv1TestCase(AlgorithmTestCase):
 
 	def test_custom_works_fine(self):
 		gso_custom = self.algo(NP=35, a=7, Rmin=0.1, Rmax=3, seed=self.seed)
+		AlgorithmTestCase.test_algorithm_run(self, gso_custom, Sphere())
+
+	def test_custom_works_fine_parallel(self):
+		gso_custom = self.algo(NP=35, a=7, Rmin=0.1, Rmax=3, seed=self.seed)
 		gso_customc = self.algo(NP=35, a=7, Rmin=0.1, Rmax=3, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, gso_custom, gso_customc, Sphere())
+		AlgorithmTestCase.test_algorithm_run_parallel(self, gso_custom, gso_customc, Sphere())
 
 
 class GSOv2TestCase(AlgorithmTestCase):
@@ -43,8 +51,12 @@ class GSOv2TestCase(AlgorithmTestCase):
 
 	def test_custom_works_fine(self):
 		gso_custom = self.algo(NP=35, a=7, Rmin=0.1, Rmax=3, seed=self.seed)
+		AlgorithmTestCase.test_algorithm_run(self, gso_custom, Sphere())
+
+	def test_custom_works_fine_parallel(self):
+		gso_custom = self.algo(NP=35, a=7, Rmin=0.1, Rmax=3, seed=self.seed)
 		gso_customc = self.algo(NP=35, a=7, Rmin=0.1, Rmax=3, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, gso_custom, gso_customc, Sphere())
+		AlgorithmTestCase.test_algorithm_run_parallel(self, gso_custom, gso_customc, Sphere())
 
 
 class GSOv3TestCase(AlgorithmTestCase):
@@ -54,8 +66,12 @@ class GSOv3TestCase(AlgorithmTestCase):
 
 	def test_custom_works_fine(self):
 		gso_custom = self.algo(NP=35, a=7, Rmin=0.1, Rmax=3, seed=self.seed)
+		AlgorithmTestCase.test_algorithm_run(self, gso_custom, Sphere())
+
+	def test_custom_works_fine_parallel(self):
+		gso_custom = self.algo(NP=35, a=7, Rmin=0.1, Rmax=3, seed=self.seed)
 		gso_customc = self.algo(NP=35, a=7, Rmin=0.1, Rmax=3, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, gso_custom, gso_customc, Sphere())
+		AlgorithmTestCase.test_algorithm_run_parallel(self, gso_custom, gso_customc, Sphere())
 
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3
