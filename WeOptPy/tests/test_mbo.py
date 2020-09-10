@@ -37,5 +37,4 @@ class MBOTestCase(AlgorithmTestCase):
 		AlgorithmTestCase.test_algorithm_run_parallel(self, mbo, mboc, Sphere())
 
 
-
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3
