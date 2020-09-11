@@ -352,10 +352,11 @@ class KrillHerd(Algorithm):
 			task (Task): Optimization task.
 
 		Returns:
-			Tuple[numpy.ndarray, numpy.ndarray, Dict[str, Any]]:
+			Tuple[numpy.ndarray, numpy.ndarray, list, dict]:
 				1. Initialized population.
 				2. Initialized populations function/fitness values.
-				3. Additional arguments:
+				3. Additional arguments.
+				4. Additional keyword arguments:
 					* W_n (numpy.ndarray): Weights neighborhood.
 					* W_f (numpy.ndarray): Weights foraging.
 					* N (numpy.ndarray): TODO
@@ -364,11 +365,11 @@ class KrillHerd(Algorithm):
 		See Also:
 			* :func:`NiaPy.algorithms.algorithm.Algorithm.initPopulation`
 		"""
-		KH, KH_f, d = Algorithm.init_population(self, task)
+		KH, KH_f, args, kwargs = Algorithm.init_population(self, task)
 		W_n, W_f = self.init_weights(task)
 		N, F = np.full(self.NP, .0), np.full(self.NP, .0)
-		d.update({'W_n': W_n, 'W_f': W_f, 'N': N, 'F': F})
-		return KH, KH_f, d
+		kwargs.update({'W_n': W_n, 'W_f': W_f, 'N': N, 'F': F})
+		return KH, KH_f, args, kwargs
 
 	def run_iteration(self, task, KH, KH_f, xb, fxb, W_n, W_f, N, F, *args, **kwargs):
 		r"""Core function of KrillHerd algorithm.
@@ -755,16 +756,17 @@ class KrillHerdV11(KrillHerd):
 		return 0.8 + 0.2 * (KH_f - KHb_f) / (KHw_f - KHb_f)
 
 	def init_population(self, task):
-		r"""Initialize firt herd/population.
+		r"""Initialize the first herd/population.
 
 		Args:
 			task (Task): Optimization task.
 
 		Returns:
-			Tuple[numpy.ndarray, numpy.ndarray, Dict[str, Any]]:
+			Tuple[numpy.ndarray, numpy.ndarray, list, dict]:
 				1. Initialized herd/population.
 				2. Initialized herd/populations function/fitness values.
-				3. Additional arguments:
+				4. Additional arguments.
+				3. Additional keyword arguments:
 					* KHo (numpy.ndarray): TODO
 					* KHo_f (float): TODO
 					* N (numpy.ndarray): TODO
@@ -774,11 +776,11 @@ class KrillHerdV11(KrillHerd):
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.initPopulation`
 		"""
-		KH, KH_f, args, d = Algorithm.init_population(self, task)
+		KH, KH_f, args, kwargs = Algorithm.init_population(self, task)
 		KHo, KHo_f = np.full([self.NP, task.D], task.optType.value * np.inf), np.full(self.NP, task.optType.value * np.inf)
 		N, F, Dt = np.full(self.NP, .0), np.full(self.NP, .0), np.mean(task.range()) / 2
-		d.update({'KHo': KHo, 'KHo_f': KHo_f, 'N': N, 'F': F, 'Dt': Dt})
-		return KH, KH_f, args, d
+		kwargs.update({'KHo': KHo, 'KHo_f': KHo_f, 'N': N, 'F': F, 'Dt': Dt})
+		return KH, KH_f, args, kwargs
 
 	def run_iteration(self, task, KH, KH_f, xb, fxb, KHo, KHo_f, N, F, Dt, *args, **kwargs):
 		r"""Core function of KrillHerdV11 algorithm.
@@ -812,7 +814,7 @@ class KrillHerdV11(KrillHerd):
 		F = np.asarray([self.foraging(KH[i], KH_f[i], KHo[i], KHo_f[i], w, F[i], KH_f[iw], KH_f[ib], x_food, x_food_f, task) for i in range(self.NP)])
 		Cr = np.asarray([self.Cr(KH_f[i], KH_f[ib], KH_f[iw]) for i in range(self.NP)])
 		KH_n = np.asarray([self.crossover(KH[self.randint(self.NP)], KH[i], Cr[i]) for i in range(self.NP)])
-		KH_n = KH + Dt * (F + N)
+		KH_n = KH_n + Dt * (F + N)
 		KH = np.apply_along_axis(task.repair, 1, KH_n, self.Rand)
 		KH_f = np.apply_along_axis(task.eval, 1, KH)
 		KHo, KHo_f = self.elitist_selection(KH, KH_f, KHo, KHo_f)

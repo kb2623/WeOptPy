@@ -305,7 +305,7 @@ class Algorithm:
 			r = self.run_task(task)
 			return r[0], r[1] * task.optType.value
 		except (FesException, GenException, TimeException, RefException): return task.x, task.x_f * task.optType.value
-		except Exception as e: self.exception = e
+		#except Exception as e: self.exception = e
 		return None, None
 
 	def __call__(self, task):

@@ -433,7 +433,7 @@ class MonkeyKingEvolutionV3(MonkeyKingEvolutionV1):
 		See Also:
 			* :func:`NiaPy.algorithms.basic.MonkeyKingEvolutionV1.setParameters`
 		"""
-		MonkeyKingEvolutionV1.set_parameters(self, itype=ukwargs.pop('itype', None), InitPopFunc=ukwargs.pop('init_pop_func', default_numpy_init), **ukwargs)
+		MonkeyKingEvolutionV1.set_parameters(self, itype=ukwargs.pop('itype', None), init_pop_func=ukwargs.pop('init_pop_func', default_numpy_init), **ukwargs)
 
 	def init_population(self, task):
 		r"""Initialize the population.
@@ -476,8 +476,10 @@ class MonkeyKingEvolutionV3(MonkeyKingEvolutionV1):
 			Tuple[numpy.ndarray, numpy.ndarray, list, dict]:
 				1. Initialized population.
 				2. Initialized population function/fitness values.
-				3. Additional arguments.
-				4. Additional keyword arguments:
+				3. Current best individual.
+				4. Current best individuals function/fitness value.
+				5. Additional arguments.
+				6. Additional keyword arguments:
 					* k (int): TODO.
 					* c (int): TODO.
 		"""

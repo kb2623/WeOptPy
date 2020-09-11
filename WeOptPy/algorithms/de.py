@@ -729,6 +729,7 @@ class AgingNpDifferentialEvolution(DifferentialEvolution):
 			Lt_min (Optional[int]): Minimum life time.
 			Lt_max (Optional[int]): Maximum life time.
 			age (Optional[Callable[[int, int, float, float, float, float, float], int]]): Function for calculation of age for individual.
+			ukwargs (dict): Additional keyword parameters.
 
 		See Also:
 			* :func:`WeOptPy.algorithms.DifferentialEvolution.setParameters`
@@ -771,7 +772,7 @@ class AgingNpDifferentialEvolution(DifferentialEvolution):
 		"""
 		fpop = np.asarray([x.f for x in pop])
 		x_b, x_w = pop[np.argmin(fpop)], pop[np.argmax(fpop)]
-		avg, npop = np.mean(fpop), []
+		avg, npop = np.mean(fpop[fpop != np.inf]), []
 		for x in pop:
 			x.age += 1
 			Lt = round(self.age(Lt_min=self.Lt_min, Lt_max=self.Lt_max, mu=self.mu, x_f=x.f, avg=avg, x_gw=x_w.f, x_gb=x_b.f))
@@ -820,7 +821,7 @@ class AgingNpDifferentialEvolution(DifferentialEvolution):
 			xb (numpy.ndarray): Current global best solution.
 			fxb (float): Current global best solutions fitness/objective value.
 			task (Task): Optimization task.
-			kwargs (Dict[str, Any]): Additional arguments.
+			kwargs (dict): Additional arguments.
 
 		Returns:
 			Tuple[numpy.ndarray, numpy.ndarray, float]:
