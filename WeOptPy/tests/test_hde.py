@@ -25,8 +25,12 @@ class DEMTSTestCase(AlgorithmTestCase):
 
 	def test_custom_works_fine(self):
 		ca_custom = self.algo(NP=40, seed=self.seed)
+		AlgorithmTestCase.test_algorithm_run(self, ca_custom, Sphere())
+
+	def test_custom_works_fine_parallel(self):
+		ca_custom = self.algo(NP=40, seed=self.seed)
 		ca_customc = self.algo(NP=40, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, ca_custom, ca_customc, Sphere())
+		AlgorithmTestCase.test_algorithm_run_parallel(self, ca_custom, ca_customc, Sphere())
 
 
 class DEMTSv1TestCase(AlgorithmTestCase):
@@ -36,8 +40,12 @@ class DEMTSv1TestCase(AlgorithmTestCase):
 
 	def test_custom_works_fine(self):
 		ca_custom = self.algo(NP=40, seed=self.seed)
+		AlgorithmTestCase.test_algorithm_run(self, ca_custom, Sphere())
+
+	def test_custom_works_fine_parallel(self):
+		ca_custom = self.algo(NP=40, seed=self.seed)
 		ca_customc = self.algo(NP=40, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, ca_custom, ca_customc, Sphere())
+		AlgorithmTestCase.test_algorithm_run_parallel(self, ca_custom, ca_customc, Sphere())
 
 
 class DynNpDEMTSTestCase(AlgorithmTestCase):
@@ -47,8 +55,12 @@ class DynNpDEMTSTestCase(AlgorithmTestCase):
 
 	def test_custom_works_fine(self):
 		ca_custom = self.algo(NP=40, seed=self.seed)
+		AlgorithmTestCase.test_algorithm_run(self, ca_custom, Sphere())
+
+	def test_custom_works_fine_parallel(self):
+		ca_custom = self.algo(NP=40, seed=self.seed)
 		ca_customc = self.algo(NP=40, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, ca_custom, ca_customc, Sphere())
+		AlgorithmTestCase.test_algorithm_run_parallel(self, ca_custom, ca_customc, Sphere())
 
 
 class DynNpDEMTSv1TestCase(AlgorithmTestCase):
@@ -58,8 +70,12 @@ class DynNpDEMTSv1TestCase(AlgorithmTestCase):
 
 	def test_custom_works_fine(self):
 		ca_custom = self.algo(NP=40, seed=self.seed)
+		AlgorithmTestCase.test_algorithm_run(self, ca_custom, Sphere())
+
+	def test_custom_works_fine_parallel(self):
+		ca_custom = self.algo(NP=40, seed=self.seed)
 		ca_customc = self.algo(NP=40, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, ca_custom, ca_customc, Sphere())
+		AlgorithmTestCase.test_algorithm_run_parallel(self, ca_custom, ca_customc, Sphere())
 
 
 class MSDEMTSTestCase(AlgorithmTestCase):
@@ -69,8 +85,12 @@ class MSDEMTSTestCase(AlgorithmTestCase):
 
 	def test_custom_works_fine(self):
 		ca_custom = self.algo(NP=40, seed=self.seed)
+		AlgorithmTestCase.test_algorithm_run(self, ca_custom, Sphere())
+
+	def test_custom_works_fine_parallel(self):
+		ca_custom = self.algo(NP=40, seed=self.seed)
 		ca_customc = self.algo(NP=40, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, ca_custom, ca_customc, Sphere())
+		AlgorithmTestCase.test_algorithm_run_parallel(self, ca_custom, ca_customc, Sphere())
 
 
 class MSDEMTSv1STestCase(AlgorithmTestCase):
@@ -80,8 +100,12 @@ class MSDEMTSv1STestCase(AlgorithmTestCase):
 
 	def test_custom_works_fine(self):
 		ca_custom = self.algo(NP=40, seed=self.seed)
+		AlgorithmTestCase.test_algorithm_run(self, ca_custom, Sphere())
+
+	def test_custom_works_fine_parallel(self):
+		ca_custom = self.algo(NP=40, seed=self.seed)
 		ca_customc = self.algo(NP=40, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, ca_custom, ca_customc, Sphere())
+		AlgorithmTestCase.test_algorithm_run_parallel(self, ca_custom, ca_customc, Sphere())
 
 
 class DynNpMSDEMTSTestCase(AlgorithmTestCase):
@@ -91,8 +115,12 @@ class DynNpMSDEMTSTestCase(AlgorithmTestCase):
 
 	def test_custom_works_fine(self):
 		ca_custom = self.algo(NP=40, seed=self.seed)
+		AlgorithmTestCase.test_algorithm_run(self, ca_custom, Sphere())
+
+	def test_custom_works_fine_parallel(self):
+		ca_custom = self.algo(NP=40, seed=self.seed)
 		ca_customc = self.algo(NP=40, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, ca_custom, ca_customc, Sphere())
+		AlgorithmTestCase.test_algorithm_run_parallel(self, ca_custom, ca_customc, Sphere())
 
 
 class DynNpMSDEMTSv1TestCase(AlgorithmTestCase):
@@ -102,8 +130,12 @@ class DynNpMSDEMTSv1TestCase(AlgorithmTestCase):
 
 	def test_custom_works_fine(self):
 		ca_custom = self.algo(NP=40, seed=self.seed)
+		AlgorithmTestCase.test_algorithm_run(self, ca_custom, Sphere())
+
+	def test_custom_works_fine_parallel(self):
+		ca_custom = self.algo(NP=40, seed=self.seed)
 		ca_customc = self.algo(NP=40, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, ca_custom, ca_customc, Sphere())
+		AlgorithmTestCase.test_algorithm_run_parallel(self, ca_custom, ca_customc, Sphere())
 
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

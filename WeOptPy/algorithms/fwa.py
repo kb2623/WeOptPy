@@ -336,19 +336,20 @@ class FireworksAlgorithm(Algorithm):
 			task (Task): Optimization task.
 
 		Returns:
-			Tuple[numpy.ndarray, numpy.ndarray[float], Dict[str, Any]]:
+			Tuple[numpy.ndarray, numpy.ndarray, list, dict]:
 				1. Initialized population.
 				2. Initialized populations function/fitness values.
-				3. Additional arguments:
+				3. Additional arguments.
+				4. Additional keyword arguments:
 					* Ah (numpy.ndarray): Initialized amplitudes.
 
 		See Also:
 			* :func:`NiaPy.algorithms.algorithm.Algorithm.initPopulation`
 		"""
-		FW, FW_f, d = Algorithm.init_population(self, task)
+		FW, FW_f, args, kwargs = Algorithm.init_population(self, task)
 		Ah = self.init_amplitude(task)
-		d.update({'Ah': Ah})
-		return FW, FW_f, d
+		kwargs.update({'Ah': Ah})
+		return FW, FW_f, args, kwargs
 
 	def run_iteration(self, task, FW, FW_f, xb, fxb, Ah, *args, **dparams):
 		r"""Core function of Fireworks algorithm.
@@ -392,7 +393,7 @@ class FireworksAlgorithm(Algorithm):
 
 
 class EnhancedFireworksAlgorithm(FireworksAlgorithm):
-	r"""Implementation of enganced fireworks algorithm.
+	r"""Implementation of enhanced fireworks algorithm.
 
 	Algorithm:
 		Enhanced Fireworks Algorithm
@@ -563,10 +564,10 @@ class EnhancedFireworksAlgorithm(FireworksAlgorithm):
 		See Also:
 			* :func:`FireworksAlgorithm.initPopulation`
 		"""
-		FW, FW_f, args, d = FireworksAlgorithm.init_population(self, task)
+		FW, FW_f, args, kwargs = FireworksAlgorithm.init_population(self, task)
 		Ainit, Afinal, A_min = self.init_ranges(task)
-		d.update({'Ainit': Ainit, 'Afinal': Afinal, 'A_min': A_min})
-		return FW, FW_f, args, d
+		kwargs.update({'Ainit': Ainit, 'Afinal': Afinal, 'A_min': A_min})
+		return FW, FW_f, args, kwargs
 
 	def run_iteration(self, task, FW, FW_f, xb, fxb, Ah, Ainit, Afinal, A_min, *args, **dparams):
 		r"""Core function of EnhancedFireworksAlgorithm algorithm.
@@ -799,7 +800,7 @@ class DynamicFireworksAlgorithmGauss(EnhancedFireworksAlgorithm):
 			Tuple[numpy.ndarray, numpy.ndarray, list, dict]:
 				1. Initialized population.
 				2. Initialized population function/fitness values.
-				3. Additional arguments:
+				3. Additional arguments.
 				4. Additional keyword arguments:
 					* Ah (): TODO
 					* Ab (): TODO

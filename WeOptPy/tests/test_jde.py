@@ -36,8 +36,12 @@ class SolutionjDETestCase(TestCase):
 
 
 class jDETestCase(AlgorithmTestCase):
-	def test_typeParameters(self):
-		d = SelfAdaptiveDifferentialEvolution.type_parameters()
+	def setUp(self):
+		AlgorithmTestCase.setUp(self)
+		self.algo = SelfAdaptiveDifferentialEvolution
+
+	def test_type_parameters(self):
+		d = self.algo.type_parameters()
 		self.assertTrue(d['F_l'](10))
 		self.assertFalse(d['F_l'](-10))
 		self.assertFalse(d['F_l'](-0))
@@ -52,12 +56,20 @@ class jDETestCase(AlgorithmTestCase):
 		self.assertFalse(d['Tao2'](1.123))
 
 	def test_custom_works_fine(self):
-		jde_custom = SelfAdaptiveDifferentialEvolution(NP=40, F=0.5, F_l=0.0, F_u=2.0, Tao1=0.9, CR=0.1, Tao2=0.45, seed=self.seed)
-		jde_customc = SelfAdaptiveDifferentialEvolution(NP=40, F=0.5, F_l=0.0, F_u=2.0, Tao1=0.9, CR=0.1, Tao2=0.45, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, jde_custom, jde_customc, Sphere())
+		jde_custom = self.algo(NP=40, F=0.5, F_l=0.0, F_u=2.0, Tao1=0.9, CR=0.1, Tao2=0.45, seed=self.seed)
+		AlgorithmTestCase.test_algorithm_run(self, jde_custom, Sphere())
+
+	def test_custom_works_fine_parallel(self):
+		jde_custom = self.algo(NP=40, F=0.5, F_l=0.0, F_u=2.0, Tao1=0.9, CR=0.1, Tao2=0.45, seed=self.seed)
+		jde_customc = self.algo(NP=40, F=0.5, F_l=0.0, F_u=2.0, Tao1=0.9, CR=0.1, Tao2=0.45, seed=self.seed)
+		AlgorithmTestCase.test_algorithm_run_parallel(self, jde_custom, jde_customc, Sphere())
 
 
 class DyNPjDeTestCase(AlgorithmTestCase):
+	def setUp(self):
+		AlgorithmTestCase.setUp(self)
+		self.algo = DynNpSelfAdaptiveDifferentialEvolutionAlgorithm
+
 	def test_typeParameters(self):
 		d = DynNpSelfAdaptiveDifferentialEvolutionAlgorithm.type_parameters()
 		self.assertTrue(d['rp'](10))
@@ -71,24 +83,45 @@ class DyNPjDeTestCase(AlgorithmTestCase):
 
 	@skip("Not working")
 	def test_custom_works_fine(self):
-		dynnpjde_custom = DynNpSelfAdaptiveDifferentialEvolutionAlgorithm(NP=40, F=0.5, F_l=0.0, F_u=2.0, Tao1=0.9, CR=0.1, Tao2=0.45, seed=self.seed)
-		dynnpjde_customc = DynNpSelfAdaptiveDifferentialEvolutionAlgorithm(NP=40, F=0.5, F_l=0.0, F_u=2.0, Tao1=0.9, CR=0.1, Tao2=0.45, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, dynnpjde_custom, dynnpjde_customc, Sphere())
+		dynnpjde_custom = self.algo(NP=40, F=0.5, F_l=0.0, F_u=2.0, Tao1=0.9, CR=0.1, Tao2=0.45, seed=self.seed)
+		AlgorithmTestCase.test_algorithm_run(self, dynnpjde_custom, Sphere())
+
+	@skip("Not working")
+	def test_custom_works_fine_parallel(self):
+		dynnpjde_custom = self.algo(NP=40, F=0.5, F_l=0.0, F_u=2.0, Tao1=0.9, CR=0.1, Tao2=0.45, seed=self.seed)
+		dynnpjde_customc = self.algo(NP=40, F=0.5, F_l=0.0, F_u=2.0, Tao1=0.9, CR=0.1, Tao2=0.45, seed=self.seed)
+		AlgorithmTestCase.test_algorithm_run_parallel(self, dynnpjde_custom, dynnpjde_customc, Sphere())
 
 
 class MsjDETestCase(AlgorithmTestCase):
+	def setUp(self):
+		AlgorithmTestCase.setUp(self)
+		self.algo = MultiStrategySelfAdaptiveDifferentialEvolution
+
 	def test_custom_works_fine(self):
-		jde_custom = MultiStrategySelfAdaptiveDifferentialEvolution(NP=40, F=0.5, F_l=0.0, F_u=2.0, Tao1=0.9, CR=0.1, Tao2=0.45, seed=self.seed)
-		jde_customc = MultiStrategySelfAdaptiveDifferentialEvolution(NP=40, F=0.5, F_l=0.0, F_u=2.0, Tao1=0.9, CR=0.1, Tao2=0.45, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, jde_custom, jde_customc, Sphere())
+		jde_custom = self.algo(n=40, F=0.5, F_l=0.0, F_u=2.0, Tao1=0.9, CR=0.1, Tao2=0.45, seed=self.seed)
+		AlgorithmTestCase.test_algorithm_run(self, jde_custom, Sphere())
+
+	def test_custom_works_fine_parallel(self):
+		jde_custom = self.algo(n=40, F=0.5, F_l=0.0, F_u=2.0, Tao1=0.9, CR=0.1, Tao2=0.45, seed=self.seed)
+		jde_customc = self.algo(n=40, F=0.5, F_l=0.0, F_u=2.0, Tao1=0.9, CR=0.1, Tao2=0.45, seed=self.seed)
+		AlgorithmTestCase.test_algorithm_run_parallel(self, jde_custom, jde_customc, Sphere())
 
 
 class DynNpMsjDeTestCase(AlgorithmTestCase):
+	def setUp(self):
+		AlgorithmTestCase.setUp(self)
+		self.algo = DynNpMultiStrategySelfAdaptiveDifferentialEvolution
+
 	@skip("Not working")
 	def test_custom_works_fine(self):
-		jde_custom = DynNpMultiStrategySelfAdaptiveDifferentialEvolution(NP=40, F=0.5, F_l=0.0, F_u=2.0, Tao1=0.9, CR=0.1, Tao2=0.45, seed=self.seed)
-		jde_customc = DynNpMultiStrategySelfAdaptiveDifferentialEvolution(NP=40, F=0.5, F_l=0.0, F_u=2.0, Tao1=0.9, CR=0.1, Tao2=0.45, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, jde_custom, jde_customc, Sphere())
+		jde_custom = self.aglo(NP=40, F=0.5, F_l=0.0, F_u=2.0, Tao1=0.9, CR=0.1, Tao2=0.45, seed=self.seed)
+		AlgorithmTestCase.test_algorithm_run(self, jde_custom, Sphere())
 
+	@skip("Not working")
+	def test_custom_works_fine_parallel(self):
+		jde_custom = self.algo(NP=40, F=0.5, F_l=0.0, F_u=2.0, Tao1=0.9, CR=0.1, Tao2=0.45, seed=self.seed)
+		jde_customc = self.algo(NP=40, F=0.5, F_l=0.0, F_u=2.0, Tao1=0.9, CR=0.1, Tao2=0.45, seed=self.seed)
+		AlgorithmTestCase.test_algorithm_run_parallel(self, jde_custom, jde_customc, Sphere())
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3
