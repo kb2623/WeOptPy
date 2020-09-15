@@ -154,8 +154,8 @@ class DifferentialEvolutionMTS(DifferentialEvolution, MultipleTrajectorySearch):
 		for x in X:
 			if not x.enable: continue
 			x.enable, x.grades = False, 0
-			x.x, x.f, xb, fxb, k = self.GradingRun(x.x, x.f, xb, fxb, x.improved, x.SR, task)
-			x.x, x.f, xb, fxb, x.improved, x.SR, x.grades = self.LsRun(k, x.x, x.f, xb, fxb, x.improved, x.SR, 0, task)
+			x.x, x.f, xb, fxb, k = self.grading_run(x.x, x.f, xb, fxb, x.improved, x.SR, task)
+			x.x, x.f, xb, fxb, x.improved, x.SR, x.grades = self.local_search(k, x.x, x.f, xb, fxb, x.improved, x.SR, 0, task)
 		for i in X[argsort([x.grade for x in X])[:self.NoEnabled]]: i.enable = True
 		return X, xb, fxb
 
@@ -192,7 +192,7 @@ class DifferentialEvolutionMTSv1(DifferentialEvolutionMTS):
 		See Also:
 			* :func:`WeOptPy.algorithms.DifferentialEvolutionMTS.setParameters`
 		"""
-		DifferentialEvolutionMTS.setParameters(self, LSs=(MTS_LS1v1, MTS_LS2, MTS_LS3v1), **ukwargs)
+		DifferentialEvolutionMTS.set_parameters(self, LSs=(MTS_LS1v1, MTS_LS2, MTS_LS3v1), **ukwargs)
 
 
 class DynNpDifferentialEvolutionMTS(DifferentialEvolutionMTS, DynNpDifferentialEvolution):

@@ -46,8 +46,13 @@ class JADETestCase(AlgorithmTestCase):
 	@skip('Not implemented jet!!!')
 	def test_custom_works_fine(self):
 		jade_custom = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
+		AlgorithmTestCase.test_algorithm_run(self, jade_custom, Sphere())
+
+	@skip('Not implemented jet!!!')
+	def test_custom_works_fine_parallel(self):
+		jade_custom = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
 		jade_customc = self.algo(n=10, C_a=2, C_r=0.5, seed=self.seed)
-		AlgorithmTestCase.test_algorithm_run(self, jade_custom, jade_customc, Sphere())
+		AlgorithmTestCase.test_algorithm_run_parallel(self, jade_custom, jade_customc, Sphere())
 
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3
