@@ -97,13 +97,6 @@ setuptools.setup(
 		'Topic :: Scientific/Engineering',
 		'Topic :: Software Development'
 	],
-	tests_requires=[
-		'flake8 ~= 3.7.7',
-		'astroid >= 2.0.4',
-		'pytest ~= 3.7.1',
-		'coverage ~= 4.4.2',
-		'coverage-space ~= 1.0.2'
-	],
 	install_requires=[
 		'numpy >= 1.16.2',
 		'scipy >= 1.1.0',

@@ -9,7 +9,7 @@ CONFIG := $(wildcard *.py)
 MODULES := $(wildcard $(PACKAGE)/*.py)
 
 # Environment variables
-PATH := bin:$(PATH)
+export PATH := $(shell pwd)/bin:$(PATH)
 
 # Virtual environment paths
 export PIPENV_SHELL_COMPAT=true
@@ -50,7 +50,7 @@ DEPENDENCIES := $(ENV)/.pipenv-$(shell checksum Pipfile*)
 METADATA := *.egg-info
 
 .PHONY: install
-install: $(DEPENDENCIES) $(METADATA) build-funcs
+install: $(DEPENDENCIES) $(METADATA)
 
 $(DEPENDENCIES):
 	@ if [ $(TPV) = T ]; then pipenv --python $(shell $(PYTHON) -c "import sys; print('%d.%d.%d' % (sys.version_info.major, sys.version_info.minor, sys.version_info.micro))"); fi
@@ -60,10 +60,6 @@ $(DEPENDENCIES):
 $(METADATA): setup.py
 	pipenv run $(PYTHON) setup.py develop
 	@ touch $@
-
-.PHONY: build-funcs
-build-funcs: setup.py
-	pipenv run $(PYTHON) setup.py build_ext --inplace
 
 # CHECKS ######################################################################
 
@@ -167,7 +163,7 @@ build: dist
 
 .PHONY: dist
 dist: install $(DIST_FILES)
-$(DIST_FILES): $(MODULES) README.rst
+$(DIST_FILES): $(MODULES)
 	rm -f $(DIST_FILES)
 	pipenv run $(PYTHON) setup.py sdist
 	pipenv run $(PYTHON) setup.py bdist_wheel

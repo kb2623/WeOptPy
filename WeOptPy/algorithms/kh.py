@@ -765,8 +765,8 @@ class KrillHerdV11(KrillHerd):
 			Tuple[numpy.ndarray, numpy.ndarray, list, dict]:
 				1. Initialized herd/population.
 				2. Initialized herd/populations function/fitness values.
-				4. Additional arguments.
-				3. Additional keyword arguments:
+				3. Additional arguments.
+				4. Additional keyword arguments:
 					* KHo (numpy.ndarray): TODO
 					* KHo_f (float): TODO
 					* N (numpy.ndarray): TODO
