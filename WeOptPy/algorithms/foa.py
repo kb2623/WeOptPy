@@ -136,18 +136,17 @@ class ForestOptimizationAlgorithm(Algorithm):
 			new_trees.append(limit_repair(new_tree, task.Lower, task.Upper))
 		return np.asarray(new_trees)
 
-	def global_seeding(self, task, candidates):
+	def global_seeding(self, task, no_candidate):
 		r"""Global optimum search stage that should prevent getting stuck in a local optimum.
 
 		Args:
 			task (Task): Optimization task.
-			candidates (numpy.ndarray): Candidate population for global seeding.
+			no_candidate (int): Number of new candidates.
 
 		Returns:
 			numpy.ndarray: Resulting trees.
 		"""
-		# FIXME Check https://github.com/cominsys/FOA/blob/master/GlobalSeeding.m
-		return None
+		return self.uniform(task.Lower, task.Upper, (no_candidate, task.D))
 
 	def remove_life_time_exceeded(self, trees, candidates, age):
 		r"""Remove dead trees.
@@ -215,7 +214,7 @@ class ForestOptimizationAlgorithm(Algorithm):
 		self.dx = np.absolute(task.Upper) / 5
 		return Trees, Evaluations, args, {'age': age}
 
-	def run_iteration(self, task, Trees, Evaluations, xb, fxb, age, *args, **dparams):
+	def run_iteration(self, task, Trees, Evaluations, xb, fxb, age, *args, **kwargs):
 		r"""Core function of Forest Optimization Algorithm.
 
 		Args:
@@ -226,7 +225,7 @@ class ForestOptimizationAlgorithm(Algorithm):
 			fxb (float): Global best individual fitness/function value.
 			age (numpy.ndarray): Age of trees.
 			args (list): Additional arguments.
-			dparams (dict): Additional keyword arguments.
+			kwargs (dict): Additional keyword arguments.
 
 		Returns:
 			Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, list, dict]:
@@ -248,7 +247,7 @@ class ForestOptimizationAlgorithm(Algorithm):
 		Trees, candidatePopulation, Evaluations, age = self.survival_of_the_fittest(task, Trees, candidatePopulation, age)
 		gsn = int(self.tr * len(candidatePopulation))
 		if gsn > 0:
-			globalSeeds = self.global_seeding(task, candidatePopulation[:gsn])
+			globalSeeds = self.global_seeding(task, gsn)
 			Trees = np.append(Trees, globalSeeds, axis=0)
 			age = np.append(age, np.zeros(len(globalSeeds), dtype=np.int32))
 			gste = np.apply_along_axis(task.eval, 1, globalSeeds)
