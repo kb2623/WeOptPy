@@ -101,6 +101,9 @@ setuptools.setup(
 		'numpy >= 1.16.2',
 		'scipy >= 1.1.0',
 		'enum34 >= 1.1.6',
+		'pandas >= 0.21.0',
+		'scikit-learn >= 0.20.4',
+		'XlsxWriter >= 1.1.5'
 	],
 )
 
