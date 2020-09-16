@@ -20,13 +20,14 @@ class ForestOptimizationAlgorithm(Algorithm):
 		2019
 
 	Authors:
-		Luka Pečnik
+		Luka Pečnik and Klemen Berkovic
 
 	License:
 		MIT
 
 	Reference paper:
-		Manizheh Ghaemi, Mohammad-Reza Feizi-Derakhshi, Forest Optimization Algorithm, Expert Systems with Applications, Volume 41, Issue 15, 2014, Pages 6676-6687, ISSN 0957-4174, https://doi.org/10.1016/j.eswa.2014.05.009.
+		* Manizheh Ghaemi, Mohammad-Reza Feizi-Derakhshi, Forest Optimization Algorithm, Expert Systems with Applications, Volume 41, Issue 15, 2014, Pages 6676-6687, ISSN 0957-4174,
+		* https://doi.org/10.1016/j.eswa.2014.05.009.
 
 	References URL:
 		Implementation is based on the following MATLAB code: https://github.com/cominsys/FOA
@@ -127,36 +128,26 @@ class ForestOptimizationAlgorithm(Algorithm):
 		Returns:
 			numpy.ndarray: Resulting zero age trees.
 		"""
-		n = trees.shape[0]
-		deltas = self.uniform(-self.dx, self.dx, (n, self.lsc))
-		deltas = np.append(deltas, np.zeros((n, task.D - self.lsc)), axis=1)
-		perms = self.rand([deltas.shape[0], deltas.shape[1]]).argsort(1)
-		deltas = deltas[np.arange(deltas.shape[0])[:, None], perms]
-		trees += deltas
-		trees = np.apply_along_axis(limit_repair, 1, trees, task.Lower, task.Upper)
-		return trees
+		new_trees = []
+		for tree in trees:
+			new_tree = tree.copy()
+			i_move = self.randint(task.D, self.lsc)
+			new_tree[i_move] = self.uniform(-self.dx[i_move], self.dx[i_move], len(i_move) if isinstance(i_move, np.ndarray) else 1)
+			new_trees.append(limit_repair(new_tree, task.Lower, task.Upper))
+		return np.asarray(new_trees)
 
-	def global_seeding(self, task, candidates, size):
+	def global_seeding(self, task, candidates):
 		r"""Global optimum search stage that should prevent getting stuck in a local optimum.
 
 		Args:
 			task (Task): Optimization task.
 			candidates (numpy.ndarray): Candidate population for global seeding.
-			size (int): Number of trees to produce.
 
 		Returns:
 			numpy.ndarray: Resulting trees.
 		"""
-		seeds = candidates[self.randint(len(candidates), D=size)]
-		deltas = self.uniform(task.Lower, task.Upper, (size, self.gsc))
-		deltas = np.append(deltas, np.zeros((size, task.D - self.gsc)), axis=1)
-		perms = self.rand([deltas.shape[0], deltas.shape[1]]).argsort(1)
-		deltas = deltas[np.arange(deltas.shape[0])[:, None], perms]
-		deltas = deltas.flatten()
-		seeds = seeds.flatten()
-		seeds[deltas != 0] = deltas[deltas != 0]
-
-		return seeds.reshape(size, task.D)
+		# FIXME Check https://github.com/cominsys/FOA/blob/master/GlobalSeeding.m
+		return None
 
 	def remove_life_time_exceeded(self, trees, candidates, age):
 		r"""Remove dead trees.
@@ -257,7 +248,7 @@ class ForestOptimizationAlgorithm(Algorithm):
 		Trees, candidatePopulation, Evaluations, age = self.survival_of_the_fittest(task, Trees, candidatePopulation, age)
 		gsn = int(self.tr * len(candidatePopulation))
 		if gsn > 0:
-			globalSeeds = self.global_seeding(task, candidatePopulation, gsn)
+			globalSeeds = self.global_seeding(task, candidatePopulation[:gsn])
 			Trees = np.append(Trees, globalSeeds, axis=0)
 			age = np.append(age, np.zeros(len(globalSeeds), dtype=np.int32))
 			gste = np.apply_along_axis(task.eval, 1, globalSeeds)
