@@ -62,4 +62,5 @@ class ThrowingTask(StoppingTask):
 		self.stop_cond_e()
 		return StoppingTask.eval(self, a)
 
+
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3

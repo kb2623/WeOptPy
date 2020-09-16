@@ -5,7 +5,6 @@
 import logging
 
 import numpy as np
-from matplotlib import pyplot as plt
 
 from WeOptPy.task.countingtask import CountingTask
 
@@ -111,15 +110,6 @@ class StoppingTask(CountingTask):
 			if diff <= 1: continue
 			for j in range(diff - 1): r1.append(v + j + 1), r2.append(self.x_f_vals[i])
 		return r1, r2
-
-	def plot(self):
-		"""Plot a simple convergence graph."""
-		fess, fitnesses = self.return_conv()
-		plt.plot(fess, fitnesses)
-		plt.xlabel('nFes')
-		plt.ylabel('Fitness')
-		plt.title('Convergence graph')
-		plt.show()
 
 
 # vim: tabstop=3 noexpandtab shiftwidth=3 softtabstop=3
