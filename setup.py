@@ -99,11 +99,12 @@ setuptools.setup(
 	],
 	install_requires=[
 		'numpy >= 1.16.2',
-		'scipy >= 1.1.0',
-		'enum34 >= 1.1.6',
+		'scipy >= 1.2.1',
 		'pandas >= 0.21.0',
 		'scikit-learn >= 0.20.4',
-		'XlsxWriter >= 1.1.5'
+		'XlsxWriter >= 1.1.5',
+		'enum34 >= 1.1.6',
+		'future >= 0.18.2'
 	],
 )
 
