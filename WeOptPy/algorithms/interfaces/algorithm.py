@@ -2,6 +2,8 @@
 
 """Algorithm interface module."""
 
+import logging
+
 import numpy as np
 from numpy import random as rand
 
@@ -15,6 +17,10 @@ from WeOptPy.util.exception import (
 	TimeException,
 	RefException
 )
+
+logging.basicConfig()
+logger = logging.getLogger('WeOptPy.test')
+logger.setLevel('INFO')
 
 __all__ = ['Algorithm']
 
@@ -62,7 +68,7 @@ class Algorithm:
 			kwargs (Dict[str, Any]): Additional arguments.
 
 		See Also:
-			* :func:`NiaPy.algorithms.Algorithm.setParameters`
+			* :func:`WeOptPy.algorithms.interfaces.Algorithm.setParameters`
 		"""
 		self.Rand, self.exception = rand.RandomState(seed), None
 		self.set_parameters(**kwargs)
@@ -86,8 +92,8 @@ class Algorithm:
 			kwargs (Dict[str, Any]): Additional arguments.
 
 		See Also:
-			* :func:`NiaPy.algorithms.defaultNumPyInit`
-			* :func:`NiaPy.algorithms.defaultIndividualInit`
+			* :func:`WeOptPy.algorithms.defaultNumPyInit`
+			* :func:`WeOptPy.algorithms.defaultIndividualInit`
 		"""
 		self.NP, self.InitPopFunc, self.itype = n, init_pop_func, itype
 
@@ -237,15 +243,22 @@ class Algorithm:
 				6. Additional keyword arguments of the algorithm.
 
 		See Also:
-			* :func:`NiaPy.algorithms.Algorithm.runYield`
+			* :func:`WeOptPy.algorithms.Algorithm.runYield`
 		"""
 		return pop, fpop, xb, fxb, args, dparams
 
-	def run_yield(self, task):
+	def run_yield(self, task, *args, **kwargs):
 		r"""Run the algorithm for a single iteration and return the best solution.
 
 		Args:
 			task (Task): Task with bounds and objective function for optimization.
+			args (list): Additional arguments.
+			kwargs (dict): Additional keyword arguments.
+
+		Keyword Args:
+			store (bool): Store algorithm state to files.
+			store_file_name (str): Store file name.
+			log (bool): Log current state to output.
 
 		Returns:
 			Generator[Tuple[numpy.ndarray, numpy.ndarray], Tuple[numpy.ndarray, numpy.ndarray], Tuple[numpy.ndarray, numpy.ndarray]]: Generator getting new/old optimal global values.
@@ -256,8 +269,8 @@ class Algorithm:
 				2. Fitness value of the best solution.
 
 		See Also:
-			* :func:`NiaPy.algorithms.Algorithm.initPopulation`
-			* :func:`NiaPy.algorithms.Algorithm.runIteration`
+			* :func:`WeOptPy.algorithms.Algorithm.initPopulation`
+			* :func:`WeOptPy.algorithms.Algorithm.runIteration`
 		"""
 		# TODO add caching to algorithms
 		"""
@@ -272,19 +285,25 @@ class Algorithm:
 				* start optimization
 				* while optimizing save population and all parameters
 		"""
-		pop, fpop, args, dparams = self.init_population(task)
+		log_b, store_b = kwargs.get('log', False), kwargs.get('store', False)
+		pop, fpop, a_args, a_kwargs = self.init_population(task)
 		xb, fxb = self.get_best(pop, fpop)
+		if log_b: logger.info('%s -> %s' % (xb, fxb))
 		yield xb, fxb
 		while not task.stop_cond():
-			pop, fpop, xb, fxb, args, dparams = self.run_iteration(task, pop, fpop, xb, fxb, *args, **dparams)
+			pop, fpop, xb, fxb, a_args, a_kwargs = self.run_iteration(task, pop, fpop, xb, fxb, *a_args, **a_kwargs)
+			if log_b: logger.info('%s -> %s' % (xb, fxb))
+			# TODO store procedure
 			yield xb, fxb
 		return xb, fxb
 
-	def run_task(self, task):
+	def run_task(self, task, *args, **kwargs):
 		r"""Start the optimization.
 
 		Args:
 			task (Task): Task with bounds and objective function for optimization.
+			args (list): Additional arguments.
+			kwargs (dict): Additional keyword arguments.
 
 		Returns:
 			Tuple[numpy.ndarray, float]:
@@ -292,19 +311,21 @@ class Algorithm:
 				2. Best fitness value found in optimization process.
 
 		See Also:
-			* :func:`NiaPy.algorithms.Algorithm.runYield`
+			* :func:`WeOptPy.algorithms.Algorithm.runYield`
 		"""
 		xb, fxb = None, np.inf
-		for x, fx in self.run_yield(task):
+		for x, fx in self.run_yield(task, *args, **kwargs):
 			xb, fxb = x, fx
 			task.next_iteration()
 		return xb, fxb
 
-	def run(self, task):
+	def run(self, task, *args, **kwargs):
 		r"""Start the optimization.
 
 		Args:
 			task (Task): Optimization task.
+			args (list): Additional arguments.
+			kwargs (dict): Additional keyword arguments.
 
 		Returns:
 			Tuple[numpy.ndarray, float]:
@@ -312,31 +333,33 @@ class Algorithm:
 				2. Best fitness value found in optimization process.
 
 		See Also:
-			* :func:`NiaPy.algorithms.Algorithm.runTask`
+			* :func:`WeOptPy.algorithms.Algorithm.runTask`
 		"""
 		try:
 			task.start()
-			r = self.run_task(task)
+			r = self.run_task(task, *args, **kwargs)
 			return r[0], r[1] * task.optType.value
 		except (FesException, GenException, TimeException, RefException): return task.x, task.x_f * task.optType.value
 		except Exception as e: self.exception = e
 		return None, None
 
-	def __call__(self, task):
+	def __call__(self, task, *args, **kwargs):
 		r"""Start the optimization.
 
 		Args:
 			task (Task): Optimization task.
-
+			args (list): Additional arguments.
+			kwargs (dict): Additional keyword arguments.
+			
 		Returns:
 			Tuple[numpy.ndarray, float]:
 				1. Best individuals components found in optimization process.
 				2. Best fitness value found in optimization process.
 
 		See Also:
-			* :func:`NiaPy.algorithms.Algorithm.run`
+			* :func:`WeOptPy.algorithms.Algorithm.run`
 		"""
-		return self.run(task)
+		return self.run(task, *args, **kwargs)
 
 	def bad_run(self):
 		r"""Check if some exceptions where thrown when the algorithm was running.

@@ -22,7 +22,7 @@ from WeOptPy.algorithms.interfaces import (
 )
 
 logging.basicConfig()
-logger = logging.getLogger('NiaPy.test')
+logger = logging.getLogger('WeOptPy.test')
 logger.setLevel('INFO')
 
 __all__ = [
