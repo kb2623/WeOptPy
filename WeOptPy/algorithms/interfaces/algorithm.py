@@ -248,7 +248,7 @@ class Algorithm:
 			task (Task): Task with bounds and objective function for optimization.
 
 		Returns:
-			Generator[Tuple[numpy.ndarray, numpy.ndarray, numpy.ndarray, float, Dict[str, Any]], Tuple[numpy.ndarray, numpy.ndarray], None]: Generator getting new/old optimal global values.
+			Generator[Tuple[numpy.ndarray, numpy.ndarray], Tuple[numpy.ndarray, numpy.ndarray], Tuple[numpy.ndarray, numpy.ndarray]]: Generator getting new/old optimal global values.
 
 		Yield:
 			Tuple[numpy.ndarray, numpy.ndarray]:
@@ -259,12 +259,26 @@ class Algorithm:
 			* :func:`NiaPy.algorithms.Algorithm.initPopulation`
 			* :func:`NiaPy.algorithms.Algorithm.runIteration`
 		"""
+		# TODO add caching to algorithms
+		"""
+		* if caching no set then just as is
+		* if user set caching then
+			* check if cache exists on disk
+				* if cache exists 
+					* load population and all parameters from dist
+				* if no cache exists
+					* create new population and all arguments
+					* cache the population and all arguments
+				* start optimization
+				* while optimizing save population and all parameters
+		"""
 		pop, fpop, args, dparams = self.init_population(task)
 		xb, fxb = self.get_best(pop, fpop)
 		yield xb, fxb
-		while True:
+		while not task.stop_cond():
 			pop, fpop, xb, fxb, args, dparams = self.run_iteration(task, pop, fpop, xb, fxb, *args, **dparams)
 			yield xb, fxb
+		return xb, fxb
 
 	def run_task(self, task):
 		r"""Start the optimization.
@@ -280,9 +294,9 @@ class Algorithm:
 		See Also:
 			* :func:`NiaPy.algorithms.Algorithm.runYield`
 		"""
-		algo, xb, fxb = self.run_yield(task), None, np.inf
-		while not task.stop_cond():
-			xb, fxb = next(algo)
+		xb, fxb = None, np.inf
+		for x, fx in self.run_yield(task):
+			xb, fxb = x, fx
 			task.next_iteration()
 		return xb, fxb
 
@@ -301,7 +315,7 @@ class Algorithm:
 			* :func:`NiaPy.algorithms.Algorithm.runTask`
 		"""
 		try:
-			# task.start()
+			task.start()
 			r = self.run_task(task)
 			return r[0], r[1] * task.optType.value
 		except (FesException, GenException, TimeException, RefException): return task.x, task.x_f * task.optType.value
